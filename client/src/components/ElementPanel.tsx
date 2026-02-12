@@ -1,6 +1,6 @@
 import { useDraggable } from "@dnd-kit/core";
 import type { DecorativeElement } from "@/lib/festivities";
-import { DoodleIcon } from "./DoodleSvgs";
+import { StickerIcon } from "./StickerIcon";
 import { Lock } from "lucide-react";
 
 interface DraggableItemProps {
@@ -34,9 +34,9 @@ function DraggableItem({ element, isUnlocked }: DraggableItemProps) {
       data-testid={`element-${element.id}`}
     >
       <div className="relative">
-        <DoodleIcon icon={element.svgIcon} color={element.color} size={44} />
+        <StickerIcon iconName={element.iconName} color={element.color} size={44} />
         {!isAvailable && (
-          <div className="absolute inset-0 flex items-center justify-center bg-background/60 rounded-md">
+          <div className="absolute inset-0 flex items-center justify-center bg-background/60 rounded-xl">
             <Lock className="w-4 h-4 text-muted-foreground" />
           </div>
         )}

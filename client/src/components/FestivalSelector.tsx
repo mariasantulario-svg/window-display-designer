@@ -1,7 +1,7 @@
 import { festivities, type Festivity } from "@/lib/festivities";
 import type { GameProgress } from "@/lib/progress";
 import { getFestivityProgress } from "@/lib/progress";
-import { DoodleIcon } from "./DoodleSvgs";
+import { StickerIcon, getFestivityIcon } from "./StickerIcon";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle } from "lucide-react";
 
@@ -11,18 +11,6 @@ interface FestivalSelectorProps {
   progress: GameProgress;
 }
 
-const festivityIcons: Record<string, string> = {
-  easter: "egg",
-  valentines: "heart",
-  "spring-sale": "leaf",
-  "mothers-day": "bouquet",
-  "summer-sale": "big-sun",
-  "back-to-school": "pencil",
-  halloween: "pumpkin",
-  "black-friday": "price-tag",
-  christmas: "xmas-tree",
-};
-
 export function FestivalSelector({ selectedId, onSelect, progress }: FestivalSelectorProps) {
   return (
     <div className="flex flex-col gap-1" data-testid="festival-selector">
@@ -30,7 +18,7 @@ export function FestivalSelector({ selectedId, onSelect, progress }: FestivalSel
       {festivities.map((fest) => {
         const fp = getFestivityProgress(progress, fest.id);
         const isSelected = selectedId === fest.id;
-        const icon = festivityIcons[fest.id] || "star";
+        const icon = getFestivityIcon(fest.id);
 
         return (
           <button
@@ -43,10 +31,10 @@ export function FestivalSelector({ selectedId, onSelect, progress }: FestivalSel
             }`}
             data-testid={`festival-${fest.id}`}
           >
-            <DoodleIcon icon={icon} color={fest.color} size={28} />
+            <StickerIcon iconName={icon} color={fest.color} size={28} />
             <div className="flex flex-col min-w-0 flex-1">
               <span className="text-xs font-bold truncate">{fest.name}</span>
-              <span className="text-[10px] text-muted-foreground truncate">{fest.nameEs}</span>
+              <span className="text-[10px] text-muted-foreground truncate">{fest.month}</span>
             </div>
             {fp.quizCompleted && (
               <CheckCircle className="w-3.5 h-3.5 text-green-600 flex-shrink-0" />

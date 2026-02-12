@@ -139,8 +139,9 @@ export function QuizModal({
             {showExplanation && (
               <Card className="p-3 bg-muted">
                 <p className="text-sm text-muted-foreground">
-                  {selectedAnswer === question.correctIndex ? "Correct! " : "Not quite. "}
-                  {question.explanation}
+                  {selectedAnswer === question.correctIndex
+                    ? `Correct! The answer is "${question.options[question.correctIndex]}".`
+                    : `Not quite. The correct answer is "${question.options[question.correctIndex]}".`}
                 </p>
               </Card>
             )}

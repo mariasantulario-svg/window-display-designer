@@ -1,7 +1,7 @@
 import { useDroppable } from "@dnd-kit/core";
 import type { PlacedElement } from "@/lib/progress";
 import type { DecorativeElement, Festivity } from "@/lib/festivities";
-import { DoodleIcon } from "./DoodleSvgs";
+import { StickerIcon } from "./StickerIcon";
 
 interface WindowDisplayProps {
   festivity: Festivity;
@@ -146,7 +146,7 @@ export function WindowDisplay({ festivity, placedElements, allElements, onRemove
             onClick={() => onRemoveElement(index)}
             data-testid={`placed-element-${index}`}
           >
-            <DoodleIcon icon={element.svgIcon} color={element.color} size={50} />
+            <StickerIcon iconName={element.iconName} color={element.color} size={50} />
             <div
               className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-destructive flex items-center justify-center text-white text-xs font-bold invisible group-hover:visible"
               style={{ fontSize: "10px" }}

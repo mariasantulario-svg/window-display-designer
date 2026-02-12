@@ -83,7 +83,7 @@ export default function Home() {
 
       toast({
         title: `${element.name} added!`,
-        description: `"${element.nameEs}" placed on the display`,
+        description: `Placed on the display`,
       });
     },
     [placedElements, progress, selectedFestivity.id, toast]
@@ -236,7 +236,9 @@ export default function Home() {
               </div>
             </div>
 
-            <p className="text-xs text-muted-foreground">{selectedFestivity.description}</p>
+            <p className="text-xs text-muted-foreground">
+              Decorate your bookshop window for {selectedFestivity.name}! Drag elements from the right panel.
+            </p>
 
             <div className="flex-1 flex items-center justify-center">
               <div className="w-full max-w-3xl">
