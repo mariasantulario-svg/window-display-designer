@@ -1,0 +1,174 @@
+{
+  "festivities": [
+    {
+      "id": "valentines",
+      "name": "Valentine's Day",
+      "month": "February",
+      "themeColor": "#ff4d6d",
+      "baseElements": ["Red Book", "Love Poem", "Heart Sticker"],
+      "unlockableElements": ["Giant Heart", "Cupid Statue", "Rose Bouquet", "Love Card"],
+      "quizzes": [
+        {
+          "question": "What is a common gift on Valentine's Day?",
+          "options": ["Hammer", "Flowers", "Backpack"],
+          "correct": "Flowers"
+        },
+        {
+          "question": "The color of love is usually...",
+          "options": ["Green", "Red", "Blue"],
+          "correct": "Red"
+        }
+      ]
+    },
+    {
+      "id": "easter",
+      "name": "Easter",
+      "month": "March/April",
+      "themeColor": "#bde0fe",
+      "baseElements": ["English Dictionary", "Easter Card", "Small Basket"],
+      "unlockableElements": ["Chocolate Bunny", "Decorated Egg", "Spring Flowers", "Grass Display"],
+      "quizzes": [
+        {
+          "question": "What animal brings eggs at Easter?",
+          "options": ["The Easter Bunny", "The Easter Cat", "The Easter Dog"],
+          "correct": "The Easter Bunny"
+        }
+      ]
+    },
+    {
+      "id": "spring-sale",
+      "name": "Spring Sale",
+      "month": "April/May",
+      "themeColor": "#c7f9cc",
+      "baseElements": ["Garden Guide", "Green Notebook", "Sale Sign"],
+      "unlockableElements": ["Butterfly Garland", "Flower Pot", "Sun Icon", "Pastel Ribbon"],
+      "quizzes": [
+        {
+          "question": "Spring is after which season?",
+          "options": ["Summer", "Winter", "Autumn"],
+          "correct": "Winter"
+        }
+      ]
+    },
+    {
+      "id": "mothers-day",
+      "name": "Mother's Day",
+      "month": "May",
+      "themeColor": "#ffc8dd",
+      "baseElements": ["Poetry Book", "Greeting Card", "Pink Ribbon"],
+      "unlockableElements": ["Jewelry Box", "Perfume Bottle", "Golden Frame", "Tulips"],
+      "quizzes": [
+        {
+          "question": "A synonym for 'gift' is...",
+          "options": ["Present", "Price", "Purchase"],
+          "correct": "Present"
+        }
+      ]
+    },
+    {
+      "id": "summer-sale",
+      "name": "Summer Sale",
+      "month": "July/August",
+      "themeColor": "#fdffb6",
+      "baseElements": ["Travel Guide", "Sunglasses", "Beach Postcard"],
+      "unlockableElements": ["Ice Cream Prop", "Flip-flops", "Beach Ball", "Sunscreen Display"],
+      "quizzes": [
+        {
+          "question": "People go to the beach in...",
+          "options": ["Winter", "Summer", "Christmas"],
+          "correct": "Summer"
+        }
+      ]
+    },
+    {
+      "id": "back-to-school",
+      "name": "Back to School",
+      "month": "September",
+      "themeColor": "#a2d2ff",
+      "baseElements": ["Oxford Dictionary", "Pencil Case", "Backpack"],
+      "unlockableElements": ["Globe", "School Bus", "Scientific Calculator", "Blackboard"],
+      "quizzes": [
+        {
+          "question": "Where do students carry their books?",
+          "options": ["In a backpack", "In a shoe", "In a hat"],
+          "correct": "In a backpack"
+        },
+        {
+          "question": "What do you use to erase a mistake?",
+          "options": ["A ruler", "An eraser", "A pen"],
+          "correct": "An eraser"
+        },
+        {
+          "question": "Which book helps you find the meaning of words?",
+          "options": ["Notebook", "Dictionary", "Novel"],
+          "correct": "Dictionary"
+        },
+        {
+          "question": "You use this tool to measure lines:",
+          "options": ["Scissors", "Glue", "Ruler"],
+          "correct": "Ruler"
+        }
+      ]
+    },
+    {
+      "id": "halloween",
+      "name": "Halloween",
+      "month": "October",
+      "themeColor": "#f58549",
+      "baseElements": ["Horror Novel", "Black Envelope", "Pumpkin Sticker"],
+      "unlockableElements": ["Ghost Figure", "Witch Hat", "Spider Web", "Candy Jar"],
+      "quizzes": [
+        {
+          "question": "What do children say on Halloween?",
+          "options": ["Merry Christmas", "Happy Birthday", "Trick or Treat"],
+          "correct": "Trick or Treat"
+        }
+      ]
+    },
+    {
+      "id": "black-friday",
+      "name": "Black Friday",
+      "month": "November",
+      "themeColor": "#333533",
+      "baseElements": ["Gadget Catalog", "50% Off Sign", "Price Tag"],
+      "unlockableElements": ["Limited Edition Box", "Shopping Bag", "Discount Banner", "Store Clock"],
+      "quizzes": [
+        {
+          "question": "Black Friday is famous for big...",
+          "options": ["Taxes", "Discounts", "Sleep"],
+          "correct": "Discounts"
+        },
+        {
+          "question": "What does 'Sold Out' mean?",
+          "options": ["No more products left", "The store is closed", "It is very cheap"],
+          "correct": "No more products left"
+        },
+        {
+          "question": "Where do you put your products before paying?",
+          "options": ["In the trash", "In the shopping cart", "On the floor"],
+          "correct": "In the shopping cart"
+        },
+        {
+          "question": "A 'Customer' is a person who...",
+          "options": ["Sells products", "Buys products", "Cleans the store"],
+          "correct": "Buys products"
+        }
+      ]
+    },
+    {
+      "id": "christmas",
+      "name": "Christmas",
+      "month": "December",
+      "themeColor": "#ee6055",
+      "baseElements": ["Christmas Tale", "Star Sticker", "Red Gift"],
+      "unlockableElements": ["Xmas Tree", "Santa Hat", "Stocking", "Snowman"],
+      "quizzes": [
+        {
+          "question": "Who brings presents in December?",
+          "options": ["Easter Bunny", "Santa Claus", "Tooth Fairy"],
+          "correct": "Santa Claus"
+        }
+      ]
+    }
+  ]
+}
