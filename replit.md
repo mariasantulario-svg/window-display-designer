@@ -7,30 +7,36 @@ An interactive educational web app for FP Basica de Comercio students. Students 
 - **Frontend-only app** with localStorage for persistence
 - React + Tailwind CSS + Shadcn UI components
 - Pointer events for drag-and-drop within the canvas
-- Lucide-react icons with sticker styling (dashed borders, soft backgrounds)
+- Kawaii-style PNG images for decorations and furniture (90 decoration images + 5 furniture + 4 seasonal trees)
 - "Architects Daughter" handwriting font for the doodle aesthetic
 
 ## Key Files
 - `client/src/data.json` - All 9 festivities JSON data (elements, quizzes, color palettes)
 - `client/src/lib/festivities.ts` - Maps JSON data to app types, progressive unlock logic
-- `client/src/lib/progress.ts` - localStorage progress management, placement limits
-- `client/src/components/StickerIcon.tsx` - Lucide-react icon wrapper with sticker/doodle styling
-- `client/src/components/WindowDisplay.tsx` - The main escaparate canvas with drag, resize, color
+- `client/src/lib/progress.ts` - localStorage progress management, placement limits, furniture positions, lights state, season mapping
+- `client/src/components/StickerIcon.tsx` - Kawaii image renderer component
+- `client/src/components/WindowDisplay.tsx` - Main escaparate canvas with storefront frame, draggable furniture, lights, and decoration placement
 - `client/src/components/ElementPanel.tsx` - Click-to-place decoration panel
 - `client/src/components/QuizModal.tsx` - Vocabulary quiz dialog
 - `client/src/components/FestivalSelector.tsx` - Festivity picker sidebar
 - `client/src/pages/Home.tsx` - Main page with all components wired together
+- `client/public/kawaii/` - All kawaii PNG images (90 decorations + 5 furniture + 4 seasonal trees)
 
 ## Features
 - 9 Festivities: Valentine's Day, Easter, Spring Sale, Mother's Day, Summer Sale, Back to School, Halloween, Black Friday, Christmas
+- **Storefront Frame**: Building facade walls, scalloped awning in festivity color, "BOOKSHOP" signage, sidewalk
+- **Seasonal Tree**: Kawaii tree changes per festivity season (spring cherry blossoms, summer green, autumn orange, winter snow)
+- **10 Spotlight Lights**: 3 top, 3 bottom, 2 each side. Toggle on/off individually or all at once. Glow halo effect in festivity color
+- **5 Draggable Furniture Pieces**: Bookshelf, display table, tall pedestal, wall shelf, display cabinet. Resizable with +/- controls
+- **90 Kawaii Decoration Images**: 10 per festivity (3 base + 7 bonus), cute chibi style
 - Click elements to place on window display (max 5 copies each)
-- Drag placed elements to reposition within the canvas
+- Drag placed elements and furniture to reposition within the canvas
 - Resize elements (scale 0.5x - 2.5x) with +/- controls
-- Change element color from festivity color palette (7 colors per festivity)
+- Background color picker with 14 presets + festivity palette colors
 - Vocabulary quizzes (A1-A2 English) with progressive unlocking:
   - 40% score = 1 item, 60% = 3 items, 80% = 5 items, 100% = all items
 - 7 unlockable bonus elements per festivity
-- Progress saved in localStorage
+- Progress saved in localStorage (decorations, furniture positions, lights, background color, quiz scores)
 
 ## Running
 - `npm run dev` starts the Express backend + Vite frontend on port 5000

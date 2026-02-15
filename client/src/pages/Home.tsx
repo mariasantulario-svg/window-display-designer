@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { festivities, type Festivity, type DecorativeElement, getUnlockedElementsByScore } from "@/lib/festivities";
-import { loadProgress, saveProgress, getFestivityProgress, updateFestivityProgress, type GameProgress, type PlacedElement, MAX_ELEMENT_COPIES, countElementInDisplay } from "@/lib/progress";
+import { loadProgress, saveProgress, getFestivityProgress, updateFestivityProgress, type GameProgress, type PlacedElement, type FurniturePosition, MAX_ELEMENT_COPIES, countElementInDisplay, getDefaultFurniturePositions, DEFAULT_LIGHTS } from "@/lib/progress";
 import { WindowDisplay } from "@/components/WindowDisplay";
 import { ElementPanel } from "@/components/ElementPanel";
 import { QuizModal } from "@/components/QuizModal";
@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
-import { Paintbrush, RotateCcw } from "lucide-react";
+import { Paintbrush, RotateCcw, Lightbulb } from "lucide-react";
 
 const BG_PRESETS = [
   "#FFF9F0", "#FFFFFF", "#F0F4FF", "#FFF0F5", "#F0FFF4",
@@ -27,6 +27,8 @@ export default function Home() {
   const placedElements = festivityProgress.placedElements || [];
   const allElements = [...selectedFestivity.baseElements, ...selectedFestivity.lockedElements];
   const canvasBgColor = festivityProgress.bgColor || "#FFF9F0";
+  const furniturePositions = festivityProgress.furniturePositions || getDefaultFurniturePositions();
+  const lightsOn = festivityProgress.lightsOn || [...DEFAULT_LIGHTS];
 
   const handleBgColorChange = (color: string) => {
     const newProgress = updateFestivityProgress(progress, selectedFestivity.id, { bgColor: color });
@@ -70,6 +72,27 @@ export default function Home() {
     setProgress(newProgress);
   };
 
+  const handleUpdateFurniture = (index: number, updates: Partial<FurniturePosition>) => {
+    const updated = [...furniturePositions];
+    updated[index] = { ...updated[index], ...updates };
+    const newProgress = updateFestivityProgress(progress, selectedFestivity.id, { furniturePositions: updated });
+    setProgress(newProgress);
+  };
+
+  const handleToggleLight = (index: number) => {
+    const updated = [...lightsOn];
+    updated[index] = !updated[index];
+    const newProgress = updateFestivityProgress(progress, selectedFestivity.id, { lightsOn: updated });
+    setProgress(newProgress);
+  };
+
+  const handleToggleAllLights = () => {
+    const allOn = lightsOn.every(l => l);
+    const updated = lightsOn.map(() => !allOn);
+    const newProgress = updateFestivityProgress(progress, selectedFestivity.id, { lightsOn: updated });
+    setProgress(newProgress);
+  };
+
   const handleQuizComplete = (score: number) => {
     const bestScore = Math.max(festivityProgress.quizScore, score);
     const unlockedIds = getUnlockedElementsByScore(selectedFestivity, bestScore, selectedFestivity.quiz.length);
@@ -96,6 +119,8 @@ export default function Home() {
     }
   };
 
+  const allLightsOn = lightsOn.every(l => l);
+
   return (
     <div className="flex h-screen bg-background font-sans text-foreground">
       <aside className="w-56 bg-card border-r flex flex-col">
@@ -112,7 +137,7 @@ export default function Home() {
         </ScrollArea>
       </aside>
 
-      <main className="flex-1 flex flex-col p-6 items-center justify-center overflow-hidden">
+      <main className="flex-1 flex flex-col p-6 items-center justify-center overflow-auto">
         <div className="w-full max-w-4xl">
           <div className="flex justify-between items-center mb-4 flex-wrap gap-2">
             <div>
@@ -129,14 +154,20 @@ export default function Home() {
             </div>
           </div>
 
-          <WindowDisplay
-            festivity={selectedFestivity}
-            placedElements={placedElements}
-            allElements={allElements}
-            onRemoveElement={handleRemoveElement}
-            onUpdateElement={handleUpdateElement}
-            bgColor={canvasBgColor}
-          />
+          <div className="px-6 pt-6 pb-4">
+            <WindowDisplay
+              festivity={selectedFestivity}
+              placedElements={placedElements}
+              allElements={allElements}
+              onRemoveElement={handleRemoveElement}
+              onUpdateElement={handleUpdateElement}
+              bgColor={canvasBgColor}
+              furniturePositions={furniturePositions}
+              onUpdateFurniture={handleUpdateFurniture}
+              lightsOn={lightsOn}
+              onToggleLight={handleToggleLight}
+            />
+          </div>
         </div>
       </main>
 
@@ -157,35 +188,54 @@ export default function Home() {
           />
         </ScrollArea>
 
-        <div className="border-t p-3">
-          <div className="flex items-center justify-between mb-2 flex-wrap gap-1">
-            <h3 className="text-xs font-bold text-foreground uppercase tracking-wide flex items-center gap-1">
-              <Paintbrush size={12} />
-              Background
-            </h3>
-            {canvasBgColor !== "#FFF9F0" && (
+        <div className="border-t p-3 space-y-3">
+          <div>
+            <div className="flex items-center justify-between mb-2 flex-wrap gap-1">
+              <h3 className="text-xs font-bold text-foreground uppercase tracking-wide flex items-center gap-1">
+                <Lightbulb size={12} />
+                Lights
+              </h3>
               <Button
                 size="sm"
-                variant="ghost"
-                onClick={() => handleBgColorChange("#FFF9F0")}
-                data-testid="button-reset-bg"
+                variant={allLightsOn ? "default" : "outline"}
+                onClick={handleToggleAllLights}
+                data-testid="button-toggle-all-lights"
               >
-                <RotateCcw size={12} />
+                {allLightsOn ? "All Off" : "All On"}
               </Button>
-            )}
+            </div>
           </div>
-          <div className="flex flex-wrap gap-1.5" data-testid="bg-color-picker">
-            {[...BG_PRESETS, ...selectedFestivity.colorPalette.filter(c => !BG_PRESETS.includes(c))].map((c) => (
-              <button
-                key={c}
-                onClick={() => handleBgColorChange(c)}
-                className={`w-6 h-6 rounded-md border-2 ${
-                  canvasBgColor === c ? "border-blue-500 ring-1 ring-blue-300" : "border-muted"
-                }`}
-                style={{ backgroundColor: c }}
-                data-testid={`button-bg-${c.replace("#", "")}`}
-              />
-            ))}
+
+          <div>
+            <div className="flex items-center justify-between mb-2 flex-wrap gap-1">
+              <h3 className="text-xs font-bold text-foreground uppercase tracking-wide flex items-center gap-1">
+                <Paintbrush size={12} />
+                Background
+              </h3>
+              {canvasBgColor !== "#FFF9F0" && (
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => handleBgColorChange("#FFF9F0")}
+                  data-testid="button-reset-bg"
+                >
+                  <RotateCcw size={12} />
+                </Button>
+              )}
+            </div>
+            <div className="flex flex-wrap gap-1.5" data-testid="bg-color-picker">
+              {[...BG_PRESETS, ...selectedFestivity.colorPalette.filter(c => !BG_PRESETS.includes(c))].map((c) => (
+                <button
+                  key={c}
+                  onClick={() => handleBgColorChange(c)}
+                  className={`w-6 h-6 rounded-md border-2 ${
+                    canvasBgColor === c ? "border-blue-500 ring-1 ring-blue-300" : "border-muted"
+                  }`}
+                  style={{ backgroundColor: c }}
+                  data-testid={`button-bg-${c.replace("#", "")}`}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </aside>
