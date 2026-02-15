@@ -30,7 +30,7 @@ function ElementItem({ element, isUnlocked, copyCount, onAdd }: ElementItemProps
       data-testid={`element-${element.id}`}
     >
       <div className="relative">
-        <StickerIcon iconName={element.iconName} color={element.color} size={40} />
+        <StickerIcon imagePath={element.imagePath} name={element.name} size={48} />
         {!isAvailable && (
           <div className="absolute inset-0 flex items-center justify-center bg-background/60 rounded-xl">
             <Lock className="w-4 h-4 text-muted-foreground" />

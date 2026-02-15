@@ -99,10 +99,6 @@ export function WindowDisplay({ festivity, placedElements, allElements, onRemove
     onUpdateElement(index, { scale: newScale });
   };
 
-  const handleColorChange = (index: number, color: string) => {
-    onUpdateElement(index, { color });
-  };
-
   const getPercentPosition = useCallback((clientX: number, clientY: number) => {
     if (!canvasRef.current) return { x: 50, y: 50 };
     const rect = canvasRef.current.getBoundingClientRect();
@@ -116,7 +112,7 @@ export function WindowDisplay({ festivity, placedElements, allElements, onRemove
     e.preventDefault();
     setSelectedIndex(index);
     setDraggingIndex(index);
-    (e.target as HTMLElement).setPointerCapture(e.pointerId);
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
   };
 
   const handlePointerMove = (e: React.PointerEvent) => {
@@ -163,7 +159,6 @@ export function WindowDisplay({ festivity, placedElements, allElements, onRemove
         const element = allElements.find(el => el.id === placed.elementId);
         if (!element) return null;
         const isSelected = selectedIndex === index;
-        const displayColor = placed.color || element.color;
 
         return (
           <div
@@ -177,15 +172,16 @@ export function WindowDisplay({ festivity, placedElements, allElements, onRemove
               transform: `translate(-50%, -50%) scale(${placed.scale || 1})`,
             }}
             onPointerDown={(e) => handlePointerDown(e, index)}
+            onClick={(e) => e.stopPropagation()}
             data-testid={`placed-element-${index}`}
           >
-            <div className={`${isSelected ? "ring-2 ring-blue-400 ring-offset-1 rounded-full" : ""}`}>
-              <StickerIcon iconName={element.iconName} color={displayColor} size={44} />
+            <div className={`${isSelected ? "ring-2 ring-blue-400 ring-offset-2 rounded-lg" : ""} p-0.5`}>
+              <StickerIcon imagePath={element.imagePath} name={element.name} size={56} />
             </div>
 
             {isSelected && (
               <div
-                className="absolute -top-14 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 z-[60]"
+                className="absolute -top-10 left-1/2 -translate-x-1/2 flex items-center gap-1 z-[60]"
                 onClick={(e) => e.stopPropagation()}
                 onPointerDown={(e) => e.stopPropagation()}
               >
@@ -211,19 +207,6 @@ export function WindowDisplay({ festivity, placedElements, allElements, onRemove
                   >
                     <Trash2 size={14} />
                   </button>
-                </div>
-                <div className="flex gap-0.5 bg-white shadow-lg border rounded-full px-1.5 py-1">
-                  {festivity.colorPalette.map((c) => (
-                    <button
-                      key={c}
-                      onClick={() => handleColorChange(index, c)}
-                      className={`w-4 h-4 rounded-full border-2 ${
-                        displayColor === c ? "border-slate-800 scale-125" : "border-transparent"
-                      }`}
-                      style={{ backgroundColor: c }}
-                      data-testid={`button-color-${c.replace("#", "")}-${index}`}
-                    />
-                  ))}
                 </div>
               </div>
             )}

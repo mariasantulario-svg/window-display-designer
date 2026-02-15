@@ -5,7 +5,7 @@ export interface DecorativeElement {
   name: string;
   category: "decoration" | "sign" | "product";
   locked: boolean;
-  iconName: string;
+  imagePath: string;
   color: string;
   unlockTier: number;
 }
@@ -29,98 +29,13 @@ export interface Festivity {
   unlockThreshold: number;
 }
 
-const elementIconMap: Record<string, string> = {
-  "Red Book": "book-open",
-  "Love Poem": "scroll-text",
-  "Heart Sticker": "heart",
-  "Giant Heart": "heart",
-  "Cupid Statue": "target",
-  "Rose Bouquet": "flower-2",
-  "Love Card": "mail-heart",
-  "Teddy Bear": "heart",
-  "Chocolate Box": "gift",
-  "Love Banner": "tag",
-  "English Dictionary": "book-open",
-  "Easter Card": "mail",
-  "Small Basket": "shopping-basket",
-  "Chocolate Bunny": "rabbit",
-  "Decorated Egg": "egg",
-  "Spring Flowers": "flower",
-  "Grass Display": "sprout",
-  "Easter Wreath": "flower-2",
-  "Chick Toy": "star",
-  "Egg Hunt Sign": "tag",
-  "Garden Guide": "book-open",
-  "Green Notebook": "notebook",
-  "Sale Sign": "tag",
-  "Butterfly Garland": "butterfly",
-  "Flower Pot": "flower-2",
-  "Sun Icon": "sun",
-  "Pastel Ribbon": "ribbon",
-  "Bird House": "package",
-  "Watering Can": "droplets",
-  "Spring Banner": "tag",
-  "Poetry Book": "book-open",
-  "Greeting Card": "mail",
-  "Pink Ribbon": "ribbon",
-  "Jewelry Box": "gem",
-  "Perfume Bottle": "droplets",
-  "Golden Frame": "frame",
-  "Tulips": "flower",
-  "Photo Album": "image",
-  "Tea Set": "package",
-  "Flower Crown": "flower-2",
-  "Travel Guide": "map",
-  "Sunglasses": "glasses",
-  "Beach Postcard": "image",
-  "Ice Cream Prop": "ice-cream-cone",
-  "Flip-flops": "footprints",
-  "Beach Ball": "circle-dot",
-  "Sunscreen Display": "sun",
-  "Surfboard": "sparkles",
-  "Palm Tree": "tree-pine",
-  "Beach Towel": "ribbon",
-  "Oxford Dictionary": "book-open",
-  "Pencil Case": "pen-tool",
-  "Backpack": "backpack",
-  "Globe": "globe",
-  "School Bus": "bus",
-  "Scientific Calculator": "calculator",
-  "Blackboard": "presentation",
-  "Microscope": "glasses",
-  "Art Supplies": "palette",
-  "Lunch Box": "package",
-  "Horror Novel": "book-open",
-  "Black Envelope": "mail",
-  "Pumpkin Sticker": "citrus",
-  "Ghost Figure": "ghost",
-  "Witch Hat": "crown",
-  "Spider Web": "bug",
-  "Candy Jar": "candy",
-  "Bat Decor": "bug",
-  "Skull Prop": "ghost",
-  "Cauldron": "package",
-  "Gadget Catalog": "smartphone",
-  "50% Off Sign": "percent",
-  "Price Tag": "tag",
-  "Limited Edition Box": "package",
-  "Shopping Bag": "shopping-bag",
-  "Discount Banner": "badge-percent",
-  "Store Clock": "clock",
-  "VIP Badge": "star",
-  "Gift Card": "gift",
-  "Flash Sale Sign": "tag",
-  "Christmas Tale": "book-open",
-  "Star Sticker": "star",
-  "Red Gift": "gift",
-  "Xmas Tree": "tree-pine",
-  "Santa Hat": "party-popper",
-  "Stocking": "sock",
-  "Snowman": "snowflake",
-  "Candy Cane": "candy",
-  "Wreath": "flower-2",
-  "Reindeer": "star",
-};
+function slugify(name: string): string {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "").replace(/^-+/, "");
+}
+
+function makeImagePath(festId: string, name: string): string {
+  return `/kawaii/${festId}-${slugify(name)}.png`;
+}
 
 const elementColorMap: Record<string, string> = {
   "Red Book": "#e74c3c",
@@ -215,13 +130,13 @@ const elementColorMap: Record<string, string> = {
   "Reindeer": "#c1121f",
 };
 
-function slugify(name: string, festId: string): string {
-  return `${festId}-${name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "")}`;
+function makeId(name: string, festId: string): string {
+  return `${festId}-${slugify(name)}`;
 }
 
 function mapElements(names: string[], festId: string, locked: boolean): DecorativeElement[] {
   return names.map((name, index) => ({
-    id: slugify(name, festId),
+    id: makeId(name, festId),
     name,
     category: name.toLowerCase().includes("sign") || name.toLowerCase().includes("tag") || name.toLowerCase().includes("banner") || name.toLowerCase().includes("off")
       ? "sign"
@@ -229,7 +144,7 @@ function mapElements(names: string[], festId: string, locked: boolean): Decorati
         ? "product"
         : "decoration",
     locked,
-    iconName: elementIconMap[name] || "sparkles",
+    imagePath: makeImagePath(festId, name),
     color: elementColorMap[name] || "#888",
     unlockTier: locked ? index + 1 : 0,
   }));

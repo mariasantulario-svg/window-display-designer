@@ -1,7 +1,6 @@
 import { festivities, type Festivity } from "@/lib/festivities";
 import type { GameProgress } from "@/lib/progress";
 import { getFestivityProgress } from "@/lib/progress";
-import { StickerIcon, getFestivityIcon } from "./StickerIcon";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle } from "lucide-react";
 
@@ -18,7 +17,7 @@ export function FestivalSelector({ selectedId, onSelect, progress }: FestivalSel
       {festivities.map((fest) => {
         const fp = getFestivityProgress(progress, fest.id);
         const isSelected = selectedId === fest.id;
-        const iconName = getFestivityIcon(fest.id);
+        const representativeImage = fest.baseElements[0]?.imagePath;
 
         return (
           <button
@@ -31,7 +30,13 @@ export function FestivalSelector({ selectedId, onSelect, progress }: FestivalSel
             }`}
             data-testid={`festival-${fest.id}`}
           >
-            <StickerIcon iconName={iconName} color={fest.color} size={26} />
+            <img
+              src={representativeImage}
+              alt={fest.name}
+              className="flex-shrink-0"
+              style={{ width: 28, height: 28, objectFit: "contain" }}
+              draggable={false}
+            />
             <div className="flex flex-col min-w-0 flex-1">
               <span className="text-xs font-bold truncate">{fest.name}</span>
               <span className="text-[10px] text-muted-foreground truncate">{fest.month}</span>
