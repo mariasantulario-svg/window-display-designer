@@ -5,6 +5,7 @@ export interface PlacedElement {
   x: number;
   y: number;
   scale: number;
+  color?: string;
 }
 
 export interface FestivityProgress {
@@ -81,4 +82,10 @@ export function resetProgress(): GameProgress {
   const fresh = getDefaultProgress();
   saveProgress(fresh);
   return fresh;
+}
+
+export const MAX_ELEMENT_COPIES = 5;
+
+export function countElementInDisplay(placedElements: PlacedElement[], elementId: string): number {
+  return placedElements.filter(p => p.elementId === elementId).length;
 }

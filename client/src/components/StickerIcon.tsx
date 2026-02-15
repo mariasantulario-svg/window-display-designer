@@ -1,21 +1,23 @@
 import {
-  Heart, BookOpen, ScrollText, Target, Flower2, Mail, ShoppingBasket,
-  Rabbit, Egg, Flower, Sprout, Notebook, Tag, Sun, Ribbon,
-  Gem, Droplets, Frame, Map, Glasses, Image, IceCreamCone, Footprints,
-  CircleDot, PenTool, Backpack, Globe, Bus, Calculator, Presentation,
-  Citrus, Ghost, Crown, Bug, Candy, Smartphone, Percent, Package,
-  ShoppingBag, BadgePercent, Clock, Star, Gift, TreePine, PartyPopper,
-  Snowflake, Sparkles, type LucideIcon, MailPlus, Palette, CalendarHeart,
+  Heart, BookOpen, ScrollText, Target, Flower2, Mail,
+  ShoppingBasket, Rabbit, Egg, Flower, Sprout, Notebook,
+  Tag, Sun, Ribbon, Gem, Droplets, Frame, Map, Glasses,
+  Image, IceCreamCone, Footprints, CircleDot, PenTool,
+  Backpack, Globe, Bus, Calculator, Presentation, Ghost,
+  Crown, Bug, Candy, Smartphone, Percent, Package,
+  ShoppingBag, BadgePercent, Clock, Star, Gift, TreePine,
+  PartyPopper, Snowflake, Sparkles, MailPlus, Palette,
+  type LucideIcon,
 } from "lucide-react";
 
-const iconComponents: Record<string, LucideIcon> = {
+const iconRegistry: Record<string, LucideIcon> = {
   "heart": Heart,
   "book-open": BookOpen,
   "scroll-text": ScrollText,
   "target": Target,
   "flower-2": Flower2,
-  "mail-heart": CalendarHeart,
   "mail": Mail,
+  "mail-heart": MailPlus,
   "shopping-basket": ShoppingBasket,
   "rabbit": Rabbit,
   "egg": Egg,
@@ -23,7 +25,6 @@ const iconComponents: Record<string, LucideIcon> = {
   "sprout": Sprout,
   "notebook": Notebook,
   "tag": Tag,
-  "butterfly": Bug,
   "sun": Sun,
   "ribbon": Ribbon,
   "gem": Gem,
@@ -41,10 +42,10 @@ const iconComponents: Record<string, LucideIcon> = {
   "bus": Bus,
   "calculator": Calculator,
   "presentation": Presentation,
-  "citrus": Citrus,
   "ghost": Ghost,
   "crown": Crown,
   "bug": Bug,
+  "butterfly": Bug,
   "candy": Candy,
   "smartphone": Smartphone,
   "percent": Percent,
@@ -56,11 +57,28 @@ const iconComponents: Record<string, LucideIcon> = {
   "gift": Gift,
   "tree-pine": TreePine,
   "party-popper": PartyPopper,
+  "sock": PartyPopper,
   "snowflake": Snowflake,
   "sparkles": Sparkles,
-  "sock": MailPlus,
+  "citrus": Sun,
   "palette": Palette,
 };
+
+const festivityIconMap: Record<string, string> = {
+  "valentines": "heart",
+  "easter": "egg",
+  "spring-sale": "flower",
+  "mothers-day": "ribbon",
+  "summer-sale": "sun",
+  "back-to-school": "backpack",
+  "halloween": "ghost",
+  "black-friday": "tag",
+  "christmas": "gift",
+};
+
+export function getFestivityIcon(festivityId: string): string {
+  return festivityIconMap[festivityId] || "sparkles";
+}
 
 function hexToRgba(hex: string, alpha: number): string {
   const r = parseInt(hex.slice(1, 3), 16);
@@ -73,47 +91,30 @@ interface StickerIconProps {
   iconName: string;
   color: string;
   size?: number;
-  className?: string;
 }
 
-export function StickerIcon({ iconName, color, size = 44, className = "" }: StickerIconProps) {
-  const IconComponent = iconComponents[iconName] || Sparkles;
-  const iconSize = Math.round(size * 0.5);
-  const bgColor = hexToRgba(color, 0.15);
-  const borderColor = hexToRgba(color, 0.4);
+export function StickerIcon({ iconName, color, size = 36 }: StickerIconProps) {
+  const IconComponent = iconRegistry[iconName] || Sparkles;
+  const padding = Math.max(6, size * 0.2);
 
   return (
     <div
-      className={`flex items-center justify-center rounded-xl ${className}`}
+      className="relative inline-flex items-center justify-center rounded-2xl"
       style={{
-        width: size,
-        height: size,
-        backgroundColor: bgColor,
-        border: `2px dashed ${borderColor}`,
+        padding: `${padding}px`,
+        backgroundColor: hexToRgba(color, 0.12),
+        border: `2px dashed ${hexToRgba(color, 0.4)}`,
       }}
-      data-testid={`sticker-icon-${iconName}`}
     >
-      <IconComponent
-        size={iconSize}
-        color={color}
-        strokeWidth={1.5}
+      <IconComponent size={size * 0.65} color={color} strokeWidth={2} />
+      <div
+        className="absolute top-1 left-1 rounded-full"
+        style={{
+          width: size * 0.15,
+          height: size * 0.15,
+          backgroundColor: "rgba(255,255,255,0.5)",
+        }}
       />
     </div>
   );
-}
-
-const festivityIconMap: Record<string, string> = {
-  valentines: "heart",
-  easter: "egg",
-  "spring-sale": "sprout",
-  "mothers-day": "flower-2",
-  "summer-sale": "sun",
-  "back-to-school": "backpack",
-  halloween: "ghost",
-  "black-friday": "tag",
-  christmas: "tree-pine",
-};
-
-export function getFestivityIcon(festId: string): string {
-  return festivityIconMap[festId] || "sparkles";
 }

@@ -5,8 +5,9 @@
       "name": "Valentine's Day",
       "month": "February",
       "themeColor": "#ff4d6d",
+      "colorPalette": ["#ff4d6d", "#e63946", "#c0392b", "#ff758f", "#ffb3c1", "#d62828", "#7209b7"],
       "baseElements": ["Red Book", "Love Poem", "Heart Sticker"],
-      "unlockableElements": ["Giant Heart", "Cupid Statue", "Rose Bouquet", "Love Card"],
+      "unlockableElements": ["Giant Heart", "Cupid Statue", "Rose Bouquet", "Love Card", "Teddy Bear", "Chocolate Box", "Love Banner"],
       "quizzes": [
         {
           "question": "What is a common gift on Valentine's Day?",
@@ -25,8 +26,9 @@
       "name": "Easter",
       "month": "March/April",
       "themeColor": "#bde0fe",
+      "colorPalette": ["#bde0fe", "#a8d8ea", "#8ecae6", "#f9c74f", "#c49a6c", "#52b788", "#ffc8dd"],
       "baseElements": ["English Dictionary", "Easter Card", "Small Basket"],
-      "unlockableElements": ["Chocolate Bunny", "Decorated Egg", "Spring Flowers", "Grass Display"],
+      "unlockableElements": ["Chocolate Bunny", "Decorated Egg", "Spring Flowers", "Grass Display", "Easter Wreath", "Chick Toy", "Egg Hunt Sign"],
       "quizzes": [
         {
           "question": "What animal brings eggs at Easter?",
@@ -39,9 +41,10 @@
       "id": "spring-sale",
       "name": "Spring Sale",
       "month": "April/May",
-      "themeColor": "#c7f9cc",
+      "themeColor": "#40916c",
+      "colorPalette": ["#40916c", "#52b788", "#74c69d", "#c7f9cc", "#e9c46a", "#f4a261", "#c77dff"],
       "baseElements": ["Garden Guide", "Green Notebook", "Sale Sign"],
-      "unlockableElements": ["Butterfly Garland", "Flower Pot", "Sun Icon", "Pastel Ribbon"],
+      "unlockableElements": ["Butterfly Garland", "Flower Pot", "Sun Icon", "Pastel Ribbon", "Bird House", "Watering Can", "Spring Banner"],
       "quizzes": [
         {
           "question": "Spring is after which season?",
@@ -54,9 +57,10 @@
       "id": "mothers-day",
       "name": "Mother's Day",
       "month": "May",
-      "themeColor": "#ffc8dd",
+      "themeColor": "#f72585",
+      "colorPalette": ["#f72585", "#ff69b4", "#ffc8dd", "#e0aaff", "#d8b4fe", "#ffb5a7", "#e9c46a"],
       "baseElements": ["Poetry Book", "Greeting Card", "Pink Ribbon"],
-      "unlockableElements": ["Jewelry Box", "Perfume Bottle", "Golden Frame", "Tulips"],
+      "unlockableElements": ["Jewelry Box", "Perfume Bottle", "Golden Frame", "Tulips", "Photo Album", "Tea Set", "Flower Crown"],
       "quizzes": [
         {
           "question": "A synonym for 'gift' is...",
@@ -69,9 +73,10 @@
       "id": "summer-sale",
       "name": "Summer Sale",
       "month": "July/August",
-      "themeColor": "#fdffb6",
+      "themeColor": "#f4a261",
+      "colorPalette": ["#f4a261", "#e9c46a", "#e76f51", "#0077b6", "#06d6a0", "#ff6b6b", "#264653"],
       "baseElements": ["Travel Guide", "Sunglasses", "Beach Postcard"],
-      "unlockableElements": ["Ice Cream Prop", "Flip-flops", "Beach Ball", "Sunscreen Display"],
+      "unlockableElements": ["Ice Cream Prop", "Flip-flops", "Beach Ball", "Sunscreen Display", "Surfboard", "Palm Tree", "Beach Towel"],
       "quizzes": [
         {
           "question": "People go to the beach in...",
@@ -84,9 +89,10 @@
       "id": "back-to-school",
       "name": "Back to School",
       "month": "September",
-      "themeColor": "#a2d2ff",
+      "themeColor": "#0096c7",
+      "colorPalette": ["#0096c7", "#0077b6", "#1a3a5c", "#e9c46a", "#e76f51", "#f4a261", "#6c757d"],
       "baseElements": ["Oxford Dictionary", "Pencil Case", "Backpack"],
-      "unlockableElements": ["Globe", "School Bus", "Scientific Calculator", "Blackboard"],
+      "unlockableElements": ["Globe", "School Bus", "Scientific Calculator", "Blackboard", "Microscope", "Art Supplies", "Lunch Box"],
       "quizzes": [
         {
           "question": "Where do students carry their books?",
@@ -115,8 +121,9 @@
       "name": "Halloween",
       "month": "October",
       "themeColor": "#f58549",
+      "colorPalette": ["#f58549", "#4a0080", "#6c3483", "#2c2c2c", "#adb5bd", "#e76f51", "#6c757d"],
       "baseElements": ["Horror Novel", "Black Envelope", "Pumpkin Sticker"],
-      "unlockableElements": ["Ghost Figure", "Witch Hat", "Spider Web", "Candy Jar"],
+      "unlockableElements": ["Ghost Figure", "Witch Hat", "Spider Web", "Candy Jar", "Bat Decor", "Skull Prop", "Cauldron"],
       "quizzes": [
         {
           "question": "What do children say on Halloween?",
@@ -130,8 +137,9 @@
       "name": "Black Friday",
       "month": "November",
       "themeColor": "#333533",
+      "colorPalette": ["#333533", "#495057", "#e63946", "#ff0000", "#ffd700", "#d62828", "#6c757d"],
       "baseElements": ["Gadget Catalog", "50% Off Sign", "Price Tag"],
-      "unlockableElements": ["Limited Edition Box", "Shopping Bag", "Discount Banner", "Store Clock"],
+      "unlockableElements": ["Limited Edition Box", "Shopping Bag", "Discount Banner", "Store Clock", "VIP Badge", "Gift Card", "Flash Sale Sign"],
       "quizzes": [
         {
           "question": "Black Friday is famous for big...",
@@ -160,8 +168,9 @@
       "name": "Christmas",
       "month": "December",
       "themeColor": "#ee6055",
+      "colorPalette": ["#ee6055", "#228B22", "#d62828", "#ffd700", "#c1121f", "#90e0ef", "#2d6a4f"],
       "baseElements": ["Christmas Tale", "Star Sticker", "Red Gift"],
-      "unlockableElements": ["Xmas Tree", "Santa Hat", "Stocking", "Snowman"],
+      "unlockableElements": ["Xmas Tree", "Santa Hat", "Stocking", "Snowman", "Candy Cane", "Wreath", "Reindeer"],
       "quizzes": [
         {
           "question": "Who brings presents in December?",

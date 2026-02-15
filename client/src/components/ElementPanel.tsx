@@ -1,50 +1,51 @@
-import { useDraggable } from "@dnd-kit/core";
 import type { DecorativeElement } from "@/lib/festivities";
+import type { PlacedElement } from "@/lib/progress";
 import { StickerIcon } from "./StickerIcon";
 import { Lock } from "lucide-react";
+import { MAX_ELEMENT_COPIES, countElementInDisplay } from "@/lib/progress";
+import { Badge } from "@/components/ui/badge";
 
-interface DraggableItemProps {
+interface ElementItemProps {
   element: DecorativeElement;
   isUnlocked: boolean;
+  copyCount: number;
+  onAdd: () => void;
 }
 
-function DraggableItem({ element, isUnlocked }: DraggableItemProps) {
+function ElementItem({ element, isUnlocked, copyCount, onAdd }: ElementItemProps) {
   const isAvailable = !element.locked || isUnlocked;
-
-  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
-    id: element.id,
-    disabled: !isAvailable,
-    data: { element },
-  });
-
-  const style = transform
-    ? { transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`, zIndex: 1000 }
-    : undefined;
+  const atLimit = copyCount >= MAX_ELEMENT_COPIES;
 
   return (
-    <div
-      ref={setNodeRef}
-      {...(isAvailable ? { ...listeners, ...attributes } : {})}
-      className={`flex flex-col items-center gap-1 p-2 rounded-md transition-all ${
+    <button
+      onClick={isAvailable ? onAdd : undefined}
+      disabled={!isAvailable}
+      className={`flex flex-col items-center gap-1 p-2 rounded-lg transition-all ${
         isAvailable
-          ? "cursor-grab active:cursor-grabbing hover-elevate"
-          : "opacity-50 cursor-not-allowed"
-      } ${isDragging ? "opacity-60" : ""}`}
-      style={style}
+          ? atLimit
+            ? "opacity-60 cursor-default"
+            : "cursor-pointer hover-elevate active-elevate-2"
+          : "opacity-40 cursor-not-allowed grayscale"
+      }`}
       data-testid={`element-${element.id}`}
     >
       <div className="relative">
-        <StickerIcon iconName={element.iconName} color={element.color} size={44} />
+        <StickerIcon iconName={element.iconName} color={element.color} size={40} />
         {!isAvailable && (
           <div className="absolute inset-0 flex items-center justify-center bg-background/60 rounded-xl">
             <Lock className="w-4 h-4 text-muted-foreground" />
           </div>
         )}
       </div>
-      <span className="text-xs text-center leading-tight max-w-[70px] truncate" data-testid={`element-name-${element.id}`}>
+      <span className="text-[10px] text-center leading-tight max-w-[70px] font-medium" data-testid={`element-name-${element.id}`}>
         {element.name}
       </span>
-    </div>
+      {isAvailable && copyCount > 0 && (
+        <Badge variant="secondary" className="text-[8px] px-1 py-0">
+          {copyCount}/{MAX_ELEMENT_COPIES}
+        </Badge>
+      )}
+    </button>
   );
 }
 
@@ -54,6 +55,8 @@ interface ElementPanelProps {
   unlockedIds: string[];
   onQuizOpen: () => void;
   quizCompleted: boolean;
+  onAddElement: (element: DecorativeElement) => void;
+  placedElements: PlacedElement[];
 }
 
 export function ElementPanel({
@@ -62,42 +65,60 @@ export function ElementPanel({
   unlockedIds,
   onQuizOpen,
   quizCompleted,
+  onAddElement,
+  placedElements,
 }: ElementPanelProps) {
   return (
     <div className="flex flex-col gap-3" data-testid="element-panel">
       <div>
-        <h3 className="text-sm font-bold mb-2 text-foreground">Decorations</h3>
+        <h3 className="text-xs font-bold mb-2 text-foreground uppercase tracking-wide">Base Items</h3>
         <div className="grid grid-cols-2 gap-1">
           {baseElements.map((el) => (
-            <DraggableItem key={el.id} element={el} isUnlocked={true} />
+            <ElementItem
+              key={el.id}
+              element={el}
+              isUnlocked={true}
+              copyCount={countElementInDisplay(placedElements, el.id)}
+              onAdd={() => onAddElement(el)}
+            />
           ))}
         </div>
       </div>
 
       <div className="border-t pt-3">
         <div className="flex items-center justify-between mb-2 flex-wrap gap-1">
-          <h3 className="text-sm font-bold text-foreground">Bonus Items</h3>
-          {!quizCompleted && (
+          <h3 className="text-xs font-bold text-foreground uppercase tracking-wide">Bonus Items</h3>
+          {!quizCompleted ? (
             <button
               onClick={onQuizOpen}
-              className="text-xs px-2 py-1 rounded-md bg-primary text-primary-foreground hover-elevate active-elevate-2 font-bold"
+              className="text-[10px] px-2 py-1 rounded-md bg-primary text-primary-foreground font-bold"
               data-testid="button-take-quiz"
             >
               Take Quiz!
             </button>
+          ) : (
+            <button
+              onClick={onQuizOpen}
+              className="text-[10px] px-2 py-1 rounded-md bg-secondary text-secondary-foreground font-bold"
+              data-testid="button-retake-quiz"
+            >
+              Retake Quiz
+            </button>
           )}
         </div>
-        {quizCompleted && (
-          <p className="text-xs text-muted-foreground mb-2">
-            Quiz completed! All items unlocked.
+        {quizCompleted && unlockedIds.length < lockedElements.length && (
+          <p className="text-[10px] text-muted-foreground mb-2">
+            Score higher to unlock more items!
           </p>
         )}
         <div className="grid grid-cols-2 gap-1">
           {lockedElements.map((el) => (
-            <DraggableItem
+            <ElementItem
               key={el.id}
               element={el}
               isUnlocked={unlockedIds.includes(el.id)}
+              copyCount={countElementInDisplay(placedElements, el.id)}
+              onAdd={() => onAddElement(el)}
             />
           ))}
         </div>

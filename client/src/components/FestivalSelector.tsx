@@ -14,11 +14,11 @@ interface FestivalSelectorProps {
 export function FestivalSelector({ selectedId, onSelect, progress }: FestivalSelectorProps) {
   return (
     <div className="flex flex-col gap-1" data-testid="festival-selector">
-      <h3 className="text-sm font-bold mb-1 text-foreground px-1">Festivities</h3>
+      <h3 className="text-xs font-bold mb-1 text-foreground px-1 uppercase tracking-wide">Festivities</h3>
       {festivities.map((fest) => {
         const fp = getFestivityProgress(progress, fest.id);
         const isSelected = selectedId === fest.id;
-        const icon = getFestivityIcon(fest.id);
+        const iconName = getFestivityIcon(fest.id);
 
         return (
           <button
@@ -31,7 +31,7 @@ export function FestivalSelector({ selectedId, onSelect, progress }: FestivalSel
             }`}
             data-testid={`festival-${fest.id}`}
           >
-            <StickerIcon iconName={icon} color={fest.color} size={28} />
+            <StickerIcon iconName={iconName} color={fest.color} size={26} />
             <div className="flex flex-col min-w-0 flex-1">
               <span className="text-xs font-bold truncate">{fest.name}</span>
               <span className="text-[10px] text-muted-foreground truncate">{fest.month}</span>
@@ -44,7 +44,7 @@ export function FestivalSelector({ selectedId, onSelect, progress }: FestivalSel
       })}
       <div className="mt-2 px-1">
         <Badge variant="secondary" className="text-[10px]">
-          {progress.totalQuizzesCompleted}/9 Quizzes
+          {progress.totalQuizzesCompleted || 0}/9 Quizzes
         </Badge>
       </div>
     </div>

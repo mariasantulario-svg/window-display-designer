@@ -7,6 +7,7 @@ export interface DecorativeElement {
   locked: boolean;
   iconName: string;
   color: string;
+  unlockTier: number;
 }
 
 export interface QuizQuestion {
@@ -21,6 +22,7 @@ export interface Festivity {
   name: string;
   month: string;
   color: string;
+  colorPalette: string[];
   baseElements: DecorativeElement[];
   lockedElements: DecorativeElement[];
   quiz: QuizQuestion[];
@@ -35,6 +37,9 @@ const elementIconMap: Record<string, string> = {
   "Cupid Statue": "target",
   "Rose Bouquet": "flower-2",
   "Love Card": "mail-heart",
+  "Teddy Bear": "heart",
+  "Chocolate Box": "gift",
+  "Love Banner": "tag",
   "English Dictionary": "book-open",
   "Easter Card": "mail",
   "Small Basket": "shopping-basket",
@@ -42,6 +47,9 @@ const elementIconMap: Record<string, string> = {
   "Decorated Egg": "egg",
   "Spring Flowers": "flower",
   "Grass Display": "sprout",
+  "Easter Wreath": "flower-2",
+  "Chick Toy": "star",
+  "Egg Hunt Sign": "tag",
   "Garden Guide": "book-open",
   "Green Notebook": "notebook",
   "Sale Sign": "tag",
@@ -49,6 +57,9 @@ const elementIconMap: Record<string, string> = {
   "Flower Pot": "flower-2",
   "Sun Icon": "sun",
   "Pastel Ribbon": "ribbon",
+  "Bird House": "package",
+  "Watering Can": "droplets",
+  "Spring Banner": "tag",
   "Poetry Book": "book-open",
   "Greeting Card": "mail",
   "Pink Ribbon": "ribbon",
@@ -56,6 +67,9 @@ const elementIconMap: Record<string, string> = {
   "Perfume Bottle": "droplets",
   "Golden Frame": "frame",
   "Tulips": "flower",
+  "Photo Album": "image",
+  "Tea Set": "package",
+  "Flower Crown": "flower-2",
   "Travel Guide": "map",
   "Sunglasses": "glasses",
   "Beach Postcard": "image",
@@ -63,6 +77,9 @@ const elementIconMap: Record<string, string> = {
   "Flip-flops": "footprints",
   "Beach Ball": "circle-dot",
   "Sunscreen Display": "sun",
+  "Surfboard": "sparkles",
+  "Palm Tree": "tree-pine",
+  "Beach Towel": "ribbon",
   "Oxford Dictionary": "book-open",
   "Pencil Case": "pen-tool",
   "Backpack": "backpack",
@@ -70,6 +87,9 @@ const elementIconMap: Record<string, string> = {
   "School Bus": "bus",
   "Scientific Calculator": "calculator",
   "Blackboard": "presentation",
+  "Microscope": "glasses",
+  "Art Supplies": "palette",
+  "Lunch Box": "package",
   "Horror Novel": "book-open",
   "Black Envelope": "mail",
   "Pumpkin Sticker": "citrus",
@@ -77,6 +97,9 @@ const elementIconMap: Record<string, string> = {
   "Witch Hat": "crown",
   "Spider Web": "bug",
   "Candy Jar": "candy",
+  "Bat Decor": "bug",
+  "Skull Prop": "ghost",
+  "Cauldron": "package",
   "Gadget Catalog": "smartphone",
   "50% Off Sign": "percent",
   "Price Tag": "tag",
@@ -84,6 +107,9 @@ const elementIconMap: Record<string, string> = {
   "Shopping Bag": "shopping-bag",
   "Discount Banner": "badge-percent",
   "Store Clock": "clock",
+  "VIP Badge": "star",
+  "Gift Card": "gift",
+  "Flash Sale Sign": "tag",
   "Christmas Tale": "book-open",
   "Star Sticker": "star",
   "Red Gift": "gift",
@@ -91,6 +117,9 @@ const elementIconMap: Record<string, string> = {
   "Santa Hat": "party-popper",
   "Stocking": "sock",
   "Snowman": "snowflake",
+  "Candy Cane": "candy",
+  "Wreath": "flower-2",
+  "Reindeer": "star",
 };
 
 const elementColorMap: Record<string, string> = {
@@ -101,6 +130,9 @@ const elementColorMap: Record<string, string> = {
   "Cupid Statue": "#ffb3c1",
   "Rose Bouquet": "#d62828",
   "Love Card": "#ff758f",
+  "Teddy Bear": "#c0392b",
+  "Chocolate Box": "#7209b7",
+  "Love Banner": "#ff4d6d",
   "English Dictionary": "#2980b9",
   "Easter Card": "#bde0fe",
   "Small Basket": "#c49a6c",
@@ -108,6 +140,9 @@ const elementColorMap: Record<string, string> = {
   "Decorated Egg": "#a8d8ea",
   "Spring Flowers": "#f9c74f",
   "Grass Display": "#52b788",
+  "Easter Wreath": "#40916c",
+  "Chick Toy": "#f9c74f",
+  "Egg Hunt Sign": "#bde0fe",
   "Garden Guide": "#40916c",
   "Green Notebook": "#2d6a4f",
   "Sale Sign": "#e63946",
@@ -115,6 +150,9 @@ const elementColorMap: Record<string, string> = {
   "Flower Pot": "#e9c46a",
   "Sun Icon": "#f4a261",
   "Pastel Ribbon": "#ffc8dd",
+  "Bird House": "#74c69d",
+  "Watering Can": "#0096c7",
+  "Spring Banner": "#52b788",
   "Poetry Book": "#7209b7",
   "Greeting Card": "#ffb5a7",
   "Pink Ribbon": "#ff69b4",
@@ -122,6 +160,9 @@ const elementColorMap: Record<string, string> = {
   "Perfume Bottle": "#d8b4fe",
   "Golden Frame": "#e9c46a",
   "Tulips": "#f72585",
+  "Photo Album": "#ffc8dd",
+  "Tea Set": "#ffb5a7",
+  "Flower Crown": "#ff69b4",
   "Travel Guide": "#0077b6",
   "Sunglasses": "#264653",
   "Beach Postcard": "#06d6a0",
@@ -129,6 +170,9 @@ const elementColorMap: Record<string, string> = {
   "Flip-flops": "#ff6b6b",
   "Beach Ball": "#e76f51",
   "Sunscreen Display": "#f9c74f",
+  "Surfboard": "#0077b6",
+  "Palm Tree": "#06d6a0",
+  "Beach Towel": "#e76f51",
   "Oxford Dictionary": "#1a3a5c",
   "Pencil Case": "#e9c46a",
   "Backpack": "#e76f51",
@@ -136,6 +180,9 @@ const elementColorMap: Record<string, string> = {
   "School Bus": "#f4a261",
   "Scientific Calculator": "#6c757d",
   "Blackboard": "#2b2d42",
+  "Microscope": "#0077b6",
+  "Art Supplies": "#e76f51",
+  "Lunch Box": "#f4a261",
   "Horror Novel": "#6c3483",
   "Black Envelope": "#2c2c2c",
   "Pumpkin Sticker": "#f58549",
@@ -143,6 +190,9 @@ const elementColorMap: Record<string, string> = {
   "Witch Hat": "#4a0080",
   "Spider Web": "#6c757d",
   "Candy Jar": "#e76f51",
+  "Bat Decor": "#2c2c2c",
+  "Skull Prop": "#6c3483",
+  "Cauldron": "#4a0080",
   "Gadget Catalog": "#495057",
   "50% Off Sign": "#e63946",
   "Price Tag": "#ff0000",
@@ -150,6 +200,9 @@ const elementColorMap: Record<string, string> = {
   "Shopping Bag": "#333533",
   "Discount Banner": "#d62828",
   "Store Clock": "#495057",
+  "VIP Badge": "#ffd700",
+  "Gift Card": "#e63946",
+  "Flash Sale Sign": "#ff0000",
   "Christmas Tale": "#228B22",
   "Star Sticker": "#ffd700",
   "Red Gift": "#e63946",
@@ -157,6 +210,9 @@ const elementColorMap: Record<string, string> = {
   "Santa Hat": "#d62828",
   "Stocking": "#c1121f",
   "Snowman": "#90e0ef",
+  "Candy Cane": "#ee6055",
+  "Wreath": "#228B22",
+  "Reindeer": "#c1121f",
 };
 
 function slugify(name: string, festId: string): string {
@@ -164,7 +220,7 @@ function slugify(name: string, festId: string): string {
 }
 
 function mapElements(names: string[], festId: string, locked: boolean): DecorativeElement[] {
-  return names.map((name) => ({
+  return names.map((name, index) => ({
     id: slugify(name, festId),
     name,
     category: name.toLowerCase().includes("sign") || name.toLowerCase().includes("tag") || name.toLowerCase().includes("banner") || name.toLowerCase().includes("off")
@@ -175,6 +231,7 @@ function mapElements(names: string[], festId: string, locked: boolean): Decorati
     locked,
     iconName: elementIconMap[name] || "sparkles",
     color: elementColorMap[name] || "#888",
+    unlockTier: locked ? index + 1 : 0,
   }));
 }
 
@@ -200,9 +257,26 @@ export const festivities: Festivity[] = rawData.festivities.map((f) => {
     name: f.name,
     month: f.month,
     color: f.themeColor,
+    colorPalette: f.colorPalette,
     baseElements: mapElements(f.baseElements, f.id, false),
     lockedElements: mapElements(f.unlockableElements, f.id, true),
     quiz: quizzes,
     unlockThreshold: Math.max(1, Math.ceil(quizzes.length * 0.6)),
   };
 });
+
+export function getUnlockedElementsByScore(
+  festivity: Festivity,
+  score: number,
+  totalQuestions: number
+): string[] {
+  if (totalQuestions === 0) return [];
+  const ratio = score / totalQuestions;
+  const total = festivity.lockedElements.length;
+
+  if (ratio >= 1.0) return festivity.lockedElements.map(e => e.id);
+  if (ratio >= 0.8) return festivity.lockedElements.slice(0, Math.min(total, 5)).map(e => e.id);
+  if (ratio >= 0.6) return festivity.lockedElements.slice(0, Math.min(total, 3)).map(e => e.id);
+  if (ratio >= 0.4) return festivity.lockedElements.slice(0, Math.min(total, 1)).map(e => e.id);
+  return [];
+}

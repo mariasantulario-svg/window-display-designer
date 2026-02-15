@@ -48,9 +48,8 @@ export function QuizModal({
       setSelectedAnswer(null);
       setShowExplanation(false);
     } else {
-      const finalScore = score + (selectedAnswer === question.correctIndex ? 0 : 0);
       setFinished(true);
-      onComplete(score + (selectedAnswer === question.correctIndex ? 0 : 0));
+      onComplete(score);
     }
   };
 
@@ -165,14 +164,15 @@ export function QuizModal({
             {passed ? (
               <Card className="p-3 bg-accent text-accent-foreground text-center">
                 <p className="text-sm font-medium">
-                  You unlocked {questions.length - (questions.length - 3)} new decorative elements!
-                  Check the Bonus Items panel.
+                  {score === questions.length
+                    ? "Perfect score! All bonus items unlocked!"
+                    : "Items unlocked! Score higher to unlock even more."}
                 </p>
               </Card>
             ) : (
               <Card className="p-3 bg-muted text-center">
                 <p className="text-sm text-muted-foreground">
-                  You need at least {unlockThreshold} correct answers to unlock bonus items. Try again!
+                  You need at least {unlockThreshold} correct to start unlocking bonus items. Try again!
                 </p>
               </Card>
             )}
