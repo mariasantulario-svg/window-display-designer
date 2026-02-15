@@ -80,11 +80,21 @@ export function getFestivityIcon(festivityId: string): string {
   return festivityIconMap[festivityId] || "sparkles";
 }
 
-function hexToRgba(hex: string, alpha: number): string {
-  const r = parseInt(hex.slice(1, 3), 16);
-  const g = parseInt(hex.slice(3, 5), 16);
-  const b = parseInt(hex.slice(5, 7), 16);
-  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+function hexToHSL(hex: string): { h: number; s: number; l: number } {
+  const r = parseInt(hex.slice(1, 3), 16) / 255;
+  const g = parseInt(hex.slice(3, 5), 16) / 255;
+  const b = parseInt(hex.slice(5, 7), 16) / 255;
+  const max = Math.max(r, g, b), min = Math.min(r, g, b);
+  let h = 0, s = 0;
+  const l = (max + min) / 2;
+  if (max !== min) {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    if (max === r) h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
+    else if (max === g) h = ((b - r) / d + 2) / 6;
+    else h = ((r - g) / d + 4) / 6;
+  }
+  return { h: h * 360, s: s * 100, l: l * 100 };
 }
 
 interface StickerIconProps {
@@ -95,25 +105,26 @@ interface StickerIconProps {
 
 export function StickerIcon({ iconName, color, size = 36 }: StickerIconProps) {
   const IconComponent = iconRegistry[iconName] || Sparkles;
-  const padding = Math.max(6, size * 0.2);
+  const iconSize = size * 0.55;
+  const { h, s, l } = hexToHSL(color);
+  const bgLight = `hsl(${h}, ${Math.min(s + 10, 100)}%, ${Math.max(l + 30, 88)}%)`;
+  const shadowColor = `hsla(${h}, ${s}%, ${Math.min(l + 10, 60)}%, 0.35)`;
 
   return (
     <div
-      className="relative inline-flex items-center justify-center rounded-2xl"
+      className="relative inline-flex items-center justify-center rounded-full"
       style={{
-        padding: `${padding}px`,
-        backgroundColor: hexToRgba(color, 0.12),
-        border: `2px dashed ${hexToRgba(color, 0.4)}`,
+        width: size,
+        height: size,
+        background: `radial-gradient(circle at 35% 35%, ${bgLight}, hsl(${h}, ${Math.min(s, 80)}%, ${Math.max(l + 15, 75)}%))`,
+        boxShadow: `0 2px 8px ${shadowColor}`,
       }}
     >
-      <IconComponent size={size * 0.65} color={color} strokeWidth={2} />
-      <div
-        className="absolute top-1 left-1 rounded-full"
-        style={{
-          width: size * 0.15,
-          height: size * 0.15,
-          backgroundColor: "rgba(255,255,255,0.5)",
-        }}
+      <IconComponent
+        size={iconSize}
+        color={color}
+        strokeWidth={2.2}
+        fill={`hsla(${h}, ${Math.min(s + 10, 100)}%, ${Math.max(l + 25, 80)}%, 0.5)`}
       />
     </div>
   );

@@ -6,8 +6,16 @@ import { ElementPanel } from "@/components/ElementPanel";
 import { QuizModal } from "@/components/QuizModal";
 import { FestivalSelector } from "@/components/FestivalSelector";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
+import { Paintbrush, RotateCcw } from "lucide-react";
+
+const BG_PRESETS = [
+  "#FFF9F0", "#FFFFFF", "#F0F4FF", "#FFF0F5", "#F0FFF4",
+  "#FFFBEB", "#F5F0FF", "#FFF1F0", "#F0FDFA", "#1a1a2e",
+  "#2d2d44", "#1e3a5f", "#3b1f2b", "#1b2d1b",
+];
 
 export default function Home() {
   const [progress, setProgress] = useState<GameProgress>(() => loadProgress());
@@ -18,6 +26,12 @@ export default function Home() {
   const festivityProgress = getFestivityProgress(progress, selectedFestivity.id);
   const placedElements = festivityProgress.placedElements || [];
   const allElements = [...selectedFestivity.baseElements, ...selectedFestivity.lockedElements];
+  const canvasBgColor = festivityProgress.bgColor || "#FFF9F0";
+
+  const handleBgColorChange = (color: string) => {
+    const newProgress = updateFestivityProgress(progress, selectedFestivity.id, { bgColor: color });
+    setProgress(newProgress);
+  };
 
   const handleAddElement = (element: DecorativeElement) => {
     const count = countElementInDisplay(placedElements, element.id);
@@ -121,6 +135,7 @@ export default function Home() {
             allElements={allElements}
             onRemoveElement={handleRemoveElement}
             onUpdateElement={handleUpdateElement}
+            bgColor={canvasBgColor}
           />
         </div>
       </main>
@@ -141,6 +156,38 @@ export default function Home() {
             placedElements={placedElements}
           />
         </ScrollArea>
+
+        <div className="border-t p-3">
+          <div className="flex items-center justify-between mb-2 flex-wrap gap-1">
+            <h3 className="text-xs font-bold text-foreground uppercase tracking-wide flex items-center gap-1">
+              <Paintbrush size={12} />
+              Background
+            </h3>
+            {canvasBgColor !== "#FFF9F0" && (
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={() => handleBgColorChange("#FFF9F0")}
+                data-testid="button-reset-bg"
+              >
+                <RotateCcw size={12} />
+              </Button>
+            )}
+          </div>
+          <div className="flex flex-wrap gap-1.5" data-testid="bg-color-picker">
+            {[...BG_PRESETS, ...selectedFestivity.colorPalette.filter(c => !BG_PRESETS.includes(c))].map((c) => (
+              <button
+                key={c}
+                onClick={() => handleBgColorChange(c)}
+                className={`w-6 h-6 rounded-md border-2 ${
+                  canvasBgColor === c ? "border-blue-500 ring-1 ring-blue-300" : "border-muted"
+                }`}
+                style={{ backgroundColor: c }}
+                data-testid={`button-bg-${c.replace("#", "")}`}
+              />
+            ))}
+          </div>
+        </div>
       </aside>
 
       <QuizModal

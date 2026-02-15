@@ -13,6 +13,7 @@ export interface FestivityProgress {
   quizScore: number;
   unlockedElements: string[];
   placedElements: PlacedElement[];
+  bgColor?: string;
 }
 
 export interface GameProgress {
