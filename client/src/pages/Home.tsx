@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { festivities, type Festivity, type DecorativeElement, getUnlockedElementsByScore } from "@/lib/festivities";
-import { loadProgress, saveProgress, getFestivityProgress, updateFestivityProgress, type GameProgress, type PlacedElement, type FurniturePosition, MAX_ELEMENT_COPIES, countElementInDisplay, getDefaultFurniturePositions, DEFAULT_LIGHTS } from "@/lib/progress";
+import { loadProgress, saveProgress, getFestivityProgress, updateFestivityProgress, type GameProgress, type PlacedElement, MAX_ELEMENT_COPIES, countElementInDisplay, DEFAULT_LIGHTS, LIGHT_COLOR_OPTIONS } from "@/lib/progress";
 import { WindowDisplay } from "@/components/WindowDisplay";
 import { ElementPanel } from "@/components/ElementPanel";
 import { QuizModal } from "@/components/QuizModal";
@@ -27,11 +27,16 @@ export default function Home() {
   const placedElements = festivityProgress.placedElements || [];
   const allElements = [...selectedFestivity.baseElements, ...selectedFestivity.lockedElements];
   const canvasBgColor = festivityProgress.bgColor || "#FFF9F0";
-  const furniturePositions = festivityProgress.furniturePositions || getDefaultFurniturePositions();
   const lightsOn = festivityProgress.lightsOn || [...DEFAULT_LIGHTS];
+  const lightColor = festivityProgress.lightColor || "#FFD700";
 
   const handleBgColorChange = (color: string) => {
     const newProgress = updateFestivityProgress(progress, selectedFestivity.id, { bgColor: color });
+    setProgress(newProgress);
+  };
+
+  const handleLightColorChange = (color: string) => {
+    const newProgress = updateFestivityProgress(progress, selectedFestivity.id, { lightColor: color });
     setProgress(newProgress);
   };
 
@@ -69,13 +74,6 @@ export default function Home() {
   const handleRemoveElement = (index: number) => {
     const updated = placedElements.filter((_, i) => i !== index);
     const newProgress = updateFestivityProgress(progress, selectedFestivity.id, { placedElements: updated });
-    setProgress(newProgress);
-  };
-
-  const handleUpdateFurniture = (index: number, updates: Partial<FurniturePosition>) => {
-    const updated = [...furniturePositions];
-    updated[index] = { ...updated[index], ...updates };
-    const newProgress = updateFestivityProgress(progress, selectedFestivity.id, { furniturePositions: updated });
     setProgress(newProgress);
   };
 
@@ -154,7 +152,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="px-6 pt-6 pb-4">
+          <div className="px-16 pt-20 pb-6">
             <WindowDisplay
               festivity={selectedFestivity}
               placedElements={placedElements}
@@ -162,10 +160,9 @@ export default function Home() {
               onRemoveElement={handleRemoveElement}
               onUpdateElement={handleUpdateElement}
               bgColor={canvasBgColor}
-              furniturePositions={furniturePositions}
-              onUpdateFurniture={handleUpdateFurniture}
               lightsOn={lightsOn}
               onToggleLight={handleToggleLight}
+              lightColor={lightColor}
             />
           </div>
         </div>
@@ -203,6 +200,20 @@ export default function Home() {
               >
                 {allLightsOn ? "All Off" : "All On"}
               </Button>
+            </div>
+            <div className="flex flex-wrap gap-1.5" data-testid="light-color-picker">
+              {LIGHT_COLOR_OPTIONS.map((opt) => (
+                <button
+                  key={opt.color}
+                  onClick={() => handleLightColorChange(opt.color)}
+                  className={`w-5 h-5 rounded-full border-2 transition-all ${
+                    lightColor === opt.color ? "border-foreground ring-1 ring-foreground/30 scale-110" : "border-muted"
+                  }`}
+                  style={{ backgroundColor: opt.color }}
+                  title={opt.name}
+                  data-testid={`button-light-color-${opt.color.replace("#", "")}`}
+                />
+              ))}
             </div>
           </div>
 
