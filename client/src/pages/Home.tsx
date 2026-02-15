@@ -57,23 +57,25 @@ export default function Home() {
   };
 
   const handleQuizComplete = (score: number) => {
-    const unlockedIds = getUnlockedElementsByScore(selectedFestivity, score, selectedFestivity.quiz.length);
+    const bestScore = Math.max(festivityProgress.quizScore, score);
+    const unlockedIds = getUnlockedElementsByScore(selectedFestivity, bestScore, selectedFestivity.quiz.length);
+    const mergedUnlocked = Array.from(new Set([...(festivityProgress.unlockedElements || []), ...unlockedIds]));
     const wasCompleted = festivityProgress.quizCompleted;
     const newProgress = updateFestivityProgress(progress, selectedFestivity.id, {
       quizCompleted: true,
-      quizScore: Math.max(festivityProgress.quizScore, score),
-      unlockedElements: unlockedIds,
+      quizScore: bestScore,
+      unlockedElements: mergedUnlocked,
     });
     if (!wasCompleted) {
       newProgress.totalQuizzesCompleted = (newProgress.totalQuizzesCompleted || 0) + 1;
-      saveProgress(newProgress);
     }
+    saveProgress(newProgress);
     setProgress(newProgress);
 
-    if (unlockedIds.length > 0) {
+    if (mergedUnlocked.length > 0) {
       toast({
-        title: `${unlockedIds.length} items unlocked!`,
-        description: score === selectedFestivity.quiz.length
+        title: `${mergedUnlocked.length} bonus items available!`,
+        description: bestScore === selectedFestivity.quiz.length
           ? "Perfect score! All bonus items are now available."
           : "Get a higher score to unlock more items.",
       });
