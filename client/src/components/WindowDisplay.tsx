@@ -140,6 +140,134 @@ function getHaloStyle(position: LightPosition): React.CSSProperties {
   }
 }
 
+function BookshopItems({ dark }: { dark: boolean }) {
+  const bookSpine1 = dark ? "#6a4a5a" : "#8B4513";
+  const bookSpine2 = dark ? "#4a5a6a" : "#2E5090";
+  const bookSpine3 = dark ? "#5a6a4a" : "#2E7D32";
+  const bookSpine4 = dark ? "#6a5a4a" : "#B8860B";
+  const bookSpine5 = dark ? "#5a4a6a" : "#7B1FA2";
+  const bookSpine6 = dark ? "#6a4a4a" : "#C62828";
+  const paperColor = dark ? "#9a9080" : "#F5F0E0";
+  const coverDark = dark ? "#3a3535" : "#4a3020";
+  const notebookSpiral = dark ? "#888" : "#aaa";
+  const pencilYellow = dark ? "#9a8a30" : "#FDD835";
+  const pencilTip = dark ? "#7a6a5a" : "#E8D5B0";
+  const eraserPink = dark ? "#8a5a6a" : "#F48FB1";
+  const globeBlue = dark ? "#4a6a7a" : "#64B5F6";
+  const globeGreen = dark ? "#4a6a4a" : "#66BB6A";
+
+  return (
+    <g className="pointer-events-none">
+      <rect x="38" y="250" width="8" height="24" rx="0.5" fill={bookSpine1} stroke={coverDark} strokeWidth="0.3" />
+      <rect x="47" y="248" width="10" height="26" rx="0.5" fill={bookSpine2} stroke={coverDark} strokeWidth="0.3" />
+      <rect x="58" y="251" width="7" height="23" rx="0.5" fill={bookSpine3} stroke={coverDark} strokeWidth="0.3" />
+      <rect x="66" y="249" width="12" height="25" rx="0.5" fill={bookSpine4} stroke={coverDark} strokeWidth="0.3" />
+      <text x="72" y="268" textAnchor="middle" fontSize="3.5" fill={paperColor} fontWeight="bold" transform="rotate(-90,72,264)">DICT</text>
+      <rect x="79" y="252" width="6" height="22" rx="0.5" fill={bookSpine5} stroke={coverDark} strokeWidth="0.3" />
+      <rect x="86" y="249" width="9" height="25" rx="0.5" fill={bookSpine6} stroke={coverDark} strokeWidth="0.3" />
+      <rect x="96" y="253" width="7" height="21" rx="0.5" fill={bookSpine1} stroke={coverDark} strokeWidth="0.3" opacity="0.8" />
+      <rect x="104" y="250" width="11" height="24" rx="0.5" fill={bookSpine2} stroke={coverDark} strokeWidth="0.3" opacity="0.85" />
+      <text x="109" y="268" textAnchor="middle" fontSize="3" fill={paperColor} fontWeight="bold" transform="rotate(-90,109,264)">ENGLISH</text>
+      <rect x="116" y="252" width="6" height="22" rx="0.5" fill={bookSpine3} stroke={coverDark} strokeWidth="0.3" />
+      <rect x="123" y="249" width="9" height="25" rx="0.5" fill={bookSpine4} stroke={coverDark} strokeWidth="0.3" />
+      <rect x="133" y="251" width="7" height="23" rx="0.5" fill={bookSpine5} stroke={coverDark} strokeWidth="0.3" />
+
+      <rect x="38" y="286" width="40" height="6" rx="0.5" fill={bookSpine4} stroke={coverDark} strokeWidth="0.3" />
+      <line x1="40" y1="287" x2="76" y2="287" stroke={paperColor} strokeWidth="0.3" opacity="0.5" />
+      <rect x="80" y="285" width="32" height="7" rx="0.5" fill={bookSpine2} stroke={coverDark} strokeWidth="0.3" />
+      <text x="96" y="290.5" textAnchor="middle" fontSize="3.5" fill={paperColor} fontWeight="bold">ATLAS</text>
+      <rect x="114" y="286" width="28" height="6" rx="0.5" fill={bookSpine6} stroke={coverDark} strokeWidth="0.3" />
+
+      <rect x="38" y="321" width="30" height="5" rx="0.3" fill={bookSpine3} stroke={coverDark} strokeWidth="0.3" />
+      <rect x="70" y="320" width="25" height="6" rx="0.3" fill={bookSpine1} stroke={coverDark} strokeWidth="0.3" />
+      <rect x="97" y="321" width="20" height="5" rx="0.3" fill={bookSpine5} stroke={coverDark} strokeWidth="0.3" />
+      <rect x="119" y="320" width="22" height="6" rx="0.3" fill={bookSpine2} stroke={coverDark} strokeWidth="0.3" />
+
+      <rect x="250" y="306" width="10" height="14" rx="0.5" fill={bookSpine4} stroke={coverDark} strokeWidth="0.3" />
+      <rect x="261" y="308" width="8" height="12" rx="0.5" fill={bookSpine2} stroke={coverDark} strokeWidth="0.3" />
+      <rect x="270" y="307" width="12" height="13" rx="0.5" fill={bookSpine6} stroke={coverDark} strokeWidth="0.3" />
+      <text x="276" y="316" textAnchor="middle" fontSize="3" fill={paperColor} fontWeight="bold">NOVEL</text>
+      <rect x="283" y="309" width="9" height="11" rx="0.5" fill={bookSpine3} stroke={coverDark} strokeWidth="0.3" />
+      <rect x="293" y="307" width="11" height="13" rx="0.5" fill={bookSpine5} stroke={coverDark} strokeWidth="0.3" />
+      <rect x="305" y="308" width="7" height="12" rx="0.5" fill={bookSpine1} stroke={coverDark} strokeWidth="0.3" />
+      <rect x="313" y="306" width="13" height="14" rx="0.5" fill={bookSpine4} stroke={coverDark} strokeWidth="0.3" />
+      <text x="319" y="316" textAnchor="middle" fontSize="3" fill={paperColor} fontWeight="bold">VOCAB</text>
+
+      <rect x="260" y="345" width="28" height="6" rx="0.3" fill={bookSpine3} stroke={coverDark} strokeWidth="0.3" />
+      <rect x="290" y="344" width="22" height="7" rx="0.3" fill={bookSpine2} stroke={coverDark} strokeWidth="0.3" />
+
+      <rect x="405" y="196" width="8" height="18" rx="0.3" fill={bookSpine2} stroke={coverDark} strokeWidth="0.3" />
+      <rect x="414" y="197" width="6" height="17" rx="0.3" fill={bookSpine4} stroke={coverDark} strokeWidth="0.3" />
+      <rect x="421" y="195" width="10" height="19" rx="0.3" fill={bookSpine6} stroke={coverDark} strokeWidth="0.3" />
+      <rect x="432" y="197" width="7" height="17" rx="0.3" fill={bookSpine3} stroke={coverDark} strokeWidth="0.3" />
+      <rect x="440" y="196" width="9" height="18" rx="0.3" fill={bookSpine5} stroke={coverDark} strokeWidth="0.3" />
+      <rect x="450" y="198" width="6" height="16" rx="0.3" fill={bookSpine1} stroke={coverDark} strokeWidth="0.3" />
+      <rect x="457" y="196" width="8" height="18" rx="0.3" fill={bookSpine2} stroke={coverDark} strokeWidth="0.3" opacity="0.8" />
+
+      <rect x="408" y="256" width="24" height="5" rx="0.3" fill={bookSpine1} stroke={coverDark} strokeWidth="0.3" />
+      <rect x="434" y="255" width="18" height="6" rx="0.3" fill={bookSpine4} stroke={coverDark} strokeWidth="0.3" />
+      <rect x="454" y="256" width="12" height="5" rx="0.3" fill={bookSpine3} stroke={coverDark} strokeWidth="0.3" />
+
+      <rect x="410" y="316" width="22" height="5" rx="0.3" fill={bookSpine5} stroke={coverDark} strokeWidth="0.3" />
+      <rect x="434" y="315" width="18" height="6" rx="0.3" fill={bookSpine6} stroke={coverDark} strokeWidth="0.3" />
+      <rect x="454" y="316" width="10" height="5" rx="0.3" fill={bookSpine2} stroke={coverDark} strokeWidth="0.3" />
+
+      <rect x="200" y="168" width="16" height="10" rx="0.5" fill={bookSpine4} stroke={coverDark} strokeWidth="0.3" />
+      <line x1="202" y1="170" x2="214" y2="170" stroke={paperColor} strokeWidth="0.3" />
+      <line x1="202" y1="172" x2="212" y2="172" stroke={paperColor} strokeWidth="0.3" />
+      <line x1="202" y1="174" x2="210" y2="174" stroke={paperColor} strokeWidth="0.3" />
+
+      <rect x="220" y="166" width="14" height="12" rx="0.5" fill={bookSpine3} stroke={coverDark} strokeWidth="0.3" />
+      <rect x="236" y="168" width="12" height="10" rx="0.5" fill={bookSpine2} stroke={coverDark} strokeWidth="0.3" />
+      <rect x="250" y="167" width="15" height="11" rx="0.5" fill={bookSpine6} stroke={coverDark} strokeWidth="0.3" />
+
+      <g transform="translate(515, 285)">
+        <rect x="0" y="0" width="18" height="24" rx="0.5" fill={bookSpine4} stroke={coverDark} strokeWidth="0.3" />
+        <rect x="1.5" y="1.5" width="15" height="21" rx="0.3" fill={paperColor} stroke={coverDark} strokeWidth="0.2" />
+        {[0,1,2,3,4,5,6].map(i => (
+          <line key={`nl-${i}`} x1="4" y1={4 + i * 2.5} x2="15" y2={4 + i * 2.5} stroke={dark ? "#666" : "#ccc"} strokeWidth="0.3" />
+        ))}
+        <circle cx="-1" cy="4" r="1" fill={notebookSpiral} />
+        <circle cx="-1" cy="8" r="1" fill={notebookSpiral} />
+        <circle cx="-1" cy="12" r="1" fill={notebookSpiral} />
+        <circle cx="-1" cy="16" r="1" fill={notebookSpiral} />
+        <circle cx="-1" cy="20" r="1" fill={notebookSpiral} />
+      </g>
+
+      <g transform="translate(536, 288)">
+        <rect x="0" y="0" width="16" height="20" rx="0.5" fill={bookSpine2} stroke={coverDark} strokeWidth="0.3" />
+        <rect x="1" y="1" width="14" height="18" rx="0.3" fill={paperColor} stroke={coverDark} strokeWidth="0.2" />
+        {[0,1,2,3,4,5].map(i => (
+          <line key={`nl2-${i}`} x1="3" y1={3 + i * 2.5} x2="14" y2={3 + i * 2.5} stroke={dark ? "#666" : "#ccc"} strokeWidth="0.3" />
+        ))}
+      </g>
+
+      <g transform="translate(520, 314)">
+        <rect x="0" y="0" width="30" height="3" rx="0.3" fill={pencilYellow} stroke={coverDark} strokeWidth="0.2" />
+        <polygon points="-3,1.5 0,0 0,3" fill={pencilTip} stroke={coverDark} strokeWidth="0.2" />
+        <rect x="28" y="0" width="5" height="3" rx="0.3" fill={eraserPink} stroke={coverDark} strokeWidth="0.2" />
+      </g>
+
+      <g transform="translate(530, 320)">
+        <rect x="0" y="0" width="26" height="3" rx="0.3" fill={bookSpine6} stroke={coverDark} strokeWidth="0.2" />
+        <polygon points="-3,1.5 0,0 0,3" fill={pencilTip} stroke={coverDark} strokeWidth="0.2" />
+        <rect x="24" y="0" width="4" height="3" rx="0.3" fill={eraserPink} stroke={coverDark} strokeWidth="0.2" />
+      </g>
+
+      <g transform="translate(290, 335)">
+        <circle cx="10" cy="10" r="10" fill={globeBlue} stroke={coverDark} strokeWidth="0.5" opacity="0.7" />
+        <ellipse cx="10" cy="10" rx="10" ry="4" fill="none" stroke={globeGreen} strokeWidth="0.8" opacity="0.6" />
+        <ellipse cx="10" cy="10" rx="4" ry="10" fill="none" stroke={globeGreen} strokeWidth="0.8" opacity="0.6" />
+        <path d="M2,6 Q10,4 18,6" fill="none" stroke={globeGreen} strokeWidth="1.5" opacity="0.5" />
+        <path d="M2,14 Q10,16 18,14" fill="none" stroke={globeGreen} strokeWidth="1.5" opacity="0.5" />
+        <line x1="10" y1="0" x2="10" y2="20" stroke={dark ? "#666" : "#999"} strokeWidth="0.3" />
+        <rect x="8" y="20" width="4" height="3" rx="0.5" fill={dark ? "#666" : "#999"} stroke={coverDark} strokeWidth="0.3" />
+        <rect x="5" y="23" width="10" height="2" rx="0.5" fill={dark ? "#555" : "#888"} stroke={coverDark} strokeWidth="0.3" />
+      </g>
+    </g>
+  );
+}
+
 function SchematicFurniture({ dark }: { dark: boolean }) {
   const woodFill = dark ? "#5a4a3a" : "#c4a37a";
   const woodStroke = dark ? "#7a6a5a" : "#8B7355";
@@ -158,6 +286,7 @@ function SchematicFurniture({ dark }: { dark: boolean }) {
       <rect x="240" y="300" width="100" height="6" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="1" />
       <rect x="250" y="306" width="6" height="54" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
       <rect x="324" y="306" width="6" height="54" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
+      <rect x="240" y="340" width="100" height="5" rx="1" fill={shelfFill} stroke={woodStroke} strokeWidth="0.8" />
       <rect x="240" y="360" width="100" height="4" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
 
       <rect x="430" y="190" width="6" height="170" fill={metalFill} stroke={woodStroke} strokeWidth="0.5" />
@@ -185,36 +314,43 @@ function StorefrontFrame({ dark, treeImagePath }: {
   dark: boolean;
   treeImagePath: string;
 }) {
-  const brickBase = dark ? "#4a4050" : "#a0785a";
-  const brickLight = dark ? "#5a5060" : "#b8906a";
-  const brickDark = dark ? "#3a3040" : "#8a6848";
-  const mortarColor = dark ? "#353040" : "#c4a882";
+  const wallBase = dark ? "#4a4050" : "#c8b898";
+  const wallLight = dark ? "#5a5060" : "#d4c4a8";
+  const wallDark = dark ? "#3a3040" : "#b8a888";
+  const wallPlaster = dark ? "#454050" : "#d8cbb0";
+  const mortarColor = dark ? "#353040" : "#baa880";
   const awningColor = "#6B4226";
   const awningStripe = "#8B5E3C";
-  const sillColor = dark ? "#555" : "#888";
-  const sidewalkBase = dark ? "#3a3a40" : "#b0a898";
-  const sidewalkLight = dark ? "#454550" : "#c8bca8";
-  const sidewalkLine = dark ? "#2a2a30" : "#988878";
+  const sillColor = dark ? "#555" : "#8a8078";
+  const sidewalkBase = dark ? "#3a3a40" : "#c4b8a4";
+  const sidewalkMid = dark ? "#404048" : "#b8a898";
+  const sidewalkDark = dark ? "#333338" : "#a89888";
+  const sidewalkMortar = dark ? "#2a2a30" : "#9a8a78";
   const doorFrameColor = dark ? "#4a4050" : "#6B4226";
   const doorPanelColor = dark ? "#3a3545" : "#8B6848";
   const doorHandleColor = dark ? "#888" : "#C0A060";
   const signBg = dark ? "#2a2535" : "#f5efe6";
   const signBorder = dark ? "#555" : "#6B4226";
   const signText = dark ? "#e0d0c0" : "#5a4a3a";
+  const planterTerra = dark ? "#6a5040" : "#B87333";
+  const planterDark = dark ? "#5a4030" : "#9a6030";
+  const planterRim = dark ? "#7a5a48" : "#c88040";
+
+  const WALL_HEIGHT = "100%";
 
   return (
     <div className="absolute inset-0 pointer-events-none z-[1]">
-      <div className="absolute -left-12 top-0 bottom-10 w-12 overflow-hidden"
-        style={{ background: mortarColor }}>
-        {[...Array(16)].map((_, row) => (
+      <div className="absolute -left-14 top-0 w-14 overflow-hidden"
+        style={{ background: wallPlaster, height: WALL_HEIGHT }}>
+        {[...Array(20)].map((_, row) => (
           <div key={`lr-${row}`} className="flex" style={{ marginTop: row === 0 ? 0 : 1 }}>
             {[...Array(3)].map((_, col) => (
               <div key={`lb-${row}-${col}`} style={{
-                width: row % 2 === 0 ? (col === 0 ? 14 : 20) : (col === 0 ? 8 : 20),
+                width: row % 2 === 0 ? (col === 0 ? 16 : 22) : (col === 0 ? 10 : 22),
                 height: 14,
                 marginLeft: 1,
                 marginRight: 1,
-                background: (row + col) % 3 === 0 ? brickLight : (row + col) % 3 === 1 ? brickBase : brickDark,
+                background: (row + col) % 3 === 0 ? wallLight : (row + col) % 3 === 1 ? wallBase : wallDark,
                 borderRadius: 1,
               }} />
             ))}
@@ -222,37 +358,38 @@ function StorefrontFrame({ dark, treeImagePath }: {
         ))}
       </div>
 
-      <div className="absolute -right-16 top-0 bottom-10 w-16 overflow-hidden"
-        style={{ background: mortarColor }}>
-        {[...Array(16)].map((_, row) => (
+      <div className="absolute -right-20 top-0 w-20 overflow-hidden"
+        style={{ background: wallPlaster, height: WALL_HEIGHT }}>
+        {[...Array(20)].map((_, row) => (
           <div key={`rr-${row}`} className="flex" style={{ marginTop: row === 0 ? 0 : 1 }}>
             {[...Array(4)].map((_, col) => (
               <div key={`rb-${row}-${col}`} style={{
-                width: row % 2 === 0 ? (col === 0 ? 14 : 18) : (col === 0 ? 8 : 18),
+                width: row % 2 === 0 ? (col === 0 ? 16 : 20) : (col === 0 ? 10 : 20),
                 height: 14,
                 marginLeft: 1,
                 marginRight: 1,
-                background: (row + col) % 3 === 0 ? brickBase : (row + col) % 3 === 1 ? brickLight : brickDark,
+                background: (row + col) % 3 === 0 ? wallBase : (row + col) % 3 === 1 ? wallLight : wallDark,
                 borderRadius: 1,
               }} />
             ))}
           </div>
         ))}
 
-        <div className="absolute top-4 right-0 w-10 h-full" style={{ background: doorFrameColor, borderLeft: `2px solid ${doorHandleColor}44` }}>
-          <div className="absolute top-2 left-1 right-1 bottom-[40%]" style={{ background: doorPanelColor, borderRadius: "2px 2px 0 0" }}>
+        <div className="absolute bottom-0 right-0 w-14"
+          style={{ height: "65%", background: doorFrameColor, borderLeft: `2px solid ${doorHandleColor}44` }}>
+          <div className="absolute top-2 left-1 right-1 bottom-[35%]" style={{ background: doorPanelColor, borderRadius: "2px 2px 0 0" }}>
             <div className="absolute inset-1 border opacity-30" style={{ borderColor: doorHandleColor, borderRadius: 2 }} />
             <div className="absolute top-[45%] left-1 w-2.5 h-2.5 rounded-full" style={{ background: doorHandleColor, border: `1px solid ${doorHandleColor}` }} />
           </div>
-          <div className="absolute left-1 right-1 bottom-[10%] h-[28%]" style={{ background: doorPanelColor, borderRadius: 2 }}>
+          <div className="absolute left-1 right-1 bottom-[4%] h-[28%]" style={{ background: doorPanelColor, borderRadius: 2 }}>
             <div className="absolute inset-1 border opacity-30" style={{ borderColor: doorHandleColor, borderRadius: 2 }} />
           </div>
         </div>
       </div>
 
-      <div className="absolute -left-12 -right-16 -top-14 h-14 z-[2]">
+      <div className="absolute -left-14 -right-20 -top-14 h-14 z-[2]">
         <div className="w-full h-8 flex">
-          {[...Array(12)].map((_, i) => (
+          {[...Array(14)].map((_, i) => (
             <div key={`aw-${i}`} className="flex-1 h-full" style={{
               background: i % 2 === 0 ? awningColor : awningStripe,
               borderBottom: `1px solid ${awningColor}88`,
@@ -278,24 +415,47 @@ function StorefrontFrame({ dark, treeImagePath }: {
       <div className="absolute -left-1 -right-1 -top-[1px] h-2 z-[3]" style={{ background: sillColor, borderRadius: "2px 2px 0 0" }} />
       <div className="absolute -left-1 -right-1 bottom-0 h-2 z-[3]" style={{ background: sillColor, borderRadius: "0 0 2px 2px" }} />
 
-      <div className="absolute -left-12 -right-16 -bottom-10 h-10 z-[2] overflow-hidden">
-        <div className="w-full h-2" style={{ background: sidewalkLine }} />
-        <div className="w-full h-full flex">
-          {[...Array(16)].map((_, i) => (
-            <div key={`sw-${i}`} className="flex-1 h-full" style={{
-              background: i % 2 === 0 ? sidewalkBase : sidewalkLight,
-              borderRight: `1px solid ${sidewalkLine}`,
-            }} />
+      <div className="absolute -left-14 -right-20 top-full h-12 z-[2] overflow-hidden">
+        <div className="w-full h-1.5" style={{ background: mortarColor }} />
+        <div className="w-full h-full flex flex-wrap" style={{ background: sidewalkMortar }}>
+          {[...Array(4)].map((_, row) => (
+            <div key={`srow-${row}`} className="flex w-full" style={{ height: "25%" }}>
+              {[...Array(row % 2 === 0 ? 8 : 7)].map((_, col) => {
+                const colors = [sidewalkBase, sidewalkMid, sidewalkDark];
+                const cIdx = (row * 3 + col * 2) % 3;
+                return (
+                  <div key={`st-${row}-${col}`} className="flex-1" style={{
+                    background: colors[cIdx],
+                    margin: "1px",
+                    borderRadius: "1px",
+                  }} />
+                );
+              })}
+            </div>
           ))}
         </div>
       </div>
 
-      <div className="absolute -left-[48px] -top-[60px] z-[4]">
+      <div className="absolute z-[4]"
+        style={{ right: "-17px", bottom: "0px", transform: "translateY(0)" }}>
+        <svg width="40" height="30" viewBox="0 0 40 30">
+          <rect x="5" y="24" width="30" height="6" rx="1" fill={planterDark} stroke={planterTerra} strokeWidth="0.5" />
+          <path d="M3,4 L37,4 L34,24 L6,24 Z" fill={planterTerra} stroke={planterDark} strokeWidth="0.8" />
+          <rect x="3" y="2" width="34" height="4" rx="1" fill={planterRim} stroke={planterDark} strokeWidth="0.5" />
+          <rect x="10" y="0" width="20" height="3" rx="0.5" fill={dark ? "#3a5a3a" : "#5a8a5a"} opacity="0.4" />
+        </svg>
         <img
           src={treeImagePath}
           alt="Seasonal tree"
-          className="w-20 h-[120px] object-contain"
-          style={{ filter: dark ? "brightness(0.85)" : "none" }}
+          className="absolute object-contain"
+          style={{
+            width: "52px",
+            height: "80px",
+            bottom: "24px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            filter: dark ? "brightness(0.85)" : "none",
+          }}
           draggable={false}
         />
       </div>
@@ -349,7 +509,7 @@ export function WindowDisplay({
   };
 
   return (
-    <div className="relative" style={{ padding: "20px 20px 14px 16px", marginLeft: "-8px" }}>
+    <div className="relative" style={{ padding: "20px 24px 16px 18px", marginLeft: "-4px" }}>
       <StorefrontFrame dark={dark} treeImagePath={treeImagePath} />
 
       <div
@@ -378,6 +538,7 @@ export function WindowDisplay({
             {festivity.name} &middot; {festivity.month}
           </text>
           <SchematicFurniture dark={dark} />
+          <BookshopItems dark={dark} />
         </svg>
 
         {placedElements.map((placed, index) => {
