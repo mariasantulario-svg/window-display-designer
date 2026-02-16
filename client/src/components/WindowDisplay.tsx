@@ -462,7 +462,7 @@ function StorefrontFrame({ dark, treeImagePath, shopName, onShopNameChange, onSi
         ))}
 
         <div className="absolute bottom-0 right-0 w-11"
-          style={{ height: "55%", background: doorFrameColor, borderLeft: `2px solid ${doorHandleColor}44` }}>
+          style={{ height: "72%", background: doorFrameColor, borderLeft: `2px solid ${doorHandleColor}44` }}>
           <div className="absolute top-1.5 left-1 right-1 bottom-[35%]" style={{ background: doorPanelColor, borderRadius: "2px 2px 0 0" }}>
             <div className="absolute inset-0.5 border opacity-30" style={{ borderColor: doorHandleColor, borderRadius: 2 }} />
             <div className="absolute top-[45%] left-1 w-2 h-2 rounded-full" style={{ background: doorHandleColor, border: `1px solid ${doorHandleColor}` }} />

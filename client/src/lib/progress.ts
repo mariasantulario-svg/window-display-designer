@@ -251,15 +251,15 @@ export interface FurnitureDef {
 }
 
 export const FURNITURE_PIECES: FurnitureDef[] = [
-  { id: "bookcase-left", name: "Left Bookcase", defaultX: 18, defaultY: 75, defaultScale: 0.35, type: "floor" },
-  { id: "pedestal", name: "Display Table", defaultX: 48, defaultY: 88, defaultScale: 0.4, type: "floor" },
-  { id: "bookcase-right", name: "Right Shelf", defaultX: 78, defaultY: 72, defaultScale: 0.32, type: "floor" },
-  { id: "shelf-1", name: "Wall Shelf 1", defaultX: 18, defaultY: 25, defaultScale: 0.45, type: "wall" },
-  { id: "shelf-2", name: "Wall Shelf 2", defaultX: 45, defaultY: 20, defaultScale: 0.45, type: "wall" },
-  { id: "shelf-3", name: "Wall Shelf 3", defaultX: 74, defaultY: 25, defaultScale: 0.45, type: "wall" },
-  { id: "shelf-4", name: "Wall Shelf 4", defaultX: 20, defaultY: 45, defaultScale: 0.45, type: "wall" },
-  { id: "shelf-5", name: "Wall Shelf 5", defaultX: 82, defaultY: 43, defaultScale: 0.4, type: "wall" },
-  { id: "shelf-6", name: "Wall Shelf 6", defaultX: 53, defaultY: 42, defaultScale: 0.45, type: "wall" },
+  { id: "bookcase-left", name: "Left Bookcase", defaultX: 18, defaultY: 75, defaultScale: 0.55, type: "floor" },
+  { id: "pedestal", name: "Display Table", defaultX: 48, defaultY: 88, defaultScale: 0.6, type: "floor" },
+  { id: "bookcase-right", name: "Right Shelf", defaultX: 78, defaultY: 72, defaultScale: 0.5, type: "floor" },
+  { id: "shelf-1", name: "Wall Shelf 1", defaultX: 18, defaultY: 25, defaultScale: 0.65, type: "wall" },
+  { id: "shelf-2", name: "Wall Shelf 2", defaultX: 45, defaultY: 20, defaultScale: 0.65, type: "wall" },
+  { id: "shelf-3", name: "Wall Shelf 3", defaultX: 74, defaultY: 25, defaultScale: 0.65, type: "wall" },
+  { id: "shelf-4", name: "Wall Shelf 4", defaultX: 20, defaultY: 45, defaultScale: 0.65, type: "wall" },
+  { id: "shelf-5", name: "Wall Shelf 5", defaultX: 82, defaultY: 43, defaultScale: 0.6, type: "wall" },
+  { id: "shelf-6", name: "Wall Shelf 6", defaultX: 53, defaultY: 42, defaultScale: 0.65, type: "wall" },
 ];
 
 export function getFurniturePositions(festivityProgress: FestivityProgress): FurniturePosition[] {
