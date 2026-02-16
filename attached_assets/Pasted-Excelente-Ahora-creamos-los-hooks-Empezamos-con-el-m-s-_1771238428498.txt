@@ -1,0 +1,196 @@
+Excelente. Ahora creamos los hooks. Empezamos con el más importante: useQuiz.
+
+## HOOK 1: /src/hooks/useQuiz.js
+
+Este hook maneja TODA la lógica del quiz:
+- Cargar preguntas según festividad y nivel
+- Mezclar respuestas aleatoriamente (Fisher-Yates)
+- Controlar progreso (pregunta actual, puntuación)
+- Calcular resultados y desbloqueos
+- Guardar en localStorage
+
+REQUISITOS TÉCNICOS:
+- Usar los 3 archivos JSON que acabamos de crear
+- Las respuestas deben mezclarse CADA VEZ que se inicia un quiz (no siempre la B)
+- Retornar: currentQuestion, options, submitAnswer, score, isComplete, unlockedItems
+- NO modificar componentes visuales todavía
+
+Aquí el código exacto:
+
+import { useState, useEffect, useCallback } from 'react';
+import questionsBank from '../data/questions.bank.json';
+import festivitiesConfig from '../data/festivities.config.json';
+
+// Fisher-Yates shuffle para mezclar arrays
+const shuffleArray = (array) => {
+  const newArray = [...array];
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+  }
+  return newArray;
+};
+
+// Mezclar opciones de una pregunta y guardar nueva posición correcta
+const shuffleQuestion = (question) => {
+  const correctAnswer = question.options[question.correct];
+  const shuffledOptions = shuffleArray(question.options);
+  
+  return {
+    ...question,
+    options: shuffledOptions,
+    correctIndex: shuffledOptions.indexOf(correctAnswer),
+    originalCorrect: question.correct
+  };
+};
+
+export const useQuiz = (festivityId, level = 1) => {
+  const [questions, setQuestions] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [score, setScore] = useState(0);
+  const [isComplete, setIsComplete] = useState(false);
+  const [userAnswers, setUserAnswers] = useState([]);
+  const [unlockedItems, setUnlockedItems] = useState([]);
+
+  // Cargar y preparar preguntas al iniciar
+  useEffect(() => {
+    const config = festivitiesConfig.festivities.find(f => f.id === festivityId);
+    if (!config) return;
+
+    const levelConfig = config.quizConfig.levels.find(l => l.level === level);
+    if (!levelConfig) return;
+
+    // Seleccionar preguntas según dificultad
+    let availableQuestions = [];
+    
+    if (levelConfig.difficulty === 'A1') {
+      availableQuestions = [
+        ...questionsBank.questions.A1.retail_basics,
+        ...questionsBank.questions.A1.easter_specific.filter(q => q.festivity === festivityId || q.festivity === 'all'),
+        ...questionsBank.questions.A1.valentines_specific.filter(q => q.festivity === festivityId || q.festivity === 'all'),
+        ...questionsBank.questions.A1.pricing
+      ];
+    } else if (levelConfig.difficulty === 'A1-A2') {
+      availableQuestions = [
+        ...questionsBank.questions.A1.retail_basics.slice(2),
+        ...questionsBank.questions.A2.visual_merchandising.slice(0, 2),
+        ...questionsBank.questions.A2.customer_service.slice(0, 2)
+      ];
+    } else if (levelConfig.difficulty === 'A2') {
+      availableQuestions = [
+        ...questionsBank.questions.A2.visual_merchandising,
+        ...questionsBank.questions.A2.customer_service,
+        ...questionsBank.questions.A2.sales_promotions,
+        ...questionsBank.questions.A2.retail_advanced
+      ];
+    }
+
+    // Seleccionar número exacto de preguntas y mezclar
+    const selectedQuestions = shuffleArray(availableQuestions).slice(0, levelConfig.questions);
+    
+    // Mezclar opciones de cada pregunta
+    const preparedQuestions = selectedQuestions.map(shuffleQuestion);
+    
+    setQuestions(preparedQuestions);
+    setCurrentIndex(0);
+    setScore(0);
+    setIsComplete(false);
+    setUserAnswers([]);
+    setUnlockedItems([]);
+  }, [festivityId, level]);
+
+  // Responder pregunta actual
+  const submitAnswer = useCallback((selectedIndex) => {
+    if (isComplete) return;
+
+    const currentQuestion = questions[currentIndex];
+    const isCorrect = selectedIndex === currentQuestion.correctIndex;
+    
+    const newScore = isCorrect ? score + 1 : score;
+    const newAnswers = [...userAnswers, {
+      questionId: currentQuestion.id,
+      selected: selectedIndex,
+      correct: currentQuestion.correctIndex,
+      isCorrect
+    }];
+
+    setScore(newScore);
+    setUserAnswers(newAnswers);
+
+    // Avanzar o completar
+    if (currentIndex + 1 >= questions.length) {
+      setIsComplete(true);
+      
+      // Calcular desbloqueos
+      const config = festivitiesConfig.festivities.find(f => f.id === festivityId);
+      const newUnlocks = [];
+      
+      // Decoraciones desbloqueables
+      config.decorations.unlockable.forEach(item => {
+        if (newScore >= item.requiredScore && !newUnlocks.find(u => u.id === item.id)) {
+          newUnlocks.push({ type: 'decoration', ...item });
+        }
+      });
+      
+      // Features desbloqueables
+      Object.entries(config.features).forEach(([key, feature]) => {
+        if (newScore >= feature.requiredScore) {
+          newUnlocks.push({ type: 'feature', id: key, ...feature });
+        }
+      });
+      
+      setUnlockedItems(newUnlocks);
+    } else {
+      setCurrentIndex(currentIndex + 1);
+    }
+  }, [currentIndex, questions, score, userAnswers, isComplete, festivityId]);
+
+  // Resetear quiz
+  const resetQuiz = useCallback(() => {
+    setCurrentIndex(0);
+    setScore(0);
+    setIsComplete(false);
+    setUserAnswers([]);
+    setUnlockedItems([]);
+    
+    // Remezclar preguntas
+    const remixed = questions.map(shuffleQuestion);
+    setQuestions(remixed);
+  }, [questions]);
+
+  return {
+    // Estado
+    currentQuestion: questions[currentIndex] || null,
+    currentIndex,
+    totalQuestions: questions.length,
+    score,
+    isComplete,
+    userAnswers,
+    unlockedItems,
+    
+    // Acciones
+    submitAnswer,
+    resetQuiz,
+    
+    // Info del nivel
+    level,
+    passScore: festivitiesConfig.festivities.find(f => f.id === festivityId)?.quizConfig.levels.find(l => l.level === level)?.passScore || 2
+  };
+};
+
+export default useQuiz;
+
+---
+
+INSTRUCCIONES:
+1. Crea la carpeta /src/hooks/ si no existe
+2. Crea SOLO este archivo useQuiz.js
+3. Verifica que no hay errores de sintaxis
+4. NO modifiques componentes todavía
+5. Testea importándolo en App.jsx temporalmente:
+   
+   import { useQuiz } from './hooks/useQuiz';
+   const quiz = useQuiz('easter', 1);
+   console.log(quiz.totalQuestions); // Debe mostrar 3
+
+Confírmame cuando esté listo y pasamos al siguiente hook (useProgress para localStorage).
