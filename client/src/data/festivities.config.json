@@ -1,0 +1,356 @@
+{
+  "festivities": [
+    {
+      "id": "valentines",
+      "name": "Valentine's Day",
+      "month": "February",
+      "season": "winter",
+      "themeColor": "#ff4d6d",
+      "colorPalette": {
+        "base": ["#FFF9F0", "#FFFFFF", "#F0F4FF"],
+        "unlockable": ["#ff4d6d", "#e63946", "#c0392b", "#ff758f", "#ffb3c1", "#d62828", "#7209b7"]
+      },
+      "decorations": {
+        "base": [
+          { "name": "Red Book", "color": "#e74c3c", "category": "product" },
+          { "name": "Love Poem", "color": "#c0392b", "category": "product" },
+          { "name": "Heart Sticker", "color": "#ff4d6d", "category": "decoration" }
+        ],
+        "unlockable": [
+          { "name": "Giant Heart", "color": "#e63946", "category": "decoration", "unlockTier": 1 },
+          { "name": "Cupid Statue", "color": "#ffb3c1", "category": "decoration", "unlockTier": 2 },
+          { "name": "Rose Bouquet", "color": "#d62828", "category": "decoration", "unlockTier": 3 },
+          { "name": "Love Card", "color": "#ff758f", "category": "decoration", "unlockTier": 4 },
+          { "name": "Teddy Bear", "color": "#c0392b", "category": "decoration", "unlockTier": 5 },
+          { "name": "Chocolate Box", "color": "#7209b7", "category": "decoration", "unlockTier": 6 },
+          { "name": "Love Banner", "color": "#ff4d6d", "category": "sign", "unlockTier": 7 }
+        ]
+      },
+      "unlockConfig": {
+        "lights": {
+          "total": 10,
+          "thresholds": [2, 3, 4, 5, 6, 7, 8, 8, 9, 10],
+          "description": "Unlock spotlights one by one as quiz score improves"
+        },
+        "bgColors": {
+          "baseCount": 3,
+          "groupSize": 3,
+          "thresholds": [1, 4, 6, 8, 9, 10],
+          "description": "Unlock 3 more background colours at each threshold"
+        },
+        "furniture": {
+          "scorePercent": 30,
+          "description": "Unlock furniture rearranging at 30% quiz score"
+        },
+        "decorations": {
+          "formula": "proportional",
+          "description": "Bonus decorations unlocked proportionally: score * items / total"
+        }
+      }
+    },
+    {
+      "id": "easter",
+      "name": "Easter",
+      "month": "March/April",
+      "season": "spring",
+      "themeColor": "#bde0fe",
+      "colorPalette": {
+        "base": ["#FFF9F0", "#FFFFFF", "#F0F4FF"],
+        "unlockable": ["#bde0fe", "#a8d8ea", "#8ecae6", "#f9c74f", "#c49a6c", "#52b788", "#ffc8dd"]
+      },
+      "decorations": {
+        "base": [
+          { "name": "English Dictionary", "color": "#2980b9", "category": "product" },
+          { "name": "Easter Card", "color": "#bde0fe", "category": "decoration" },
+          { "name": "Small Basket", "color": "#c49a6c", "category": "decoration" }
+        ],
+        "unlockable": [
+          { "name": "Chocolate Bunny", "color": "#8B5E3C", "category": "decoration", "unlockTier": 1 },
+          { "name": "Decorated Egg", "color": "#a8d8ea", "category": "decoration", "unlockTier": 2 },
+          { "name": "Spring Flowers", "color": "#f9c74f", "category": "decoration", "unlockTier": 3 },
+          { "name": "Grass Display", "color": "#52b788", "category": "decoration", "unlockTier": 4 },
+          { "name": "Easter Wreath", "color": "#40916c", "category": "decoration", "unlockTier": 5 },
+          { "name": "Chick Toy", "color": "#f9c74f", "category": "decoration", "unlockTier": 6 },
+          { "name": "Egg Hunt Sign", "color": "#bde0fe", "category": "sign", "unlockTier": 7 }
+        ]
+      },
+      "unlockConfig": {
+        "lights": { "total": 10, "thresholds": [2, 3, 4, 5, 6, 7, 8, 8, 9, 10] },
+        "bgColors": { "baseCount": 3, "groupSize": 3, "thresholds": [1, 4, 6, 8, 9, 10] },
+        "furniture": { "scorePercent": 30 },
+        "decorations": { "formula": "proportional" }
+      }
+    },
+    {
+      "id": "spring-sale",
+      "name": "Spring Sale",
+      "month": "April/May",
+      "season": "spring",
+      "themeColor": "#40916c",
+      "colorPalette": {
+        "base": ["#FFF9F0", "#FFFFFF", "#F0F4FF"],
+        "unlockable": ["#40916c", "#52b788", "#74c69d", "#c7f9cc", "#e9c46a", "#f4a261", "#c77dff"]
+      },
+      "decorations": {
+        "base": [
+          { "name": "Garden Guide", "color": "#40916c", "category": "product" },
+          { "name": "Green Notebook", "color": "#2d6a4f", "category": "product" },
+          { "name": "Sale Sign", "color": "#e63946", "category": "sign" }
+        ],
+        "unlockable": [
+          { "name": "Butterfly Garland", "color": "#c77dff", "category": "decoration", "unlockTier": 1 },
+          { "name": "Flower Pot", "color": "#e9c46a", "category": "decoration", "unlockTier": 2 },
+          { "name": "Sun Icon", "color": "#f4a261", "category": "decoration", "unlockTier": 3 },
+          { "name": "Pastel Ribbon", "color": "#ffc8dd", "category": "decoration", "unlockTier": 4 },
+          { "name": "Bird House", "color": "#74c69d", "category": "decoration", "unlockTier": 5 },
+          { "name": "Watering Can", "color": "#0096c7", "category": "decoration", "unlockTier": 6 },
+          { "name": "Spring Banner", "color": "#52b788", "category": "sign", "unlockTier": 7 }
+        ]
+      },
+      "unlockConfig": {
+        "lights": { "total": 10, "thresholds": [2, 3, 4, 5, 6, 7, 8, 8, 9, 10] },
+        "bgColors": { "baseCount": 3, "groupSize": 3, "thresholds": [1, 4, 6, 8, 9, 10] },
+        "furniture": { "scorePercent": 30 },
+        "decorations": { "formula": "proportional" }
+      }
+    },
+    {
+      "id": "mothers-day",
+      "name": "Mother's Day",
+      "month": "May",
+      "season": "spring",
+      "themeColor": "#f72585",
+      "colorPalette": {
+        "base": ["#FFF9F0", "#FFFFFF", "#F0F4FF"],
+        "unlockable": ["#f72585", "#ff69b4", "#ffc8dd", "#e0aaff", "#d8b4fe", "#ffb5a7", "#e9c46a"]
+      },
+      "decorations": {
+        "base": [
+          { "name": "Poetry Book", "color": "#7209b7", "category": "product" },
+          { "name": "Greeting Card", "color": "#ffb5a7", "category": "decoration" },
+          { "name": "Pink Ribbon", "color": "#ff69b4", "category": "decoration" }
+        ],
+        "unlockable": [
+          { "name": "Jewelry Box", "color": "#e0aaff", "category": "decoration", "unlockTier": 1 },
+          { "name": "Perfume Bottle", "color": "#d8b4fe", "category": "decoration", "unlockTier": 2 },
+          { "name": "Golden Frame", "color": "#e9c46a", "category": "decoration", "unlockTier": 3 },
+          { "name": "Tulips", "color": "#f72585", "category": "decoration", "unlockTier": 4 },
+          { "name": "Photo Album", "color": "#ffc8dd", "category": "decoration", "unlockTier": 5 },
+          { "name": "Tea Set", "color": "#ffb5a7", "category": "decoration", "unlockTier": 6 },
+          { "name": "Flower Crown", "color": "#ff69b4", "category": "decoration", "unlockTier": 7 }
+        ]
+      },
+      "unlockConfig": {
+        "lights": { "total": 10, "thresholds": [2, 3, 4, 5, 6, 7, 8, 8, 9, 10] },
+        "bgColors": { "baseCount": 3, "groupSize": 3, "thresholds": [1, 4, 6, 8, 9, 10] },
+        "furniture": { "scorePercent": 30 },
+        "decorations": { "formula": "proportional" }
+      }
+    },
+    {
+      "id": "summer-sale",
+      "name": "Summer Sale",
+      "month": "July/August",
+      "season": "summer",
+      "themeColor": "#f4a261",
+      "colorPalette": {
+        "base": ["#FFF9F0", "#FFFFFF", "#F0F4FF"],
+        "unlockable": ["#f4a261", "#e9c46a", "#e76f51", "#0077b6", "#06d6a0", "#ff6b6b", "#264653"]
+      },
+      "decorations": {
+        "base": [
+          { "name": "Travel Guide", "color": "#0077b6", "category": "product" },
+          { "name": "Sunglasses", "color": "#264653", "category": "decoration" },
+          { "name": "Beach Postcard", "color": "#06d6a0", "category": "decoration" }
+        ],
+        "unlockable": [
+          { "name": "Ice Cream Prop", "color": "#f4a261", "category": "decoration", "unlockTier": 1 },
+          { "name": "Flip-flops", "color": "#ff6b6b", "category": "decoration", "unlockTier": 2 },
+          { "name": "Beach Ball", "color": "#e76f51", "category": "decoration", "unlockTier": 3 },
+          { "name": "Sunscreen Display", "color": "#f9c74f", "category": "decoration", "unlockTier": 4 },
+          { "name": "Surfboard", "color": "#0077b6", "category": "decoration", "unlockTier": 5 },
+          { "name": "Palm Tree", "color": "#06d6a0", "category": "decoration", "unlockTier": 6 },
+          { "name": "Beach Towel", "color": "#e76f51", "category": "decoration", "unlockTier": 7 }
+        ]
+      },
+      "unlockConfig": {
+        "lights": { "total": 10, "thresholds": [2, 3, 4, 5, 6, 7, 8, 8, 9, 10] },
+        "bgColors": { "baseCount": 3, "groupSize": 3, "thresholds": [1, 4, 6, 8, 9, 10] },
+        "furniture": { "scorePercent": 30 },
+        "decorations": { "formula": "proportional" }
+      }
+    },
+    {
+      "id": "back-to-school",
+      "name": "Back to School",
+      "month": "September",
+      "season": "autumn",
+      "themeColor": "#0096c7",
+      "colorPalette": {
+        "base": ["#FFF9F0", "#FFFFFF", "#F0F4FF"],
+        "unlockable": ["#0096c7", "#0077b6", "#1a3a5c", "#e9c46a", "#e76f51", "#f4a261", "#6c757d"]
+      },
+      "decorations": {
+        "base": [
+          { "name": "Oxford Dictionary", "color": "#1a3a5c", "category": "product" },
+          { "name": "Pencil Case", "color": "#e9c46a", "category": "decoration" },
+          { "name": "Backpack", "color": "#e76f51", "category": "decoration" }
+        ],
+        "unlockable": [
+          { "name": "Globe", "color": "#0096c7", "category": "decoration", "unlockTier": 1 },
+          { "name": "School Bus", "color": "#f4a261", "category": "decoration", "unlockTier": 2 },
+          { "name": "Scientific Calculator", "color": "#6c757d", "category": "decoration", "unlockTier": 3 },
+          { "name": "Blackboard", "color": "#2b2d42", "category": "decoration", "unlockTier": 4 },
+          { "name": "Microscope", "color": "#0077b6", "category": "decoration", "unlockTier": 5 },
+          { "name": "Art Supplies", "color": "#e76f51", "category": "decoration", "unlockTier": 6 },
+          { "name": "Lunch Box", "color": "#f4a261", "category": "decoration", "unlockTier": 7 }
+        ]
+      },
+      "unlockConfig": {
+        "lights": { "total": 10, "thresholds": [2, 3, 4, 5, 6, 7, 8, 8, 9, 10] },
+        "bgColors": { "baseCount": 3, "groupSize": 3, "thresholds": [1, 4, 6, 8, 9, 10] },
+        "furniture": { "scorePercent": 30 },
+        "decorations": { "formula": "proportional" }
+      }
+    },
+    {
+      "id": "halloween",
+      "name": "Halloween",
+      "month": "October",
+      "season": "autumn",
+      "themeColor": "#f58549",
+      "colorPalette": {
+        "base": ["#FFF9F0", "#FFFFFF", "#F0F4FF"],
+        "unlockable": ["#f58549", "#4a0080", "#6c3483", "#2c2c2c", "#adb5bd", "#e76f51", "#6c757d"]
+      },
+      "decorations": {
+        "base": [
+          { "name": "Horror Novel", "color": "#6c3483", "category": "product" },
+          { "name": "Black Envelope", "color": "#2c2c2c", "category": "decoration" },
+          { "name": "Pumpkin Sticker", "color": "#f58549", "category": "decoration" }
+        ],
+        "unlockable": [
+          { "name": "Ghost Figure", "color": "#adb5bd", "category": "decoration", "unlockTier": 1 },
+          { "name": "Witch Hat", "color": "#4a0080", "category": "decoration", "unlockTier": 2 },
+          { "name": "Spider Web", "color": "#6c757d", "category": "decoration", "unlockTier": 3 },
+          { "name": "Candy Jar", "color": "#e76f51", "category": "decoration", "unlockTier": 4 },
+          { "name": "Bat Decor", "color": "#2c2c2c", "category": "decoration", "unlockTier": 5 },
+          { "name": "Skull Prop", "color": "#6c3483", "category": "decoration", "unlockTier": 6 },
+          { "name": "Cauldron", "color": "#4a0080", "category": "decoration", "unlockTier": 7 }
+        ]
+      },
+      "unlockConfig": {
+        "lights": { "total": 10, "thresholds": [2, 3, 4, 5, 6, 7, 8, 8, 9, 10] },
+        "bgColors": { "baseCount": 3, "groupSize": 3, "thresholds": [1, 4, 6, 8, 9, 10] },
+        "furniture": { "scorePercent": 30 },
+        "decorations": { "formula": "proportional" }
+      }
+    },
+    {
+      "id": "black-friday",
+      "name": "Black Friday",
+      "month": "November",
+      "season": "autumn",
+      "themeColor": "#333533",
+      "colorPalette": {
+        "base": ["#FFF9F0", "#FFFFFF", "#F0F4FF"],
+        "unlockable": ["#333533", "#495057", "#e63946", "#ff0000", "#ffd700", "#d62828", "#6c757d"]
+      },
+      "decorations": {
+        "base": [
+          { "name": "Gadget Catalog", "color": "#495057", "category": "product" },
+          { "name": "50% Off Sign", "color": "#e63946", "category": "sign" },
+          { "name": "Price Tag", "color": "#ff0000", "category": "sign" }
+        ],
+        "unlockable": [
+          { "name": "Limited Edition Box", "color": "#ffd700", "category": "decoration", "unlockTier": 1 },
+          { "name": "Shopping Bag", "color": "#333533", "category": "decoration", "unlockTier": 2 },
+          { "name": "Discount Banner", "color": "#d62828", "category": "sign", "unlockTier": 3 },
+          { "name": "Store Clock", "color": "#495057", "category": "decoration", "unlockTier": 4 },
+          { "name": "VIP Badge", "color": "#ffd700", "category": "decoration", "unlockTier": 5 },
+          { "name": "Gift Card", "color": "#e63946", "category": "decoration", "unlockTier": 6 },
+          { "name": "Flash Sale Sign", "color": "#ff0000", "category": "sign", "unlockTier": 7 }
+        ]
+      },
+      "unlockConfig": {
+        "lights": { "total": 10, "thresholds": [2, 3, 4, 5, 6, 7, 8, 8, 9, 10] },
+        "bgColors": { "baseCount": 3, "groupSize": 3, "thresholds": [1, 4, 6, 8, 9, 10] },
+        "furniture": { "scorePercent": 30 },
+        "decorations": { "formula": "proportional" }
+      }
+    },
+    {
+      "id": "christmas",
+      "name": "Christmas",
+      "month": "December",
+      "season": "winter",
+      "themeColor": "#ee6055",
+      "colorPalette": {
+        "base": ["#FFF9F0", "#FFFFFF", "#F0F4FF"],
+        "unlockable": ["#ee6055", "#228B22", "#d62828", "#ffd700", "#c1121f", "#90e0ef", "#2d6a4f"]
+      },
+      "decorations": {
+        "base": [
+          { "name": "Christmas Tale", "color": "#228B22", "category": "product" },
+          { "name": "Star Sticker", "color": "#ffd700", "category": "decoration" },
+          { "name": "Red Gift", "color": "#e63946", "category": "decoration" }
+        ],
+        "unlockable": [
+          { "name": "Xmas Tree", "color": "#228B22", "category": "decoration", "unlockTier": 1 },
+          { "name": "Santa Hat", "color": "#d62828", "category": "decoration", "unlockTier": 2 },
+          { "name": "Stocking", "color": "#c1121f", "category": "decoration", "unlockTier": 3 },
+          { "name": "Snowman", "color": "#90e0ef", "category": "decoration", "unlockTier": 4 },
+          { "name": "Candy Cane", "color": "#ee6055", "category": "decoration", "unlockTier": 5 },
+          { "name": "Wreath", "color": "#228B22", "category": "decoration", "unlockTier": 6 },
+          { "name": "Reindeer", "color": "#c1121f", "category": "decoration", "unlockTier": 7 }
+        ]
+      },
+      "unlockConfig": {
+        "lights": { "total": 10, "thresholds": [2, 3, 4, 5, 6, 7, 8, 8, 9, 10] },
+        "bgColors": { "baseCount": 3, "groupSize": 3, "thresholds": [1, 4, 6, 8, 9, 10] },
+        "furniture": { "scorePercent": 30 },
+        "decorations": { "formula": "proportional" }
+      }
+    }
+  ],
+  "furniture": {
+    "floor": [
+      { "id": "bookcase-left", "name": "Left Bookcase", "defaultX": 18, "defaultY": 75, "defaultScale": 0.55 },
+      { "id": "pedestal", "name": "Display Table", "defaultX": 48, "defaultY": 88, "defaultScale": 0.6 },
+      { "id": "bookcase-right", "name": "Right Shelf", "defaultX": 78, "defaultY": 72, "defaultScale": 0.5 }
+    ],
+    "wall": [
+      { "id": "shelf-1", "name": "Wall Shelf 1", "defaultX": 18, "defaultY": 25, "defaultScale": 0.65 },
+      { "id": "shelf-2", "name": "Wall Shelf 2", "defaultX": 45, "defaultY": 20, "defaultScale": 0.65 },
+      { "id": "shelf-3", "name": "Wall Shelf 3", "defaultX": 74, "defaultY": 25, "defaultScale": 0.65 },
+      { "id": "shelf-4", "name": "Wall Shelf 4", "defaultX": 20, "defaultY": 45, "defaultScale": 0.65 },
+      { "id": "shelf-5", "name": "Wall Shelf 5", "defaultX": 82, "defaultY": 43, "defaultScale": 0.6 },
+      { "id": "shelf-6", "name": "Wall Shelf 6", "defaultX": 53, "defaultY": 42, "defaultScale": 0.65 }
+    ]
+  },
+  "fixedItems": [
+    { "id": "books-row", "name": "Book Row", "defaultX": 15, "defaultY": 70, "defaultScale": 1 },
+    { "id": "dictionary", "name": "Dictionary", "defaultX": 40, "defaultY": 50, "defaultScale": 1 },
+    { "id": "notebook", "name": "Notebook", "defaultX": 60, "defaultY": 85, "defaultScale": 1 },
+    { "id": "globe", "name": "Globe", "defaultX": 80, "defaultY": 75, "defaultScale": 1 },
+    { "id": "pencil-cup", "name": "Pencil Cup", "defaultX": 50, "defaultY": 90, "defaultScale": 1 },
+    { "id": "book-stack", "name": "Book Stack", "defaultX": 30, "defaultY": 85, "defaultScale": 1 }
+  ],
+  "lightColors": [
+    { "color": "#FFD700", "name": "Warm Gold" },
+    { "color": "#FFFFFF", "name": "White" },
+    { "color": "#FF6B6B", "name": "Red" },
+    { "color": "#4ECDC4", "name": "Teal" },
+    { "color": "#A78BFA", "name": "Purple" },
+    { "color": "#60A5FA", "name": "Blue" },
+    { "color": "#F472B6", "name": "Pink" },
+    { "color": "#34D399", "name": "Green" },
+    { "color": "#FBBF24", "name": "Amber" },
+    { "color": "#FB923C", "name": "Orange" }
+  ],
+  "backgroundPresets": [
+    "#FFF9F0", "#FFFFFF", "#F0F4FF", "#FFF0F5", "#F0FFF4",
+    "#FFFBEB", "#F5F0FF", "#FFF1F0", "#F0FDFA", "#1a1a2e",
+    "#2d2d44", "#1e3a5f", "#3b1f2b", "#1b2d1b"
+  ]
+}

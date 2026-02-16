@@ -1,0 +1,179 @@
+{
+  "metadata": {
+    "cefrLevel": "A1-A2",
+    "subject": "English for Commerce / Retail",
+    "targetStudents": "FP Basica de Comercio",
+    "totalQuestions": 136
+  },
+  "festivityQuestions": {
+    "valentines": [
+      { "id": "val-1", "question": "What is a common gift on Valentine's Day?", "options": ["Hammer", "Flowers", "Backpack", "Ruler"], "correct": "Flowers", "category": "festivity", "level": "A1" },
+      { "id": "val-2", "question": "The colour of love is usually...", "options": ["Green", "Red", "Blue", "Grey"], "correct": "Red", "category": "festivity", "level": "A1" },
+      { "id": "val-3", "question": "A 'window display' in a shop is...", "options": ["A computer screen", "Products shown in the shop window", "A broken window", "A type of door"], "correct": "Products shown in the shop window", "category": "retail_basics", "level": "A2" },
+      { "id": "val-4", "question": "What does 'Buy one, get one free' mean?", "options": ["You pay double", "You get two items for the price of one", "The shop is closed", "You must return the product"], "correct": "You get two items for the price of one", "category": "sales_promotions", "level": "A2" },
+      { "id": "val-5", "question": "Which of these is NOT a Valentine's Day item?", "options": ["Chocolate box", "Love card", "Pumpkin", "Red roses"], "correct": "Pumpkin", "category": "festivity", "level": "A1" },
+      { "id": "val-6", "question": "A 'customer' is someone who...", "options": ["Works at the shop", "Buys things at the shop", "Cleans the shop", "Builds the shop"], "correct": "Buys things at the shop", "category": "retail_basics", "level": "A1" },
+      { "id": "val-7", "question": "What is a 'price tag'?", "options": ["A game", "A label that shows how much something costs", "A type of bag", "A shop name"], "correct": "A label that shows how much something costs", "category": "retail_basics", "level": "A1" },
+      { "id": "val-8", "question": "What shape is a symbol of love?", "options": ["Square", "Triangle", "Heart", "Circle"], "correct": "Heart", "category": "festivity", "level": "A1" },
+      { "id": "val-9", "question": "Where do you pay for products in a shop?", "options": ["At the till / cash register", "In the car park", "In the stockroom", "At the bus stop"], "correct": "At the till / cash register", "category": "retail_basics", "level": "A2" },
+      { "id": "val-10", "question": "A 'bookshop' sells...", "options": ["Food", "Clothes", "Books", "Cars"], "correct": "Books", "category": "retail_basics", "level": "A1" }
+    ],
+    "easter": [
+      { "id": "eas-1", "question": "What animal brings eggs at Easter?", "options": ["The Easter Bunny", "The Easter Cat", "The Easter Dog", "The Easter Fish"], "correct": "The Easter Bunny", "category": "festivity", "level": "A1" },
+      { "id": "eas-2", "question": "Children often go on an Easter egg...", "options": ["Drive", "Hunt", "Flight", "Swim"], "correct": "Hunt", "category": "festivity", "level": "A1" },
+      { "id": "eas-3", "question": "What does 'stock' mean in a shop?", "options": ["A type of sock", "Products available to sell", "The shop floor", "A holiday"], "correct": "Products available to sell", "category": "retail_basics", "level": "A2" },
+      { "id": "eas-4", "question": "A 'receipt' is...", "options": ["A recipe for food", "A paper that shows what you bought and paid", "A type of shelf", "A shop window"], "correct": "A paper that shows what you bought and paid", "category": "retail_basics", "level": "A2" },
+      { "id": "eas-5", "question": "What colour are Easter eggs usually painted?", "options": ["Only black", "Bright, pastel colours", "Only white", "They are not painted"], "correct": "Bright, pastel colours", "category": "festivity", "level": "A1" },
+      { "id": "eas-6", "question": "A 'shelf' in a shop is used to...", "options": ["Cook food", "Display products", "Lock the door", "Pay customers"], "correct": "Display products", "category": "visual_merchandising", "level": "A1" },
+      { "id": "eas-7", "question": "What does a 'shop assistant' do?", "options": ["Helps customers in the shop", "Drives a bus", "Writes books", "Teaches at school"], "correct": "Helps customers in the shop", "category": "customer_service", "level": "A1" },
+      { "id": "eas-8", "question": "At Easter, shops often sell chocolate in the shape of...", "options": ["Cars", "Eggs and bunnies", "Houses", "Stars only"], "correct": "Eggs and bunnies", "category": "festivity", "level": "A1" },
+      { "id": "eas-9", "question": "What is a 'basket'?", "options": ["A type of hat", "A container to carry things", "A type of shoe", "A musical instrument"], "correct": "A container to carry things", "category": "retail_basics", "level": "A1" },
+      { "id": "eas-10", "question": "If a product is 'in stock', it means...", "options": ["It is broken", "It is available to buy", "It is very expensive", "It is hidden"], "correct": "It is available to buy", "category": "retail_basics", "level": "A2" }
+    ],
+    "spring-sale": [
+      { "id": "spr-1", "question": "Spring comes after which season?", "options": ["Summer", "Winter", "Autumn", "Spring"], "correct": "Winter", "category": "festivity", "level": "A1" },
+      { "id": "spr-2", "question": "A 'sale' in a shop means products are...", "options": ["More expensive", "Sold at a lower price", "Not available", "Broken"], "correct": "Sold at a lower price", "category": "sales_promotions", "level": "A1" },
+      { "id": "spr-3", "question": "What does 'discount' mean?", "options": ["A price reduction", "A type of dance", "A shop name", "A brand of chocolate"], "correct": "A price reduction", "category": "sales_promotions", "level": "A2" },
+      { "id": "spr-4", "question": "Which flower is a symbol of spring?", "options": ["Cactus", "Daisy", "Mushroom", "Pine cone"], "correct": "Daisy", "category": "festivity", "level": "A1" },
+      { "id": "spr-5", "question": "A 'promotion' in a shop usually means...", "options": ["A special offer to attract customers", "The shop is closing", "Products are hidden", "The shop is moving"], "correct": "A special offer to attract customers", "category": "sales_promotions", "level": "A2" },
+      { "id": "spr-6", "question": "What does 'visual merchandising' mean?", "options": ["Selling things online", "The art of displaying products attractively", "Buying many products", "Cleaning the shop"], "correct": "The art of displaying products attractively", "category": "visual_merchandising", "level": "A2" },
+      { "id": "spr-7", "question": "In spring, many shops change their window displays to show...", "options": ["Halloween decorations", "Fresh colours and flowers", "Christmas trees", "Nothing at all"], "correct": "Fresh colours and flowers", "category": "visual_merchandising", "level": "A2" },
+      { "id": "spr-8", "question": "A 'mannequin' in a shop is...", "options": ["A type of food", "A life-size model used to display clothes", "A cash register", "A shopping bag"], "correct": "A life-size model used to display clothes", "category": "visual_merchandising", "level": "A2" },
+      { "id": "spr-9", "question": "What is a 'catalogue'?", "options": ["A type of cat", "A booklet showing products for sale", "A garden tool", "A type of flower"], "correct": "A booklet showing products for sale", "category": "retail_basics", "level": "A2" },
+      { "id": "spr-10", "question": "The person who manages a shop is called the...", "options": ["Chef", "Pilot", "Shop manager", "Farmer"], "correct": "Shop manager", "category": "retail_basics", "level": "A2" }
+    ],
+    "mothers-day": [
+      { "id": "mot-1", "question": "A synonym for 'gift' is...", "options": ["Present", "Price", "Purchase", "Problem"], "correct": "Present", "category": "retail_basics", "level": "A1" },
+      { "id": "mot-2", "question": "What is 'gift wrapping'?", "options": ["A type of music", "Putting decorative paper around a present", "A sport", "A brand name"], "correct": "Putting decorative paper around a present", "category": "customer_service", "level": "A2" },
+      { "id": "mot-3", "question": "A 'greeting card' is used to...", "options": ["Pay for products", "Send a message for a special occasion", "Wrap a gift", "Open a door"], "correct": "Send a message for a special occasion", "category": "festivity", "level": "A1" },
+      { "id": "mot-4", "question": "What does 'out of stock' mean?", "options": ["The product is very cheap", "The product is not available right now", "The product is new", "The product is on sale"], "correct": "The product is not available right now", "category": "retail_basics", "level": "A2" },
+      { "id": "mot-5", "question": "Which item is a common Mother's Day gift?", "options": ["A hammer", "Perfume", "A football", "A calculator"], "correct": "Perfume", "category": "festivity", "level": "A1" },
+      { "id": "mot-6", "question": "A 'till' in a shop is where you...", "options": ["Sleep", "Pay for products", "Try on clothes", "Eat lunch"], "correct": "Pay for products", "category": "retail_basics", "level": "A1" },
+      { "id": "mot-7", "question": "What does 'retail' mean?", "options": ["Selling products directly to customers", "Making products in a factory", "Growing vegetables", "Delivering parcels"], "correct": "Selling products directly to customers", "category": "retail_basics", "level": "A2" },
+      { "id": "mot-8", "question": "If you 'browse' in a shop, you...", "options": ["Run very fast", "Look at products without buying immediately", "Work at the shop", "Clean the shelves"], "correct": "Look at products without buying immediately", "category": "customer_service", "level": "A2" },
+      { "id": "mot-9", "question": "A 'voucher' is...", "options": ["A type of flower", "A piece of paper that gives you a discount or free item", "A shelf", "A window"], "correct": "A piece of paper that gives you a discount or free item", "category": "sales_promotions", "level": "A2" },
+      { "id": "mot-10", "question": "What is a 'bestseller'?", "options": ["A product that sells very well", "A broken product", "A shop assistant", "A type of shelf"], "correct": "A product that sells very well", "category": "retail_basics", "level": "A2" }
+    ],
+    "summer-sale": [
+      { "id": "sum-1", "question": "People go to the beach in...", "options": ["Winter", "Summer", "Christmas time only", "Autumn"], "correct": "Summer", "category": "festivity", "level": "A1" },
+      { "id": "sum-2", "question": "A 'seasonal sale' happens...", "options": ["Every day", "At certain times of the year", "Only at night", "Never"], "correct": "At certain times of the year", "category": "sales_promotions", "level": "A2" },
+      { "id": "sum-3", "question": "What does 'clearance sale' mean?", "options": ["The shop is very clean", "Products are sold at very low prices to clear old stock", "New products arrive", "The shop is brand new"], "correct": "Products are sold at very low prices to clear old stock", "category": "sales_promotions", "level": "A2" },
+      { "id": "sum-4", "question": "In summer, shops often display items related to...", "options": ["Snow and ice", "Beach, travel and holidays", "Halloween costumes", "School supplies"], "correct": "Beach, travel and holidays", "category": "visual_merchandising", "level": "A2" },
+      { "id": "sum-5", "question": "A 'shopping centre' is...", "options": ["A park", "A large building with many shops inside", "A swimming pool", "A school"], "correct": "A large building with many shops inside", "category": "retail_basics", "level": "A1" },
+      { "id": "sum-6", "question": "What does a 'cashier' do?", "options": ["Cooks food", "Takes payment from customers", "Drives deliveries", "Designs clothes"], "correct": "Takes payment from customers", "category": "retail_basics", "level": "A1" },
+      { "id": "sum-7", "question": "What is 'change' when you pay in a shop?", "options": ["New clothes", "The money you get back when you pay more than the price", "A type of discount", "A receipt"], "correct": "The money you get back when you pay more than the price", "category": "retail_basics", "level": "A2" },
+      { "id": "sum-8", "question": "A 'label' on a product shows...", "options": ["The weather", "Information like brand, size or price", "The time", "The shop's address only"], "correct": "Information like brand, size or price", "category": "retail_basics", "level": "A2" },
+      { "id": "sum-9", "question": "What does 'refund' mean?", "options": ["To buy more products", "Getting your money back for a returned item", "To wrap a gift", "To close the shop"], "correct": "Getting your money back for a returned item", "category": "customer_service", "level": "A2" },
+      { "id": "sum-10", "question": "Sunglasses are an example of a...", "options": ["Seasonal product", "Food item", "Cleaning product", "Building material"], "correct": "Seasonal product", "category": "retail_basics", "level": "A2" }
+    ],
+    "back-to-school": [
+      { "id": "bts-1", "question": "Where do students carry their books?", "options": ["In a backpack", "In a shoe", "In a hat", "In a pocket"], "correct": "In a backpack", "category": "festivity", "level": "A1" },
+      { "id": "bts-2", "question": "What do you use to erase a mistake?", "options": ["A ruler", "An eraser", "A pen", "A stapler"], "correct": "An eraser", "category": "festivity", "level": "A1" },
+      { "id": "bts-3", "question": "Which book helps you find the meaning of words?", "options": ["Notebook", "Dictionary", "Novel", "Comic"], "correct": "Dictionary", "category": "festivity", "level": "A1" },
+      { "id": "bts-4", "question": "You use this tool to measure lines:", "options": ["Scissors", "Glue", "Ruler", "Pencil"], "correct": "Ruler", "category": "festivity", "level": "A1" },
+      { "id": "bts-5", "question": "A 'supplier' is a company that...", "options": ["Buys products from customers", "Provides products for shops to sell", "Paints shop windows", "Builds schools"], "correct": "Provides products for shops to sell", "category": "retail_basics", "level": "A2" },
+      { "id": "bts-6", "question": "What is a 'shopping list'?", "options": ["A list of things you want to buy", "A list of teachers", "A list of songs", "A list of films"], "correct": "A list of things you want to buy", "category": "retail_basics", "level": "A1" },
+      { "id": "bts-7", "question": "What does 'back to school' season mean for shops?", "options": ["They sell Christmas items", "They display school supplies and stationery", "They close for holidays", "They sell only food"], "correct": "They display school supplies and stationery", "category": "visual_merchandising", "level": "A2" },
+      { "id": "bts-8", "question": "'Stationery' includes items like...", "options": ["Pens, pencils and notebooks", "Shoes and socks", "Bread and butter", "Tables and chairs"], "correct": "Pens, pencils and notebooks", "category": "retail_basics", "level": "A1" },
+      { "id": "bts-9", "question": "A 'product range' is...", "options": ["A type of oven", "The variety of products a shop offers", "A shelf in the shop", "A delivery truck"], "correct": "The variety of products a shop offers", "category": "retail_basics", "level": "A2" },
+      { "id": "bts-10", "question": "What does 'brand' mean?", "options": ["A type of bread", "A name that identifies a company's products", "A shop window", "A price tag"], "correct": "A name that identifies a company's products", "category": "retail_basics", "level": "A2" }
+    ],
+    "halloween": [
+      { "id": "hal-1", "question": "What do children say on Halloween?", "options": ["Merry Christmas", "Happy Birthday", "Trick or Treat", "Good morning"], "correct": "Trick or Treat", "category": "festivity", "level": "A1" },
+      { "id": "hal-2", "question": "A 'pumpkin' is a...", "options": ["Type of shoe", "Large orange vegetable", "Small animal", "Musical instrument"], "correct": "Large orange vegetable", "category": "festivity", "level": "A1" },
+      { "id": "hal-3", "question": "A themed window display helps a shop to...", "options": ["Save electricity", "Attract more customers", "Reduce the number of products", "Close earlier"], "correct": "Attract more customers", "category": "visual_merchandising", "level": "A2" },
+      { "id": "hal-4", "question": "What are 'props' in a window display?", "options": ["Real products for sale", "Decorative objects used to create a scene", "Security cameras", "Price tags"], "correct": "Decorative objects used to create a scene", "category": "visual_merchandising", "level": "A2" },
+      { "id": "hal-5", "question": "Which colour is most associated with Halloween?", "options": ["Pink and white", "Orange and black", "Blue and green", "Red and gold"], "correct": "Orange and black", "category": "festivity", "level": "A1" },
+      { "id": "hal-6", "question": "What is the 'target audience' of a shop?", "options": ["The people the shop wants as customers", "The people who work there", "The delivery drivers", "The building next door"], "correct": "The people the shop wants as customers", "category": "retail_basics", "level": "A2" },
+      { "id": "hal-7", "question": "What does 'seasonal decoration' mean?", "options": ["Decoration that stays all year", "Decoration that changes with the time of year or holidays", "A broken decoration", "A decoration in your house"], "correct": "Decoration that changes with the time of year or holidays", "category": "visual_merchandising", "level": "A2" },
+      { "id": "hal-8", "question": "A 'costume' is...", "options": ["A type of customer", "Special clothes you wear to look like someone or something else", "A type of shop", "A brand of chocolate"], "correct": "Special clothes you wear to look like someone or something else", "category": "festivity", "level": "A1" },
+      { "id": "hal-9", "question": "What is a 'theme' in visual merchandising?", "options": ["A song", "A central idea that connects all the elements of a display", "A type of fabric", "The shop's phone number"], "correct": "A central idea that connects all the elements of a display", "category": "visual_merchandising", "level": "A2" },
+      { "id": "hal-10", "question": "What does 'eye-catching' mean for a window display?", "options": ["Invisible", "Something that attracts attention immediately", "Something very small", "Something hidden"], "correct": "Something that attracts attention immediately", "category": "visual_merchandising", "level": "A2" }
+    ],
+    "black-friday": [
+      { "id": "bf-1", "question": "Black Friday is famous for big...", "options": ["Taxes", "Discounts", "Exams", "Holidays"], "correct": "Discounts", "category": "sales_promotions", "level": "A1" },
+      { "id": "bf-2", "question": "What does 'Sold Out' mean?", "options": ["No more products left", "The store is closed", "It is very cheap", "It is a new product"], "correct": "No more products left", "category": "retail_basics", "level": "A1" },
+      { "id": "bf-3", "question": "Where do you put products before paying?", "options": ["In the bin", "In the shopping cart or basket", "On the floor", "In your pocket"], "correct": "In the shopping cart or basket", "category": "retail_basics", "level": "A1" },
+      { "id": "bf-4", "question": "A 'Customer' is a person who...", "options": ["Sells products", "Buys products", "Cleans the store", "Designs the window"], "correct": "Buys products", "category": "retail_basics", "level": "A1" },
+      { "id": "bf-5", "question": "What is a 'flash sale'?", "options": ["A sale during a storm", "A very short sale with big discounts", "A permanent price", "A sale of torches"], "correct": "A very short sale with big discounts", "category": "sales_promotions", "level": "A2" },
+      { "id": "bf-6", "question": "What does '50% off' mean?", "options": ["The product costs double", "The product costs half its original price", "The product is free", "The shop closes at 5pm"], "correct": "The product costs half its original price", "category": "sales_promotions", "level": "A2" },
+      { "id": "bf-7", "question": "What is an 'offer'?", "options": ["A type of shelf", "A special deal to encourage people to buy", "A shop uniform", "A type of receipt"], "correct": "A special deal to encourage people to buy", "category": "sales_promotions", "level": "A2" },
+      { "id": "bf-8", "question": "What is 'online shopping'?", "options": ["Shopping inside a shop", "Buying products through the internet", "Shopping at night", "Window shopping only"], "correct": "Buying products through the internet", "category": "retail_basics", "level": "A2" },
+      { "id": "bf-9", "question": "A 'loyalty card' gives customers...", "options": ["Free parking", "Points or rewards for buying regularly", "A job at the shop", "Access to the stockroom"], "correct": "Points or rewards for buying regularly", "category": "customer_service", "level": "A2" },
+      { "id": "bf-10", "question": "What does 'bargain' mean?", "options": ["Something very expensive", "Something bought at a very good price", "A broken product", "A type of bag"], "correct": "Something bought at a very good price", "category": "sales_promotions", "level": "A2" }
+    ],
+    "christmas": [
+      { "id": "xms-1", "question": "Who brings presents in December?", "options": ["Easter Bunny", "Santa Claus", "Tooth Fairy", "The Grinch"], "correct": "Santa Claus", "category": "festivity", "level": "A1" },
+      { "id": "xms-2", "question": "A 'gift' is the same as a...", "options": ["Price", "Present", "Receipt", "Discount"], "correct": "Present", "category": "retail_basics", "level": "A1" },
+      { "id": "xms-3", "question": "Christmas is on the 25th of...", "options": ["January", "October", "December", "March"], "correct": "December", "category": "festivity", "level": "A1" },
+      { "id": "xms-4", "question": "What is a 'Christmas window display'?", "options": ["A broken window", "A decorated shop window with a Christmas theme", "A type of gift", "A Christmas song"], "correct": "A decorated shop window with a Christmas theme", "category": "visual_merchandising", "level": "A2" },
+      { "id": "xms-5", "question": "What does 'wrapping paper' do?", "options": ["It covers gifts to make them look nice", "It cleans the floor", "It is used to write letters", "It is food packaging only"], "correct": "It covers gifts to make them look nice", "category": "festivity", "level": "A1" },
+      { "id": "xms-6", "question": "The Christmas shopping season is important for shops because...", "options": ["Shops close for the whole month", "It is when they make the most sales", "Nobody buys anything", "Products are more expensive"], "correct": "It is when they make the most sales", "category": "retail_basics", "level": "A2" },
+      { "id": "xms-7", "question": "A 'shop window' is also called a...", "options": ["Storefront display", "Stockroom", "Counter", "Fitting room"], "correct": "Storefront display", "category": "visual_merchandising", "level": "A2" },
+      { "id": "xms-8", "question": "What does 'exchange' mean in a shop?", "options": ["To eat a product", "To swap a product for a different one", "To hide a product", "To throw away a product"], "correct": "To swap a product for a different one", "category": "customer_service", "level": "A2" },
+      { "id": "xms-9", "question": "A 'decoration' in a window display is used to...", "options": ["Feed customers", "Make the display more attractive", "Lock the door", "Count the money"], "correct": "Make the display more attractive", "category": "visual_merchandising", "level": "A2" },
+      { "id": "xms-10", "question": "What is 'customer service'?", "options": ["A type of product", "Helping and looking after customers in a shop", "A brand of clothes", "A delivery truck"], "correct": "Helping and looking after customers in a shop", "category": "customer_service", "level": "A2" }
+    ]
+  },
+  "generalQuestions": {
+    "retail_basics": [
+      { "id": "rb-1", "question": "What is the main purpose of a window display?", "options": ["To block sunlight", "To attract customers and show products", "To keep the shop warm", "To hide products"], "correct": "To attract customers and show products", "level": "A2" },
+      { "id": "rb-2", "question": "What does 'POS' stand for?", "options": ["Part of Shop", "Point of Sale", "Price of Stock", "Place of Safety"], "correct": "Point of Sale", "level": "A2" },
+      { "id": "rb-3", "question": "What is a 'barcode'?", "options": ["A type of music", "A pattern of lines that stores product information", "A bar in a shop", "A code to enter the shop"], "correct": "A pattern of lines that stores product information", "level": "A2" },
+      { "id": "rb-4", "question": "What does 'wholesale' mean?", "options": ["Selling one item at a time", "Selling large quantities at lower prices to shops", "A type of bread", "A whole shop"], "correct": "Selling large quantities at lower prices to shops", "level": "A2" },
+      { "id": "rb-5", "question": "A 'stockroom' is...", "options": ["A room where customers sit", "A room where extra products are stored", "A fitting room", "The shop entrance"], "correct": "A room where extra products are stored", "level": "A2" },
+      { "id": "rb-6", "question": "What is 'inventory'?", "options": ["A type of invention", "A complete list of all products in a shop", "A shop window", "A delivery truck"], "correct": "A complete list of all products in a shop", "level": "A2" }
+    ],
+    "visual_merchandising": [
+      { "id": "vm-1", "question": "Where should you place expensive items in a window display?", "options": ["On the floor", "At eye level where customers can see them easily", "Behind other products", "In the stockroom"], "correct": "At eye level where customers can see them easily", "level": "A2" },
+      { "id": "vm-2", "question": "What is a 'focal point' in a window display?", "options": ["The shop door", "The main item or area that draws attention first", "A small label", "The price of the cheapest item"], "correct": "The main item or area that draws attention first", "level": "A2" },
+      { "id": "vm-3", "question": "Good lighting in a window display is important because...", "options": ["It saves electricity", "It highlights products and makes them look attractive", "It keeps products cold", "It is required by law"], "correct": "It highlights products and makes them look attractive", "level": "A2" },
+      { "id": "vm-4", "question": "What does 'colour coordination' mean in a display?", "options": ["Using only one colour", "Choosing colours that look good together", "Painting the shop walls", "Using no colour at all"], "correct": "Choosing colours that look good together", "level": "A2" },
+      { "id": "vm-5", "question": "A 'planogram' is...", "options": ["A type of plant", "A diagram showing where products should be placed on shelves", "A musical instrument", "A type of floor"], "correct": "A diagram showing where products should be placed on shelves", "level": "A2" },
+      { "id": "vm-6", "question": "How often should a shop change its window display?", "options": ["Never", "Regularly, especially for holidays and seasons", "Only when products break", "Only at Christmas"], "correct": "Regularly, especially for holidays and seasons", "level": "A2" }
+    ],
+    "customer_service": [
+      { "id": "cs-1", "question": "What should a shop assistant say when a customer enters?", "options": ["Go away", "Hello, can I help you?", "The shop is closed", "Nothing"], "correct": "Hello, can I help you?", "level": "A1" },
+      { "id": "cs-2", "question": "If a customer is unhappy with a product, you should...", "options": ["Ignore them", "Listen politely and offer a solution", "Tell them to leave", "Hide the product"], "correct": "Listen politely and offer a solution", "level": "A2" },
+      { "id": "cs-3", "question": "What does 'return policy' mean?", "options": ["The rules about giving products back to the shop", "A type of delivery", "The shop opening hours", "A loyalty card"], "correct": "The rules about giving products back to the shop", "level": "A2" },
+      { "id": "cs-4", "question": "A 'complaint' from a customer is...", "options": ["A compliment", "When a customer is unhappy and tells the shop", "A type of payment", "A product name"], "correct": "When a customer is unhappy and tells the shop", "level": "A2" },
+      { "id": "cs-5", "question": "Good customer service helps a shop because...", "options": ["It makes products cheaper", "Customers come back and recommend the shop to others", "It reduces stock", "It makes the shop smaller"], "correct": "Customers come back and recommend the shop to others", "level": "A2" },
+      { "id": "cs-6", "question": "What does 'after-sales service' include?", "options": ["Closing the shop after a sale", "Help given to customers after they buy a product", "Counting money after closing", "Cleaning up after a sale event"], "correct": "Help given to customers after they buy a product", "level": "A2" }
+    ],
+    "sales_promotions": [
+      { "id": "sp-1", "question": "What is a 'buy 2 get 1 free' offer?", "options": ["You pay for 3 items", "You get a third item free when you buy two", "You return 2 items", "You pay half price"], "correct": "You get a third item free when you buy two", "level": "A2" },
+      { "id": "sp-2", "question": "A 'loyalty programme' rewards customers who...", "options": ["Visit the shop once", "Shop regularly at the same store", "Complain about products", "Work at the shop"], "correct": "Shop regularly at the same store", "level": "A2" },
+      { "id": "sp-3", "question": "What is 'cross-selling'?", "options": ["Selling angry products", "Suggesting related products to customers who are buying something", "Selling across the street", "Returning products"], "correct": "Suggesting related products to customers who are buying something", "level": "A2" },
+      { "id": "sp-4", "question": "A 'gift with purchase' means...", "options": ["You must buy a gift", "You get a free item when you buy something", "Gifts are more expensive", "The shop gives away all products"], "correct": "You get a free item when you buy something", "level": "A2" },
+      { "id": "sp-5", "question": "What is a 'limited edition' product?", "options": ["A broken product", "A product made in small quantities, making it special", "A cheap product", "A product with no label"], "correct": "A product made in small quantities, making it special", "level": "A2" },
+      { "id": "sp-6", "question": "What does 'upselling' mean?", "options": ["Selling products upstairs", "Encouraging a customer to buy a more expensive version of a product", "Selling fewer products", "Putting products on higher shelves"], "correct": "Encouraging a customer to buy a more expensive version of a product", "level": "A2" }
+    ]
+  },
+  "categories": {
+    "retail_basics": {
+      "name": "Retail Basics",
+      "description": "Essential vocabulary for working in a shop: products, payments, roles and everyday retail terms.",
+      "icon": "store"
+    },
+    "visual_merchandising": {
+      "name": "Visual Merchandising",
+      "description": "How to display products attractively: window displays, layout, lighting and presentation.",
+      "icon": "palette"
+    },
+    "customer_service": {
+      "name": "Customer Service",
+      "description": "Helping customers: greetings, complaints, returns and building good relationships.",
+      "icon": "users"
+    },
+    "sales_promotions": {
+      "name": "Sales & Promotions",
+      "description": "Discounts, offers, seasonal sales and marketing techniques to boost sales.",
+      "icon": "tag"
+    },
+    "festivity": {
+      "name": "Holiday Knowledge",
+      "description": "Vocabulary and facts about seasonal celebrations and their role in retail.",
+      "icon": "calendar"
+    }
+  }
+}

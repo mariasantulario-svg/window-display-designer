@@ -1,0 +1,169 @@
+{
+  "storageKeys": {
+    "progress": "window-display-designer-progress",
+    "hints": "window-display-hints-dismissed",
+    "screenshots": "window-display-screenshots",
+    "onboarding": "onboarding_completed"
+  },
+  "progressSchema": {
+    "type": "object",
+    "properties": {
+      "festivities": {
+        "type": "object",
+        "description": "Map of festivityId -> FestivityProgress",
+        "additionalProperties": {
+          "type": "object",
+          "properties": {
+            "quizCompleted": { "type": "boolean", "default": false },
+            "quizScore": { "type": "number", "default": 0 },
+            "unlockedElements": {
+              "type": "array",
+              "items": { "type": "string" },
+              "default": [],
+              "description": "IDs of unlocked bonus decorations"
+            },
+            "placedElements": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "elementId": { "type": "string" },
+                  "x": { "type": "number", "description": "Percentage 0-100 from left" },
+                  "y": { "type": "number", "description": "Percentage 0-100 from top" },
+                  "scale": { "type": "number", "minimum": 0.5, "maximum": 2.5, "default": 1 },
+                  "color": { "type": "string", "description": "Optional hex colour override" }
+                },
+                "required": ["elementId", "x", "y", "scale"]
+              },
+              "default": [],
+              "description": "Decorations placed on the canvas"
+            },
+            "fixedItemPositions": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "string", "description": "One of: books-row, dictionary, notebook, globe, pencil-cup, book-stack" },
+                  "x": { "type": "number" },
+                  "y": { "type": "number" },
+                  "scale": { "type": "number", "minimum": 0.5, "maximum": 2.5, "default": 1 }
+                },
+                "required": ["id", "x", "y", "scale"]
+              },
+              "description": "Positions of the 6 fixed bookshop items (always present, not removable)"
+            },
+            "furniturePositions": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "string", "description": "Furniture piece ID from festivities.config.json" },
+                  "x": { "type": "number" },
+                  "y": { "type": "number" },
+                  "scale": { "type": "number", "minimum": 0.3, "maximum": 1.5 }
+                },
+                "required": ["id", "x", "y", "scale"]
+              },
+              "description": "Positions of draggable/resizable furniture pieces (3 floor + 6 wall shelves)"
+            },
+            "bgColor": { "type": "string", "default": "#FFF9F0", "description": "Current background colour hex" },
+            "lightsOn": {
+              "type": "array",
+              "items": { "type": "boolean" },
+              "minItems": 10,
+              "maxItems": 10,
+              "default": [false, false, false, false, false, false, false, false, false, false],
+              "description": "On/off state of each of the 10 spotlight lights"
+            },
+            "lightColor": { "type": "string", "default": "#FFD700", "description": "Current light glow colour hex" }
+          }
+        }
+      },
+      "totalQuizzesCompleted": { "type": "number", "default": 0 },
+      "shopName": { "type": "string", "default": "", "description": "Custom shop name displayed on the sign (global, not per festivity)" }
+    }
+  },
+  "defaultProgress": {
+    "festivities": {},
+    "totalQuizzesCompleted": 0,
+    "shopName": ""
+  },
+  "defaultFestivityProgress": {
+    "quizCompleted": false,
+    "quizScore": 0,
+    "unlockedElements": [],
+    "placedElements": [],
+    "fixedItemPositions": null,
+    "furniturePositions": null,
+    "bgColor": "#FFF9F0",
+    "lightsOn": [false, false, false, false, false, false, false, false, false, false],
+    "lightColor": "#FFD700"
+  },
+  "hintsSchema": {
+    "type": "array",
+    "items": {
+      "type": "string",
+      "enum": ["bg_colors", "lights", "elements_drag", "furniture", "shop_name"]
+    },
+    "description": "IDs of hints that have been dismissed after first use",
+    "default": []
+  },
+  "hintDefinitions": {
+    "bg_colors": {
+      "trigger": "hover_background",
+      "text": "Change the background colour from the Decorations panel below!",
+      "dismissOn": "user_changes_background_colour"
+    },
+    "lights": {
+      "trigger": "hover_spotlight",
+      "text": "Click to switch this spotlight on or off! Change light colour in the panel below.",
+      "dismissOn": "user_toggles_a_light"
+    },
+    "elements_drag": {
+      "trigger": "hover_placed_element_or_fixed_item",
+      "text": "Drag to move around. Click to select, then use +/- to change size!",
+      "dismissOn": "user_clicks_element"
+    },
+    "furniture": {
+      "trigger": "hover_furniture",
+      "textUnlocked": "Drag to rearrange furniture. Click to select, then +/- to change size!",
+      "textLocked": "Take the quiz to unlock furniture!",
+      "dismissOn": "user_clicks_furniture"
+    },
+    "shop_name": {
+      "trigger": "hover_shop_sign",
+      "text": "Click here to type your shop name!",
+      "dismissOn": "user_types_shop_name"
+    }
+  },
+  "screenshotSchema": {
+    "type": "array",
+    "items": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique ID (timestamp base36 + random)" },
+        "festivityId": { "type": "string" },
+        "dataUrl": { "type": "string", "description": "Base64-encoded PNG data URL" },
+        "timestamp": { "type": "number", "description": "Unix timestamp in milliseconds" }
+      },
+      "required": ["id", "festivityId", "dataUrl", "timestamp"]
+    },
+    "default": []
+  },
+  "unlockFormulas": {
+    "decorations": "unlockedCount = floor(score * totalBonusItems / totalQuestions)",
+    "lights": "Each light unlocks at threshold [2,3,4,5,6,7,8,8,9,10] scaled to quiz length: score >= ceil(threshold * total / 10)",
+    "bgColors": "3 base + groups of 3 at thresholds [1,4,6,8,9,10] scaled to quiz length",
+    "furniture": "Unlocked when score >= ceil(30% * totalQuestions)",
+    "fullyUnlocked": "When nextElementAt, nextLightAt, nextBgAt, nextFurnitureAt are ALL null"
+  },
+  "limits": {
+    "maxElementCopies": 5,
+    "maxShopNameLength": 15,
+    "elementScaleRange": { "min": 0.5, "max": 2.5 },
+    "furnitureScaleRange": { "min": 0.3, "max": 1.5 },
+    "totalLights": 10,
+    "totalFixedItems": 6,
+    "totalFurniturePieces": 9
+  }
+}
