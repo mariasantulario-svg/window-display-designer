@@ -1,0 +1,320 @@
+Excelente. Ahora el segundo hook: useProgress para manejar localStorage.
+
+## HOOK 2: /src/hooks/useProgress.ts
+
+Este hook maneja TODA la persistencia de datos del usuario:
+- Guardar/cargar progreso desde localStorage
+- Actualizar puntos totales
+- Desbloquear decoraciones y features
+- Guardar estados de ventana por festividad
+- Manejar nombre de usuario
+- Guardar historial de quizzes
+- Sistema de migración de datos (por si cambiamos el schema en futuro)
+
+REQUISITOS TÉCNICOS:
+- Usar user.schema.json como base
+- Clave en localStorage: 'windowDisplayDesigner_v1'
+- Si no existe datos, usar defaultUserData del schema
+- Si existe datos antiguos, migrar al nuevo formato
+- Retornar funciones: unlockDecoration, unlockFeature, addPoints, saveWindowState, etc.
+- NO modificar componentes visuales todavía
+
+Aquí el código TypeScript exacto:
+
+import { useState, useEffect, useCallback } from 'react';
+import userSchema from '../data/user.schema.json';
+
+// Types basados en el schema
+interface WindowState {
+  backgroundColor: string;
+  items: Array<{
+    id: string;
+    x: number;
+    y: number;
+    scale: number;
+    color?: string;
+  }>;
+  furnitureLayout: string;
+  lightsOn: boolean;
+  lightColor: string;
+}
+
+interface QuizResult {
+  date: string;
+  festivity: string;
+  level: number;
+  score: number;
+  total: number;
+  unlockedItems: string[];
+}
+
+interface UserData {
+  userName: string;
+  totalPoints: number;
+  currentFestivity: string;
+  completedQuizzes: QuizResult[];
+  unlockedDecorations: Record<string, string[]>;
+  unlockedFeatures: {
+    lightColorChange: boolean;
+    furnitureMove: boolean;
+    premiumBackgrounds: boolean;
+  };
+  windowStates: Record<string, WindowState>;
+  screenshots: string[];
+  onboardingCompleted: boolean;
+  lastVisit: string | null;
+}
+
+const STORAGE_KEY = 'windowDisplayDesigner_v1';
+
+// Deep merge para actualizar datos sin perder existentes
+const mergeWithDefault = (existing: Partial<UserData>, defaultData: UserData): UserData => {
+  return {
+    ...defaultData,
+    ...existing,
+    unlockedDecorations: {
+      ...defaultData.unlockedDecorations,
+      ...existing.unlockedDecorations,
+    },
+    unlockedFeatures: {
+      ...defaultData.unlockedFeatures,
+      ...existing.unlockedFeatures,
+    },
+    windowStates: {
+      ...defaultData.windowStates,
+      ...existing.windowStates,
+    },
+  };
+};
+
+export const useProgress = () => {
+  const [data, setData] = useState<UserData | null>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // Cargar datos al iniciar
+  useEffect(() => {
+    const loadData = () => {
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        const defaultData = userSchema.defaultUserData as UserData;
+        
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          const merged = mergeWithDefault(parsed, defaultData);
+          setData(merged);
+        } else {
+          setData(defaultData);
+        }
+      } catch (error) {
+        console.error('Error loading progress:', error);
+        setData(userSchema.defaultUserData as UserData);
+      }
+      setIsLoaded(true);
+    };
+
+    loadData();
+  }, []);
+
+  // Guardar en localStorage cuando cambian los datos
+  useEffect(() => {
+    if (data && isLoaded) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+  }, [data, isLoaded]);
+
+  // Añadir puntos al total
+  const addPoints = useCallback((points: number) => {
+    setData(prev => prev ? {
+      ...prev,
+      totalPoints: prev.totalPoints + points
+    } : null);
+  }, []);
+
+  // Desbloquear decoración específica
+  const unlockDecoration = useCallback((festivity: string, decorationId: string) => {
+    setData(prev => {
+      if (!prev) return null;
+      
+      const current = prev.unlockedDecorations[festivity] || [];
+      if (current.includes(decorationId)) return prev; // Ya desbloqueada
+      
+      return {
+        ...prev,
+        unlockedDecorations: {
+          ...prev.unlockedDecorations,
+          [festivity]: [...current, decorationId]
+        }
+      };
+    });
+  }, []);
+
+  // Desbloquear feature
+  const unlockFeature = useCallback((featureId: keyof UserData['unlockedFeatures']) => {
+    setData(prev => prev ? {
+      ...prev,
+      unlockedFeatures: {
+        ...prev.unlockedFeatures,
+        [featureId]: true
+      }
+    } : null);
+  }, []);
+
+  // Guardar resultado de quiz
+  const saveQuizResult = useCallback((result: QuizResult) => {
+    setData(prev => prev ? {
+      ...prev,
+      completedQuizzes: [...prev.completedQuizzes, result],
+      totalPoints: prev.totalPoints + result.score
+    } : null);
+  }, []);
+
+  // Cambiar festividad actual
+  setCurrentFestivity: useCallback((festivity: string) => {
+    setData(prev => prev ? {
+      ...prev,
+      currentFestivity: festivity
+    } : null);
+  }, []);
+
+  // Guardar estado de ventana
+  const saveWindowState = useCallback((festivity: string, state: Partial<WindowState>) => {
+    setData(prev => {
+      if (!prev) return null;
+      
+      const current = prev.windowStates[festivity] || userSchema.defaultUserData.windowStates.easter;
+      
+      return {
+        ...prev,
+        windowStates: {
+          ...prev.windowStates,
+          [festivity]: {
+            ...current,
+            ...state
+          }
+        }
+      };
+    });
+  }, []);
+
+  // Establecer nombre de usuario
+  const setUserName = useCallback((name: string) => {
+    setData(prev => prev ? {
+      ...prev,
+      userName: name
+    } : null);
+  }, []);
+
+  // Completar onboarding
+  const completeOnboarding = useCallback(() => {
+    setData(prev => prev ? {
+      ...prev,
+      onboardingCompleted: true,
+      lastVisit: new Date().toISOString()
+    } : null);
+  }, []);
+
+  // Guardar screenshot
+  const saveScreenshot = useCallback((screenshotData: string) => {
+    setData(prev => prev ? {
+      ...prev,
+      screenshots: [...prev.screenshots, screenshotData]
+    } : null);
+  }, []);
+
+  // Verificar si decoración está desbloqueada
+  const isDecorationUnlocked = useCallback((festivity: string, decorationId: string): boolean => {
+    if (!data) return false;
+    const baseDecorations = ['easter_egg', 'bunny', 'basket', 'heart', 'rose', 'love_letter', 'sale_sign', 'sunflower', 'butterfly', 'carnation', 'gift_box', 'thank_you_card', 'sun', 'sunglasses', 'beach_ball', 'apple', 'pencil', 'notebook', 'pumpkin', 'ghost', 'spider_web', 'price_tag', 'shopping_bag', 'percentage', 'christmas_tree', 'snowflake', 'gift_red'];
+    
+    if (baseDecorations.includes(decorationId)) return true;
+    return data.unlockedDecorations[festivity]?.includes(decorationId) || false;
+  }, [data]);
+
+  // Verificar si feature está desbloqueada
+  const isFeatureUnlocked = useCallback((featureId: keyof UserData['unlockedFeatures']): boolean => {
+    return data?.unlockedFeatures[featureId] || false;
+  }, [data]);
+
+  // Calcular puntos necesarios para siguiente desbloqueo
+  const getNextUnlock = useCallback((festivity: string): { type: string; id: string; pointsNeeded: number } | null => {
+    if (!data) return null;
+    
+    const config = festivitiesConfig.festivities.find(f => f.id === festivity);
+    if (!config) return null;
+    
+    // Revisar decoraciones
+    for (const dec of config.decorations.unlockable) {
+      if (!isDecorationUnlocked(festivity, dec.id)) {
+        const pointsNeeded = dec.requiredScore - data.totalPoints;
+        if (pointsNeeded > 0) {
+          return { type: 'decoration', id: dec.id, pointsNeeded };
+        }
+      }
+    }
+    
+    // Revisar features
+    for (const [key, feature] of Object.entries(config.features)) {
+      if (!isFeatureUnlocked(key as keyof UserData['unlockedFeatures'])) {
+        const pointsNeeded = feature.requiredScore - data.totalPoints;
+        if (pointsNeeded > 0) {
+          return { type: 'feature', id: key, pointsNeeded };
+        }
+      }
+    }
+    
+    return null;
+  }, [data, isDecorationUnlocked, isFeatureUnlocked]);
+
+  return {
+    // Estado
+    data,
+    isLoaded,
+    
+    // Getters comunes
+    userName: data?.userName || '',
+    totalPoints: data?.totalPoints || 0,
+    currentFestivity: data?.currentFestivity || 'easter',
+    onboardingCompleted: data?.onboardingCompleted || false,
+    
+    // Acciones
+    addPoints,
+    unlockDecoration,
+    unlockFeature,
+    saveQuizResult,
+    setCurrentFestivity,
+    saveWindowState,
+    setUserName,
+    completeOnboarding,
+    saveScreenshot,
+    
+    // Verificadores
+    isDecorationUnlocked,
+    isFeatureUnlocked,
+    getNextUnlock,
+    
+    // Raw data para casos especiales
+    windowStates: data?.windowStates || {},
+    completedQuizzes: data?.completedQuizzes || []
+  };
+};
+
+export default useProgress;
+
+---
+
+NOTA: Necesitas importar festivitiesConfig en este hook. Añade al inicio:
+
+import festivitiesConfig from '../data/festivities.config.json';
+
+---
+
+INSTRUCCIONES:
+1. Crea SOLO este archivo useProgress.ts
+2. Verifica que no hay errores de TypeScript
+3. Testea importándolo en App.jsx temporalmente:
+   
+   import { useProgress } from './hooks/useProgress';
+   const progress = useProgress();
+   console.log(progress.isLoaded, progress.totalPoints);
+
+Confírmame cuando esté listo y pasamos a integrar todo en el componente QuizModal.
