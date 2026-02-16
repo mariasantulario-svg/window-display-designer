@@ -24,7 +24,7 @@ const slides = [
   {
     icon: Paintbrush,
     title: "Decorate!",
-    description: "Click the arrow on the right to open the decorations panel. Click items to place them on your window. Drag to move, and use +/- buttons to resize.",
+    description: "Click 'Decorations' at the bottom to open the panel. Click items to place them. Drag to move, use +/- to resize. You can also customise your bookshop's name on the sign above the window!",
   },
   {
     icon: PartyPopper,

@@ -1,9 +1,26 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import type { PlacedElement, FixedItemPosition, FurniturePosition } from "@/lib/progress";
 import type { DecorativeElement, Festivity } from "@/lib/festivities";
-import { getSeasonTreePath, FURNITURE_PIECES } from "@/lib/progress";
+import { getSeasonTreePath, FURNITURE_PIECES, getDismissedHints, dismissHint, type HintId } from "@/lib/progress";
 import { StickerIcon } from "./StickerIcon";
 import { Trash2, Plus, Minus, Lock } from "lucide-react";
+
+function SpeechBubble({ text, visible, position }: { text: string; visible: boolean; position: { x: number; y: number } }) {
+  if (!visible) return null;
+  return (
+    <div
+      className="absolute z-[70] pointer-events-none"
+      style={{ left: `${position.x}%`, top: `${position.y}%`, transform: "translate(-50%, -100%)" }}
+    >
+      <div className="relative bg-white text-slate-700 text-[11px] leading-tight px-3 py-2 rounded-lg shadow-lg border border-slate-200 max-w-[200px] text-center"
+        style={{ fontFamily: "'Architects Daughter', cursive" }}>
+        {text}
+        <div className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0"
+          style={{ borderLeft: "6px solid transparent", borderRight: "6px solid transparent", borderTop: "6px solid white" }} />
+      </div>
+    </div>
+  );
+}
 
 interface WindowDisplayProps {
   festivity: Festivity;
@@ -380,11 +397,13 @@ function FloorLine({ dark }: { dark: boolean }) {
   );
 }
 
-function StorefrontFrame({ dark, treeImagePath, shopName, onShopNameChange }: {
+function StorefrontFrame({ dark, treeImagePath, shopName, onShopNameChange, onSignHover, onSignLeave }: {
   dark: boolean;
   treeImagePath: string;
   shopName: string;
   onShopNameChange: (name: string) => void;
+  onSignHover?: () => void;
+  onSignLeave?: () => void;
 }) {
   const wallBase = dark ? "#3a4558" : "#b8c8d8";
   const wallLight = dark ? "#445568" : "#c8d4e0";
@@ -442,14 +461,14 @@ function StorefrontFrame({ dark, treeImagePath, shopName, onShopNameChange }: {
           </div>
         ))}
 
-        <div className="absolute bottom-0 right-0 w-14"
-          style={{ height: "65%", background: doorFrameColor, borderLeft: `2px solid ${doorHandleColor}44` }}>
-          <div className="absolute top-2 left-1 right-1 bottom-[35%]" style={{ background: doorPanelColor, borderRadius: "2px 2px 0 0" }}>
-            <div className="absolute inset-1 border opacity-30" style={{ borderColor: doorHandleColor, borderRadius: 2 }} />
-            <div className="absolute top-[45%] left-1 w-2.5 h-2.5 rounded-full" style={{ background: doorHandleColor, border: `1px solid ${doorHandleColor}` }} />
+        <div className="absolute bottom-0 right-0 w-11"
+          style={{ height: "55%", background: doorFrameColor, borderLeft: `2px solid ${doorHandleColor}44` }}>
+          <div className="absolute top-1.5 left-1 right-1 bottom-[35%]" style={{ background: doorPanelColor, borderRadius: "2px 2px 0 0" }}>
+            <div className="absolute inset-0.5 border opacity-30" style={{ borderColor: doorHandleColor, borderRadius: 2 }} />
+            <div className="absolute top-[45%] left-1 w-2 h-2 rounded-full" style={{ background: doorHandleColor, border: `1px solid ${doorHandleColor}` }} />
           </div>
           <div className="absolute left-1 right-1 bottom-[4%] h-[28%]" style={{ background: doorPanelColor, borderRadius: 2 }}>
-            <div className="absolute inset-1 border opacity-30" style={{ borderColor: doorHandleColor, borderRadius: 2 }} />
+            <div className="absolute inset-0.5 border opacity-30" style={{ borderColor: doorHandleColor, borderRadius: 2 }} />
           </div>
         </div>
       </div>
@@ -469,8 +488,10 @@ function StorefrontFrame({ dark, treeImagePath, shopName, onShopNameChange }: {
         </svg>
       </div>
 
-      <div className="absolute -top-[72px] left-1/2 -translate-x-1/2 z-[3] px-4 py-1.5 rounded-sm pointer-events-auto flex items-baseline gap-0 whitespace-nowrap"
-        style={{ background: signBg, border: `2px solid ${signBorder}`, boxShadow: "0 2px 8px rgba(0,0,0,0.15)" }}>
+      <div className="absolute -top-[72px] left-1/2 -translate-x-1/2 z-[3] px-4 py-1.5 rounded-sm pointer-events-auto flex items-baseline gap-0 whitespace-nowrap group"
+        style={{ background: signBg, border: `2px solid ${signBorder}`, boxShadow: "0 2px 8px rgba(0,0,0,0.15)" }}
+        onMouseEnter={onSignHover}
+        onMouseLeave={onSignLeave}>
         <input
           type="text"
           value={shopName}
@@ -546,7 +567,37 @@ export function WindowDisplay({
   const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
   const [draggingFixedId, setDraggingFixedId] = useState<string | null>(null);
   const [draggingFurnitureId, setDraggingFurnitureId] = useState<string | null>(null);
+  const [activeHint, setActiveHint] = useState<HintId | null>(null);
+  const [hintPos, setHintPos] = useState({ x: 50, y: 50 });
+  const [dismissedHints, setDismissedHints] = useState<Set<HintId>>(() => getDismissedHints());
   const canvasRef = useRef<HTMLDivElement>(null);
+  const hintTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    setDismissedHints(getDismissedHints());
+  }, [festivity.id]);
+
+  const showHint = useCallback((hintId: HintId, x: number, y: number) => {
+    if (dismissedHints.has(hintId)) return;
+    if (hintTimerRef.current) clearTimeout(hintTimerRef.current);
+    hintTimerRef.current = setTimeout(() => {
+      setActiveHint(hintId);
+      setHintPos({ x, y });
+    }, 400);
+  }, [dismissedHints]);
+
+  const hideHint = useCallback(() => {
+    if (hintTimerRef.current) clearTimeout(hintTimerRef.current);
+    setActiveHint(null);
+  }, []);
+
+  const markHintUsed = useCallback((hintId: HintId) => {
+    if (!dismissedHints.has(hintId)) {
+      dismissHint(hintId);
+      setDismissedHints(prev => new Set([...prev, hintId]));
+      if (activeHint === hintId) setActiveHint(null);
+    }
+  }, [dismissedHints, activeHint]);
 
   const dark = isDark(bgColor);
   const treeImagePath = getSeasonTreePath(festivity.id);
@@ -647,9 +698,29 @@ export function WindowDisplay({
     setSelectedFurnitureId(null);
   };
 
+  const handleCanvasMouseMove = useCallback((e: React.MouseEvent) => {
+    if (draggingIndex !== null || draggingFixedId !== null || draggingFurnitureId !== null) return;
+    if (!canvasRef.current) return;
+    const rect = canvasRef.current.getBoundingClientRect();
+    const xPct = ((e.clientX - rect.left) / rect.width) * 100;
+    const yPct = ((e.clientY - rect.top) / rect.height) * 100;
+    const target = e.target as HTMLElement;
+    const isOnElement = target.closest("[data-hint-zone]");
+    if (!isOnElement) {
+      showHint("bg_colors", Math.min(85, Math.max(15, xPct)), Math.max(15, yPct - 5));
+    }
+  }, [showHint, draggingIndex, draggingFixedId, draggingFurnitureId]);
+
   return (
     <div className="relative" style={{ padding: "20px 24px 16px 18px", marginLeft: "-4px" }}>
-      <StorefrontFrame dark={dark} treeImagePath={treeImagePath} shopName={shopName} onShopNameChange={onShopNameChange} />
+      <StorefrontFrame
+        dark={dark}
+        treeImagePath={treeImagePath}
+        shopName={shopName}
+        onShopNameChange={(name) => { onShopNameChange(name); markHintUsed("shop_name"); }}
+        onSignHover={() => showHint("shop_name", 50, 2)}
+        onSignLeave={hideHint}
+      />
 
       <div
         ref={canvasRef}
@@ -663,6 +734,8 @@ export function WindowDisplay({
         onClick={handleCanvasClick}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
+        onMouseMove={handleCanvasMouseMove}
+        onMouseLeave={hideHint}
         data-testid="window-display-canvas"
       >
         <svg viewBox="0 0 600 370" className="w-full h-full pointer-events-none absolute inset-0">
@@ -681,6 +754,7 @@ export function WindowDisplay({
           return (
             <div
               key={`furniture-${furn.id}`}
+              data-hint-zone="furniture"
               className={`absolute touch-none select-none ${
                 furnitureUnlocked
                   ? draggingFurnitureId === furn.id ? "cursor-grabbing z-[5]" : "cursor-grab z-[3]"
@@ -692,7 +766,9 @@ export function WindowDisplay({
                 transform: `translate(-50%, -50%) scale(${furn.scale || 0.7})`,
               }}
               onPointerDown={(e) => handleFurniturePointerDown(e, furn.id)}
-              onClick={(e) => e.stopPropagation()}
+              onMouseEnter={() => showHint("furniture", furn.x, Math.max(10, furn.y - 12))}
+              onMouseLeave={hideHint}
+              onClick={(e) => { e.stopPropagation(); markHintUsed("furniture"); }}
               data-testid={`furniture-${furn.id}`}
             >
               <div className={`${isFurnSelected ? "ring-2 ring-green-400 ring-offset-2 rounded-lg" : ""} p-0.5`}>
@@ -742,6 +818,7 @@ export function WindowDisplay({
           return (
             <div
               key={`fixed-${item.id}`}
+              data-hint-zone="elements"
               className={`absolute touch-none select-none ${
                 draggingFixedId === item.id ? "cursor-grabbing z-40" : "cursor-grab z-[8]"
               } ${isSelected ? "z-40" : ""}`}
@@ -751,7 +828,9 @@ export function WindowDisplay({
                 transform: `translate(-50%, -50%) scale(${item.scale || 1})`,
               }}
               onPointerDown={(e) => handleFixedPointerDown(e, item.id)}
-              onClick={(e) => e.stopPropagation()}
+              onMouseEnter={() => showHint("elements_drag", item.x, Math.max(10, item.y - 10))}
+              onMouseLeave={hideHint}
+              onClick={(e) => { e.stopPropagation(); markHintUsed("elements_drag"); }}
               data-testid={`fixed-item-${item.id}`}
             >
               <div className={`${isSelected ? "ring-2 ring-amber-400 ring-offset-2 rounded-lg" : ""} p-0.5`}>
@@ -796,6 +875,7 @@ export function WindowDisplay({
           return (
             <div
               key={`placed-${index}`}
+              data-hint-zone="elements"
               className={`absolute touch-none select-none ${
                 draggingIndex === index ? "cursor-grabbing z-50" : "cursor-grab z-10"
               } ${isSelected ? "z-50" : ""}`}
@@ -805,7 +885,9 @@ export function WindowDisplay({
                 transform: `translate(-50%, -50%) scale(${placed.scale || 1})`,
               }}
               onPointerDown={(e) => handlePointerDown(e, index)}
-              onClick={(e) => e.stopPropagation()}
+              onMouseEnter={() => showHint("elements_drag", placed.x, Math.max(10, placed.y - 10))}
+              onMouseLeave={hideHint}
+              onClick={(e) => { e.stopPropagation(); markHintUsed("elements_drag"); }}
               data-testid={`placed-element-${index}`}
             >
               <div className={`${isSelected ? "ring-2 ring-blue-400 ring-offset-2 rounded-lg" : ""} p-0.5`}>
@@ -851,24 +933,54 @@ export function WindowDisplay({
         })}
 
         {LIGHT_POSITIONS.map((pos, i) => (
-          <SpotLightFixture
-            key={`light-${i}`}
-            position={pos}
-            isOn={lightsOn[i] || false}
-            onClick={() => onToggleLight(i)}
-            color={lightColor}
-            index={i}
-            locked={i >= unlockedLightsCount}
-          />
+          <div key={`light-wrap-${i}`} data-hint-zone="lights"
+            onMouseEnter={() => showHint("lights", pos.x, pos.side === "top" ? 15 : pos.side === "bottom" ? 85 : pos.y)}
+            onMouseLeave={hideHint}
+          >
+            <SpotLightFixture
+              position={pos}
+              isOn={lightsOn[i] || false}
+              onClick={() => { onToggleLight(i); markHintUsed("lights"); }}
+              color={lightColor}
+              index={i}
+              locked={i >= unlockedLightsCount}
+            />
+          </div>
         ))}
 
-        {placedElements.length === 0 && (
+        {placedElements.length === 0 && !activeHint && (
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <p className={`text-sm px-4 py-2 rounded-full ${dark ? "text-white/50 bg-white/10" : "text-slate-400 bg-white/80"}`}>
               Click decorations to place them here
             </p>
           </div>
         )}
+
+        <SpeechBubble
+          visible={activeHint === "bg_colors"}
+          text="Answer quizzes to unlock more background colours!"
+          position={hintPos}
+        />
+        <SpeechBubble
+          visible={activeHint === "lights"}
+          text="Answer quizzes to turn on more spotlight lights!"
+          position={hintPos}
+        />
+        <SpeechBubble
+          visible={activeHint === "elements_drag"}
+          text="Drag to move. Click to select, then use +/- to resize!"
+          position={hintPos}
+        />
+        <SpeechBubble
+          visible={activeHint === "furniture"}
+          text={furnitureUnlocked ? "Drag furniture to rearrange. Click for +/- to resize!" : "Answer quizzes to unlock furniture rearranging!"}
+          position={hintPos}
+        />
+        <SpeechBubble
+          visible={activeHint === "shop_name"}
+          text="Click to type your shop name!"
+          position={hintPos}
+        />
       </div>
     </div>
   );

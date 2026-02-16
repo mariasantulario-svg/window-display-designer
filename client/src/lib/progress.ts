@@ -1,4 +1,48 @@
 const STORAGE_KEY = "window-display-designer-progress";
+const HINTS_KEY = "window-display-hints-dismissed";
+
+export type HintId = "bg_colors" | "lights" | "elements_drag" | "furniture" | "shop_name";
+
+export function getDismissedHints(): Set<HintId> {
+  try {
+    const stored = localStorage.getItem(HINTS_KEY);
+    if (stored) return new Set(JSON.parse(stored));
+  } catch {}
+  return new Set();
+}
+
+export function dismissHint(hintId: HintId): void {
+  const dismissed = getDismissedHints();
+  dismissed.add(hintId);
+  localStorage.setItem(HINTS_KEY, JSON.stringify([...dismissed]));
+}
+
+export function autoDetectDismissedHints(progress: GameProgress): void {
+  const dismissed = getDismissedHints();
+  let changed = false;
+
+  for (const [, fp] of Object.entries(progress.festivities)) {
+    if (fp.bgColor && fp.bgColor !== "#FFF9F0") {
+      if (!dismissed.has("bg_colors")) { dismissed.add("bg_colors"); changed = true; }
+    }
+    if (fp.lightsOn && fp.lightsOn.some(l => l)) {
+      if (!dismissed.has("lights")) { dismissed.add("lights"); changed = true; }
+    }
+    if (fp.placedElements && fp.placedElements.length > 0) {
+      if (!dismissed.has("elements_drag")) { dismissed.add("elements_drag"); changed = true; }
+    }
+    if (fp.furniturePositions && fp.furniturePositions.length > 0) {
+      if (!dismissed.has("furniture")) { dismissed.add("furniture"); changed = true; }
+    }
+  }
+  if (progress.shopName && progress.shopName.length > 0) {
+    if (!dismissed.has("shop_name")) { dismissed.add("shop_name"); changed = true; }
+  }
+
+  if (changed) {
+    localStorage.setItem(HINTS_KEY, JSON.stringify([...dismissed]));
+  }
+}
 
 export interface PlacedElement {
   elementId: string;
@@ -34,10 +78,44 @@ export interface FestivityProgress {
   lightColor?: string;
 }
 
+export interface Screenshot {
+  id: string;
+  festivityId: string;
+  dataUrl: string;
+  timestamp: number;
+}
+
 export interface GameProgress {
   festivities: Record<string, FestivityProgress>;
   totalQuizzesCompleted: number;
   shopName?: string;
+}
+
+const SCREENSHOTS_KEY = "window-display-screenshots";
+
+export function loadScreenshots(): Screenshot[] {
+  try {
+    const stored = localStorage.getItem(SCREENSHOTS_KEY);
+    if (stored) return JSON.parse(stored);
+  } catch {}
+  return [];
+}
+
+export function saveScreenshot(screenshot: Screenshot): Screenshot[] {
+  const screenshots = loadScreenshots();
+  screenshots.push(screenshot);
+  try {
+    localStorage.setItem(SCREENSHOTS_KEY, JSON.stringify(screenshots));
+  } catch (e) {
+    console.warn("Failed to save screenshot, storage may be full:", e);
+  }
+  return screenshots;
+}
+
+export function deleteScreenshot(id: string): Screenshot[] {
+  const screenshots = loadScreenshots().filter(s => s.id !== id);
+  localStorage.setItem(SCREENSHOTS_KEY, JSON.stringify(screenshots));
+  return screenshots;
 }
 
 function getDefaultProgress(): GameProgress {
@@ -173,15 +251,15 @@ export interface FurnitureDef {
 }
 
 export const FURNITURE_PIECES: FurnitureDef[] = [
-  { id: "bookcase-left", name: "Left Bookcase", defaultX: 18, defaultY: 75, defaultScale: 0.45, type: "floor" },
-  { id: "pedestal", name: "Display Table", defaultX: 48, defaultY: 88, defaultScale: 0.5, type: "floor" },
-  { id: "bookcase-right", name: "Right Shelf", defaultX: 78, defaultY: 72, defaultScale: 0.4, type: "floor" },
-  { id: "shelf-1", name: "Wall Shelf 1", defaultX: 18, defaultY: 25, defaultScale: 0.55, type: "wall" },
-  { id: "shelf-2", name: "Wall Shelf 2", defaultX: 45, defaultY: 20, defaultScale: 0.55, type: "wall" },
-  { id: "shelf-3", name: "Wall Shelf 3", defaultX: 74, defaultY: 25, defaultScale: 0.55, type: "wall" },
-  { id: "shelf-4", name: "Wall Shelf 4", defaultX: 20, defaultY: 45, defaultScale: 0.55, type: "wall" },
-  { id: "shelf-5", name: "Wall Shelf 5", defaultX: 82, defaultY: 43, defaultScale: 0.5, type: "wall" },
-  { id: "shelf-6", name: "Wall Shelf 6", defaultX: 53, defaultY: 42, defaultScale: 0.55, type: "wall" },
+  { id: "bookcase-left", name: "Left Bookcase", defaultX: 18, defaultY: 75, defaultScale: 0.35, type: "floor" },
+  { id: "pedestal", name: "Display Table", defaultX: 48, defaultY: 88, defaultScale: 0.4, type: "floor" },
+  { id: "bookcase-right", name: "Right Shelf", defaultX: 78, defaultY: 72, defaultScale: 0.32, type: "floor" },
+  { id: "shelf-1", name: "Wall Shelf 1", defaultX: 18, defaultY: 25, defaultScale: 0.45, type: "wall" },
+  { id: "shelf-2", name: "Wall Shelf 2", defaultX: 45, defaultY: 20, defaultScale: 0.45, type: "wall" },
+  { id: "shelf-3", name: "Wall Shelf 3", defaultX: 74, defaultY: 25, defaultScale: 0.45, type: "wall" },
+  { id: "shelf-4", name: "Wall Shelf 4", defaultX: 20, defaultY: 45, defaultScale: 0.45, type: "wall" },
+  { id: "shelf-5", name: "Wall Shelf 5", defaultX: 82, defaultY: 43, defaultScale: 0.4, type: "wall" },
+  { id: "shelf-6", name: "Wall Shelf 6", defaultX: 53, defaultY: 42, defaultScale: 0.45, type: "wall" },
 ];
 
 export function getFurniturePositions(festivityProgress: FestivityProgress): FurniturePosition[] {

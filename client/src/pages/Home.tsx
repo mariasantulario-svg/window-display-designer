@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { festivities, type Festivity, type DecorativeElement, getUnlockStatus } from "@/lib/festivities";
-import { loadProgress, saveProgress, getFestivityProgress, updateFestivityProgress, type GameProgress, type PlacedElement, type FixedItemPosition, type FurniturePosition, MAX_ELEMENT_COPIES, countElementInDisplay, DEFAULT_LIGHTS, LIGHT_COLOR_OPTIONS, getFixedItemPositions, getFurniturePositions } from "@/lib/progress";
+import { loadProgress, saveProgress, getFestivityProgress, updateFestivityProgress, type GameProgress, type PlacedElement, type FixedItemPosition, type FurniturePosition, MAX_ELEMENT_COPIES, countElementInDisplay, DEFAULT_LIGHTS, LIGHT_COLOR_OPTIONS, getFixedItemPositions, getFurniturePositions, autoDetectDismissedHints, dismissHint, saveScreenshot, loadScreenshots, deleteScreenshot, type Screenshot } from "@/lib/progress";
 import { WindowDisplay } from "@/components/WindowDisplay";
 import { ElementPanel } from "@/components/ElementPanel";
 import { QuizModal } from "@/components/QuizModal";
@@ -9,8 +9,10 @@ import { OnboardingCarousel } from "@/components/OnboardingCarousel";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
-import { Paintbrush, RotateCcw, Lightbulb, Lock, ChevronUp, ChevronDown, X } from "lucide-react";
+import { Paintbrush, RotateCcw, Lightbulb, Lock, ChevronUp, ChevronDown, X, Camera, Image, Trash2 } from "lucide-react";
+import html2canvas from "html2canvas";
 
 const BG_PRESETS = [
   "#FFF9F0", "#FFFFFF", "#F0F4FF", "#FFF0F5", "#F0FFF4",
@@ -23,7 +25,51 @@ export default function Home() {
   const [selectedFestivity, setSelectedFestivity] = useState<Festivity>(festivities[0]);
   const [quizOpen, setQuizOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [screenshots, setScreenshots] = useState<Screenshot[]>(() => loadScreenshots());
+  const [galleryOpen, setGalleryOpen] = useState(false);
+  const [capturing, setCapturing] = useState(false);
+  const escaparateRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+
+  useEffect(() => {
+    autoDetectDismissedHints(progress);
+  }, []);
+
+  const isFullyUnlocked = useCallback((status: ReturnType<typeof getUnlockStatus>) => {
+    return status.nextElementAt === null && status.nextLightAt === null && status.nextBgAt === null && status.nextFurnitureAt === null;
+  }, []);
+
+  const handleScreenshot = useCallback(async () => {
+    if (!escaparateRef.current || capturing) return;
+    setCapturing(true);
+    try {
+      const canvas = await html2canvas(escaparateRef.current, {
+        backgroundColor: null,
+        scale: 2,
+        useCORS: true,
+        logging: false,
+      });
+      const dataUrl = canvas.toDataURL("image/png", 0.8);
+      const screenshot: Screenshot = {
+        id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+        festivityId: selectedFestivity.id,
+        dataUrl,
+        timestamp: Date.now(),
+      };
+      const updated = saveScreenshot(screenshot);
+      setScreenshots(updated);
+      toast({ title: "Screenshot saved!", description: "Check your gallery to view it." });
+    } catch {
+      toast({ title: "Screenshot failed", description: "Could not capture the display.", variant: "destructive" });
+    } finally {
+      setCapturing(false);
+    }
+  }, [selectedFestivity.id, capturing, toast]);
+
+  const handleDeleteScreenshot = useCallback((id: string) => {
+    const updated = deleteScreenshot(id);
+    setScreenshots(updated);
+  }, []);
 
   const festivityProgress = getFestivityProgress(progress, selectedFestivity.id);
   const placedElements = festivityProgress.placedElements || [];
@@ -45,6 +91,7 @@ export default function Home() {
     const newProgress = { ...progress, shopName: name };
     saveProgress(newProgress);
     setProgress(newProgress);
+    dismissHint("shop_name");
   };
 
   const handleUpdateFixedItem = (id: string, updates: Partial<FixedItemPosition>) => {
@@ -73,6 +120,7 @@ export default function Home() {
   const handleBgColorChange = (color: string) => {
     const newProgress = updateFestivityProgress(progress, selectedFestivity.id, { bgColor: color });
     setProgress(newProgress);
+    dismissHint("bg_colors");
   };
 
   const handleLightColorChange = (color: string) => {
@@ -193,9 +241,9 @@ export default function Home() {
       </div>
 
       <main className="flex-1 flex items-center justify-center overflow-auto relative">
-        <div className="w-full h-full flex items-center justify-center" style={{ padding: "12px 16px" }}>
-          <div className="w-full" style={{ maxWidth: "calc(100vw - 32px)" }}>
-            <div className="px-8 pt-12 pb-4">
+        <div className="w-full h-full flex items-center justify-center" style={{ padding: "12px 24px" }}>
+          <div className="w-full max-w-4xl">
+            <div ref={escaparateRef} className="px-8 pt-12 pb-4">
               <WindowDisplay
                 festivity={selectedFestivity}
                 placedElements={placedElements}
@@ -370,7 +418,70 @@ export default function Home() {
             </div>
           </div>
         </div>
+        {isFullyUnlocked(unlockStatus) && (
+          <div
+            className="fixed top-14 left-1/2 -translate-x-1/2 z-50 bg-gradient-to-r from-amber-100 to-yellow-100 border border-amber-300 rounded-lg px-4 py-2 shadow-lg flex items-center gap-3"
+            style={{ fontFamily: "'Architects Daughter', cursive" }}
+            data-testid="screenshot-banner"
+          >
+            <span className="text-sm text-amber-800 font-bold">All features unlocked!</span>
+            <Button
+              size="sm"
+              onClick={handleScreenshot}
+              disabled={capturing}
+              data-testid="button-take-screenshot"
+            >
+              <Camera className="w-4 h-4 mr-1.5" />
+              {capturing ? "Capturing..." : "Screenshot"}
+            </Button>
+            {screenshots.length > 0 && (
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => setGalleryOpen(true)}
+                data-testid="button-open-gallery"
+              >
+                <Image className="w-4 h-4 mr-1.5" />
+                Gallery ({screenshots.length})
+              </Button>
+            )}
+          </div>
+        )}
       </main>
+
+      <Dialog open={galleryOpen} onOpenChange={setGalleryOpen}>
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-hidden" aria-describedby={undefined}>
+          <DialogTitle className="text-lg font-bold" style={{ fontFamily: "'Architects Daughter', cursive" }}>
+            My Window Displays
+          </DialogTitle>
+          <ScrollArea className="max-h-[60vh]">
+            {screenshots.length === 0 ? (
+              <p className="text-sm text-muted-foreground text-center py-8">No screenshots yet. Capture your first window display!</p>
+            ) : (
+              <div className="grid grid-cols-2 gap-3 p-1">
+                {screenshots.map((shot) => {
+                  const fest = festivities.find(f => f.id === shot.festivityId);
+                  return (
+                    <div key={shot.id} className="relative group border border-border rounded-md overflow-hidden">
+                      <img src={shot.dataUrl} alt={`${fest?.name || "Window"} display`} className="w-full h-auto" />
+                      <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white text-[10px] px-2 py-1 flex items-center justify-between gap-2">
+                        <span className="truncate">{fest?.name || "Unknown"} - {new Date(shot.timestamp).toLocaleDateString()}</span>
+                        <button
+                          onClick={() => handleDeleteScreenshot(shot.id)}
+                          className="text-red-300 hover:text-red-100 flex-shrink-0"
+                          data-testid={`button-delete-screenshot-${shot.id}`}
+                        >
+                          <Trash2 size={12} />
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </ScrollArea>
+        </DialogContent>
+      </Dialog>
 
       <QuizModal
         open={quizOpen}
