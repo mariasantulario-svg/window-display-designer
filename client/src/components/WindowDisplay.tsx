@@ -446,7 +446,6 @@ function StorefrontFrame({ dark, treeImagePath, shopName, onShopNameChange }: {
           style={{
             fontFamily: "'Architects Daughter', cursive",
             color: signText,
-            borderBottom: `1.5px dashed ${signBorder}80`,
           }}
           placeholder="_ _ _ _"
           data-testid="input-shop-name"
@@ -485,28 +484,34 @@ function StorefrontFrame({ dark, treeImagePath, shopName, onShopNameChange }: {
 
       <div className="absolute z-[4]"
         style={{ right: "-16px", bottom: "-12px" }}>
-        <div className="relative" style={{ width: "56px", height: "160px" }}>
-          <img
-            src={treeImagePath}
-            alt="Seasonal tree"
-            className="absolute object-contain"
-            style={{
-              width: "90px",
-              height: "120px",
-              bottom: "14px",
-              left: "50%",
-              transform: "translateX(-50%)",
-              filter: dark ? "brightness(0.85)" : "none",
-              clipPath: "inset(0 0 10px 0)",
-            }}
-            draggable={false}
-          />
-          <svg className="absolute left-1/2 bottom-0" style={{ transform: "translateX(-50%)", zIndex: 2 }} width="56" height="44" viewBox="0 0 56 44">
-            <rect x="10" y="36" width="36" height="8" rx="1" fill={planterDark} stroke={planterTerra} strokeWidth="0.5" />
-            <path d="M6,10 L50,10 L46,36 L10,36 Z" fill={planterTerra} stroke={planterDark} strokeWidth="1" />
-            <path d="M10,12 L46,12 L43,34 L13,34 Z" fill={planterTerra} opacity="0.7" />
-            <rect x="4" y="4" width="48" height="8" rx="2" fill={planterRim} stroke={planterDark} strokeWidth="0.8" />
-            <ellipse cx="28" cy="10" rx="18" ry="4" fill="#5a3a1a" opacity="0.3" />
+        <div className="relative overflow-visible" style={{ width: "56px", height: "150px" }}>
+          <div className="absolute" style={{
+            left: "50%",
+            transform: "translateX(-50%)",
+            bottom: "20px",
+            width: "90px",
+            height: "110px",
+            overflow: "hidden",
+          }}>
+            <img
+              src={treeImagePath}
+              alt="Seasonal tree"
+              className="absolute object-contain w-full"
+              style={{
+                height: "120px",
+                bottom: "0px",
+                left: "0",
+                filter: dark ? "brightness(0.85)" : "none",
+              }}
+              draggable={false}
+            />
+          </div>
+          <svg className="absolute left-1/2 bottom-0" style={{ transform: "translateX(-50%)", zIndex: 2 }} width="56" height="50" viewBox="0 0 56 50">
+            <rect x="10" y="42" width="36" height="8" rx="1" fill={planterDark} stroke={planterTerra} strokeWidth="0.5" />
+            <path d="M6,14 L50,14 L46,42 L10,42 Z" fill={planterTerra} stroke={planterDark} strokeWidth="1" />
+            <path d="M10,16 L46,16 L43,40 L13,40 Z" fill={planterTerra} opacity="0.7" />
+            <rect x="4" y="8" width="48" height="8" rx="2" fill={planterRim} stroke={planterDark} strokeWidth="0.8" />
+            <ellipse cx="28" cy="14" rx="20" ry="5" fill="#3a2510" opacity="0.4" />
           </svg>
         </div>
       </div>
