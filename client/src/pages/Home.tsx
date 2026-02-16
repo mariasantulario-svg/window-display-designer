@@ -219,25 +219,25 @@ export default function Home() {
           <Badge variant="outline">
             {placedElements.length} placed
           </Badge>
-          {!festivityProgress.quizCompleted ? (
-            <Button
-              size="sm"
-              onClick={() => setQuizOpen(true)}
-              data-testid="button-take-quiz"
-            >
-              Take Quiz!
-            </Button>
-          ) : (
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={() => setQuizOpen(true)}
-              data-testid="button-retake-quiz"
-            >
-              Retake Quiz
-            </Button>
-          )}
         </div>
+
+        {!festivityProgress.quizCompleted ? (
+          <Button
+            onClick={() => setQuizOpen(true)}
+            className="bg-amber-500 text-white border-amber-600"
+            data-testid="button-take-quiz"
+          >
+            Take Quiz!
+          </Button>
+        ) : (
+          <Button
+            variant="outline"
+            onClick={() => setQuizOpen(true)}
+            data-testid="button-retake-quiz"
+          >
+            Retake Quiz
+          </Button>
+        )}
       </div>
 
       <main className="flex-1 flex items-center justify-center overflow-auto relative">
