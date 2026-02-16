@@ -967,27 +967,27 @@ export function WindowDisplay({
 
         <SpeechBubble
           visible={activeHint === "bg_colors"}
-          text="Answer quizzes to unlock more background colours!"
+          text="Change the background colour from the Decorations panel below!"
           position={hintPos}
         />
         <SpeechBubble
           visible={activeHint === "lights"}
-          text="Answer quizzes to turn on more spotlight lights!"
+          text="Click to switch this spotlight on or off! Change light colour in the panel below."
           position={hintPos}
         />
         <SpeechBubble
           visible={activeHint === "elements_drag"}
-          text="Drag to move. Click to select, then use +/- to resize!"
+          text="Drag to move around. Click to select, then use +/- to change size!"
           position={hintPos}
         />
         <SpeechBubble
           visible={activeHint === "furniture"}
-          text={furnitureUnlocked ? "Drag furniture to rearrange. Click for +/- to resize!" : "Answer quizzes to unlock furniture rearranging!"}
+          text={furnitureUnlocked ? "Drag to rearrange furniture. Click to select, then +/- to change size!" : "Take the quiz to unlock furniture!"}
           position={hintPos}
         />
         <SpeechBubble
           visible={activeHint === "shop_name"}
-          text="Click to type your shop name!"
+          text="Click here to type your shop name!"
           position={hintPos}
         />
       </div>
