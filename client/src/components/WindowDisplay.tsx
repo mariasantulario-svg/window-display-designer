@@ -69,13 +69,15 @@ const LIGHT_POSITIONS: LightPosition[] = [
   { x: 100, y: 67, side: "right" },
 ];
 
-function SpotLightFixture({ position, isOn, onClick, color, index, locked }: {
+function SpotLightFixture({ position, isOn, onClick, color, index, locked, onHover, onLeave }: {
   position: LightPosition;
   isOn: boolean;
   onClick: () => void;
   color: string;
   index: number;
   locked?: boolean;
+  onHover?: () => void;
+  onLeave?: () => void;
 }) {
   const glowColor = color + "50";
   const glowStrong = color + "25";
@@ -104,6 +106,9 @@ function SpotLightFixture({ position, isOn, onClick, color, index, locked }: {
         style={posStyle}
         onClick={(e) => { e.stopPropagation(); if (!locked) onClick(); }}
         onPointerDown={(e) => e.stopPropagation()}
+        onMouseEnter={onHover}
+        onMouseLeave={onLeave}
+        data-hint-zone="lights"
         aria-label={locked ? `Light ${index + 1} (locked)` : `Toggle ${position.side} light ${index + 1}`}
         data-testid={`button-light-${index}`}
       >
@@ -572,6 +577,7 @@ export function WindowDisplay({
   const [dismissedHints, setDismissedHints] = useState<Set<HintId>>(() => getDismissedHints());
   const canvasRef = useRef<HTMLDivElement>(null);
   const hintTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pendingHintRef = useRef<HintId | null>(null);
 
   useEffect(() => {
     setDismissedHints(getDismissedHints());
@@ -579,15 +585,20 @@ export function WindowDisplay({
 
   const showHint = useCallback((hintId: HintId, x: number, y: number) => {
     if (dismissedHints.has(hintId)) return;
+    if (activeHint === hintId) return;
+    if (pendingHintRef.current === hintId) return;
     if (hintTimerRef.current) clearTimeout(hintTimerRef.current);
+    pendingHintRef.current = hintId;
     hintTimerRef.current = setTimeout(() => {
       setActiveHint(hintId);
       setHintPos({ x, y });
+      pendingHintRef.current = null;
     }, 400);
-  }, [dismissedHints]);
+  }, [dismissedHints, activeHint]);
 
   const hideHint = useCallback(() => {
     if (hintTimerRef.current) clearTimeout(hintTimerRef.current);
+    pendingHintRef.current = null;
     setActiveHint(null);
   }, []);
 
@@ -933,19 +944,17 @@ export function WindowDisplay({
         })}
 
         {LIGHT_POSITIONS.map((pos, i) => (
-          <div key={`light-wrap-${i}`} data-hint-zone="lights"
-            onMouseEnter={() => showHint("lights", pos.x, pos.side === "top" ? 15 : pos.side === "bottom" ? 85 : pos.y)}
-            onMouseLeave={hideHint}
-          >
-            <SpotLightFixture
-              position={pos}
-              isOn={lightsOn[i] || false}
-              onClick={() => { onToggleLight(i); markHintUsed("lights"); }}
-              color={lightColor}
-              index={i}
-              locked={i >= unlockedLightsCount}
-            />
-          </div>
+          <SpotLightFixture
+            key={`light-${i}`}
+            position={pos}
+            isOn={lightsOn[i] || false}
+            onClick={() => { onToggleLight(i); markHintUsed("lights"); }}
+            color={lightColor}
+            index={i}
+            locked={i >= unlockedLightsCount}
+            onHover={() => showHint("lights", pos.x, pos.side === "top" ? 15 : pos.side === "bottom" ? 85 : pos.y)}
+            onLeave={hideHint}
+          />
         ))}
 
         {placedElements.length === 0 && !activeHint && (
