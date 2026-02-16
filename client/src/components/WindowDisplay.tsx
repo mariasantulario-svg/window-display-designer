@@ -518,13 +518,13 @@ function StorefrontFrame({ dark, treeImagePath, shopName, onShopNameChange }: {
       </div>
 
       <div className="absolute z-[4]"
-        style={{ left: "-50px", bottom: "-12px" }}>
+        style={{ right: "-75px", bottom: "-12px" }}>
         <img
           src={treeImagePath}
           alt="Seasonal tree"
           className="object-contain"
           style={{
-            height: "120px",
+            height: "110px",
             filter: dark ? "brightness(0.85)" : "none",
           }}
           draggable={false}
@@ -653,7 +653,7 @@ export function WindowDisplay({
 
       <div
         ref={canvasRef}
-        className="relative w-full overflow-visible"
+        className="relative w-full overflow-hidden"
         style={{
           aspectRatio: "600/370",
           border: `2px solid ${dark ? "#555" : "#777"}`,
