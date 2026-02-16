@@ -8,11 +8,19 @@ export interface PlacedElement {
   color?: string;
 }
 
+export interface FixedItemPosition {
+  id: string;
+  x: number;
+  y: number;
+  scale: number;
+}
+
 export interface FestivityProgress {
   quizCompleted: boolean;
   quizScore: number;
   unlockedElements: string[];
   placedElements: PlacedElement[];
+  fixedItemPositions?: FixedItemPosition[];
   bgColor?: string;
   lightsOn?: boolean[];
   lightColor?: string;
@@ -127,4 +135,30 @@ export const FESTIVITY_SEASON_MAP: Record<string, Season> = {
 export function getSeasonTreePath(festivityId: string): string {
   const season = FESTIVITY_SEASON_MAP[festivityId] || "spring";
   return `/kawaii/tree-${season}.png`;
+}
+
+export interface FixedItemDef {
+  id: string;
+  name: string;
+  defaultX: number;
+  defaultY: number;
+  defaultScale: number;
+}
+
+export const FIXED_ITEMS: FixedItemDef[] = [
+  { id: "books-row", name: "Book Row", defaultX: 15, defaultY: 70, defaultScale: 1 },
+  { id: "dictionary", name: "Dictionary", defaultX: 40, defaultY: 50, defaultScale: 1 },
+  { id: "notebook", name: "Notebook", defaultX: 60, defaultY: 85, defaultScale: 1 },
+  { id: "globe", name: "Globe", defaultX: 80, defaultY: 75, defaultScale: 1 },
+  { id: "pencil-cup", name: "Pencil Cup", defaultX: 50, defaultY: 90, defaultScale: 1 },
+  { id: "book-stack", name: "Book Stack", defaultX: 30, defaultY: 85, defaultScale: 1 },
+];
+
+export function getFixedItemPositions(festivityProgress: FestivityProgress): FixedItemPosition[] {
+  const saved = festivityProgress.fixedItemPositions || [];
+  return FIXED_ITEMS.map(item => {
+    const existing = saved.find(s => s.id === item.id);
+    if (existing) return existing;
+    return { id: item.id, x: item.defaultX, y: item.defaultY, scale: item.defaultScale };
+  });
 }

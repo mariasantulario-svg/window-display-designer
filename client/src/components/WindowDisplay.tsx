@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback } from "react";
-import type { PlacedElement } from "@/lib/progress";
+import type { PlacedElement, FixedItemPosition } from "@/lib/progress";
 import type { DecorativeElement, Festivity } from "@/lib/festivities";
 import { getSeasonTreePath } from "@/lib/progress";
 import { StickerIcon } from "./StickerIcon";
@@ -15,6 +15,8 @@ interface WindowDisplayProps {
   lightsOn: boolean[];
   onToggleLight: (index: number) => void;
   lightColor: string;
+  fixedItems: FixedItemPosition[];
+  onUpdateFixedItem: (id: string, updates: Partial<FixedItemPosition>) => void;
 }
 
 function isDark(hex: string): boolean {
@@ -140,133 +142,135 @@ function getHaloStyle(position: LightPosition): React.CSSProperties {
   }
 }
 
-function BookshopItems({ dark }: { dark: boolean }) {
-  const bookSpine1 = dark ? "#6a4a5a" : "#8B4513";
-  const bookSpine2 = dark ? "#4a5a6a" : "#2E5090";
-  const bookSpine3 = dark ? "#5a6a4a" : "#2E7D32";
-  const bookSpine4 = dark ? "#6a5a4a" : "#B8860B";
-  const bookSpine5 = dark ? "#5a4a6a" : "#7B1FA2";
-  const bookSpine6 = dark ? "#6a4a4a" : "#C62828";
-  const paperColor = dark ? "#9a9080" : "#F5F0E0";
-  const coverDark = dark ? "#3a3535" : "#4a3020";
-  const notebookSpiral = dark ? "#888" : "#aaa";
-  const pencilYellow = dark ? "#9a8a30" : "#FDD835";
-  const pencilTip = dark ? "#7a6a5a" : "#E8D5B0";
-  const eraserPink = dark ? "#8a5a6a" : "#F48FB1";
-  const globeBlue = dark ? "#4a6a7a" : "#64B5F6";
-  const globeGreen = dark ? "#4a6a4a" : "#66BB6A";
-
+function KawaiiBookRow() {
   return (
-    <g className="pointer-events-none">
-      <rect x="38" y="250" width="8" height="24" rx="0.5" fill={bookSpine1} stroke={coverDark} strokeWidth="0.3" />
-      <rect x="47" y="248" width="10" height="26" rx="0.5" fill={bookSpine2} stroke={coverDark} strokeWidth="0.3" />
-      <rect x="58" y="251" width="7" height="23" rx="0.5" fill={bookSpine3} stroke={coverDark} strokeWidth="0.3" />
-      <rect x="66" y="249" width="12" height="25" rx="0.5" fill={bookSpine4} stroke={coverDark} strokeWidth="0.3" />
-      <text x="72" y="268" textAnchor="middle" fontSize="3.5" fill={paperColor} fontWeight="bold" transform="rotate(-90,72,264)">DICT</text>
-      <rect x="79" y="252" width="6" height="22" rx="0.5" fill={bookSpine5} stroke={coverDark} strokeWidth="0.3" />
-      <rect x="86" y="249" width="9" height="25" rx="0.5" fill={bookSpine6} stroke={coverDark} strokeWidth="0.3" />
-      <rect x="96" y="253" width="7" height="21" rx="0.5" fill={bookSpine1} stroke={coverDark} strokeWidth="0.3" opacity="0.8" />
-      <rect x="104" y="250" width="11" height="24" rx="0.5" fill={bookSpine2} stroke={coverDark} strokeWidth="0.3" opacity="0.85" />
-      <text x="109" y="268" textAnchor="middle" fontSize="3" fill={paperColor} fontWeight="bold" transform="rotate(-90,109,264)">ENGLISH</text>
-      <rect x="116" y="252" width="6" height="22" rx="0.5" fill={bookSpine3} stroke={coverDark} strokeWidth="0.3" />
-      <rect x="123" y="249" width="9" height="25" rx="0.5" fill={bookSpine4} stroke={coverDark} strokeWidth="0.3" />
-      <rect x="133" y="251" width="7" height="23" rx="0.5" fill={bookSpine5} stroke={coverDark} strokeWidth="0.3" />
-
-      <rect x="38" y="286" width="40" height="6" rx="0.5" fill={bookSpine4} stroke={coverDark} strokeWidth="0.3" />
-      <line x1="40" y1="287" x2="76" y2="287" stroke={paperColor} strokeWidth="0.3" opacity="0.5" />
-      <rect x="80" y="285" width="32" height="7" rx="0.5" fill={bookSpine2} stroke={coverDark} strokeWidth="0.3" />
-      <text x="96" y="290.5" textAnchor="middle" fontSize="3.5" fill={paperColor} fontWeight="bold">ATLAS</text>
-      <rect x="114" y="286" width="28" height="6" rx="0.5" fill={bookSpine6} stroke={coverDark} strokeWidth="0.3" />
-
-      <rect x="38" y="321" width="30" height="5" rx="0.3" fill={bookSpine3} stroke={coverDark} strokeWidth="0.3" />
-      <rect x="70" y="320" width="25" height="6" rx="0.3" fill={bookSpine1} stroke={coverDark} strokeWidth="0.3" />
-      <rect x="97" y="321" width="20" height="5" rx="0.3" fill={bookSpine5} stroke={coverDark} strokeWidth="0.3" />
-      <rect x="119" y="320" width="22" height="6" rx="0.3" fill={bookSpine2} stroke={coverDark} strokeWidth="0.3" />
-
-      <rect x="250" y="306" width="10" height="14" rx="0.5" fill={bookSpine4} stroke={coverDark} strokeWidth="0.3" />
-      <rect x="261" y="308" width="8" height="12" rx="0.5" fill={bookSpine2} stroke={coverDark} strokeWidth="0.3" />
-      <rect x="270" y="307" width="12" height="13" rx="0.5" fill={bookSpine6} stroke={coverDark} strokeWidth="0.3" />
-      <text x="276" y="316" textAnchor="middle" fontSize="3" fill={paperColor} fontWeight="bold">NOVEL</text>
-      <rect x="283" y="309" width="9" height="11" rx="0.5" fill={bookSpine3} stroke={coverDark} strokeWidth="0.3" />
-      <rect x="293" y="307" width="11" height="13" rx="0.5" fill={bookSpine5} stroke={coverDark} strokeWidth="0.3" />
-      <rect x="305" y="308" width="7" height="12" rx="0.5" fill={bookSpine1} stroke={coverDark} strokeWidth="0.3" />
-      <rect x="313" y="306" width="13" height="14" rx="0.5" fill={bookSpine4} stroke={coverDark} strokeWidth="0.3" />
-      <text x="319" y="316" textAnchor="middle" fontSize="3" fill={paperColor} fontWeight="bold">VOCAB</text>
-
-      <rect x="260" y="345" width="28" height="6" rx="0.3" fill={bookSpine3} stroke={coverDark} strokeWidth="0.3" />
-      <rect x="290" y="344" width="22" height="7" rx="0.3" fill={bookSpine2} stroke={coverDark} strokeWidth="0.3" />
-
-      <rect x="405" y="196" width="8" height="18" rx="0.3" fill={bookSpine2} stroke={coverDark} strokeWidth="0.3" />
-      <rect x="414" y="197" width="6" height="17" rx="0.3" fill={bookSpine4} stroke={coverDark} strokeWidth="0.3" />
-      <rect x="421" y="195" width="10" height="19" rx="0.3" fill={bookSpine6} stroke={coverDark} strokeWidth="0.3" />
-      <rect x="432" y="197" width="7" height="17" rx="0.3" fill={bookSpine3} stroke={coverDark} strokeWidth="0.3" />
-      <rect x="440" y="196" width="9" height="18" rx="0.3" fill={bookSpine5} stroke={coverDark} strokeWidth="0.3" />
-      <rect x="450" y="198" width="6" height="16" rx="0.3" fill={bookSpine1} stroke={coverDark} strokeWidth="0.3" />
-      <rect x="457" y="196" width="8" height="18" rx="0.3" fill={bookSpine2} stroke={coverDark} strokeWidth="0.3" opacity="0.8" />
-
-      <rect x="408" y="256" width="24" height="5" rx="0.3" fill={bookSpine1} stroke={coverDark} strokeWidth="0.3" />
-      <rect x="434" y="255" width="18" height="6" rx="0.3" fill={bookSpine4} stroke={coverDark} strokeWidth="0.3" />
-      <rect x="454" y="256" width="12" height="5" rx="0.3" fill={bookSpine3} stroke={coverDark} strokeWidth="0.3" />
-
-      <rect x="410" y="316" width="22" height="5" rx="0.3" fill={bookSpine5} stroke={coverDark} strokeWidth="0.3" />
-      <rect x="434" y="315" width="18" height="6" rx="0.3" fill={bookSpine6} stroke={coverDark} strokeWidth="0.3" />
-      <rect x="454" y="316" width="10" height="5" rx="0.3" fill={bookSpine2} stroke={coverDark} strokeWidth="0.3" />
-
-      <rect x="200" y="168" width="16" height="10" rx="0.5" fill={bookSpine4} stroke={coverDark} strokeWidth="0.3" />
-      <line x1="202" y1="170" x2="214" y2="170" stroke={paperColor} strokeWidth="0.3" />
-      <line x1="202" y1="172" x2="212" y2="172" stroke={paperColor} strokeWidth="0.3" />
-      <line x1="202" y1="174" x2="210" y2="174" stroke={paperColor} strokeWidth="0.3" />
-
-      <rect x="220" y="166" width="14" height="12" rx="0.5" fill={bookSpine3} stroke={coverDark} strokeWidth="0.3" />
-      <rect x="236" y="168" width="12" height="10" rx="0.5" fill={bookSpine2} stroke={coverDark} strokeWidth="0.3" />
-      <rect x="250" y="167" width="15" height="11" rx="0.5" fill={bookSpine6} stroke={coverDark} strokeWidth="0.3" />
-
-      <g transform="translate(515, 285)">
-        <rect x="0" y="0" width="18" height="24" rx="0.5" fill={bookSpine4} stroke={coverDark} strokeWidth="0.3" />
-        <rect x="1.5" y="1.5" width="15" height="21" rx="0.3" fill={paperColor} stroke={coverDark} strokeWidth="0.2" />
-        {[0,1,2,3,4,5,6].map(i => (
-          <line key={`nl-${i}`} x1="4" y1={4 + i * 2.5} x2="15" y2={4 + i * 2.5} stroke={dark ? "#666" : "#ccc"} strokeWidth="0.3" />
-        ))}
-        <circle cx="-1" cy="4" r="1" fill={notebookSpiral} />
-        <circle cx="-1" cy="8" r="1" fill={notebookSpiral} />
-        <circle cx="-1" cy="12" r="1" fill={notebookSpiral} />
-        <circle cx="-1" cy="16" r="1" fill={notebookSpiral} />
-        <circle cx="-1" cy="20" r="1" fill={notebookSpiral} />
-      </g>
-
-      <g transform="translate(536, 288)">
-        <rect x="0" y="0" width="16" height="20" rx="0.5" fill={bookSpine2} stroke={coverDark} strokeWidth="0.3" />
-        <rect x="1" y="1" width="14" height="18" rx="0.3" fill={paperColor} stroke={coverDark} strokeWidth="0.2" />
-        {[0,1,2,3,4,5].map(i => (
-          <line key={`nl2-${i}`} x1="3" y1={3 + i * 2.5} x2="14" y2={3 + i * 2.5} stroke={dark ? "#666" : "#ccc"} strokeWidth="0.3" />
-        ))}
-      </g>
-
-      <g transform="translate(520, 314)">
-        <rect x="0" y="0" width="30" height="3" rx="0.3" fill={pencilYellow} stroke={coverDark} strokeWidth="0.2" />
-        <polygon points="-3,1.5 0,0 0,3" fill={pencilTip} stroke={coverDark} strokeWidth="0.2" />
-        <rect x="28" y="0" width="5" height="3" rx="0.3" fill={eraserPink} stroke={coverDark} strokeWidth="0.2" />
-      </g>
-
-      <g transform="translate(530, 320)">
-        <rect x="0" y="0" width="26" height="3" rx="0.3" fill={bookSpine6} stroke={coverDark} strokeWidth="0.2" />
-        <polygon points="-3,1.5 0,0 0,3" fill={pencilTip} stroke={coverDark} strokeWidth="0.2" />
-        <rect x="24" y="0" width="4" height="3" rx="0.3" fill={eraserPink} stroke={coverDark} strokeWidth="0.2" />
-      </g>
-
-      <g transform="translate(290, 335)">
-        <circle cx="10" cy="10" r="10" fill={globeBlue} stroke={coverDark} strokeWidth="0.5" opacity="0.7" />
-        <ellipse cx="10" cy="10" rx="10" ry="4" fill="none" stroke={globeGreen} strokeWidth="0.8" opacity="0.6" />
-        <ellipse cx="10" cy="10" rx="4" ry="10" fill="none" stroke={globeGreen} strokeWidth="0.8" opacity="0.6" />
-        <path d="M2,6 Q10,4 18,6" fill="none" stroke={globeGreen} strokeWidth="1.5" opacity="0.5" />
-        <path d="M2,14 Q10,16 18,14" fill="none" stroke={globeGreen} strokeWidth="1.5" opacity="0.5" />
-        <line x1="10" y1="0" x2="10" y2="20" stroke={dark ? "#666" : "#999"} strokeWidth="0.3" />
-        <rect x="8" y="20" width="4" height="3" rx="0.5" fill={dark ? "#666" : "#999"} stroke={coverDark} strokeWidth="0.3" />
-        <rect x="5" y="23" width="10" height="2" rx="0.5" fill={dark ? "#555" : "#888"} stroke={coverDark} strokeWidth="0.3" />
-      </g>
-    </g>
+    <svg width="70" height="55" viewBox="0 0 70 55">
+      <rect x="2" y="8" width="10" height="42" rx="2" fill="#E57373" stroke="#C62828" strokeWidth="1" />
+      <rect x="13" y="5" width="12" height="45" rx="2" fill="#64B5F6" stroke="#1565C0" strokeWidth="1" />
+      <text x="19" y="35" textAnchor="middle" fontSize="5" fill="#fff" fontWeight="bold" transform="rotate(-90,19,30)">ENGLISH</text>
+      <rect x="26" y="10" width="9" height="40" rx="2" fill="#81C784" stroke="#2E7D32" strokeWidth="1" />
+      <rect x="36" y="6" width="13" height="44" rx="2" fill="#FFB74D" stroke="#E65100" strokeWidth="1" />
+      <text x="42" y="35" textAnchor="middle" fontSize="5.5" fill="#fff" fontWeight="bold" transform="rotate(-90,42,30)">DICT</text>
+      <rect x="50" y="9" width="8" height="41" rx="2" fill="#CE93D8" stroke="#6A1B9A" strokeWidth="1" />
+      <rect x="59" y="7" width="9" height="43" rx="2" fill="#4FC3F7" stroke="#0277BD" strokeWidth="1" />
+      <circle cx="35" cy="3" r="3" fill="#FFE082" stroke="#F9A825" strokeWidth="0.5" />
+      <circle cx="33.5" cy="2.5" r="0.6" fill="#5D4037" />
+      <circle cx="36.5" cy="2.5" r="0.6" fill="#5D4037" />
+      <path d="M34,4 Q35,5 36,4" fill="none" stroke="#5D4037" strokeWidth="0.5" strokeLinecap="round" />
+    </svg>
   );
 }
+
+function KawaiiDictionary() {
+  return (
+    <svg width="50" height="60" viewBox="0 0 50 60">
+      <rect x="4" y="4" width="42" height="52" rx="4" fill="#5C6BC0" stroke="#283593" strokeWidth="1.5" />
+      <rect x="7" y="7" width="36" height="46" rx="2" fill="#7986CB" stroke="#3949AB" strokeWidth="0.8" />
+      <rect x="10" y="12" width="30" height="14" rx="2" fill="#E8EAF6" />
+      <text x="25" y="22" textAnchor="middle" fontSize="7" fill="#283593" fontWeight="bold">ABC</text>
+      <text x="25" y="40" textAnchor="middle" fontSize="5" fill="#E8EAF6" fontWeight="bold">Dictionary</text>
+      <rect x="4" y="50" width="42" height="6" rx="2" fill="#3949AB" />
+      <line x1="6" y1="53" x2="44" y2="53" stroke="#5C6BC0" strokeWidth="0.5" />
+      <circle cx="25" cy="8" r="3.5" fill="#FFF9C4" stroke="#F9A825" strokeWidth="0.5" />
+      <circle cx="23.5" cy="7.5" r="0.7" fill="#5D4037" />
+      <circle cx="26.5" cy="7.5" r="0.7" fill="#5D4037" />
+      <path d="M24,9.5 Q25,10.5 26,9.5" fill="none" stroke="#5D4037" strokeWidth="0.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function KawaiiNotebook() {
+  return (
+    <svg width="45" height="55" viewBox="0 0 45 55">
+      <rect x="8" y="2" width="34" height="50" rx="3" fill="#F48FB1" stroke="#C2185B" strokeWidth="1.2" />
+      <rect x="11" y="5" width="28" height="44" rx="2" fill="#FCE4EC" />
+      {[0,1,2,3,4,5,6,7].map(i => (
+        <line key={`nl-${i}`} x1="14" y1={10 + i * 5} x2="36" y2={10 + i * 5} stroke="#F8BBD0" strokeWidth="0.8" />
+      ))}
+      <circle cx="6" cy="10" r="2.5" fill="#bbb" stroke="#999" strokeWidth="0.5" />
+      <circle cx="6" cy="18" r="2.5" fill="#bbb" stroke="#999" strokeWidth="0.5" />
+      <circle cx="6" cy="26" r="2.5" fill="#bbb" stroke="#999" strokeWidth="0.5" />
+      <circle cx="6" cy="34" r="2.5" fill="#bbb" stroke="#999" strokeWidth="0.5" />
+      <circle cx="6" cy="42" r="2.5" fill="#bbb" stroke="#999" strokeWidth="0.5" />
+      <line x1="16" y1="12" x2="28" y2="12" stroke="#E91E63" strokeWidth="0.8" opacity="0.4" />
+      <line x1="16" y1="17" x2="32" y2="17" stroke="#E91E63" strokeWidth="0.6" opacity="0.3" />
+      <line x1="16" y1="22" x2="26" y2="22" stroke="#E91E63" strokeWidth="0.6" opacity="0.3" />
+      <circle cx="30" cy="4" r="3" fill="#FFF9C4" stroke="#F9A825" strokeWidth="0.5" />
+      <circle cx="28.8" cy="3.5" r="0.6" fill="#5D4037" />
+      <circle cx="31.2" cy="3.5" r="0.6" fill="#5D4037" />
+      <path d="M29.5,5.2 Q30,6 30.5,5.2" fill="none" stroke="#5D4037" strokeWidth="0.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function KawaiiGlobe() {
+  return (
+    <svg width="50" height="60" viewBox="0 0 50 60">
+      <rect x="18" y="48" width="14" height="4" rx="1" fill="#8D6E63" stroke="#5D4037" strokeWidth="0.8" />
+      <rect x="15" y="51" width="20" height="5" rx="2" fill="#795548" stroke="#5D4037" strokeWidth="0.8" />
+      <rect x="23" y="42" width="4" height="8" rx="1" fill="#A1887F" stroke="#5D4037" strokeWidth="0.5" />
+      <circle cx="25" cy="23" r="20" fill="#64B5F6" stroke="#1565C0" strokeWidth="1.5" />
+      <path d="M10,15 Q20,10 30,18 Q38,22 40,15" fill="#66BB6A" stroke="#2E7D32" strokeWidth="0.8" opacity="0.8" />
+      <path d="M8,28 Q18,32 28,26 Q35,30 42,28" fill="#66BB6A" stroke="#2E7D32" strokeWidth="0.8" opacity="0.8" />
+      <path d="M12,35 Q22,38 32,32" fill="#66BB6A" stroke="#2E7D32" strokeWidth="0.8" opacity="0.7" />
+      <ellipse cx="25" cy="23" rx="20" ry="8" fill="none" stroke="#1565C0" strokeWidth="0.6" opacity="0.4" />
+      <ellipse cx="25" cy="23" rx="8" ry="20" fill="none" stroke="#1565C0" strokeWidth="0.6" opacity="0.4" />
+      <circle cx="25" cy="6" r="3.5" fill="#FFF9C4" stroke="#F9A825" strokeWidth="0.5" />
+      <circle cx="23.5" cy="5.5" r="0.7" fill="#5D4037" />
+      <circle cx="26.5" cy="5.5" r="0.7" fill="#5D4037" />
+      <path d="M24,7.5 Q25,8.5 26,7.5" fill="none" stroke="#5D4037" strokeWidth="0.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function KawaiiPencilCup() {
+  return (
+    <svg width="40" height="55" viewBox="0 0 40 55">
+      <path d="M6,18 L4,50 L36,50 L34,18 Z" fill="#FFCC80" stroke="#E65100" strokeWidth="1.2" rx="2" />
+      <rect x="5" y="16" width="30" height="5" rx="2" fill="#FFB74D" stroke="#E65100" strokeWidth="0.8" />
+      <path d="M8,20 L9,48 L31,48 L32,20" fill="#FFE0B2" opacity="0.4" />
+      <rect x="10" y="4" width="3" height="16" rx="0.5" fill="#FDD835" stroke="#F9A825" strokeWidth="0.5" />
+      <polygon points="10,4 13,4 11.5,0" fill="#E8D5B0" stroke="#8D6E63" strokeWidth="0.3" />
+      <rect x="10" y="17" width="3" height="3" rx="0.5" fill="#F48FB1" />
+      <rect x="17" y="6" width="3" height="14" rx="0.5" fill="#E57373" stroke="#C62828" strokeWidth="0.5" />
+      <polygon points="17,6 20,6 18.5,2" fill="#E8D5B0" stroke="#8D6E63" strokeWidth="0.3" />
+      <rect x="24" y="3" width="3" height="17" rx="0.5" fill="#64B5F6" stroke="#1565C0" strokeWidth="0.5" />
+      <polygon points="24,3 27,3 25.5,-1" fill="#E8D5B0" stroke="#8D6E63" strokeWidth="0.3" />
+      <rect x="30" y="8" width="2.5" height="12" rx="0.5" fill="#81C784" stroke="#2E7D32" strokeWidth="0.5" />
+      <circle cx="20" cy="40" r="4" fill="#FFF9C4" stroke="#F9A825" strokeWidth="0.5" />
+      <circle cx="18.5" cy="39.5" r="0.7" fill="#5D4037" />
+      <circle cx="21.5" cy="39.5" r="0.7" fill="#5D4037" />
+      <path d="M19,41.5 Q20,42.5 21,41.5" fill="none" stroke="#5D4037" strokeWidth="0.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function KawaiiBookStack() {
+  return (
+    <svg width="55" height="45" viewBox="0 0 55 45">
+      <rect x="3" y="30" width="48" height="10" rx="2" fill="#E57373" stroke="#C62828" strokeWidth="1" />
+      <line x1="6" y1="35" x2="48" y2="35" stroke="#EF9A9A" strokeWidth="0.5" />
+      <rect x="5" y="21" width="44" height="10" rx="2" fill="#64B5F6" stroke="#1565C0" strokeWidth="1" />
+      <text x="27" y="29" textAnchor="middle" fontSize="5" fill="#E3F2FD" fontWeight="bold">NOVELS</text>
+      <rect x="7" y="12" width="40" height="10" rx="2" fill="#81C784" stroke="#2E7D32" strokeWidth="1" />
+      <text x="27" y="20" textAnchor="middle" fontSize="5" fill="#E8F5E9" fontWeight="bold">ATLAS</text>
+      <rect x="10" y="4" width="34" height="9" rx="2" fill="#FFB74D" stroke="#E65100" strokeWidth="1" />
+      <circle cx="27" cy="2" r="3" fill="#FFF9C4" stroke="#F9A825" strokeWidth="0.5" />
+      <circle cx="25.5" cy="1.5" r="0.6" fill="#5D4037" />
+      <circle cx="28.5" cy="1.5" r="0.6" fill="#5D4037" />
+      <path d="M26.2,3.2 Q27,4 27.8,3.2" fill="none" stroke="#5D4037" strokeWidth="0.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+const FIXED_ITEM_COMPONENTS: Record<string, () => JSX.Element> = {
+  "books-row": KawaiiBookRow,
+  "dictionary": KawaiiDictionary,
+  "notebook": KawaiiNotebook,
+  "globe": KawaiiGlobe,
+  "pencil-cup": KawaiiPencilCup,
+  "book-stack": KawaiiBookStack,
+};
 
 function SchematicFurniture({ dark }: { dark: boolean }) {
   const woodFill = dark ? "#5a4a3a" : "#c4a37a";
@@ -314,11 +318,11 @@ function StorefrontFrame({ dark, treeImagePath }: {
   dark: boolean;
   treeImagePath: string;
 }) {
-  const wallBase = dark ? "#4a4050" : "#c8b898";
-  const wallLight = dark ? "#5a5060" : "#d4c4a8";
-  const wallDark = dark ? "#3a3040" : "#b8a888";
-  const wallPlaster = dark ? "#454050" : "#d8cbb0";
-  const mortarColor = dark ? "#353040" : "#baa880";
+  const wallBase = dark ? "#3a4558" : "#b8c8d8";
+  const wallLight = dark ? "#445568" : "#c8d4e0";
+  const wallDark = dark ? "#303848" : "#a8b8c8";
+  const wallPlaster = dark ? "#384050" : "#d0d8e4";
+  const mortarColor = dark ? "#2a3040" : "#c0c8d4";
   const awningColor = "#6B4226";
   const awningStripe = "#8B5E3C";
   const sillColor = dark ? "#555" : "#8a8078";
@@ -326,8 +330,8 @@ function StorefrontFrame({ dark, treeImagePath }: {
   const sidewalkMid = dark ? "#404048" : "#b8a898";
   const sidewalkDark = dark ? "#333338" : "#a89888";
   const sidewalkMortar = dark ? "#2a2a30" : "#9a8a78";
-  const doorFrameColor = dark ? "#4a4050" : "#6B4226";
-  const doorPanelColor = dark ? "#3a3545" : "#8B6848";
+  const doorFrameColor = dark ? "#3a4050" : "#5a6a7a";
+  const doorPanelColor = dark ? "#2a3545" : "#7a8a98";
   const doorHandleColor = dark ? "#888" : "#C0A060";
   const signBg = dark ? "#2a2535" : "#f5efe6";
   const signBorder = dark ? "#555" : "#6B4226";
@@ -336,13 +340,11 @@ function StorefrontFrame({ dark, treeImagePath }: {
   const planterDark = dark ? "#5a4030" : "#9a6030";
   const planterRim = dark ? "#7a5a48" : "#c88040";
 
-  const WALL_HEIGHT = "100%";
-
   return (
     <div className="absolute inset-0 pointer-events-none z-[1]">
       <div className="absolute -left-14 top-0 w-14 overflow-hidden"
-        style={{ background: wallPlaster, height: WALL_HEIGHT }}>
-        {[...Array(20)].map((_, row) => (
+        style={{ background: wallPlaster, height: "100%" }}>
+        {[...Array(24)].map((_, row) => (
           <div key={`lr-${row}`} className="flex" style={{ marginTop: row === 0 ? 0 : 1 }}>
             {[...Array(3)].map((_, col) => (
               <div key={`lb-${row}-${col}`} style={{
@@ -359,8 +361,8 @@ function StorefrontFrame({ dark, treeImagePath }: {
       </div>
 
       <div className="absolute -right-20 top-0 w-20 overflow-hidden"
-        style={{ background: wallPlaster, height: WALL_HEIGHT }}>
-        {[...Array(20)].map((_, row) => (
+        style={{ background: wallPlaster, height: "100%" }}>
+        {[...Array(24)].map((_, row) => (
           <div key={`rr-${row}`} className="flex" style={{ marginTop: row === 0 ? 0 : 1 }}>
             {[...Array(4)].map((_, col) => (
               <div key={`rb-${row}-${col}`} style={{
@@ -437,27 +439,30 @@ function StorefrontFrame({ dark, treeImagePath }: {
       </div>
 
       <div className="absolute z-[4]"
-        style={{ right: "-17px", bottom: "0px", transform: "translateY(0)" }}>
-        <svg width="40" height="30" viewBox="0 0 40 30">
-          <rect x="5" y="24" width="30" height="6" rx="1" fill={planterDark} stroke={planterTerra} strokeWidth="0.5" />
-          <path d="M3,4 L37,4 L34,24 L6,24 Z" fill={planterTerra} stroke={planterDark} strokeWidth="0.8" />
-          <rect x="3" y="2" width="34" height="4" rx="1" fill={planterRim} stroke={planterDark} strokeWidth="0.5" />
-          <rect x="10" y="0" width="20" height="3" rx="0.5" fill={dark ? "#3a5a3a" : "#5a8a5a"} opacity="0.4" />
-        </svg>
-        <img
-          src={treeImagePath}
-          alt="Seasonal tree"
-          className="absolute object-contain"
-          style={{
-            width: "52px",
-            height: "80px",
-            bottom: "24px",
-            left: "50%",
-            transform: "translateX(-50%)",
-            filter: dark ? "brightness(0.85)" : "none",
-          }}
-          draggable={false}
-        />
+        style={{ right: "-18px", bottom: "0px" }}>
+        <div className="relative" style={{ width: "50px", height: "140px" }}>
+          <img
+            src={treeImagePath}
+            alt="Seasonal tree"
+            className="absolute object-contain"
+            style={{
+              width: "90px",
+              height: "120px",
+              bottom: "26px",
+              left: "50%",
+              transform: "translateX(-50%)",
+              filter: dark ? "brightness(0.85)" : "none",
+            }}
+            draggable={false}
+          />
+          <svg className="absolute bottom-0 left-1/2" style={{ transform: "translateX(-50%)" }} width="50" height="34" viewBox="0 0 50 34">
+            <rect x="8" y="28" width="34" height="6" rx="1" fill={planterDark} stroke={planterTerra} strokeWidth="0.5" />
+            <path d="M5,8 L45,8 L41,28 L9,28 Z" fill={planterTerra} stroke={planterDark} strokeWidth="1" />
+            <path d="M9,10 L41,10 L38,26 L12,26 Z" fill={planterTerra} opacity="0.7" />
+            <rect x="4" y="4" width="42" height="6" rx="2" fill={planterRim} stroke={planterDark} strokeWidth="0.8" />
+            <ellipse cx="25" cy="8" rx="16" ry="3" fill="#5a3a1a" opacity="0.3" />
+          </svg>
+        </div>
       </div>
     </div>
   );
@@ -465,10 +470,12 @@ function StorefrontFrame({ dark, treeImagePath }: {
 
 export function WindowDisplay({
   festivity, placedElements, allElements, onRemoveElement, onUpdateElement,
-  bgColor, lightsOn, onToggleLight, lightColor,
+  bgColor, lightsOn, onToggleLight, lightColor, fixedItems, onUpdateFixedItem,
 }: WindowDisplayProps) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [selectedFixedId, setSelectedFixedId] = useState<string | null>(null);
   const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
+  const [draggingFixedId, setDraggingFixedId] = useState<string | null>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
 
   const dark = isDark(bgColor);
@@ -479,6 +486,13 @@ export function WindowDisplay({
     const currentScale = placedElements[index].scale || 1;
     const newScale = Math.max(0.5, Math.min(2.5, currentScale + delta));
     onUpdateElement(index, { scale: newScale });
+  };
+
+  const handleFixedScale = (id: string, delta: number) => {
+    const item = fixedItems.find(f => f.id === id);
+    if (!item) return;
+    const newScale = Math.max(0.5, Math.min(2.5, item.scale + delta));
+    onUpdateFixedItem(id, { scale: newScale });
   };
 
   const getPercentPosition = useCallback((clientX: number, clientY: number) => {
@@ -493,19 +507,42 @@ export function WindowDisplay({
     e.stopPropagation();
     e.preventDefault();
     setSelectedIndex(index);
+    setSelectedFixedId(null);
     setDraggingIndex(index);
+    setDraggingFixedId(null);
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+  };
+
+  const handleFixedPointerDown = (e: React.PointerEvent, id: string) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setSelectedFixedId(id);
+    setSelectedIndex(null);
+    setDraggingFixedId(id);
+    setDraggingIndex(null);
     (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
   };
 
   const handlePointerMove = (e: React.PointerEvent) => {
-    if (draggingIndex === null) return;
-    e.preventDefault();
-    const pos = getPercentPosition(e.clientX, e.clientY);
-    onUpdateElement(draggingIndex, pos);
+    if (draggingIndex !== null) {
+      e.preventDefault();
+      const pos = getPercentPosition(e.clientX, e.clientY);
+      onUpdateElement(draggingIndex, pos);
+    } else if (draggingFixedId !== null) {
+      e.preventDefault();
+      const pos = getPercentPosition(e.clientX, e.clientY);
+      onUpdateFixedItem(draggingFixedId, pos);
+    }
   };
 
   const handlePointerUp = () => {
     setDraggingIndex(null);
+    setDraggingFixedId(null);
+  };
+
+  const handleCanvasClick = () => {
+    setSelectedIndex(null);
+    setSelectedFixedId(null);
   };
 
   return (
@@ -521,7 +558,7 @@ export function WindowDisplay({
           boxShadow: dark ? "inset 0 0 30px rgba(0,0,0,0.3)" : "inset 0 0 20px rgba(0,0,0,0.04)",
           borderRadius: 2,
         }}
-        onClick={() => setSelectedIndex(null)}
+        onClick={handleCanvasClick}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
         data-testid="window-display-canvas"
@@ -538,8 +575,61 @@ export function WindowDisplay({
             {festivity.name} &middot; {festivity.month}
           </text>
           <SchematicFurniture dark={dark} />
-          <BookshopItems dark={dark} />
         </svg>
+
+        {fixedItems.map((item) => {
+          const Component = FIXED_ITEM_COMPONENTS[item.id];
+          if (!Component) return null;
+          const isSelected = selectedFixedId === item.id;
+
+          return (
+            <div
+              key={`fixed-${item.id}`}
+              className={`absolute touch-none select-none ${
+                draggingFixedId === item.id ? "cursor-grabbing z-40" : "cursor-grab z-[8]"
+              } ${isSelected ? "z-40" : ""}`}
+              style={{
+                left: `${item.x}%`,
+                top: `${item.y}%`,
+                transform: `translate(-50%, -50%) scale(${item.scale || 1})`,
+              }}
+              onPointerDown={(e) => handleFixedPointerDown(e, item.id)}
+              onClick={(e) => e.stopPropagation()}
+              data-testid={`fixed-item-${item.id}`}
+            >
+              <div className={`${isSelected ? "ring-2 ring-amber-400 ring-offset-2 rounded-lg" : ""} p-0.5`}>
+                <Component />
+              </div>
+
+              {isSelected && (
+                <div
+                  className="absolute -top-10 left-1/2 -translate-x-1/2 flex items-center gap-1 z-[60]"
+                  onClick={(e) => e.stopPropagation()}
+                  onPointerDown={(e) => e.stopPropagation()}
+                >
+                  <div className="flex gap-1 bg-white shadow-xl border rounded-full p-1">
+                    <button
+                      onClick={() => handleFixedScale(item.id, 0.3)}
+                      className="p-1 rounded-full text-amber-600"
+                      aria-label="Enlarge"
+                      data-testid={`button-enlarge-fixed-${item.id}`}
+                    >
+                      <Plus size={14} />
+                    </button>
+                    <button
+                      onClick={() => handleFixedScale(item.id, -0.3)}
+                      className="p-1 rounded-full text-amber-600"
+                      aria-label="Shrink"
+                      data-testid={`button-shrink-fixed-${item.id}`}
+                    >
+                      <Minus size={14} />
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })}
 
         {placedElements.map((placed, index) => {
           const element = allElements.find(el => el.id === placed.elementId);

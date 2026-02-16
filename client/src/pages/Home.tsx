@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { festivities, type Festivity, type DecorativeElement, getUnlockedElementsByScore } from "@/lib/festivities";
-import { loadProgress, saveProgress, getFestivityProgress, updateFestivityProgress, type GameProgress, type PlacedElement, MAX_ELEMENT_COPIES, countElementInDisplay, DEFAULT_LIGHTS, LIGHT_COLOR_OPTIONS } from "@/lib/progress";
+import { loadProgress, saveProgress, getFestivityProgress, updateFestivityProgress, type GameProgress, type PlacedElement, type FixedItemPosition, MAX_ELEMENT_COPIES, countElementInDisplay, DEFAULT_LIGHTS, LIGHT_COLOR_OPTIONS, getFixedItemPositions } from "@/lib/progress";
 import { WindowDisplay } from "@/components/WindowDisplay";
 import { ElementPanel } from "@/components/ElementPanel";
 import { QuizModal } from "@/components/QuizModal";
@@ -29,6 +29,15 @@ export default function Home() {
   const canvasBgColor = festivityProgress.bgColor || "#FFF9F0";
   const lightsOn = festivityProgress.lightsOn || [...DEFAULT_LIGHTS];
   const lightColor = festivityProgress.lightColor || "#FFD700";
+  const fixedItems = getFixedItemPositions(festivityProgress);
+
+  const handleUpdateFixedItem = (id: string, updates: Partial<FixedItemPosition>) => {
+    const updatedItems = fixedItems.map(item =>
+      item.id === id ? { ...item, ...updates } : item
+    );
+    const newProgress = updateFestivityProgress(progress, selectedFestivity.id, { fixedItemPositions: updatedItems });
+    setProgress(newProgress);
+  };
 
   const handleBgColorChange = (color: string) => {
     const newProgress = updateFestivityProgress(progress, selectedFestivity.id, { bgColor: color });
@@ -163,6 +172,8 @@ export default function Home() {
               lightsOn={lightsOn}
               onToggleLight={handleToggleLight}
               lightColor={lightColor}
+              fixedItems={fixedItems}
+              onUpdateFixedItem={handleUpdateFixedItem}
             />
           </div>
         </div>
