@@ -1,3 +1,23 @@
+Perfecto, gracias por la clarificación. Sí, quiero dividir el data.json actual en 3 archivos separados para mejor organización.
+
+Vamos paso a paso. Empecemos con el primero:
+
+---
+
+## ARCHIVO 1: /src/data/festivities.config.json
+
+Este archivo contiene la CONFIGURACIÓN VISUAL Y DE JUEGO de las 9 festividades (sin las preguntas).
+
+Incluye:
+- Datos básicos de cada festividad (id, nombre, mes)
+- Paletas de colores (default + desbloqueables con puntos)
+- Decoraciones base (disponibles desde el inicio)
+- Decoraciones desbloqueables (con requiredScore: 3, 6, 9...)
+- Features desbloqueables (cambiar color luces: 12pts, mover muebles: 15pts...)
+- Configuración de niveles del quiz (3 niveles progresivos A1→A2)
+
+Aquí el contenido exacto:
+
 {
   "festivities": [
     {
@@ -317,3 +337,16 @@
     }
   ]
 }
+
+---
+
+INSTRUCCIONES:
+1. Crea la carpeta /src/data/ si no existe
+2. Crea SOLO este archivo festivities.config.json
+3. NO modifiques ningún componente todavía
+4. Verifica que se importa correctamente:
+   import config from './data/festivities.config.json';
+   console.log(config.festivities[0].name); // Debe mostrar "Easter"
+5. Confírmame cuando esté listo y pasamos al archivo 2 (questions.bank.json)
+
+¿Procedemos?
