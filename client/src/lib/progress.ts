@@ -15,12 +15,19 @@ export interface FixedItemPosition {
   scale: number;
 }
 
+export interface FurniturePosition {
+  id: string;
+  x: number;
+  y: number;
+}
+
 export interface FestivityProgress {
   quizCompleted: boolean;
   quizScore: number;
   unlockedElements: string[];
   placedElements: PlacedElement[];
   fixedItemPositions?: FixedItemPosition[];
+  furniturePositions?: FurniturePosition[];
   bgColor?: string;
   lightsOn?: boolean[];
   lightColor?: string;
@@ -154,6 +161,35 @@ export const FIXED_ITEMS: FixedItemDef[] = [
   { id: "pencil-cup", name: "Pencil Cup", defaultX: 50, defaultY: 90, defaultScale: 1 },
   { id: "book-stack", name: "Book Stack", defaultX: 30, defaultY: 85, defaultScale: 1 },
 ];
+
+export interface FurnitureDef {
+  id: string;
+  name: string;
+  defaultX: number;
+  defaultY: number;
+  type: "floor" | "wall";
+}
+
+export const FURNITURE_PIECES: FurnitureDef[] = [
+  { id: "bookcase-left", name: "Left Bookcase", defaultX: 14, defaultY: 78, type: "floor" },
+  { id: "pedestal", name: "Display Table", defaultX: 48, defaultY: 90, type: "floor" },
+  { id: "bookcase-right", name: "Right Shelf", defaultX: 78, defaultY: 74, type: "floor" },
+  { id: "shelf-1", name: "Wall Shelf 1", defaultX: 15, defaultY: 27, type: "wall" },
+  { id: "shelf-2", name: "Wall Shelf 2", defaultX: 42, defaultY: 22, type: "wall" },
+  { id: "shelf-3", name: "Wall Shelf 3", defaultX: 74, defaultY: 27, type: "wall" },
+  { id: "shelf-4", name: "Wall Shelf 4", defaultX: 18, defaultY: 46, type: "wall" },
+  { id: "shelf-5", name: "Wall Shelf 5", defaultX: 90, defaultY: 43, type: "wall" },
+  { id: "shelf-6", name: "Wall Shelf 6", defaultX: 53, defaultY: 41, type: "wall" },
+];
+
+export function getFurniturePositions(festivityProgress: FestivityProgress): FurniturePosition[] {
+  const saved = festivityProgress.furniturePositions || [];
+  return FURNITURE_PIECES.map(piece => {
+    const existing = saved.find(s => s.id === piece.id);
+    if (existing) return existing;
+    return { id: piece.id, x: piece.defaultX, y: piece.defaultY };
+  });
+}
 
 export function getFixedItemPositions(festivityProgress: FestivityProgress): FixedItemPosition[] {
   const saved = festivityProgress.fixedItemPositions || [];

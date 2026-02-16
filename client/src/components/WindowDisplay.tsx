@@ -1,9 +1,9 @@
 import { useState, useRef, useCallback } from "react";
-import type { PlacedElement, FixedItemPosition } from "@/lib/progress";
+import type { PlacedElement, FixedItemPosition, FurniturePosition } from "@/lib/progress";
 import type { DecorativeElement, Festivity } from "@/lib/festivities";
-import { getSeasonTreePath } from "@/lib/progress";
+import { getSeasonTreePath, FURNITURE_PIECES } from "@/lib/progress";
 import { StickerIcon } from "./StickerIcon";
-import { Trash2, Plus, Minus } from "lucide-react";
+import { Trash2, Plus, Minus, Lock } from "lucide-react";
 
 interface WindowDisplayProps {
   festivity: Festivity;
@@ -20,6 +20,10 @@ interface WindowDisplayProps {
   shopName: string;
   onShopNameChange: (name: string) => void;
   unlockedLightsCount: number;
+  furniturePositions: FurniturePosition[];
+  onUpdateFurniture: (id: string, updates: Partial<FurniturePosition>) => void;
+  furnitureUnlocked: boolean;
+  onLockedAction: () => void;
 }
 
 function isDark(hex: string): boolean {
@@ -276,71 +280,103 @@ const FIXED_ITEM_COMPONENTS: Record<string, () => JSX.Element> = {
   "book-stack": KawaiiBookStack,
 };
 
-function SchematicFurniture({ dark }: { dark: boolean }) {
+function FurniturePiece({ id, dark }: { id: string; dark: boolean }) {
   const woodFill = dark ? "#5a4a3a" : "#c4a37a";
   const woodStroke = dark ? "#7a6a5a" : "#8B7355";
   const shelfFill = dark ? "#4a3a2a" : "#b89868";
   const metalFill = dark ? "#666" : "#999";
   const bracketFill = dark ? "#555" : "#888";
 
+  switch (id) {
+    case "bookcase-left":
+      return (
+        <svg width="130" height="140" viewBox="0 0 130 140" className="block">
+          <rect x="0" y="0" width="130" height="8" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="1" />
+          <rect x="2" y="8" width="5" height="128" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
+          <rect x="123" y="8" width="5" height="128" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
+          <rect x="0" y="45" width="130" height="5" rx="1" fill={shelfFill} stroke={woodStroke} strokeWidth="0.8" />
+          <rect x="0" y="85" width="130" height="5" rx="1" fill={shelfFill} stroke={woodStroke} strokeWidth="0.8" />
+          <rect x="0" y="120" width="130" height="5" rx="1" fill={shelfFill} stroke={woodStroke} strokeWidth="0.8" />
+          <rect x="0" y="132" width="130" height="4" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="1" />
+        </svg>
+      );
+    case "pedestal":
+      return (
+        <svg width="120" height="40" viewBox="0 0 120 40" className="block">
+          <rect x="0" y="0" width="120" height="6" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="1" />
+          <rect x="10" y="6" width="6" height="30" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
+          <rect x="104" y="6" width="6" height="30" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
+          <rect x="0" y="32" width="120" height="4" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
+        </svg>
+      );
+    case "bookcase-right":
+      return (
+        <svg width="70" height="160" viewBox="0 0 70 160" className="block">
+          <rect x="30" y="0" width="6" height="156" fill={metalFill} stroke={woodStroke} strokeWidth="0.5" />
+          <rect x="0" y="0" width="70" height="5" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
+          <rect x="0" y="50" width="70" height="5" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
+          <rect x="0" y="100" width="70" height="5" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
+          <rect x="0" y="140" width="70" height="5" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
+          <rect x="0" y="152" width="70" height="4" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="1" />
+        </svg>
+      );
+    case "shelf-1":
+      return (
+        <svg width="100" height="20" viewBox="0 0 100 20" className="block">
+          <rect x="0" y="0" width="100" height="4" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
+          <path d="M10,4 L10,16 L16,16" fill="none" stroke={bracketFill} strokeWidth="2" />
+          <path d="M90,4 L90,16 L84,16" fill="none" stroke={bracketFill} strokeWidth="2" />
+        </svg>
+      );
+    case "shelf-2":
+      return (
+        <svg width="110" height="20" viewBox="0 0 110 20" className="block">
+          <rect x="0" y="0" width="110" height="4" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
+          <path d="M15,4 L15,16 L21,16" fill="none" stroke={bracketFill} strokeWidth="2" />
+          <path d="M95,4 L95,16 L89,16" fill="none" stroke={bracketFill} strokeWidth="2" />
+        </svg>
+      );
+    case "shelf-3":
+      return (
+        <svg width="90" height="20" viewBox="0 0 90 20" className="block">
+          <rect x="0" y="0" width="90" height="4" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
+          <path d="M15,4 L15,16 L21,16" fill="none" stroke={bracketFill} strokeWidth="2" />
+          <path d="M75,4 L75,16 L69,16" fill="none" stroke={bracketFill} strokeWidth="2" />
+        </svg>
+      );
+    case "shelf-4":
+      return (
+        <svg width="90" height="20" viewBox="0 0 90 20" className="block">
+          <rect x="0" y="0" width="90" height="4" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
+          <path d="M15,4 L15,16 L21,16" fill="none" stroke={bracketFill} strokeWidth="2" />
+          <path d="M75,4 L75,16 L69,16" fill="none" stroke={bracketFill} strokeWidth="2" />
+        </svg>
+      );
+    case "shelf-5":
+      return (
+        <svg width="70" height="20" viewBox="0 0 70 20" className="block">
+          <rect x="0" y="0" width="70" height="4" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
+          <path d="M10,4 L10,16 L16,16" fill="none" stroke={bracketFill} strokeWidth="2" />
+          <path d="M60,4 L60,16 L54,16" fill="none" stroke={bracketFill} strokeWidth="2" />
+        </svg>
+      );
+    case "shelf-6":
+      return (
+        <svg width="80" height="20" viewBox="0 0 80 20" className="block">
+          <rect x="0" y="0" width="80" height="4" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
+          <path d="M10,4 L10,16 L16,16" fill="none" stroke={bracketFill} strokeWidth="2" />
+          <path d="M70,4 L70,16 L64,16" fill="none" stroke={bracketFill} strokeWidth="2" />
+        </svg>
+      );
+    default:
+      return null;
+  }
+}
+
+function FloorLine({ dark }: { dark: boolean }) {
+  const woodStroke = dark ? "#7a6a5a" : "#8B7355";
   return (
-    <g className="pointer-events-none">
-      {/* Floor line */}
-      <line x1="0" y1="366" x2="600" y2="366" stroke={woodStroke} strokeWidth="1" opacity="0.3" />
-
-      {/* LEFT FLOOR BOOKCASE - tall, legs touching floor */}
-      <rect x="20" y="230" width="130" height="8" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="1" />
-      <rect x="22" y="238" width="5" height="128" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
-      <rect x="143" y="238" width="5" height="128" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
-      <rect x="20" y="275" width="130" height="5" rx="1" fill={shelfFill} stroke={woodStroke} strokeWidth="0.8" />
-      <rect x="20" y="315" width="130" height="5" rx="1" fill={shelfFill} stroke={woodStroke} strokeWidth="0.8" />
-      <rect x="20" y="350" width="130" height="5" rx="1" fill={shelfFill} stroke={woodStroke} strokeWidth="0.8" />
-      <rect x="20" y="362" width="130" height="4" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="1" />
-
-      {/* CENTER FLOOR PEDESTAL - low display table, legs on floor */}
-      <rect x="230" y="330" width="120" height="6" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="1" />
-      <rect x="240" y="336" width="6" height="30" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
-      <rect x="334" y="336" width="6" height="30" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
-      <rect x="230" y="362" width="120" height="4" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
-
-      {/* RIGHT FLOOR BOOKCASE - tall, legs touching floor */}
-      <rect x="440" y="210" width="6" height="156" fill={metalFill} stroke={woodStroke} strokeWidth="0.5" />
-      <rect x="410" y="210" width="70" height="5" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
-      <rect x="410" y="260" width="70" height="5" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
-      <rect x="410" y="310" width="70" height="5" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
-      <rect x="410" y="350" width="70" height="5" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
-      <rect x="410" y="362" width="70" height="4" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="1" />
-
-      {/* WALL SHELF 1 - top left, with L-brackets */}
-      <rect x="40" y="100" width="100" height="4" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
-      <path d="M50,104 L50,116 L56,116" fill="none" stroke={bracketFill} strokeWidth="2" />
-      <path d="M130,104 L130,116 L124,116" fill="none" stroke={bracketFill} strokeWidth="2" />
-
-      {/* WALL SHELF 2 - top center */}
-      <rect x="200" y="80" width="110" height="4" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
-      <path d="M215,84 L215,96 L221,96" fill="none" stroke={bracketFill} strokeWidth="2" />
-      <path d="M295,84 L295,96 L289,96" fill="none" stroke={bracketFill} strokeWidth="2" />
-
-      {/* WALL SHELF 3 - top right */}
-      <rect x="400" y="100" width="90" height="4" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
-      <path d="M415,104 L415,116 L421,116" fill="none" stroke={bracketFill} strokeWidth="2" />
-      <path d="M475,104 L475,116 L469,116" fill="none" stroke={bracketFill} strokeWidth="2" />
-
-      {/* WALL SHELF 4 - mid left */}
-      <rect x="60" y="170" width="90" height="4" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
-      <path d="M75,174 L75,186 L81,186" fill="none" stroke={bracketFill} strokeWidth="2" />
-      <path d="M135,174 L135,186 L129,186" fill="none" stroke={bracketFill} strokeWidth="2" />
-
-      {/* WALL SHELF 5 - mid right */}
-      <rect x="500" y="160" width="70" height="4" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
-      <path d="M510,164 L510,176 L516,176" fill="none" stroke={bracketFill} strokeWidth="2" />
-      <path d="M560,164 L560,176 L554,176" fill="none" stroke={bracketFill} strokeWidth="2" />
-
-      {/* WALL SHELF 6 - mid center (higher) */}
-      <rect x="280" y="150" width="80" height="4" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
-      <path d="M290,154 L290,166 L296,166" fill="none" stroke={bracketFill} strokeWidth="2" />
-      <path d="M350,154 L350,166 L344,166" fill="none" stroke={bracketFill} strokeWidth="2" />
-    </g>
+    <line x1="0" y1="366" x2="600" y2="366" stroke={woodStroke} strokeWidth="1" opacity="0.3" />
   );
 }
 
@@ -502,11 +538,13 @@ export function WindowDisplay({
   festivity, placedElements, allElements, onRemoveElement, onUpdateElement,
   bgColor, lightsOn, onToggleLight, lightColor, fixedItems, onUpdateFixedItem,
   shopName, onShopNameChange, unlockedLightsCount,
+  furniturePositions, onUpdateFurniture, furnitureUnlocked, onLockedAction,
 }: WindowDisplayProps) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [selectedFixedId, setSelectedFixedId] = useState<string | null>(null);
   const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
   const [draggingFixedId, setDraggingFixedId] = useState<string | null>(null);
+  const [draggingFurnitureId, setDraggingFurnitureId] = useState<string | null>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
 
   const dark = isDark(bgColor);
@@ -550,6 +588,22 @@ export function WindowDisplay({
     setSelectedIndex(null);
     setDraggingFixedId(id);
     setDraggingIndex(null);
+    setDraggingFurnitureId(null);
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+  };
+
+  const handleFurniturePointerDown = (e: React.PointerEvent, id: string) => {
+    e.stopPropagation();
+    e.preventDefault();
+    if (!furnitureUnlocked) {
+      onLockedAction();
+      return;
+    }
+    setDraggingFurnitureId(id);
+    setDraggingIndex(null);
+    setDraggingFixedId(null);
+    setSelectedIndex(null);
+    setSelectedFixedId(null);
     (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
   };
 
@@ -562,12 +616,17 @@ export function WindowDisplay({
       e.preventDefault();
       const pos = getPercentPosition(e.clientX, e.clientY);
       onUpdateFixedItem(draggingFixedId, pos);
+    } else if (draggingFurnitureId !== null) {
+      e.preventDefault();
+      const pos = getPercentPosition(e.clientX, e.clientY);
+      onUpdateFurniture(draggingFurnitureId, pos);
     }
   };
 
   const handlePointerUp = () => {
     setDraggingIndex(null);
     setDraggingFixedId(null);
+    setDraggingFurnitureId(null);
   };
 
   const handleCanvasClick = () => {
@@ -601,8 +660,34 @@ export function WindowDisplay({
           </defs>
           <rect x="0" y="0" width="600" height="370" fill={bgColor} />
           <rect x="0" y="0" width="600" height="370" fill="url(#doodle-bg)" />
-          <SchematicFurniture dark={dark} />
+          <FloorLine dark={dark} />
         </svg>
+
+        {furniturePositions.map((furn) => (
+          <div
+            key={`furniture-${furn.id}`}
+            className={`absolute touch-none select-none z-[3] ${
+              furnitureUnlocked
+                ? draggingFurnitureId === furn.id ? "cursor-grabbing" : "cursor-grab"
+                : "cursor-not-allowed"
+            }`}
+            style={{
+              left: `${furn.x}%`,
+              top: `${furn.y}%`,
+              transform: "translate(-50%, -50%)",
+            }}
+            onPointerDown={(e) => handleFurniturePointerDown(e, furn.id)}
+            onClick={(e) => e.stopPropagation()}
+            data-testid={`furniture-${furn.id}`}
+          >
+            {!furnitureUnlocked && (
+              <div className="absolute -top-1 -right-1 z-10 bg-background/80 rounded-full p-0.5">
+                <Lock size={8} className="text-muted-foreground" />
+              </div>
+            )}
+            <FurniturePiece id={furn.id} dark={dark} />
+          </div>
+        ))}
 
         {fixedItems.map((item) => {
           const Component = FIXED_ITEM_COMPONENTS[item.id];

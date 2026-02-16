@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import type { QuizQuestion, Festivity } from "@/lib/festivities";
 import { getUnlockStatus } from "@/lib/festivities";
-import { CheckCircle, XCircle, Trophy, BookOpen, Sparkles, Lightbulb, Palette } from "lucide-react";
+import { CheckCircle, XCircle, Trophy, BookOpen, Sparkles, Lightbulb, Palette, Armchair } from "lucide-react";
 
 interface QuizModalProps {
   open: boolean;
@@ -72,7 +72,8 @@ export function QuizModal({
   const newElements = newUnlock.unlockedElements.length - prevUnlock.unlockedElements.length;
   const newLights = newUnlock.unlockedLightsCount - prevUnlock.unlockedLightsCount;
   const newBgColors = newUnlock.unlockedBgColors - prevUnlock.unlockedBgColors;
-  const hasNewUnlocks = newElements > 0 || newLights > 0 || newBgColors > 0;
+  const newFurniture = !prevUnlock.furnitureUnlocked && newUnlock.furnitureUnlocked;
+  const hasNewUnlocks = newElements > 0 || newLights > 0 || newBgColors > 0 || newFurniture;
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
@@ -198,6 +199,12 @@ export function QuizModal({
                       {newBgColors} new background colour{newBgColors > 1 ? "s" : ""}
                     </p>
                   )}
+                  {newFurniture && (
+                    <p className="text-sm flex items-center gap-2">
+                      <Armchair className="w-3 h-3 flex-shrink-0" />
+                      Furniture rearranging unlocked!
+                    </p>
+                  )}
                 </div>
               </Card>
             )}
@@ -223,7 +230,13 @@ export function QuizModal({
                     Score {newUnlock.nextBgAt} to unlock more background colours
                   </p>
                 )}
-                {newUnlock.nextElementAt === null && newUnlock.nextLightAt === null && newUnlock.nextBgAt === null && (
+                {newUnlock.nextFurnitureAt !== null && (
+                  <p className="text-xs text-muted-foreground flex items-center gap-2">
+                    <Armchair className="w-3 h-3 flex-shrink-0" />
+                    Score {newUnlock.nextFurnitureAt} to unlock furniture rearranging
+                  </p>
+                )}
+                {newUnlock.nextElementAt === null && newUnlock.nextLightAt === null && newUnlock.nextBgAt === null && newUnlock.nextFurnitureAt === null && (
                   <p className="text-xs text-muted-foreground">
                     Everything is unlocked! Well done!
                   </p>

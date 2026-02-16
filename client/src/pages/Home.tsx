@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { festivities, type Festivity, type DecorativeElement, getUnlockStatus } from "@/lib/festivities";
-import { loadProgress, saveProgress, getFestivityProgress, updateFestivityProgress, type GameProgress, type PlacedElement, type FixedItemPosition, MAX_ELEMENT_COPIES, countElementInDisplay, DEFAULT_LIGHTS, LIGHT_COLOR_OPTIONS, getFixedItemPositions } from "@/lib/progress";
+import { loadProgress, saveProgress, getFestivityProgress, updateFestivityProgress, type GameProgress, type PlacedElement, type FixedItemPosition, type FurniturePosition, MAX_ELEMENT_COPIES, countElementInDisplay, DEFAULT_LIGHTS, LIGHT_COLOR_OPTIONS, getFixedItemPositions, getFurniturePositions } from "@/lib/progress";
 import { WindowDisplay } from "@/components/WindowDisplay";
 import { ElementPanel } from "@/components/ElementPanel";
 import { QuizModal } from "@/components/QuizModal";
@@ -30,6 +30,7 @@ export default function Home() {
   const lightsOn = festivityProgress.lightsOn || [...DEFAULT_LIGHTS];
   const lightColor = festivityProgress.lightColor || "#FFD700";
   const fixedItems = getFixedItemPositions(festivityProgress);
+  const furniturePositions = getFurniturePositions(festivityProgress);
   const shopName = progress.shopName ?? "";
 
   const bestScore = festivityProgress.quizScore;
@@ -50,6 +51,21 @@ export default function Home() {
     );
     const newProgress = updateFestivityProgress(progress, selectedFestivity.id, { fixedItemPositions: updatedItems });
     setProgress(newProgress);
+  };
+
+  const handleUpdateFurniture = (id: string, updates: Partial<FurniturePosition>) => {
+    const updatedFurniture = furniturePositions.map(f =>
+      f.id === id ? { ...f, ...updates } : f
+    );
+    const newProgress = updateFestivityProgress(progress, selectedFestivity.id, { furniturePositions: updatedFurniture });
+    setProgress(newProgress);
+  };
+
+  const handleLockedAction = () => {
+    toast({
+      title: "Feature locked",
+      description: "Answer quizzes to unlock more features!",
+    });
   };
 
   const handleBgColorChange = (color: string) => {
@@ -101,10 +117,7 @@ export default function Home() {
 
   const handleToggleLight = (index: number) => {
     if (index >= unlockStatus.unlockedLightsCount) {
-      toast({
-        title: "Light locked",
-        description: `Score ${unlockStatus.nextLightAt} to unlock more lights.`,
-      });
+      handleLockedAction();
       return;
     }
     const updated = [...lightsOn];
@@ -189,6 +202,10 @@ export default function Home() {
               shopName={shopName}
               onShopNameChange={handleShopNameChange}
               unlockedLightsCount={unlockStatus.unlockedLightsCount}
+              furniturePositions={furniturePositions}
+              onUpdateFurniture={handleUpdateFurniture}
+              furnitureUnlocked={unlockStatus.furnitureUnlocked}
+              onLockedAction={handleLockedAction}
             />
           </div>
         </div>
@@ -280,7 +297,7 @@ export default function Home() {
                 return (
                   <button
                     key={c}
-                    onClick={() => !isLocked && handleBgColorChange(c)}
+                    onClick={() => isLocked ? handleLockedAction() : handleBgColorChange(c)}
                     className={`w-6 h-6 rounded-md border-2 relative ${
                       isLocked
                         ? "opacity-30 cursor-not-allowed border-muted"

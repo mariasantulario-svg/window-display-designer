@@ -197,9 +197,11 @@ export interface UnlockStatus {
   unlockedElements: string[];
   unlockedLightsCount: number;
   unlockedBgColors: number;
+  furnitureUnlocked: boolean;
   nextElementAt: number | null;
   nextLightAt: number | null;
   nextBgAt: number | null;
+  nextFurnitureAt: number | null;
 }
 
 export function getUnlockStatus(
@@ -207,7 +209,7 @@ export function getUnlockStatus(
   score: number,
 ): UnlockStatus {
   const total = festivity.quiz.length;
-  if (total === 0) return { unlockedElements: [], unlockedLightsCount: 0, unlockedBgColors: 0, nextElementAt: 1, nextLightAt: 1, nextBgAt: 1 };
+  if (total === 0) return { unlockedElements: [], unlockedLightsCount: 0, unlockedBgColors: 0, furnitureUnlocked: false, nextElementAt: 1, nextLightAt: 1, nextBgAt: 1, nextFurnitureAt: 1 };
 
   const elemCount = Math.min(festivity.lockedElements.length, Math.floor(score * festivity.lockedElements.length / total));
   const unlockedElements = festivity.lockedElements.slice(0, elemCount).map(e => e.id);
@@ -218,6 +220,9 @@ export function getUnlockStatus(
   const bgThresholds = [1, 4, 6, 8, 9, 10];
   const bgGroupsUnlocked = bgThresholds.filter(t => score >= Math.ceil(t * total / 10)).length;
   const unlockedBgColors = Math.min(21, bgGroupsUnlocked * 3 + 3);
+
+  const furnitureThreshold = Math.ceil(3 * total / 10);
+  const furnitureUnlocked = score >= furnitureThreshold;
 
   const nextElemScore = elemCount < festivity.lockedElements.length
     ? Math.ceil((elemCount + 1) * total / festivity.lockedElements.length)
@@ -231,12 +236,16 @@ export function getUnlockStatus(
     ? Math.ceil(bgThresholds[bgGroupsUnlocked] * total / 10)
     : null;
 
+  const nextFurnitureAt = !furnitureUnlocked ? furnitureThreshold : null;
+
   return {
     unlockedElements,
     unlockedLightsCount,
     unlockedBgColors,
+    furnitureUnlocked,
     nextElementAt: nextElemScore,
     nextLightAt: nextLight,
     nextBgAt: nextBg,
+    nextFurnitureAt,
   };
 }
