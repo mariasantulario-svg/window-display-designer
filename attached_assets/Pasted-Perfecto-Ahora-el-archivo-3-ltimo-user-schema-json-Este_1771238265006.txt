@@ -1,3 +1,20 @@
+Perfecto. Ahora el archivo 3 (último): user.schema.json
+
+Este define la ESTRUCTURA DE DATOS del usuario para localStorage. Es el esquema que garantiza que el progreso se guarde correctamente.
+
+Incluye:
+- Datos del usuario (nombre, puntos totales)
+- Festividad actual seleccionada
+- Historial de quizzes completados (para estadísticas)
+- Decoraciones desbloqueadas por festividad (las 3 base + las desbloqueadas con quizzes)
+- Features desbloqueadas (luces, muebles, colores premium - booleanos)
+- Estados de ventana por festividad (color de fondo, items colocados, luces encendidas, etc.)
+- Capturas de pantalla guardadas
+- Flag de onboarding completado
+- Sistema de migraciones para futuras versiones
+
+Aquí el contenido exacto:
+
 {
   "schemaVersion": "1.0",
   "defaultUserData": {
@@ -94,3 +111,26 @@
     "fromV0": "Initial schema creation"
   }
 }
+
+---
+
+INSTRUCCIONES:
+1. Crea SOLO este archivo /src/data/user.schema.json
+2. NO modifiques componentes todavía
+3. Verifica que se importa correctamente:
+   import schema from './data/user.schema.json';
+   console.log(schema.defaultUserData.currentFestivity); // Debe mostrar "easter"
+   console.log(Object.keys(schema.defaultUserData.windowStates).length); // Debe mostrar 9
+
+---
+
+✅ CHECKLIST FINAL DE LOS 3 ARCHIVOS:
+
+Una vez creado este, confírmame que:
+1. /src/data/festivities.config.json existe y tiene 9 festividades
+2. /src/data/questions.bank.json existe y tiene preguntas A1 y A2
+3. /src/data/user.schema.json existe y tiene la estructura completa
+
+Cuando los 3 estén verificados, pasaremos a crear los hooks y componentes que usen estos datos (useQuiz, useProgress, etc.).
+
+¿Creamos este último archivo?
