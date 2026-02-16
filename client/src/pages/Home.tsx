@@ -30,7 +30,7 @@ export default function Home() {
   const lightsOn = festivityProgress.lightsOn || [...DEFAULT_LIGHTS];
   const lightColor = festivityProgress.lightColor || "#FFD700";
   const fixedItems = getFixedItemPositions(festivityProgress);
-  const shopName = progress.shopName || "BOOKSHOP";
+  const shopName = progress.shopName ?? "";
 
   const handleShopNameChange = (name: string) => {
     const newProgress = { ...progress, shopName: name };

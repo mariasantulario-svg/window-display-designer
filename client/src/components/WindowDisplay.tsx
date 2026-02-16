@@ -434,21 +434,29 @@ function StorefrontFrame({ dark, treeImagePath, shopName, onShopNameChange }: {
         </svg>
       </div>
 
-      <div className="absolute -top-[72px] left-[calc(50%-20px)] -translate-x-1/2 z-[3] px-2 py-1 rounded-sm pointer-events-auto"
+      <div className="absolute -top-[72px] left-[calc(50%-20px)] -translate-x-1/2 z-[3] px-3 py-1 rounded-sm pointer-events-auto flex items-baseline gap-0"
         style={{ background: signBg, border: `2px solid ${signBorder}`, boxShadow: "0 2px 8px rgba(0,0,0,0.15)" }}>
         <input
           type="text"
           value={shopName}
           onChange={(e) => onShopNameChange(e.target.value)}
-          maxLength={20}
-          className="bg-transparent border-none outline-none text-sm font-black tracking-[0.2em] uppercase text-center w-[140px]"
+          maxLength={15}
+          className="bg-transparent border-none outline-none text-sm font-black tracking-[0.1em] text-right"
           style={{
             fontFamily: "'Architects Daughter', cursive",
             color: signText,
+            width: `${Math.max(20, shopName.length * 9 + 8)}px`,
+            borderBottom: `1.5px dashed ${signBorder}80`,
           }}
-          placeholder="BOOKSHOP"
+          placeholder="- - - - -"
           data-testid="input-shop-name"
         />
+        <span className="text-sm font-black tracking-[0.12em] uppercase whitespace-nowrap" style={{
+          fontFamily: "'Architects Daughter', cursive",
+          color: signText,
+        }}>
+          's bookshop
+        </span>
       </div>
 
       <div className="absolute -left-1 -right-1 -top-[1px] h-2 z-[3]" style={{ background: sillColor, borderRadius: "2px 2px 0 0" }} />
