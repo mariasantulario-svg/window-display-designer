@@ -30,6 +30,13 @@ export default function Home() {
   const lightsOn = festivityProgress.lightsOn || [...DEFAULT_LIGHTS];
   const lightColor = festivityProgress.lightColor || "#FFD700";
   const fixedItems = getFixedItemPositions(festivityProgress);
+  const shopName = progress.shopName || "BOOKSHOP";
+
+  const handleShopNameChange = (name: string) => {
+    const newProgress = { ...progress, shopName: name };
+    saveProgress(newProgress);
+    setProgress(newProgress);
+  };
 
   const handleUpdateFixedItem = (id: string, updates: Partial<FixedItemPosition>) => {
     const updatedItems = fixedItems.map(item =>
@@ -174,6 +181,8 @@ export default function Home() {
               lightColor={lightColor}
               fixedItems={fixedItems}
               onUpdateFixedItem={handleUpdateFixedItem}
+              shopName={shopName}
+              onShopNameChange={handleShopNameChange}
             />
           </div>
         </div>

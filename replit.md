@@ -24,10 +24,11 @@ An interactive educational web app for FP Basica de Comercio students. Students 
 
 ## Features
 - 9 Festivities: Valentine's Day, Easter, Spring Sale, Mother's Day, Summer Sale, Back to School, Halloween, Black Friday, Christmas
-- **Storefront Frame**: Realistic brick walls, fixed brown striped awning, "BOOKSHOP" signage, stone tile sidewalk, partial door on right
-- **Seasonal Tree**: Kawaii tree changes per festivity season (spring cherry blossoms, summer green, autumn orange, winter snow)
+- **Storefront Frame**: Blue-gray brick walls, fixed brown striped awning, editable shop name sign (persisted globally), stone tile sidewalk, partial door on right
+- **Seasonal Tree**: Kawaii tree emerging from terracotta planter, changes per festivity season (spring cherry blossoms, summer green, autumn orange, winter snow)
 - **10 Spotlight Lights**: 3 top, 3 bottom, 2 each side. SVG spotlight fixtures. Toggle on/off individually or all at once. Choosable glow color (10 color options)
-- **Schematic Furniture**: Static SVG shelves, pedestals, wall shelves at different levels inside the canvas (not draggable, clean line-art style)
+- **Schematic Furniture**: 3 floor-standing pieces (bookcases, pedestal) aligned to floor + 6 wall shelves with L-brackets at various heights (not draggable, clean line-art style)
+- **6 Kawaii Fixed Items**: books-row, dictionary, notebook, globe, pencil-cup, book-stack — draggable and resizable but not removable, positions saved per festivity
 - **90 Kawaii Decoration Images**: 10 per festivity (3 base + 7 bonus), cute chibi style
 - Click elements to place on window display (max 5 copies each)
 - Drag placed elements to reposition within the canvas

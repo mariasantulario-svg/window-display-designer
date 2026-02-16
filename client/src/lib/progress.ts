@@ -29,6 +29,7 @@ export interface FestivityProgress {
 export interface GameProgress {
   festivities: Record<string, FestivityProgress>;
   totalQuizzesCompleted: number;
+  shopName?: string;
 }
 
 function getDefaultProgress(): GameProgress {

@@ -17,6 +17,8 @@ interface WindowDisplayProps {
   lightColor: string;
   fixedItems: FixedItemPosition[];
   onUpdateFixedItem: (id: string, updates: Partial<FixedItemPosition>) => void;
+  shopName: string;
+  onShopNameChange: (name: string) => void;
 }
 
 function isDark(hex: string): boolean {
@@ -277,46 +279,74 @@ function SchematicFurniture({ dark }: { dark: boolean }) {
   const woodStroke = dark ? "#7a6a5a" : "#8B7355";
   const shelfFill = dark ? "#4a3a2a" : "#b89868";
   const metalFill = dark ? "#666" : "#999";
+  const bracketFill = dark ? "#555" : "#888";
 
   return (
     <g className="pointer-events-none">
-      <rect x="30" y="240" width="120" height="8" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="1" />
-      <rect x="32" y="248" width="4" height="90" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
-      <rect x="144" y="248" width="4" height="90" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
-      <rect x="30" y="280" width="120" height="6" rx="1" fill={shelfFill} stroke={woodStroke} strokeWidth="0.8" />
-      <rect x="30" y="315" width="120" height="6" rx="1" fill={shelfFill} stroke={woodStroke} strokeWidth="0.8" />
-      <rect x="30" y="338" width="120" height="4" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
+      {/* Floor line */}
+      <line x1="0" y1="366" x2="600" y2="366" stroke={woodStroke} strokeWidth="1" opacity="0.3" />
 
-      <rect x="240" y="300" width="100" height="6" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="1" />
-      <rect x="250" y="306" width="6" height="54" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
-      <rect x="324" y="306" width="6" height="54" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
-      <rect x="240" y="340" width="100" height="5" rx="1" fill={shelfFill} stroke={woodStroke} strokeWidth="0.8" />
-      <rect x="240" y="360" width="100" height="4" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
+      {/* LEFT FLOOR BOOKCASE - tall, legs touching floor */}
+      <rect x="20" y="230" width="130" height="8" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="1" />
+      <rect x="22" y="238" width="5" height="128" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
+      <rect x="143" y="238" width="5" height="128" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
+      <rect x="20" y="275" width="130" height="5" rx="1" fill={shelfFill} stroke={woodStroke} strokeWidth="0.8" />
+      <rect x="20" y="315" width="130" height="5" rx="1" fill={shelfFill} stroke={woodStroke} strokeWidth="0.8" />
+      <rect x="20" y="350" width="130" height="5" rx="1" fill={shelfFill} stroke={woodStroke} strokeWidth="0.8" />
+      <rect x="20" y="362" width="130" height="4" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="1" />
 
-      <rect x="430" y="190" width="6" height="170" fill={metalFill} stroke={woodStroke} strokeWidth="0.5" />
-      <rect x="400" y="190" width="70" height="5" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
-      <rect x="400" y="250" width="70" height="5" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
-      <rect x="400" y="310" width="70" height="5" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
-      <rect x="400" y="356" width="70" height="8" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
+      {/* CENTER FLOOR PEDESTAL - low display table, legs on floor */}
+      <rect x="230" y="330" width="120" height="6" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="1" />
+      <rect x="240" y="336" width="6" height="30" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
+      <rect x="334" y="336" width="6" height="30" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
+      <rect x="230" y="362" width="120" height="4" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
 
-      <rect x="195" y="180" width="80" height="4" rx="1" fill={metalFill} stroke={woodStroke} strokeWidth="0.5" />
-      <line x1="200" y1="176" x2="200" y2="180" stroke={metalFill} strokeWidth="2" />
-      <line x1="270" y1="176" x2="270" y2="180" stroke={metalFill} strokeWidth="2" />
+      {/* RIGHT FLOOR BOOKCASE - tall, legs touching floor */}
+      <rect x="440" y="210" width="6" height="156" fill={metalFill} stroke={woodStroke} strokeWidth="0.5" />
+      <rect x="410" y="210" width="70" height="5" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
+      <rect x="410" y="260" width="70" height="5" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
+      <rect x="410" y="310" width="70" height="5" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
+      <rect x="410" y="350" width="70" height="5" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
+      <rect x="410" y="362" width="70" height="4" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="1" />
 
-      <rect x="510" y="280" width="50" height="6" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
-      <rect x="512" y="286" width="4" height="44" fill={woodFill} stroke={woodStroke} strokeWidth="0.5" />
-      <rect x="554" y="286" width="4" height="44" fill={woodFill} stroke={woodStroke} strokeWidth="0.5" />
-      <rect x="510" y="308" width="50" height="5" rx="1" fill={shelfFill} stroke={woodStroke} strokeWidth="0.5" />
-      <rect x="510" y="330" width="50" height="4" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
+      {/* WALL SHELF 1 - top left, with L-brackets */}
+      <rect x="40" y="100" width="100" height="4" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
+      <path d="M50,104 L50,116 L56,116" fill="none" stroke={bracketFill} strokeWidth="2" />
+      <path d="M130,104 L130,116 L124,116" fill="none" stroke={bracketFill} strokeWidth="2" />
 
-      <line x1="30" y1="364" x2="570" y2="364" stroke={woodStroke} strokeWidth="1" opacity="0.3" />
+      {/* WALL SHELF 2 - top center */}
+      <rect x="200" y="80" width="110" height="4" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
+      <path d="M215,84 L215,96 L221,96" fill="none" stroke={bracketFill} strokeWidth="2" />
+      <path d="M295,84 L295,96 L289,96" fill="none" stroke={bracketFill} strokeWidth="2" />
+
+      {/* WALL SHELF 3 - top right */}
+      <rect x="400" y="100" width="90" height="4" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
+      <path d="M415,104 L415,116 L421,116" fill="none" stroke={bracketFill} strokeWidth="2" />
+      <path d="M475,104 L475,116 L469,116" fill="none" stroke={bracketFill} strokeWidth="2" />
+
+      {/* WALL SHELF 4 - mid left */}
+      <rect x="60" y="170" width="90" height="4" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
+      <path d="M75,174 L75,186 L81,186" fill="none" stroke={bracketFill} strokeWidth="2" />
+      <path d="M135,174 L135,186 L129,186" fill="none" stroke={bracketFill} strokeWidth="2" />
+
+      {/* WALL SHELF 5 - mid right */}
+      <rect x="500" y="160" width="70" height="4" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
+      <path d="M510,164 L510,176 L516,176" fill="none" stroke={bracketFill} strokeWidth="2" />
+      <path d="M560,164 L560,176 L554,176" fill="none" stroke={bracketFill} strokeWidth="2" />
+
+      {/* WALL SHELF 6 - mid center (higher) */}
+      <rect x="280" y="150" width="80" height="4" rx="1" fill={woodFill} stroke={woodStroke} strokeWidth="0.8" />
+      <path d="M290,154 L290,166 L296,166" fill="none" stroke={bracketFill} strokeWidth="2" />
+      <path d="M350,154 L350,166 L344,166" fill="none" stroke={bracketFill} strokeWidth="2" />
     </g>
   );
 }
 
-function StorefrontFrame({ dark, treeImagePath }: {
+function StorefrontFrame({ dark, treeImagePath, shopName, onShopNameChange }: {
   dark: boolean;
   treeImagePath: string;
+  shopName: string;
+  onShopNameChange: (name: string) => void;
 }) {
   const wallBase = dark ? "#3a4558" : "#b8c8d8";
   const wallLight = dark ? "#445568" : "#c8d4e0";
@@ -404,14 +434,21 @@ function StorefrontFrame({ dark, treeImagePath }: {
         </svg>
       </div>
 
-      <div className="absolute -top-[72px] left-[calc(50%-20px)] -translate-x-1/2 z-[3] px-5 py-1 rounded-sm"
+      <div className="absolute -top-[72px] left-[calc(50%-20px)] -translate-x-1/2 z-[3] px-2 py-1 rounded-sm pointer-events-auto"
         style={{ background: signBg, border: `2px solid ${signBorder}`, boxShadow: "0 2px 8px rgba(0,0,0,0.15)" }}>
-        <span className="text-sm font-black tracking-[0.2em] uppercase" style={{
-          fontFamily: "'Architects Daughter', cursive",
-          color: signText,
-        }}>
-          BOOKSHOP
-        </span>
+        <input
+          type="text"
+          value={shopName}
+          onChange={(e) => onShopNameChange(e.target.value)}
+          maxLength={20}
+          className="bg-transparent border-none outline-none text-sm font-black tracking-[0.2em] uppercase text-center w-[140px]"
+          style={{
+            fontFamily: "'Architects Daughter', cursive",
+            color: signText,
+          }}
+          placeholder="BOOKSHOP"
+          data-testid="input-shop-name"
+        />
       </div>
 
       <div className="absolute -left-1 -right-1 -top-[1px] h-2 z-[3]" style={{ background: sillColor, borderRadius: "2px 2px 0 0" }} />
@@ -439,8 +476,15 @@ function StorefrontFrame({ dark, treeImagePath }: {
       </div>
 
       <div className="absolute z-[4]"
-        style={{ right: "-18px", bottom: "0px" }}>
-        <div className="relative" style={{ width: "50px", height: "140px" }}>
+        style={{ right: "-16px", bottom: "-12px" }}>
+        <div className="relative" style={{ width: "56px", height: "160px" }}>
+          <svg className="absolute left-1/2 bottom-0" style={{ transform: "translateX(-50%)" }} width="56" height="44" viewBox="0 0 56 44">
+            <rect x="10" y="36" width="36" height="8" rx="1" fill={planterDark} stroke={planterTerra} strokeWidth="0.5" />
+            <path d="M6,10 L50,10 L46,36 L10,36 Z" fill={planterTerra} stroke={planterDark} strokeWidth="1" />
+            <path d="M10,12 L46,12 L43,34 L13,34 Z" fill={planterTerra} opacity="0.7" />
+            <rect x="4" y="4" width="48" height="8" rx="2" fill={planterRim} stroke={planterDark} strokeWidth="0.8" />
+            <ellipse cx="28" cy="10" rx="18" ry="4" fill="#5a3a1a" opacity="0.3" />
+          </svg>
           <img
             src={treeImagePath}
             alt="Seasonal tree"
@@ -448,20 +492,13 @@ function StorefrontFrame({ dark, treeImagePath }: {
             style={{
               width: "90px",
               height: "120px",
-              bottom: "26px",
+              bottom: "32px",
               left: "50%",
               transform: "translateX(-50%)",
               filter: dark ? "brightness(0.85)" : "none",
             }}
             draggable={false}
           />
-          <svg className="absolute bottom-0 left-1/2" style={{ transform: "translateX(-50%)" }} width="50" height="34" viewBox="0 0 50 34">
-            <rect x="8" y="28" width="34" height="6" rx="1" fill={planterDark} stroke={planterTerra} strokeWidth="0.5" />
-            <path d="M5,8 L45,8 L41,28 L9,28 Z" fill={planterTerra} stroke={planterDark} strokeWidth="1" />
-            <path d="M9,10 L41,10 L38,26 L12,26 Z" fill={planterTerra} opacity="0.7" />
-            <rect x="4" y="4" width="42" height="6" rx="2" fill={planterRim} stroke={planterDark} strokeWidth="0.8" />
-            <ellipse cx="25" cy="8" rx="16" ry="3" fill="#5a3a1a" opacity="0.3" />
-          </svg>
         </div>
       </div>
     </div>
@@ -471,6 +508,7 @@ function StorefrontFrame({ dark, treeImagePath }: {
 export function WindowDisplay({
   festivity, placedElements, allElements, onRemoveElement, onUpdateElement,
   bgColor, lightsOn, onToggleLight, lightColor, fixedItems, onUpdateFixedItem,
+  shopName, onShopNameChange,
 }: WindowDisplayProps) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [selectedFixedId, setSelectedFixedId] = useState<string | null>(null);
@@ -479,7 +517,6 @@ export function WindowDisplay({
   const canvasRef = useRef<HTMLDivElement>(null);
 
   const dark = isDark(bgColor);
-  const titleColor = dark ? "#ffffffdd" : "#333";
   const treeImagePath = getSeasonTreePath(festivity.id);
 
   const handleScale = (index: number, delta: number) => {
@@ -547,7 +584,7 @@ export function WindowDisplay({
 
   return (
     <div className="relative" style={{ padding: "20px 24px 16px 18px", marginLeft: "-4px" }}>
-      <StorefrontFrame dark={dark} treeImagePath={treeImagePath} />
+      <StorefrontFrame dark={dark} treeImagePath={treeImagePath} shopName={shopName} onShopNameChange={onShopNameChange} />
 
       <div
         ref={canvasRef}
@@ -571,9 +608,6 @@ export function WindowDisplay({
           </defs>
           <rect x="0" y="0" width="600" height="370" fill={bgColor} />
           <rect x="0" y="0" width="600" height="370" fill="url(#doodle-bg)" />
-          <text x="300" y="32" textAnchor="middle" fontFamily="'Architects Daughter', cursive" fontSize="18" fill={titleColor} fontWeight="bold" opacity="0.7" data-testid="text-festivity-name">
-            {festivity.name} &middot; {festivity.month}
-          </text>
           <SchematicFurniture dark={dark} />
         </svg>
 
