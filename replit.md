@@ -13,21 +13,28 @@ An interactive educational web app for FP Basica de Comercio students. Students 
 ## Key Files
 - `client/src/data.json` - All 9 festivities JSON data (elements, quizzes, color palettes)
 - `client/src/lib/festivities.ts` - Maps JSON data to app types, progressive unlock logic, answer shuffling, `getUnlockStatus()`
-- `client/src/lib/progress.ts` - localStorage progress management, placement limits, lights state, light color, season mapping
+- `client/src/lib/progress.ts` - localStorage progress management, placement limits, lights state, light color, season mapping, furniture positions
 - `client/src/components/StickerIcon.tsx` - Kawaii image renderer component
-- `client/src/components/WindowDisplay.tsx` - Main escaparate canvas with storefront frame, schematic furniture, spotlight lights, and decoration placement
+- `client/src/components/WindowDisplay.tsx` - Main escaparate canvas with storefront frame, draggable/resizable furniture, spotlight lights, and decoration placement
 - `client/src/components/ElementPanel.tsx` - Click-to-place decoration panel
 - `client/src/components/QuizModal.tsx` - Vocabulary quiz dialog with unlock feedback
-- `client/src/components/FestivalSelector.tsx` - Festivity picker sidebar
-- `client/src/pages/Home.tsx` - Main page with all components wired together
+- `client/src/components/FestivalSelector.tsx` - Festivity dropdown selector
+- `client/src/components/OnboardingCarousel.tsx` - First-time user onboarding carousel (5 slides)
+- `client/src/pages/Home.tsx` - Main page with top bar, full-screen escaparate, slide-out decorations drawer
 - `client/public/kawaii/` - All kawaii PNG images (90 decorations + 4 seasonal trees)
+
+## UI Layout
+- **Top bar**: Festivity dropdown selector + quiz score badge + Take Quiz button
+- **Main area**: Full-screen escaparate (maximized space, no sidebars)
+- **Slide-out drawer**: Right-side panel triggered by arrow button, contains decorations, lights controls, and background color picker
+- **Onboarding**: 5-slide carousel on first visit (stored in localStorage `onboarding_completed`)
 
 ## Features
 - 9 Festivities: Valentine's Day, Easter, Spring Sale, Mother's Day, Summer Sale, Back to School, Halloween, Black Friday, Christmas
 - **Storefront Frame**: Blue-gray brick walls, fixed brown striped awning, editable shop name sign (persisted globally), stone tile sidewalk, partial door on right
-- **Seasonal Tree**: Kawaii tree at ground level on LEFT side, no planter, changes per festivity season (spring cherry blossoms, summer green, autumn orange, winter snow)
-- **10 Spotlight Lights**: 3 top, 3 bottom, 2 each side. SVG spotlight fixtures. Unlocked progressively one-by-one based on quiz score. Locked lights appear dimmed. Toggle on/off individually or all at once. Choosable glow color (10 color options)
-- **Schematic Furniture**: 3 floor-standing pieces (bookcases, pedestal) aligned to floor + 6 wall shelves with L-brackets at various heights (not draggable, clean line-art style)
+- **Seasonal Tree**: Kawaii tree on LEFT side of sidewalk, changes per festivity season (spring cherry blossoms, summer green, autumn orange, winter snow)
+- **10 Spotlight Lights**: 3 top, 3 bottom, 2 each side. SVG spotlight fixtures. Unlocked progressively one-by-one based on quiz score. Toggle on/off individually or all at once. Choosable glow color (10 color options)
+- **Draggable/Resizable Furniture**: 3 floor-standing pieces (bookcases, pedestal) + 6 wall shelves. Unlocked at 30% quiz score. Scale range 0.3-1.5, positions saved per festivity
 - **6 Kawaii Fixed Items**: books-row, dictionary, notebook, globe, pencil-cup, book-stack — draggable and resizable but not removable, positions saved per festivity
 - **90 Kawaii Decoration Images**: 10 per festivity (3 base + 7 bonus), cute chibi style
 - Click elements to place on window display (max 5 copies each)
@@ -40,9 +47,10 @@ An interactive educational web app for FP Basica de Comercio students. Students 
   - Bonus decorations: proportional to score (score * items / total)
   - Lights: unlocked one-by-one at thresholds [2,3,4,5,6,7,8,8,9,10] scaled to quiz length
   - Background colors: 3 base + groups of 3 at thresholds [1,4,6,8,9,10]
+  - Furniture: unlocked at 30% score threshold
   - Quiz results show "You've unlocked: X decorations, Y spotlights, Z colours" and "Next goals: Score N to unlock..."
 - 7 unlockable bonus elements per festivity
-- Progress saved in localStorage (decorations, lights, light color, background color, quiz scores)
+- Progress saved in localStorage (decorations, lights, light color, background color, quiz scores, furniture positions)
 
 ## Running
 - `npm run dev` starts the Express backend + Vite frontend on port 5000

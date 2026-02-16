@@ -77,7 +77,7 @@ export function QuizModal({
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="max-w-lg" data-testid="quiz-modal">
+      <DialogContent className="max-w-lg" data-testid="quiz-modal" aria-describedby={undefined}>
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <BookOpen className="w-5 h-5" />

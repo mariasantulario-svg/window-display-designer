@@ -518,7 +518,7 @@ function StorefrontFrame({ dark, treeImagePath, shopName, onShopNameChange }: {
       </div>
 
       <div className="absolute z-[4]"
-        style={{ right: "-75px", bottom: "-12px" }}>
+        style={{ left: "-60px", bottom: "-12px" }}>
         <img
           src={treeImagePath}
           alt="Seasonal tree"
