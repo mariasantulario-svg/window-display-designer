@@ -4,16 +4,18 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import type { QuizQuestion } from "@/lib/festivities";
-import { CheckCircle, XCircle, Trophy, BookOpen } from "lucide-react";
+import type { QuizQuestion, Festivity } from "@/lib/festivities";
+import { getUnlockStatus } from "@/lib/festivities";
+import { CheckCircle, XCircle, Trophy, BookOpen, Sparkles, Lightbulb, Palette } from "lucide-react";
 
 interface QuizModalProps {
   open: boolean;
   onClose: () => void;
   questions: QuizQuestion[];
   festivityName: string;
-  unlockThreshold: number;
   onComplete: (score: number) => void;
+  bestScore: number;
+  festivity: Festivity;
 }
 
 export function QuizModal({
@@ -21,8 +23,9 @@ export function QuizModal({
   onClose,
   questions,
   festivityName,
-  unlockThreshold,
   onComplete,
+  bestScore,
+  festivity,
 }: QuizModalProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [score, setScore] = useState(0);
@@ -62,7 +65,14 @@ export function QuizModal({
     onClose();
   };
 
-  const passed = score >= unlockThreshold;
+  const newBest = Math.max(bestScore, score);
+  const prevUnlock = getUnlockStatus(festivity, bestScore);
+  const newUnlock = getUnlockStatus(festivity, newBest);
+
+  const newElements = newUnlock.unlockedElements.length - prevUnlock.unlockedElements.length;
+  const newLights = newUnlock.unlockedLightsCount - prevUnlock.unlockedLightsCount;
+  const newBgColors = newUnlock.unlockedBgColors - prevUnlock.unlockedBgColors;
+  const hasNewUnlocks = newElements > 0 || newLights > 0 || newBgColors > 0;
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
@@ -93,7 +103,6 @@ export function QuizModal({
 
             <div className="flex flex-col gap-2">
               {question.options.map((option, i) => {
-                let variant: "outline" | "default" | "destructive" = "outline";
                 let extraClass = "";
 
                 if (selectedAnswer !== null) {
@@ -153,31 +162,77 @@ export function QuizModal({
           </div>
         ) : (
           <div className="flex flex-col items-center gap-4 py-4" data-testid="quiz-results">
-            <Trophy className={`w-16 h-16 ${passed ? "text-yellow-500" : "text-muted-foreground"}`} />
+            <Trophy className={`w-16 h-16 ${score > 0 ? "text-yellow-500" : "text-muted-foreground"}`} />
             <h3 className="text-2xl font-bold">
-              {passed ? "Great job!" : "Keep practising!"}
+              {score === questions.length ? "Perfect score!" : score >= questions.length * 0.7 ? "Great job!" : score > 0 ? "Good effort!" : "Keep practising!"}
             </h3>
             <p className="text-lg">
               You scored <span className="font-bold text-primary">{score}</span> out of{" "}
               <span className="font-bold">{questions.length}</span>
             </p>
-            {passed ? (
-              <Card className="p-3 bg-accent text-accent-foreground text-center">
-                <p className="text-sm font-medium">
-                  {score === questions.length
-                    ? "Perfect score! All bonus items unlocked!"
-                    : "Items unlocked! Score higher to unlock even more."}
+            {score > bestScore && (
+              <Badge variant="secondary">New best score!</Badge>
+            )}
+
+            {hasNewUnlocks && (
+              <Card className="p-4 bg-accent text-accent-foreground w-full" data-testid="quiz-unlocks">
+                <p className="text-sm font-bold mb-2 flex items-center gap-1">
+                  <Sparkles className="w-4 h-4" /> You've unlocked:
                 </p>
-              </Card>
-            ) : (
-              <Card className="p-3 bg-muted text-center">
-                <p className="text-sm text-muted-foreground">
-                  You need at least {unlockThreshold} correct to start unlocking bonus items. Try again!
-                </p>
+                <div className="flex flex-col gap-1.5">
+                  {newElements > 0 && (
+                    <p className="text-sm flex items-center gap-2">
+                      <Sparkles className="w-3 h-3 flex-shrink-0" />
+                      {newElements} new bonus decoration{newElements > 1 ? "s" : ""}
+                    </p>
+                  )}
+                  {newLights > 0 && (
+                    <p className="text-sm flex items-center gap-2">
+                      <Lightbulb className="w-3 h-3 flex-shrink-0" />
+                      {newLights} new spotlight{newLights > 1 ? "s" : ""}
+                    </p>
+                  )}
+                  {newBgColors > 0 && (
+                    <p className="text-sm flex items-center gap-2">
+                      <Palette className="w-3 h-3 flex-shrink-0" />
+                      {newBgColors} new background colour{newBgColors > 1 ? "s" : ""}
+                    </p>
+                  )}
+                </div>
               </Card>
             )}
+
+            <Card className="p-4 bg-muted w-full" data-testid="quiz-next-goals">
+              <p className="text-sm font-bold mb-2">Next goals:</p>
+              <div className="flex flex-col gap-1.5">
+                {newUnlock.nextElementAt !== null && (
+                  <p className="text-xs text-muted-foreground flex items-center gap-2">
+                    <Sparkles className="w-3 h-3 flex-shrink-0" />
+                    Score {newUnlock.nextElementAt} to unlock the next bonus item
+                  </p>
+                )}
+                {newUnlock.nextLightAt !== null && (
+                  <p className="text-xs text-muted-foreground flex items-center gap-2">
+                    <Lightbulb className="w-3 h-3 flex-shrink-0" />
+                    Score {newUnlock.nextLightAt} to unlock the next spotlight
+                  </p>
+                )}
+                {newUnlock.nextBgAt !== null && (
+                  <p className="text-xs text-muted-foreground flex items-center gap-2">
+                    <Palette className="w-3 h-3 flex-shrink-0" />
+                    Score {newUnlock.nextBgAt} to unlock more background colours
+                  </p>
+                )}
+                {newUnlock.nextElementAt === null && newUnlock.nextLightAt === null && newUnlock.nextBgAt === null && (
+                  <p className="text-xs text-muted-foreground">
+                    Everything is unlocked! Well done!
+                  </p>
+                )}
+              </div>
+            </Card>
+
             <Button onClick={handleClose} className="w-full" data-testid="button-close-quiz">
-              {passed ? "Start Decorating!" : "Close & Try Again"}
+              {hasNewUnlocks ? "Start Decorating!" : "Close & Try Again"}
             </Button>
           </div>
         )}

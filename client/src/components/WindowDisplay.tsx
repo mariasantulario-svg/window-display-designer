@@ -19,6 +19,7 @@ interface WindowDisplayProps {
   onUpdateFixedItem: (id: string, updates: Partial<FixedItemPosition>) => void;
   shopName: string;
   onShopNameChange: (name: string) => void;
+  unlockedLightsCount: number;
 }
 
 function isDark(hex: string): boolean {
@@ -47,12 +48,13 @@ const LIGHT_POSITIONS: LightPosition[] = [
   { x: 100, y: 67, side: "right" },
 ];
 
-function SpotLightFixture({ position, isOn, onClick, color, index }: {
+function SpotLightFixture({ position, isOn, onClick, color, index, locked }: {
   position: LightPosition;
   isOn: boolean;
   onClick: () => void;
   color: string;
   index: number;
+  locked?: boolean;
 }) {
   const glowColor = color + "50";
   const glowStrong = color + "25";
@@ -77,22 +79,22 @@ function SpotLightFixture({ position, isOn, onClick, color, index }: {
   return (
     <>
       <button
-        className="absolute z-[15] w-9 h-9 flex items-center justify-center cursor-pointer"
+        className={`absolute z-[15] w-9 h-9 flex items-center justify-center ${locked ? "cursor-not-allowed opacity-30" : "cursor-pointer"}`}
         style={posStyle}
-        onClick={(e) => { e.stopPropagation(); onClick(); }}
+        onClick={(e) => { e.stopPropagation(); if (!locked) onClick(); }}
         onPointerDown={(e) => e.stopPropagation()}
-        aria-label={`Toggle ${position.side} light ${index + 1}`}
+        aria-label={locked ? `Light ${index + 1} (locked)` : `Toggle ${position.side} light ${index + 1}`}
         data-testid={`button-light-${index}`}
       >
         <svg width="24" height="24" viewBox="0 0 24 24" style={{ transform: `rotate(${fixtureRotation})` }}>
           <rect x="10" y="0" width="4" height="6" rx="1" fill="#666" stroke="#444" strokeWidth="0.5" />
-          <path d="M5,6 L19,6 L16,18 L8,18 Z" fill={isOn ? "#333" : "#555"} stroke="#444" strokeWidth="0.5" />
-          <ellipse cx="12" cy="18" rx="5" ry="2" fill={isOn ? color : "#777"} opacity={isOn ? 1 : 0.4} />
-          {isOn && (
+          <path d="M5,6 L19,6 L16,18 L8,18 Z" fill={isOn && !locked ? "#333" : "#555"} stroke="#444" strokeWidth="0.5" />
+          <ellipse cx="12" cy="18" rx="5" ry="2" fill={isOn && !locked ? color : "#777"} opacity={isOn && !locked ? 1 : 0.4} />
+          {isOn && !locked && (
             <ellipse cx="12" cy="18" rx="4" ry="1.5" fill="#fff" opacity="0.6" />
           )}
         </svg>
-        {isOn && (
+        {isOn && !locked && (
           <div className="absolute w-3 h-3 rounded-full" style={{
             bottom: position.side === "top" ? "2px" : position.side === "bottom" ? "auto" : "50%",
             top: position.side === "bottom" ? "2px" : "auto",
@@ -105,7 +107,7 @@ function SpotLightFixture({ position, isOn, onClick, color, index }: {
           }} />
         )}
       </button>
-      {isOn && (
+      {isOn && !locked && (
         <div
           className="absolute pointer-events-none z-[5]"
           style={{
@@ -366,9 +368,6 @@ function StorefrontFrame({ dark, treeImagePath, shopName, onShopNameChange }: {
   const signBg = dark ? "#2a2535" : "#f5efe6";
   const signBorder = dark ? "#555" : "#6B4226";
   const signText = dark ? "#e0d0c0" : "#5a4a3a";
-  const planterTerra = dark ? "#6a5040" : "#B87333";
-  const planterDark = dark ? "#5a4030" : "#9a6030";
-  const planterRim = dark ? "#7a5a48" : "#c88040";
 
   return (
     <div className="absolute inset-0 pointer-events-none z-[1]">
@@ -483,37 +482,17 @@ function StorefrontFrame({ dark, treeImagePath, shopName, onShopNameChange }: {
       </div>
 
       <div className="absolute z-[4]"
-        style={{ right: "-16px", bottom: "-12px" }}>
-        <div className="relative overflow-visible" style={{ width: "56px", height: "150px" }}>
-          <div className="absolute" style={{
-            left: "50%",
-            transform: "translateX(-50%)",
-            bottom: "20px",
-            width: "90px",
-            height: "110px",
-            overflow: "hidden",
-          }}>
-            <img
-              src={treeImagePath}
-              alt="Seasonal tree"
-              className="absolute object-contain w-full"
-              style={{
-                height: "120px",
-                bottom: "0px",
-                left: "0",
-                filter: dark ? "brightness(0.85)" : "none",
-              }}
-              draggable={false}
-            />
-          </div>
-          <svg className="absolute left-1/2 bottom-0" style={{ transform: "translateX(-50%)", zIndex: 2 }} width="56" height="50" viewBox="0 0 56 50">
-            <rect x="10" y="42" width="36" height="8" rx="1" fill={planterDark} stroke={planterTerra} strokeWidth="0.5" />
-            <path d="M6,14 L50,14 L46,42 L10,42 Z" fill={planterTerra} stroke={planterDark} strokeWidth="1" />
-            <path d="M10,16 L46,16 L43,40 L13,40 Z" fill={planterTerra} opacity="0.7" />
-            <rect x="4" y="8" width="48" height="8" rx="2" fill={planterRim} stroke={planterDark} strokeWidth="0.8" />
-            <ellipse cx="28" cy="14" rx="20" ry="5" fill="#3a2510" opacity="0.4" />
-          </svg>
-        </div>
+        style={{ left: "-50px", bottom: "0px" }}>
+        <img
+          src={treeImagePath}
+          alt="Seasonal tree"
+          className="object-contain"
+          style={{
+            height: "120px",
+            filter: dark ? "brightness(0.85)" : "none",
+          }}
+          draggable={false}
+        />
       </div>
     </div>
   );
@@ -522,7 +501,7 @@ function StorefrontFrame({ dark, treeImagePath, shopName, onShopNameChange }: {
 export function WindowDisplay({
   festivity, placedElements, allElements, onRemoveElement, onUpdateElement,
   bgColor, lightsOn, onToggleLight, lightColor, fixedItems, onUpdateFixedItem,
-  shopName, onShopNameChange,
+  shopName, onShopNameChange, unlockedLightsCount,
 }: WindowDisplayProps) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [selectedFixedId, setSelectedFixedId] = useState<string | null>(null);
@@ -749,6 +728,7 @@ export function WindowDisplay({
             onClick={() => onToggleLight(i)}
             color={lightColor}
             index={i}
+            locked={i >= unlockedLightsCount}
           />
         ))}
 

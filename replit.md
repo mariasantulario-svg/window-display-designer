@@ -12,12 +12,12 @@ An interactive educational web app for FP Basica de Comercio students. Students 
 
 ## Key Files
 - `client/src/data.json` - All 9 festivities JSON data (elements, quizzes, color palettes)
-- `client/src/lib/festivities.ts` - Maps JSON data to app types, progressive unlock logic
+- `client/src/lib/festivities.ts` - Maps JSON data to app types, progressive unlock logic, answer shuffling, `getUnlockStatus()`
 - `client/src/lib/progress.ts` - localStorage progress management, placement limits, lights state, light color, season mapping
 - `client/src/components/StickerIcon.tsx` - Kawaii image renderer component
 - `client/src/components/WindowDisplay.tsx` - Main escaparate canvas with storefront frame, schematic furniture, spotlight lights, and decoration placement
 - `client/src/components/ElementPanel.tsx` - Click-to-place decoration panel
-- `client/src/components/QuizModal.tsx` - Vocabulary quiz dialog
+- `client/src/components/QuizModal.tsx` - Vocabulary quiz dialog with unlock feedback
 - `client/src/components/FestivalSelector.tsx` - Festivity picker sidebar
 - `client/src/pages/Home.tsx` - Main page with all components wired together
 - `client/public/kawaii/` - All kawaii PNG images (90 decorations + 4 seasonal trees)
@@ -25,18 +25,22 @@ An interactive educational web app for FP Basica de Comercio students. Students 
 ## Features
 - 9 Festivities: Valentine's Day, Easter, Spring Sale, Mother's Day, Summer Sale, Back to School, Halloween, Black Friday, Christmas
 - **Storefront Frame**: Blue-gray brick walls, fixed brown striped awning, editable shop name sign (persisted globally), stone tile sidewalk, partial door on right
-- **Seasonal Tree**: Kawaii tree emerging from terracotta planter, changes per festivity season (spring cherry blossoms, summer green, autumn orange, winter snow)
-- **10 Spotlight Lights**: 3 top, 3 bottom, 2 each side. SVG spotlight fixtures. Toggle on/off individually or all at once. Choosable glow color (10 color options)
+- **Seasonal Tree**: Kawaii tree at ground level on LEFT side, no planter, changes per festivity season (spring cherry blossoms, summer green, autumn orange, winter snow)
+- **10 Spotlight Lights**: 3 top, 3 bottom, 2 each side. SVG spotlight fixtures. Unlocked progressively one-by-one based on quiz score. Locked lights appear dimmed. Toggle on/off individually or all at once. Choosable glow color (10 color options)
 - **Schematic Furniture**: 3 floor-standing pieces (bookcases, pedestal) aligned to floor + 6 wall shelves with L-brackets at various heights (not draggable, clean line-art style)
 - **6 Kawaii Fixed Items**: books-row, dictionary, notebook, globe, pencil-cup, book-stack — draggable and resizable but not removable, positions saved per festivity
 - **90 Kawaii Decoration Images**: 10 per festivity (3 base + 7 bonus), cute chibi style
 - Click elements to place on window display (max 5 copies each)
 - Drag placed elements to reposition within the canvas
 - Resize elements (scale 0.5x - 2.5x) with +/- controls
-- Background color picker with 14 presets + festivity palette colors
+- Background color picker with 14 presets + festivity palette colors, progressively unlocked in groups of 3
 - Light color picker with 10 color options
-- Vocabulary quizzes (A1-A2 English) with progressive unlocking:
-  - 40% score = 1 item, 60% = 3 items, 80% = 5 items, 100% = all items
+- **Quiz answer randomization**: Seeded shuffle so correct answer appears in varied positions (not always B)
+- **Progressive unlock system** (`getUnlockStatus()`):
+  - Bonus decorations: proportional to score (score * items / total)
+  - Lights: unlocked one-by-one at thresholds [2,3,4,5,6,7,8,8,9,10] scaled to quiz length
+  - Background colors: 3 base + groups of 3 at thresholds [1,4,6,8,9,10]
+  - Quiz results show "You've unlocked: X decorations, Y spotlights, Z colours" and "Next goals: Score N to unlock..."
 - 7 unlockable bonus elements per festivity
 - Progress saved in localStorage (decorations, lights, light color, background color, quiz scores)
 

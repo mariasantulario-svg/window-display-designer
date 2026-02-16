@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { festivities, type Festivity, type DecorativeElement, getUnlockedElementsByScore } from "@/lib/festivities";
+import { festivities, type Festivity, type DecorativeElement, getUnlockStatus } from "@/lib/festivities";
 import { loadProgress, saveProgress, getFestivityProgress, updateFestivityProgress, type GameProgress, type PlacedElement, type FixedItemPosition, MAX_ELEMENT_COPIES, countElementInDisplay, DEFAULT_LIGHTS, LIGHT_COLOR_OPTIONS, getFixedItemPositions } from "@/lib/progress";
 import { WindowDisplay } from "@/components/WindowDisplay";
 import { ElementPanel } from "@/components/ElementPanel";
@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
-import { Paintbrush, RotateCcw, Lightbulb } from "lucide-react";
+import { Paintbrush, RotateCcw, Lightbulb, Lock } from "lucide-react";
 
 const BG_PRESETS = [
   "#FFF9F0", "#FFFFFF", "#F0F4FF", "#FFF0F5", "#F0FFF4",
@@ -31,6 +31,12 @@ export default function Home() {
   const lightColor = festivityProgress.lightColor || "#FFD700";
   const fixedItems = getFixedItemPositions(festivityProgress);
   const shopName = progress.shopName ?? "";
+
+  const bestScore = festivityProgress.quizScore;
+  const unlockStatus = getUnlockStatus(selectedFestivity, bestScore);
+
+  const allBgColors = [...BG_PRESETS, ...selectedFestivity.colorPalette.filter(c => !BG_PRESETS.includes(c))];
+  const availableBgColors = allBgColors.slice(0, unlockStatus.unlockedBgColors);
 
   const handleShopNameChange = (name: string) => {
     const newProgress = { ...progress, shopName: name };
@@ -94,6 +100,13 @@ export default function Home() {
   };
 
   const handleToggleLight = (index: number) => {
+    if (index >= unlockStatus.unlockedLightsCount) {
+      toast({
+        title: "Light locked",
+        description: `Score ${unlockStatus.nextLightAt} to unlock more lights.`,
+      });
+      return;
+    }
     const updated = [...lightsOn];
     updated[index] = !updated[index];
     const newProgress = updateFestivityProgress(progress, selectedFestivity.id, { lightsOn: updated });
@@ -101,39 +114,31 @@ export default function Home() {
   };
 
   const handleToggleAllLights = () => {
-    const allOn = lightsOn.every(l => l);
-    const updated = lightsOn.map(() => !allOn);
+    const unlockedCount = unlockStatus.unlockedLightsCount;
+    const unlockedLights = lightsOn.slice(0, unlockedCount);
+    const allOn = unlockedLights.every(l => l);
+    const updated = lightsOn.map((l, i) => i < unlockedCount ? !allOn : false);
     const newProgress = updateFestivityProgress(progress, selectedFestivity.id, { lightsOn: updated });
     setProgress(newProgress);
   };
 
   const handleQuizComplete = (score: number) => {
-    const bestScore = Math.max(festivityProgress.quizScore, score);
-    const unlockedIds = getUnlockedElementsByScore(selectedFestivity, bestScore, selectedFestivity.quiz.length);
-    const mergedUnlocked = Array.from(new Set([...(festivityProgress.unlockedElements || []), ...unlockedIds]));
+    const newBestScore = Math.max(festivityProgress.quizScore, score);
+    const newUnlock = getUnlockStatus(selectedFestivity, newBestScore);
     const wasCompleted = festivityProgress.quizCompleted;
     const newProgress = updateFestivityProgress(progress, selectedFestivity.id, {
       quizCompleted: true,
-      quizScore: bestScore,
-      unlockedElements: mergedUnlocked,
+      quizScore: newBestScore,
+      unlockedElements: newUnlock.unlockedElements,
     });
     if (!wasCompleted) {
       newProgress.totalQuizzesCompleted = (newProgress.totalQuizzesCompleted || 0) + 1;
     }
     saveProgress(newProgress);
     setProgress(newProgress);
-
-    if (mergedUnlocked.length > 0) {
-      toast({
-        title: `${mergedUnlocked.length} bonus items available!`,
-        description: bestScore === selectedFestivity.quiz.length
-          ? "Perfect score! All bonus items are now available."
-          : "Get a higher score to unlock more items.",
-      });
-    }
   };
 
-  const allLightsOn = lightsOn.every(l => l);
+  const allLightsOn = lightsOn.slice(0, unlockStatus.unlockedLightsCount).every(l => l);
 
   return (
     <div className="flex h-screen bg-background font-sans text-foreground">
@@ -160,7 +165,7 @@ export default function Home() {
             </div>
             <div className="flex gap-2 flex-wrap">
               <Badge variant="secondary" data-testid="text-score">
-                Quiz: {festivityProgress.quizScore}/{selectedFestivity.quiz.length}
+                Best: {bestScore}/{selectedFestivity.quiz.length}
               </Badge>
               <Badge variant="outline">
                 {placedElements.length} elements placed
@@ -183,6 +188,7 @@ export default function Home() {
               onUpdateFixedItem={handleUpdateFixedItem}
               shopName={shopName}
               onShopNameChange={handleShopNameChange}
+              unlockedLightsCount={unlockStatus.unlockedLightsCount}
             />
           </div>
         </div>
@@ -197,7 +203,7 @@ export default function Home() {
           <ElementPanel
             baseElements={selectedFestivity.baseElements}
             lockedElements={selectedFestivity.lockedElements}
-            unlockedIds={festivityProgress.unlockedElements || []}
+            unlockedIds={unlockStatus.unlockedElements}
             onQuizOpen={() => setQuizOpen(true)}
             quizCompleted={festivityProgress.quizCompleted}
             onAddElement={handleAddElement}
@@ -210,38 +216,52 @@ export default function Home() {
             <div className="flex items-center justify-between mb-2 flex-wrap gap-1">
               <h3 className="text-xs font-bold text-foreground uppercase tracking-wide flex items-center gap-1">
                 <Lightbulb size={12} />
-                Lights
+                Lights ({unlockStatus.unlockedLightsCount}/10)
               </h3>
-              <Button
-                size="sm"
-                variant={allLightsOn ? "default" : "outline"}
-                onClick={handleToggleAllLights}
-                data-testid="button-toggle-all-lights"
-              >
-                {allLightsOn ? "All Off" : "All On"}
-              </Button>
+              {unlockStatus.unlockedLightsCount > 0 && (
+                <Button
+                  size="sm"
+                  variant={allLightsOn ? "default" : "outline"}
+                  onClick={handleToggleAllLights}
+                  data-testid="button-toggle-all-lights"
+                >
+                  {allLightsOn ? "All Off" : "All On"}
+                </Button>
+              )}
             </div>
-            <div className="flex flex-wrap gap-1.5" data-testid="light-color-picker">
-              {LIGHT_COLOR_OPTIONS.map((opt) => (
-                <button
-                  key={opt.color}
-                  onClick={() => handleLightColorChange(opt.color)}
-                  className={`w-5 h-5 rounded-full border-2 transition-all ${
-                    lightColor === opt.color ? "border-foreground ring-1 ring-foreground/30 scale-110" : "border-muted"
-                  }`}
-                  style={{ backgroundColor: opt.color }}
-                  title={opt.name}
-                  data-testid={`button-light-color-${opt.color.replace("#", "")}`}
-                />
-              ))}
-            </div>
+            {unlockStatus.unlockedLightsCount === 0 && (
+              <p className="text-[10px] text-muted-foreground flex items-center gap-1">
+                <Lock size={10} /> Score {unlockStatus.nextLightAt} to unlock lights
+              </p>
+            )}
+            {unlockStatus.unlockedLightsCount > 0 && (
+              <div className="flex flex-wrap gap-1.5" data-testid="light-color-picker">
+                {LIGHT_COLOR_OPTIONS.map((opt) => (
+                  <button
+                    key={opt.color}
+                    onClick={() => handleLightColorChange(opt.color)}
+                    className={`w-5 h-5 rounded-full border-2 transition-all ${
+                      lightColor === opt.color ? "border-foreground ring-1 ring-foreground/30 scale-110" : "border-muted"
+                    }`}
+                    style={{ backgroundColor: opt.color }}
+                    title={opt.name}
+                    data-testid={`button-light-color-${opt.color.replace("#", "")}`}
+                  />
+                ))}
+              </div>
+            )}
+            {unlockStatus.unlockedLightsCount > 0 && unlockStatus.nextLightAt !== null && (
+              <p className="text-[10px] text-muted-foreground mt-1">
+                Score {unlockStatus.nextLightAt} to unlock more lights
+              </p>
+            )}
           </div>
 
           <div>
             <div className="flex items-center justify-between mb-2 flex-wrap gap-1">
               <h3 className="text-xs font-bold text-foreground uppercase tracking-wide flex items-center gap-1">
                 <Paintbrush size={12} />
-                Background
+                Background ({availableBgColors.length}/{allBgColors.length})
               </h3>
               {canvasBgColor !== "#FFF9F0" && (
                 <Button
@@ -255,18 +275,35 @@ export default function Home() {
               )}
             </div>
             <div className="flex flex-wrap gap-1.5" data-testid="bg-color-picker">
-              {[...BG_PRESETS, ...selectedFestivity.colorPalette.filter(c => !BG_PRESETS.includes(c))].map((c) => (
-                <button
-                  key={c}
-                  onClick={() => handleBgColorChange(c)}
-                  className={`w-6 h-6 rounded-md border-2 ${
-                    canvasBgColor === c ? "border-blue-500 ring-1 ring-blue-300" : "border-muted"
-                  }`}
-                  style={{ backgroundColor: c }}
-                  data-testid={`button-bg-${c.replace("#", "")}`}
-                />
-              ))}
+              {allBgColors.map((c, i) => {
+                const isLocked = i >= unlockStatus.unlockedBgColors;
+                return (
+                  <button
+                    key={c}
+                    onClick={() => !isLocked && handleBgColorChange(c)}
+                    className={`w-6 h-6 rounded-md border-2 relative ${
+                      isLocked
+                        ? "opacity-30 cursor-not-allowed border-muted"
+                        : canvasBgColor === c
+                          ? "border-blue-500 ring-1 ring-blue-300"
+                          : "border-muted"
+                    }`}
+                    style={{ backgroundColor: c }}
+                    disabled={isLocked}
+                    data-testid={`button-bg-${c.replace("#", "")}`}
+                  >
+                    {isLocked && (
+                      <Lock size={10} className="absolute inset-0 m-auto text-foreground/50" />
+                    )}
+                  </button>
+                );
+              })}
             </div>
+            {unlockStatus.nextBgAt !== null && (
+              <p className="text-[10px] text-muted-foreground mt-1">
+                Score {unlockStatus.nextBgAt} to unlock more colours
+              </p>
+            )}
           </div>
         </div>
       </aside>
@@ -276,8 +313,9 @@ export default function Home() {
         onClose={() => setQuizOpen(false)}
         questions={selectedFestivity.quiz}
         festivityName={selectedFestivity.name}
-        unlockThreshold={selectedFestivity.unlockThreshold}
         onComplete={handleQuizComplete}
+        bestScore={bestScore}
+        festivity={selectedFestivity}
       />
     </div>
   );

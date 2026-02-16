@@ -150,17 +150,30 @@ function mapElements(names: string[], festId: string, locked: boolean): Decorati
   }));
 }
 
+function shuffleArray<T>(arr: T[], seed: number): T[] {
+  const result = [...arr];
+  let s = seed;
+  for (let i = result.length - 1; i > 0; i--) {
+    s = (s * 1664525 + 1013904223) & 0x7fffffff;
+    const j = s % (i + 1);
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+}
+
 function mapQuizzes(
   quizzes: Array<{ question: string; options: string[]; correct: string }>,
   festId: string
 ): QuizQuestion[] {
   return quizzes.map((q, i) => {
-    const idx = q.options.indexOf(q.correct);
+    const seed = festId.length * 1000 + i * 137 + q.correct.charCodeAt(0);
+    const shuffled = shuffleArray(q.options, seed);
+    const correctIdx = shuffled.indexOf(q.correct);
     return {
       id: `${festId}-q${i + 1}`,
       question: q.question,
-      options: q.options,
-      correctIndex: idx >= 0 ? idx : 0,
+      options: shuffled,
+      correctIndex: correctIdx >= 0 ? correctIdx : 0,
     };
   });
 }
@@ -180,18 +193,50 @@ export const festivities: Festivity[] = rawData.festivities.map((f) => {
   };
 });
 
-export function getUnlockedElementsByScore(
+export interface UnlockStatus {
+  unlockedElements: string[];
+  unlockedLightsCount: number;
+  unlockedBgColors: number;
+  nextElementAt: number | null;
+  nextLightAt: number | null;
+  nextBgAt: number | null;
+}
+
+export function getUnlockStatus(
   festivity: Festivity,
   score: number,
-  totalQuestions: number
-): string[] {
-  if (totalQuestions === 0) return [];
-  const ratio = score / totalQuestions;
-  const total = festivity.lockedElements.length;
+): UnlockStatus {
+  const total = festivity.quiz.length;
+  if (total === 0) return { unlockedElements: [], unlockedLightsCount: 0, unlockedBgColors: 0, nextElementAt: 1, nextLightAt: 1, nextBgAt: 1 };
 
-  if (ratio >= 1.0) return festivity.lockedElements.map(e => e.id);
-  if (ratio >= 0.8) return festivity.lockedElements.slice(0, Math.min(total, 5)).map(e => e.id);
-  if (ratio >= 0.6) return festivity.lockedElements.slice(0, Math.min(total, 3)).map(e => e.id);
-  if (ratio >= 0.4) return festivity.lockedElements.slice(0, Math.min(total, 1)).map(e => e.id);
-  return [];
+  const elemCount = Math.min(festivity.lockedElements.length, Math.floor(score * festivity.lockedElements.length / total));
+  const unlockedElements = festivity.lockedElements.slice(0, elemCount).map(e => e.id);
+
+  const lightsThresholds = [2, 3, 4, 5, 6, 7, 8, 8, 9, 10];
+  const unlockedLightsCount = Math.min(10, lightsThresholds.filter(t => score >= Math.ceil(t * total / 10)).length);
+
+  const bgThresholds = [1, 4, 6, 8, 9, 10];
+  const bgGroupsUnlocked = bgThresholds.filter(t => score >= Math.ceil(t * total / 10)).length;
+  const unlockedBgColors = Math.min(21, bgGroupsUnlocked * 3 + 3);
+
+  const nextElemScore = elemCount < festivity.lockedElements.length
+    ? Math.ceil((elemCount + 1) * total / festivity.lockedElements.length)
+    : null;
+
+  const nextLight = unlockedLightsCount < 10
+    ? Math.ceil(lightsThresholds[unlockedLightsCount] * total / 10)
+    : null;
+
+  const nextBg = bgGroupsUnlocked < bgThresholds.length
+    ? Math.ceil(bgThresholds[bgGroupsUnlocked] * total / 10)
+    : null;
+
+  return {
+    unlockedElements,
+    unlockedLightsCount,
+    unlockedBgColors,
+    nextElementAt: nextElemScore,
+    nextLightAt: nextLight,
+    nextBgAt: nextBg,
+  };
 }
