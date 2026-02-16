@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
-import { Paintbrush, RotateCcw, Lightbulb, Lock, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { Paintbrush, RotateCcw, Lightbulb, Lock, ChevronUp, ChevronDown, X } from "lucide-react";
 
 const BG_PRESETS = [
   "#FFF9F0", "#FFFFFF", "#F0F4FF", "#FFF0F5", "#F0FFF4",
@@ -192,39 +192,42 @@ export default function Home() {
         </div>
       </div>
 
-      <main className="flex-1 flex items-center justify-center overflow-auto p-2 relative">
-        <div className="w-full max-w-5xl">
-          <div className="px-8 pt-12 pb-4">
-            <WindowDisplay
-              festivity={selectedFestivity}
-              placedElements={placedElements}
-              allElements={allElements}
-              onRemoveElement={handleRemoveElement}
-              onUpdateElement={handleUpdateElement}
-              bgColor={canvasBgColor}
-              lightsOn={lightsOn}
-              onToggleLight={handleToggleLight}
-              lightColor={lightColor}
-              fixedItems={fixedItems}
-              onUpdateFixedItem={handleUpdateFixedItem}
-              shopName={shopName}
-              onShopNameChange={handleShopNameChange}
-              unlockedLightsCount={unlockStatus.unlockedLightsCount}
-              furniturePositions={furniturePositions}
-              onUpdateFurniture={handleUpdateFurniture}
-              furnitureUnlocked={unlockStatus.furnitureUnlocked}
-              onLockedAction={handleLockedAction}
-            />
+      <main className="flex-1 flex items-center justify-center overflow-auto relative">
+        <div className="w-full h-full flex items-center justify-center" style={{ padding: "12px 16px" }}>
+          <div className="w-full" style={{ maxWidth: "calc(100vw - 32px)" }}>
+            <div className="px-8 pt-12 pb-4">
+              <WindowDisplay
+                festivity={selectedFestivity}
+                placedElements={placedElements}
+                allElements={allElements}
+                onRemoveElement={handleRemoveElement}
+                onUpdateElement={handleUpdateElement}
+                bgColor={canvasBgColor}
+                lightsOn={lightsOn}
+                onToggleLight={handleToggleLight}
+                lightColor={lightColor}
+                fixedItems={fixedItems}
+                onUpdateFixedItem={handleUpdateFixedItem}
+                shopName={shopName}
+                onShopNameChange={handleShopNameChange}
+                unlockedLightsCount={unlockStatus.unlockedLightsCount}
+                furniturePositions={furniturePositions}
+                onUpdateFurniture={handleUpdateFurniture}
+                furnitureUnlocked={unlockStatus.furnitureUnlocked}
+                onLockedAction={handleLockedAction}
+              />
+            </div>
           </div>
         </div>
 
         <button
           onClick={() => setDrawerOpen(!drawerOpen)}
-          className="fixed right-0 top-1/2 -translate-y-1/2 z-40 bg-card border border-r-0 border-border rounded-l-md p-2 shadow-md transition-all"
-          style={{ right: drawerOpen ? "320px" : "0px", transition: "right 0.3s ease" }}
+          className="fixed left-1/2 -translate-x-1/2 z-40 bg-card border border-b-0 border-border rounded-t-md px-4 py-1.5 shadow-md transition-all flex items-center gap-1.5"
+          style={{ bottom: drawerOpen ? "280px" : "0px", transition: "bottom 0.3s ease" }}
           data-testid="button-toggle-drawer"
         >
-          {drawerOpen ? <ChevronRight className="w-5 h-5" /> : <ChevronLeft className="w-5 h-5" />}
+          {drawerOpen ? <ChevronDown className="w-4 h-4" /> : <ChevronUp className="w-4 h-4" />}
+          <span className="text-xs font-bold uppercase tracking-wide">Decorations</span>
         </button>
 
         {drawerOpen && (
@@ -236,130 +239,134 @@ export default function Home() {
         )}
 
         <div
-          className="fixed top-0 right-0 h-full w-80 bg-card border-l border-border z-40 flex flex-col shadow-xl"
+          className="fixed bottom-0 left-0 w-full bg-card border-t border-border z-40 shadow-xl"
           style={{
-            transform: drawerOpen ? "translateX(0)" : "translateX(100%)",
+            height: "280px",
+            transform: drawerOpen ? "translateY(0)" : "translateY(100%)",
             transition: "transform 0.3s ease",
           }}
           data-testid="decorations-drawer"
         >
-          <div className="flex items-center justify-between p-3 border-b gap-2">
-            <h3 className="font-bold text-sm text-foreground">DECORATIONS</h3>
-            <Button
-              size="icon"
-              variant="ghost"
-              onClick={() => setDrawerOpen(false)}
-              data-testid="button-close-drawer"
-            >
-              <X className="w-4 h-4" />
-            </Button>
-          </div>
-
-          <ScrollArea className="flex-1 p-3">
-            <ElementPanel
-              baseElements={selectedFestivity.baseElements}
-              lockedElements={selectedFestivity.lockedElements}
-              unlockedIds={unlockStatus.unlockedElements}
-              onQuizOpen={() => setQuizOpen(true)}
-              quizCompleted={festivityProgress.quizCompleted}
-              onAddElement={handleAddElement}
-              placedElements={placedElements}
-            />
-          </ScrollArea>
-
-          <div className="border-t p-3 space-y-3">
-            <div>
-              <div className="flex items-center justify-between mb-2 flex-wrap gap-1">
-                <h3 className="text-xs font-bold text-foreground uppercase tracking-wide flex items-center gap-1">
-                  <Lightbulb size={12} />
-                  Lights ({unlockStatus.unlockedLightsCount}/10)
-                </h3>
-                {unlockStatus.unlockedLightsCount > 0 && (
-                  <Button
-                    size="sm"
-                    variant={allLightsOn ? "default" : "outline"}
-                    onClick={handleToggleAllLights}
-                    data-testid="button-toggle-all-lights"
-                  >
-                    {allLightsOn ? "All Off" : "All On"}
-                  </Button>
-                )}
+          <div className="h-full flex">
+            <div className="flex-1 border-r border-border overflow-hidden flex flex-col">
+              <div className="flex items-center justify-between px-3 py-2 border-b gap-2">
+                <h3 className="font-bold text-xs text-foreground uppercase tracking-wide">Decorations</h3>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  onClick={() => setDrawerOpen(false)}
+                  data-testid="button-close-drawer"
+                >
+                  <X className="w-4 h-4" />
+                </Button>
               </div>
-              {unlockStatus.unlockedLightsCount === 0 && (
-                <p className="text-[10px] text-muted-foreground flex items-center gap-1">
-                  <Lock size={10} /> Score {unlockStatus.nextLightAt} to unlock lights
-                </p>
-              )}
-              {unlockStatus.unlockedLightsCount > 0 && (
-                <div className="flex flex-wrap gap-1.5" data-testid="light-color-picker">
-                  {LIGHT_COLOR_OPTIONS.map((opt) => (
-                    <button
-                      key={opt.color}
-                      onClick={() => handleLightColorChange(opt.color)}
-                      className={`w-5 h-5 rounded-full border-2 transition-all ${
-                        lightColor === opt.color ? "border-foreground ring-1 ring-foreground/30 scale-110" : "border-muted"
-                      }`}
-                      style={{ backgroundColor: opt.color }}
-                      title={opt.name}
-                      data-testid={`button-light-color-${opt.color.replace("#", "")}`}
-                    />
-                  ))}
-                </div>
-              )}
-              {unlockStatus.unlockedLightsCount > 0 && unlockStatus.nextLightAt !== null && (
-                <p className="text-[10px] text-muted-foreground mt-1">
-                  Score {unlockStatus.nextLightAt} to unlock more lights
-                </p>
-              )}
+              <ScrollArea className="flex-1 p-2">
+                <ElementPanel
+                  baseElements={selectedFestivity.baseElements}
+                  lockedElements={selectedFestivity.lockedElements}
+                  unlockedIds={unlockStatus.unlockedElements}
+                  onQuizOpen={() => setQuizOpen(true)}
+                  quizCompleted={festivityProgress.quizCompleted}
+                  onAddElement={handleAddElement}
+                  placedElements={placedElements}
+                />
+              </ScrollArea>
             </div>
 
-            <div>
-              <div className="flex items-center justify-between mb-2 flex-wrap gap-1">
-                <h3 className="text-xs font-bold text-foreground uppercase tracking-wide flex items-center gap-1">
-                  <Paintbrush size={12} />
-                  Background ({availableBgColors.length}/{allBgColors.length})
-                </h3>
-                {canvasBgColor !== "#FFF9F0" && (
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    onClick={() => handleBgColorChange("#FFF9F0")}
-                    data-testid="button-reset-bg"
-                  >
-                    <RotateCcw size={12} />
-                  </Button>
+            <div className="w-56 flex-shrink-0 overflow-y-auto p-3 space-y-3">
+              <div>
+                <div className="flex items-center justify-between mb-1.5 flex-wrap gap-1">
+                  <h3 className="text-[10px] font-bold text-foreground uppercase tracking-wide flex items-center gap-1">
+                    <Lightbulb size={10} />
+                    Lights ({unlockStatus.unlockedLightsCount}/10)
+                  </h3>
+                  {unlockStatus.unlockedLightsCount > 0 && (
+                    <Button
+                      size="sm"
+                      variant={allLightsOn ? "default" : "outline"}
+                      onClick={handleToggleAllLights}
+                      data-testid="button-toggle-all-lights"
+                    >
+                      {allLightsOn ? "All Off" : "All On"}
+                    </Button>
+                  )}
+                </div>
+                {unlockStatus.unlockedLightsCount === 0 && (
+                  <p className="text-[10px] text-muted-foreground flex items-center gap-1">
+                    <Lock size={10} /> Score {unlockStatus.nextLightAt} to unlock
+                  </p>
+                )}
+                {unlockStatus.unlockedLightsCount > 0 && (
+                  <div className="flex flex-wrap gap-1.5" data-testid="light-color-picker">
+                    {LIGHT_COLOR_OPTIONS.map((opt) => (
+                      <button
+                        key={opt.color}
+                        onClick={() => handleLightColorChange(opt.color)}
+                        className={`w-5 h-5 rounded-full border-2 transition-all ${
+                          lightColor === opt.color ? "border-foreground ring-1 ring-foreground/30 scale-110" : "border-muted"
+                        }`}
+                        style={{ backgroundColor: opt.color }}
+                        title={opt.name}
+                        data-testid={`button-light-color-${opt.color.replace("#", "")}`}
+                      />
+                    ))}
+                  </div>
+                )}
+                {unlockStatus.unlockedLightsCount > 0 && unlockStatus.nextLightAt !== null && (
+                  <p className="text-[10px] text-muted-foreground mt-1">
+                    Score {unlockStatus.nextLightAt} for more
+                  </p>
                 )}
               </div>
-              <div className="flex flex-wrap gap-1.5" data-testid="bg-color-picker">
-                {allBgColors.map((c, i) => {
-                  const isLocked = i >= unlockStatus.unlockedBgColors;
-                  return (
-                    <button
-                      key={c}
-                      onClick={() => isLocked ? handleLockedAction() : handleBgColorChange(c)}
-                      className={`w-6 h-6 rounded-md border-2 relative ${
-                        isLocked
-                          ? "opacity-30 cursor-not-allowed border-muted"
-                          : canvasBgColor === c
-                            ? "border-blue-500 ring-1 ring-blue-300"
-                            : "border-muted"
-                      }`}
-                      style={{ backgroundColor: c }}
-                      disabled={isLocked}
-                      data-testid={`button-bg-${c.replace("#", "")}`}
+
+              <div>
+                <div className="flex items-center justify-between mb-1.5 flex-wrap gap-1">
+                  <h3 className="text-[10px] font-bold text-foreground uppercase tracking-wide flex items-center gap-1">
+                    <Paintbrush size={10} />
+                    Background ({availableBgColors.length}/{allBgColors.length})
+                  </h3>
+                  {canvasBgColor !== "#FFF9F0" && (
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => handleBgColorChange("#FFF9F0")}
+                      data-testid="button-reset-bg"
                     >
-                      {isLocked && (
-                        <Lock size={10} className="absolute inset-0 m-auto text-foreground/50" />
-                      )}
-                    </button>
-                  );
-                })}
+                      <RotateCcw size={10} />
+                    </Button>
+                  )}
+                </div>
+                <div className="flex flex-wrap gap-1" data-testid="bg-color-picker">
+                  {allBgColors.map((c, i) => {
+                    const isLocked = i >= unlockStatus.unlockedBgColors;
+                    return (
+                      <button
+                        key={c}
+                        onClick={() => isLocked ? handleLockedAction() : handleBgColorChange(c)}
+                        className={`w-5 h-5 rounded-md border-2 relative ${
+                          isLocked
+                            ? "opacity-30 cursor-not-allowed border-muted"
+                            : canvasBgColor === c
+                              ? "border-blue-500 ring-1 ring-blue-300"
+                              : "border-muted"
+                        }`}
+                        style={{ backgroundColor: c }}
+                        disabled={isLocked}
+                        data-testid={`button-bg-${c.replace("#", "")}`}
+                      >
+                        {isLocked && (
+                          <Lock size={8} className="absolute inset-0 m-auto text-foreground/50" />
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+                {unlockStatus.nextBgAt !== null && (
+                  <p className="text-[10px] text-muted-foreground mt-1">
+                    Score {unlockStatus.nextBgAt} for more colours
+                  </p>
+                )}
               </div>
-              {unlockStatus.nextBgAt !== null && (
-                <p className="text-[10px] text-muted-foreground mt-1">
-                  Score {unlockStatus.nextBgAt} to unlock more colours
-                </p>
-              )}
             </div>
           </div>
         </div>

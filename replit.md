@@ -26,7 +26,7 @@ An interactive educational web app for FP Basica de Comercio students. Students 
 ## UI Layout
 - **Top bar**: Festivity dropdown selector + quiz score badge + Take Quiz button
 - **Main area**: Full-screen escaparate (maximized space, no sidebars)
-- **Slide-out drawer**: Right-side panel triggered by arrow button, contains decorations, lights controls, and background color picker
+- **Bottom slide-up drawer**: Bottom panel triggered by centered "Decorations" button, contains decorations on left and lights/background controls on right
 - **Onboarding**: 5-slide carousel on first visit (stored in localStorage `onboarding_completed`)
 
 ## Features
