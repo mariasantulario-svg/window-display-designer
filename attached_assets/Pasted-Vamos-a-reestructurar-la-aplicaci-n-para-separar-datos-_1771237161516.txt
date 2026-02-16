@@ -1,0 +1,657 @@
+Vamos a reestructurar la aplicación para separar datos de lógica. 
+
+CREA EXACTAMENTE estos 3 archivos nuevos en la ruta que te indico. NO modifiques ningún componente existente todavía. Solo crea los archivos y confirma cuando estén listos.
+
+---
+
+ARCHIVO 1: /src/data/festivities.config.json
+
+Contenido:
+{
+  "festivities": [
+    {
+      "id": "easter",
+      "name": "Easter",
+      "month": "March-April",
+      "visualTheme": {
+        "defaultBackground": "#FFF8E7",
+        "unlockableColors": ["#FFB7B2", "#FFDAC1", "#E2F0CB", "#B5EAD7", "#C7CEEA"],
+        "treeType": "spring_blossom",
+        "treeColor": "#FFB7B2"
+      },
+      "decorations": {
+        "base": [
+          {"id": "easter_egg", "name": "Easter Egg", "icon": "egg", "maxCount": 5},
+          {"id": "bunny", "name": "Bunny", "icon": "rabbit", "maxCount": 3},
+          {"id": "basket", "name": "Basket", "icon": "basket", "maxCount": 2}
+        ],
+        "unlockable": [
+          {"id": "chick", "name": "Chick", "icon": "bird", "requiredScore": 3, "maxCount": 5},
+          {"id": "flower_garland", "name": "Flower Garland", "icon": "flower_2", "requiredScore": 6, "maxCount": 3},
+          {"id": "easter_sign", "name": "Easter Sale Sign", "icon": "sign", "requiredScore": 9, "maxCount": 1}
+        ]
+      },
+      "features": {
+        "lightColorChange": {"requiredScore": 12, "description": "Change spotlight colors"},
+        "furnitureMove": {"requiredScore": 15, "description": "Rearrange furniture"},
+        "premiumBackgrounds": {"requiredScore": 18, "description": "Unlock premium background colors"}
+      },
+      "quizConfig": {
+        "levels": [
+          {"level": 1, "questions": 3, "difficulty": "A1", "passScore": 2},
+          {"level": 2, "questions": 4, "difficulty": "A1-A2", "passScore": 3},
+          {"level": 3, "questions": 5, "difficulty": "A2", "passScore": 4}
+        ]
+      }
+    },
+    {
+      "id": "valentines",
+      "name": "Valentine's Day",
+      "month": "February",
+      "visualTheme": {
+        "defaultBackground": "#FFE4E1",
+        "unlockableColors": ["#FF6B6B", "#FF8E8E", "#FFB4B4", "#FFD4D4", "#FFF0F0"],
+        "treeType": "bare_winter",
+        "treeColor": "#8B4513"
+      },
+      "decorations": {
+        "base": [
+          {"id": "heart", "name": "Heart", "icon": "heart", "maxCount": 5},
+          {"id": "rose", "name": "Rose", "icon": "flower", "maxCount": 3},
+          {"id": "love_letter", "name": "Love Letter", "icon": "mail_heart", "maxCount": 2}
+        ],
+        "unlockable": [
+          {"id": "cupid", "name": "Cupid", "icon": "angel", "requiredScore": 3, "maxCount": 2},
+          {"id": "chocolate_box", "name": "Chocolate Box", "icon": "gift", "requiredScore": 6, "maxCount": 3},
+          {"id": "valentine_banner", "name": "Be Mine Banner", "icon": "banner", "requiredScore": 9, "maxCount": 1}
+        ]
+      },
+      "features": {
+        "lightColorChange": {"requiredScore": 12, "description": "Change spotlight colors"},
+        "furnitureMove": {"requiredScore": 15, "description": "Rearrange furniture"},
+        "premiumBackgrounds": {"requiredScore": 18, "description": "Unlock premium background colors"}
+      },
+      "quizConfig": {
+        "levels": [
+          {"level": 1, "questions": 3, "difficulty": "A1", "passScore": 2},
+          {"level": 2, "questions": 4, "difficulty": "A1-A2", "passScore": 3},
+          {"level": 3, "questions": 5, "difficulty": "A2", "passScore": 4}
+        ]
+      }
+    },
+    {
+      "id": "spring_sale",
+      "name": "Spring Sale",
+      "month": "April-May",
+      "visualTheme": {
+        "defaultBackground": "#F0FFF0",
+        "unlockableColors": ["#98FB98", "#90EE90", "#87CEEB", "#DDA0DD", "#F0E68C"],
+        "treeType": "full_spring",
+        "treeColor": "#228B22"
+      },
+      "decorations": {
+        "base": [
+          {"id": "sale_sign", "name": "Sale Sign", "icon": "tag", "maxCount": 2},
+          {"id": "sunflower", "name": "Sunflower", "icon": "sunflower", "maxCount": 5},
+          {"id": "butterfly", "name": "Butterfly", "icon": "butterfly", "maxCount": 5}
+        ],
+        "unlockable": [
+          {"id": "rainbow", "name": "Rainbow", "icon": "rainbow", "requiredScore": 3, "maxCount": 1},
+          {"id": "bee", "name": "Bee", "icon": "bee", "requiredScore": 6, "maxCount": 4},
+          {"id": "spring_bunting", "name": "Spring Bunting", "icon": "flags", "requiredScore": 9, "maxCount": 3}
+        ]
+      },
+      "features": {
+        "lightColorChange": {"requiredScore": 12, "description": "Change spotlight colors"},
+        "furnitureMove": {"requiredScore": 15, "description": "Rearrange furniture"},
+        "premiumBackgrounds": {"requiredScore": 18, "description": "Unlock premium background colors"}
+      },
+      "quizConfig": {
+        "levels": [
+          {"level": 1, "questions": 3, "difficulty": "A1", "passScore": 2},
+          {"level": 2, "questions": 4, "difficulty": "A1-A2", "passScore": 3},
+          {"level": 3, "questions": 5, "difficulty": "A2", "passScore": 4}
+        ]
+      }
+    },
+    {
+      "id": "mothers_day",
+      "name": "Mother's Day",
+      "month": "May",
+      "visualTheme": {
+        "defaultBackground": "#FFF0F5",
+        "unlockableColors": ["#FF69B4", "#FFB6C1", "#FFC0CB", "#FF1493", "#DB7093"],
+        "treeType": "spring_blossom",
+        "treeColor": "#FF69B4"
+      },
+      "decorations": {
+        "base": [
+          {"id": "carnation", "name": "Carnation", "icon": "flower_3", "maxCount": 5},
+          {"id": "gift_box", "name": "Gift Box", "icon": "present", "maxCount": 3},
+          {"id": "thank_you_card", "name": "Thank You Card", "icon": "card", "maxCount": 2}
+        ],
+        "unlockable": [
+          {"id": "perfume_bottle", "name": "Perfume", "icon": "bottle", "requiredScore": 3, "maxCount": 2},
+          {"id": "jewelry_box", "name": "Jewelry", "icon": "diamond", "requiredScore": 6, "maxCount": 2},
+          {"id": "best_mom_banner", "name": "Best Mom Banner", "icon": "crown_banner", "requiredScore": 9, "maxCount": 1}
+        ]
+      },
+      "features": {
+        "lightColorChange": {"requiredScore": 12, "description": "Change spotlight colors"},
+        "furnitureMove": {"requiredScore": 15, "description": "Rearrange furniture"},
+        "premiumBackgrounds": {"requiredScore": 18, "description": "Unlock premium background colors"}
+      },
+      "quizConfig": {
+        "levels": [
+          {"level": 1, "questions": 3, "difficulty": "A1", "passScore": 2},
+          {"level": 2, "questions": 4, "difficulty": "A1-A2", "passScore": 3},
+          {"level": 3, "questions": 5, "difficulty": "A2", "passScore": 4}
+        ]
+      }
+    },
+    {
+      "id": "summer_sale",
+      "name": "Summer Sale",
+      "month": "June-August",
+      "visualTheme": {
+        "defaultBackground": "#FFFACD",
+        "unlockableColors": ["#FFD700", "#FF8C00", "#FF6347", "#40E0D0", "#00CED1"],
+        "treeType": "full_summer",
+        "treeColor": "#228B22"
+      },
+      "decorations": {
+        "base": [
+          {"id": "sun", "name": "Sun", "icon": "sun", "maxCount": 3},
+          {"id": "sunglasses", "name": "Sunglasses", "icon": "glasses", "maxCount": 3},
+          {"id": "beach_ball", "name": "Beach Ball", "icon": "ball", "maxCount": 3}
+        ],
+        "unlockable": [
+          {"id": "palm_tree", "name": "Palm Tree", "icon": "palm", "requiredScore": 3, "maxCount": 2},
+          {"id": "ice_cream", "name": "Ice Cream", "icon": "icecream", "requiredScore": 6, "maxCount": 5},
+          {"id": "summer_discount", "name": "50% Off Sign", "icon": "discount", "requiredScore": 9, "maxCount": 2}
+        ]
+      },
+      "features": {
+        "lightColorChange": {"requiredScore": 12, "description": "Change spotlight colors"},
+        "furnitureMove": {"requiredScore": 15, "description": "Rearrange furniture"},
+        "premiumBackgrounds": {"requiredScore": 18, "description": "Unlock premium background colors"}
+      },
+      "quizConfig": {
+        "levels": [
+          {"level": 1, "questions": 3, "difficulty": "A1", "passScore": 2},
+          {"level": 2, "questions": 4, "difficulty": "A1-A2", "passScore": 3},
+          {"level": 3, "questions": 5, "difficulty": "A2", "passScore": 4}
+        ]
+      }
+    },
+    {
+      "id": "back_to_school",
+      "name": "Back to School",
+      "month": "September",
+      "visualTheme": {
+        "defaultBackground": "#F5F5DC",
+        "unlockableColors": ["#8B4513", "#D2691E", "#CD853F", "#DEB887", "#F4A460"],
+        "treeType": "early_autumn",
+        "treeColor": "#D2691E"
+      },
+      "decorations": {
+        "base": [
+          {"id": "apple", "name": "Apple", "icon": "apple", "maxCount": 5},
+          {"id": "pencil", "name": "Pencil", "icon": "pencil", "maxCount": 5},
+          {"id": "notebook", "name": "Notebook", "icon": "book_open", "maxCount": 3}
+        ],
+        "unlockable": [
+          {"id": "backpack", "name": "Backpack", "icon": "backpack", "requiredScore": 3, "maxCount": 2},
+          {"id": "calculator", "name": "Calculator", "icon": "calculator", "requiredScore": 6, "maxCount": 2},
+          {"id": "school_banner", "name": "Welcome Back Banner", "icon": "education", "requiredScore": 9, "maxCount": 1}
+        ]
+      },
+      "features": {
+        "lightColorChange": {"requiredScore": 12, "description": "Change spotlight colors"},
+        "furnitureMove": {"requiredScore": 15, "description": "Rearrange furniture"},
+        "premiumBackgrounds": {"requiredScore": 18, "description": "Unlock premium background colors"}
+      },
+      "quizConfig": {
+        "levels": [
+          {"level": 1, "questions": 3, "difficulty": "A1", "passScore": 2},
+          {"level": 2, "questions": 4, "difficulty": "A1-A2", "passScore": 3},
+          {"level": 3, "questions": 5, "difficulty": "A2", "passScore": 4}
+        ]
+      }
+    },
+    {
+      "id": "halloween",
+      "name": "Halloween",
+      "month": "October",
+      "visualTheme": {
+        "defaultBackground": "#2F1810",
+        "unlockableColors": ["#FF6600", "#8B008B", "#000000", "#4B0082", "#FF4500"],
+        "treeType": "spooky_autumn",
+        "treeColor": "#4B0082"
+      },
+      "decorations": {
+        "base": [
+          {"id": "pumpkin", "name": "Pumpkin", "icon": "pumpkin", "maxCount": 5},
+          {"id": "ghost", "name": "Ghost", "icon": "ghost", "maxCount": 5},
+          {"id": "spider_web", "name": "Spider Web", "icon": "web", "maxCount": 3}
+        ],
+        "unlockable": [
+          {"id": "witch_hat", "name": "Witch Hat", "icon": "hat", "requiredScore": 3, "maxCount": 3},
+          {"id": "bat", "name": "Bat", "icon": "bat", "requiredScore": 6, "maxCount": 5},
+          {"id": "haunted_sign", "name": "Spooky Sale Sign", "icon": "skull", "requiredScore": 9, "maxCount": 1}
+        ]
+      },
+      "features": {
+        "lightColorChange": {"requiredScore": 12, "description": "Change spotlight colors"},
+        "furnitureMove": {"requiredScore": 15, "description": "Rearrange furniture"},
+        "premiumBackgrounds": {"requiredScore": 18, "description": "Unlock premium background colors"}
+      },
+      "quizConfig": {
+        "levels": [
+          {"level": 1, "questions": 3, "difficulty": "A1", "passScore": 2},
+          {"level": 2, "questions": 4, "difficulty": "A1-A2", "passScore": 3},
+          {"level": 3, "questions": 5, "difficulty": "A2", "passScore": 4}
+        ]
+      }
+    },
+    {
+      "id": "black_friday",
+      "name": "Black Friday",
+      "month": "November",
+      "visualTheme": {
+        "defaultBackground": "#1a1a1a",
+        "unlockableColors": ["#000000", "#333333", "#666666", "#999999", "#FF0000"],
+        "treeType": "late_autumn",
+        "treeColor": "#8B4513"
+      },
+      "decorations": {
+        "base": [
+          {"id": "price_tag", "name": "Price Tag", "icon": "tag_2", "maxCount": 5},
+          {"id": "shopping_bag", "name": "Shopping Bag", "icon": "bag", "maxCount": 4},
+          {"id": "percentage", "name": "% Sign", "icon": "percent", "maxCount": 5}
+        ],
+        "unlockable": [
+          {"id": "black_balloon", "name": "Black Balloon", "icon": "balloon", "requiredScore": 3, "maxCount": 5},
+          {"id": "megaphone", "name": "Megaphone", "icon": "megaphone", "requiredScore": 6, "maxCount": 2},
+          {"id": "doorbuster", "name": "Doorbuster Sign", "icon": "door_open", "requiredScore": 9, "maxCount": 1}
+        ]
+      },
+      "features": {
+        "lightColorChange": {"requiredScore": 12, "description": "Change spotlight colors"},
+        "furnitureMove": {"requiredScore": 15, "description": "Rearrange furniture"},
+        "premiumBackgrounds": {"requiredScore": 18, "description": "Unlock premium background colors"}
+      },
+      "quizConfig": {
+        "levels": [
+          {"level": 1, "questions": 3, "difficulty": "A1", "passScore": 2},
+          {"level": 2, "questions": 4, "difficulty": "A1-A2", "passScore": 3},
+          {"level": 3, "questions": 5, "difficulty": "A2", "passScore": 4}
+        ]
+      }
+    },
+    {
+      "id": "christmas",
+      "name": "Christmas",
+      "month": "December",
+      "visualTheme": {
+        "defaultBackground": "#0F4C3A",
+        "unlockableColors": ["#C41E3A", "#228B22", "#FFD700", "#FFFFFF", "#8B0000"],
+        "treeType": "christmas_tree",
+        "treeColor": "#0F4C3A"
+      },
+      "decorations": {
+        "base": [
+          {"id": "christmas_tree", "name": "Xmas Tree", "icon": "tree_pine", "maxCount": 2},
+          {"id": "snowflake", "name": "Snowflake", "icon": "snowflake", "maxCount": 5},
+          {"id": "gift_red", "name": "Red Gift", "icon": "gift_red", "maxCount": 5}
+        ],
+        "unlockable": [
+          {"id": "santa", "name": "Santa", "icon": "santa", "requiredScore": 3, "maxCount": 2},
+          {"id": "reindeer", "name": "Reindeer", "icon": "deer", "requiredScore": 6, "maxCount": 3},
+          {"id": "christmas_lights", "name": "Fairy Lights", "icon": "lights", "requiredScore": 9, "maxCount": 3}
+        ]
+      },
+      "features": {
+        "lightColorChange": {"requiredScore": 12, "description": "Change spotlight colors"},
+        "furnitureMove": {"requiredScore": 15, "description": "Rearrange furniture"},
+        "premiumBackgrounds": {"requiredScore": 18, "description": "Unlock premium background colors"}
+      },
+      "quizConfig": {
+        "levels": [
+          {"level": 1, "questions": 3, "difficulty": "A1", "passScore": 2},
+          {"level": 2, "questions": 4, "difficulty": "A1-A2", "passScore": 3},
+          {"level": 3, "questions": 5, "difficulty": "A2", "passScore": 4}
+        ]
+      }
+    }
+  ]
+}
+
+---
+
+ARCHIVO 2: /src/data/questions.bank.json
+
+Contenido:
+{
+  "metadata": {
+    "version": "1.0",
+    "totalQuestions": 60,
+    "levels": ["A1", "A1-A2", "A2"]
+  },
+  "questions": {
+    "A1": {
+      "retail_basics": [
+        {
+          "id": "a1_rb_001",
+          "question": "What do you call the person who buys things in a shop?",
+          "options": ["Customer", "Seller", "Manager", "Cashier"],
+          "correct": 0,
+          "category": "roles",
+          "difficulty": 1,
+          "festivity": "all"
+        },
+        {
+          "id": "a1_rb_002",
+          "question": "Where do you pay for your items in a shop?",
+          "options": ["At the window", "At the till/checkout", "At the door", "At the shelf"],
+          "correct": 1,
+          "category": "store_areas",
+          "difficulty": 1,
+          "festivity": "all"
+        },
+        {
+          "id": "a1_rb_003",
+          "question": "What does 'OPEN' mean on a shop sign?",
+          "options": ["The shop is closed", "The shop is working", "The shop is empty", "The shop is expensive"],
+          "correct": 1,
+          "category": "signs",
+          "difficulty": 1,
+          "festivity": "all"
+        },
+        {
+          "id": "a1_rb_004",
+          "question": "Who works in a shop and helps customers?",
+          "options": ["Customer", "Shop assistant", "Buyer", "Student"],
+          "correct": 1,
+          "category": "roles",
+          "difficulty": 1,
+          "festivity": "all"
+        },
+        {
+          "id": "a1_rb_005",
+          "question": "What is the place where products are shown in the street?",
+          "options": ["Storage room", "Window display", "Office", "Bathroom"],
+          "correct": 1,
+          "category": "store_areas",
+          "difficulty": 1,
+          "festivity": "all"
+        }
+      ],
+      "easter_specific": [
+        {
+          "id": "a1_eas_001",
+          "question": "What do children hunt during Easter?",
+          "options": ["Christmas trees", "Easter eggs", "Pumpkins", "Apples"],
+          "correct": 1,
+          "category": "seasonal",
+          "difficulty": 1,
+          "festivity": "easter"
+        },
+        {
+          "id": "a1_eas_002",
+          "question": "What animal brings Easter eggs?",
+          "options": ["Santa Claus", "Easter Bunny", "Witch", "Ghost"],
+          "correct": 1,
+          "category": "seasonal",
+          "difficulty": 1,
+          "festivity": "easter"
+        },
+        {
+          "id": "a1_eas_003",
+          "question": "What colour are traditional Easter eggs?",
+          "options": ["Only brown", "Only white", "Many bright colours", "Only black"],
+          "correct": 2,
+          "category": "seasonal",
+          "difficulty": 1,
+          "festivity": "easter"
+        }
+      ],
+      "valentines_specific": [
+        {
+          "id": "a1_val_001",
+          "question": "What shape represents love on Valentine's Day?",
+          "options": ["Square", "Circle", "Heart", "Triangle"],
+          "correct": 2,
+          "category": "seasonal",
+          "difficulty": 1,
+          "festivity": "valentines"
+        },
+        {
+          "id": "a1_val_002",
+          "question": "What do people give on Valentine's Day?",
+          "options": ["Books", "Chocolates", "School bags", "Calculators"],
+          "correct": 1,
+          "category": "seasonal",
+          "difficulty": 1,
+          "festivity": "valentines"
+        }
+      ],
+      "pricing": [
+        {
+          "id": "a1_pri_001",
+          "question": "What does '€5.00' represent?",
+          "options": ["The size", "The price", "The weight", "The colour"],
+          "correct": 1,
+          "category": "pricing",
+          "difficulty": 1,
+          "festivity": "all"
+        },
+        {
+          "id": "a1_pri_002",
+          "question": "What does 'SALE' mean?",
+          "options": ["Prices are higher", "Prices are lower", "Shop is closed", "New products"],
+          "correct": 1,
+          "category": "pricing",
+          "difficulty": 1,
+          "festivity": "all"
+        }
+      ]
+    },
+    "A2": {
+      "visual_merchandising": [
+        {
+          "id": "a2_vm_001",
+          "question": "What is the main purpose of a window display?",
+          "options": ["To store extra stock", "To attract customers and show products", "To hide the shop interior", "To block sunlight"],
+          "correct": 1,
+          "category": "concepts",
+          "difficulty": 2,
+          "festivity": "all"
+        },
+        {
+          "id": "a2_vm_002",
+          "question": "Where should you place the most expensive items?",
+          "options": ["On the floor", "At eye level", "Behind the counter", "In the storage"],
+          "correct": 1,
+          "category": "techniques",
+          "difficulty": 2,
+          "festivity": "all"
+        },
+        {
+          "id": "a2_vm_003",
+          "question": "What does 'seasonal display' mean?",
+          "options": ["Display that never changes", "Display for specific time of year", "Display with no products", "Display only for staff"],
+          "correct": 1,
+          "category": "concepts",
+          "difficulty": 2,
+          "festivity": "all"
+        },
+        {
+          "id": "a2_vm_004",
+          "question": "Why do shops use lights in window displays?",
+          "options": ["To save energy", "To attract attention and highlight products", "To make it darker", "To scare customers"],
+          "correct": 1,
+          "category": "techniques",
+          "difficulty": 2,
+          "festivity": "all"
+        },
+        {
+          "id": "a2_vm_005",
+          "question": "What is 'inventory'?",
+          "options": ["A type of customer", "The stock of products in the shop", "A shop window", "A type of light"],
+          "correct": 1,
+          "category": "concepts",
+          "difficulty": 2,
+          "festivity": "all"
+        }
+      ],
+      "customer_service": [
+        {
+          "id": "a2_cs_001",
+          "question": "How should you greet a customer formally?",
+          "options": ["Hey mate!", "Good morning, how can I help you?", "What do you want?", "Go away"],
+          "correct": 1,
+          "category": "communication",
+          "difficulty": 2,
+          "festivity": "all"
+        },
+        {
+          "id": "a2_cs_002",
+          "question": "What does 'This item is out of stock' mean?",
+          "options": ["We have many", "We don't have it now", "It's broken", "It's free"],
+          "correct": 1,
+          "category": "communication",
+          "difficulty": 2,
+          "festivity": "all"
+        },
+        {
+          "id": "a2_cs_003",
+          "question": "What is a 'loyalty card' for?",
+          "options": ["To pay less tax", "To get rewards for frequent purchases", "To enter the shop", "To lock the door"],
+          "correct": 1,
+          "category": "concepts",
+          "difficulty": 2,
+          "festivity": "all"
+        }
+      ],
+      "sales_promotions": [
+        {
+          "id": "a2_sp_001",
+          "question": "What does 'Buy one, get one free' mean?",
+          "options": ["Pay for two items", "Pay for one, receive two", "Get nothing", "Pay double price"],
+          "correct": 1,
+          "category": "promotions",
+          "difficulty": 2,
+          "festivity": "all"
+        },
+        {
+          "id": "a2_sp_002",
+          "question": "What is a 'discount'?",
+          "options": ["Price increase", "Price reduction", "New product", "Broken item"],
+          "correct": 1,
+          "category": "promotions",
+          "difficulty": 2,
+          "festivity": "all"
+        },
+        {
+          "id": "a2_sp_003",
+          "question": "When is 'Black Friday'?",
+          "options": ["In summer", "In spring", "In November", "In January"],
+          "correct": 2,
+          "category": "seasonal",
+          "difficulty": 2,
+          "festivity": "black_friday"
+        }
+      ],
+      "retail_advanced": [
+        {
+          "id": "a2_ra_001",
+          "question": "What does 'POS' stand for?",
+          "options": ["Point of Sale", "Price of Stock", "Product on Shelf", "Payment on Sunday"],
+          "correct": 0,
+          "category": "terminology",
+          "difficulty": 2,
+          "festivity": "all"
+        },
+        {
+          "id": "a2_ra_002",
+          "question": "Which material is best for luxury packaging?",
+          "options": ["Plastic bag", "Cardboard box", "Glass bottle", "Paper wrapper"],
+          "correct": 2,
+          "category": "materials",
+          "difficulty": 2,
+          "festivity": "all"
+        },
+        {
+          "id": "a2_ra_003",
+          "question": "What is 'merchandising'?",
+          "options": ["Selling merchandise", "Planning how to display and sell products", "Buying products", "Cleaning the shop"],
+          "correct": 1,
+          "category": "concepts",
+          "difficulty": 2,
+          "festivity": "all"
+        }
+      ]
+    }
+  }
+}
+
+---
+
+ARCHIVO 3: /src/data/user.schema.json
+
+Contenido:
+{
+  "schemaVersion": "1.0",
+  "defaultUserData": {
+    "userName": "",
+    "totalPoints": 0,
+    "currentFestivity": "easter",
+    "completedQuizzes": [],
+    "unlockedDecorations": {
+      "easter": ["easter_egg", "bunny", "basket"],
+      "valentines": ["heart", "rose", "love_letter"],
+      "spring_sale": ["sale_sign", "sunflower", "butterfly"],
+      "mothers_day": ["carnation", "gift_box", "thank_you_card"],
+      "summer_sale": ["sun", "sunglasses", "beach_ball"],
+      "back_to_school": ["apple", "pencil", "notebook"],
+      "halloween": ["pumpkin", "ghost", "spider_web"],
+      "black_friday": ["price_tag", "shopping_bag", "percentage"],
+      "christmas": ["christmas_tree", "snowflake", "gift_red"]
+    },
+    "unlockedFeatures": {
+      "lightColorChange": false,
+      "furnitureMove": false,
+      "premiumBackgrounds": false
+    },
+    "windowStates": {
+      "easter": {
+        "backgroundColor": "#FFF8E7",
+        "items": [],
+        "furnitureLayout": "default",
+        "lightsOn": true,
+        "lightColor": "#FFD700"
+      }
+    },
+    "screenshots": [],
+    "onboardingCompleted": false,
+    "lastVisit": null
+  },
+  "migrations": {
+    "fromV0": "Initial schema creation"
+  }
+}
+
+---
+
+INSTRUCCIONES FINALES:
+
+1. Crea la carpeta /src/data/ si no existe
+2. Crea los 3 archivos con el contenido EXACTO proporcionado
+3. NO modifiques ningún componente existente todavía
+4. Verifica que los archivos se puedan importar: escribe en App.jsx temporalmente:
+   import festivities from './data/festivities.config.json';
+   console.log(festivities.festivities.length); // Debe mostrar 9
+5. Confirma cuando estén listos y funcionando
+
+¿Entendido? ¿Puedes crear estos 3 archivos y verificar que se importan correctamente?

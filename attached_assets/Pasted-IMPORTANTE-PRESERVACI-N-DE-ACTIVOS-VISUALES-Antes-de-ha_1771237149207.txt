@@ -1,0 +1,56 @@
+IMPORTANTE - PRESERVACIÓN DE ACTIVOS VISUALES
+
+Antes de hacer cualquier cambio, necesito que confirmes y protejas los siguientes elementos visuales que YA FUNCIONAN correctamente y NO deben modificarse:
+
+---
+
+## ✅ ELEMENTOS QUE DEBEN CONSERVARSE EXACTAMENTE IGUALES:
+
+### 1. Sistema de Iconos/Decoraciones Kawaii
+- Los elementos decorativos deben mantener su estilo "kawaii" actual (líneas suaves, colores pastel, formas redondeadas)
+- NO convertir a iconos de librería genéricos (lucide-react, etc.)
+- NO cambiar a estrellas ni símbolos abstractos
+- Conservar los SVGs o componentes visuales actuales de: huevos, conejos, cestas, corazones, calaveras, etc.
+
+### 2. Estilo Visual General
+- Mantener estilo "doodle" con líneas negras definidas
+- Colores planos (flat design) sin degradados complejos
+- Bordes redondeados consistentes
+- Fondos suaves tipo "pegatina" para elementos arrastrables
+
+### 3. Elementos de Escaparate que Funcionan
+- La estructura del escaparate (marco, estanterías)
+- El sistema de luces con halo/proyección
+- El fondo de calle con acera y pavimento
+- La posición relativa de elementos (que no se descuadren)
+
+---
+
+## ⚠️ REGLAS PARA ESTA TAREA ESPECÍFICA:
+
+Esta tarea es SOLO crear 3 archivos JSON de datos en /src/data/. 
+
+RESTRICCIONES ESTRICTAS:
+- NO tocar /src/components/
+- NO tocar /src/assets/ (imágenes, iconos, SVGs)
+- NO modificar tailwind.config.js
+- NO cambiar CSS global
+- NO tocar el renderizado visual de ningún componente
+
+Los archivos JSON solo contienen:
+- Configuración de textos (nombres, descripciones)
+- IDs de referencia a iconos existentes (NO nuevos iconos)
+- Colores en formato hex (para referencia, no para aplicar aún)
+- Estructura de preguntas y respuestas
+
+---
+
+## ✅ CHECKLIST DE VERIFICACIÓN ANTES DE EMPEZAR:
+
+Confírmame que:
+1. Entiendes que NO debes cambiar ningún componente visual
+2. Los iconos "egg", "bunny", "basket", etc. son referencias a IDs, NO a iconos de librería externa
+3. Mantendrás los componentes visuales actuales exactamente igual
+4. Solo crearás archivos de datos .json nuevos
+
+¿Confirmas que puedes hacer SOLO esto sin modificar la parte visual?
