@@ -92,7 +92,7 @@ export function ElementPanel({
             <button
               onClick={onQuizOpen}
               className="text-[10px] px-2 py-1 rounded-md bg-primary text-primary-foreground font-bold"
-              data-testid="button-take-quiz"
+              data-testid="button-take-quiz-panel"
             >
               Take Quiz!
             </button>
