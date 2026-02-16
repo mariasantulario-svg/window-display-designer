@@ -77,7 +77,7 @@ function SpotLightFixture({ position, isOn, onClick, color, index }: {
   return (
     <>
       <button
-        className="absolute z-[70] w-9 h-9 flex items-center justify-center cursor-pointer"
+        className="absolute z-[15] w-9 h-9 flex items-center justify-center cursor-pointer"
         style={posStyle}
         onClick={(e) => { e.stopPropagation(); onClick(); }}
         onPointerDown={(e) => e.stopPropagation()}
