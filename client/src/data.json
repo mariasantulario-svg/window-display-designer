@@ -11,13 +11,53 @@
       "quizzes": [
         {
           "question": "What is a common gift on Valentine's Day?",
-          "options": ["Hammer", "Flowers", "Backpack"],
+          "options": ["Hammer", "Flowers", "Backpack", "Ruler"],
           "correct": "Flowers"
         },
         {
-          "question": "The color of love is usually...",
-          "options": ["Green", "Red", "Blue"],
+          "question": "The colour of love is usually...",
+          "options": ["Green", "Red", "Blue", "Grey"],
           "correct": "Red"
+        },
+        {
+          "question": "A 'window display' in a shop is...",
+          "options": ["A computer screen", "Products shown in the shop window", "A broken window", "A type of door"],
+          "correct": "Products shown in the shop window"
+        },
+        {
+          "question": "What does 'Buy one, get one free' mean?",
+          "options": ["You pay double", "You get two items for the price of one", "The shop is closed", "You must return the product"],
+          "correct": "You get two items for the price of one"
+        },
+        {
+          "question": "Which of these is NOT a Valentine's Day item?",
+          "options": ["Chocolate box", "Love card", "Pumpkin", "Red roses"],
+          "correct": "Pumpkin"
+        },
+        {
+          "question": "A 'customer' is someone who...",
+          "options": ["Works at the shop", "Buys things at the shop", "Cleans the shop", "Builds the shop"],
+          "correct": "Buys things at the shop"
+        },
+        {
+          "question": "What is a 'price tag'?",
+          "options": ["A game", "A label that shows how much something costs", "A type of bag", "A shop name"],
+          "correct": "A label that shows how much something costs"
+        },
+        {
+          "question": "What shape is a symbol of love?",
+          "options": ["Square", "Triangle", "Heart", "Circle"],
+          "correct": "Heart"
+        },
+        {
+          "question": "Where do you pay for products in a shop?",
+          "options": ["At the till / cash register", "In the car park", "In the stockroom", "At the bus stop"],
+          "correct": "At the till / cash register"
+        },
+        {
+          "question": "A 'bookshop' sells...",
+          "options": ["Food", "Clothes", "Books", "Cars"],
+          "correct": "Books"
         }
       ]
     },
@@ -32,8 +72,53 @@
       "quizzes": [
         {
           "question": "What animal brings eggs at Easter?",
-          "options": ["The Easter Bunny", "The Easter Cat", "The Easter Dog"],
+          "options": ["The Easter Bunny", "The Easter Cat", "The Easter Dog", "The Easter Fish"],
           "correct": "The Easter Bunny"
+        },
+        {
+          "question": "Children often go on an Easter egg...",
+          "options": ["Drive", "Hunt", "Flight", "Swim"],
+          "correct": "Hunt"
+        },
+        {
+          "question": "What does 'stock' mean in a shop?",
+          "options": ["A type of sock", "Products available to sell", "The shop floor", "A holiday"],
+          "correct": "Products available to sell"
+        },
+        {
+          "question": "A 'receipt' is...",
+          "options": ["A recipe for food", "A paper that shows what you bought and paid", "A type of shelf", "A shop window"],
+          "correct": "A paper that shows what you bought and paid"
+        },
+        {
+          "question": "What colour are Easter eggs usually painted?",
+          "options": ["Only black", "Bright, pastel colours", "Only white", "They are not painted"],
+          "correct": "Bright, pastel colours"
+        },
+        {
+          "question": "A 'shelf' in a shop is used to...",
+          "options": ["Cook food", "Display products", "Lock the door", "Pay customers"],
+          "correct": "Display products"
+        },
+        {
+          "question": "What does a 'shop assistant' do?",
+          "options": ["Helps customers in the shop", "Drives a bus", "Writes books", "Teaches at school"],
+          "correct": "Helps customers in the shop"
+        },
+        {
+          "question": "At Easter, shops often sell chocolate in the shape of...",
+          "options": ["Cars", "Eggs and bunnies", "Houses", "Stars only"],
+          "correct": "Eggs and bunnies"
+        },
+        {
+          "question": "What is a 'basket'?",
+          "options": ["A type of hat", "A container to carry things", "A type of shoe", "A musical instrument"],
+          "correct": "A container to carry things"
+        },
+        {
+          "question": "If a product is 'in stock', it means...",
+          "options": ["It is broken", "It is available to buy", "It is very expensive", "It is hidden"],
+          "correct": "It is available to buy"
         }
       ]
     },
@@ -47,9 +132,54 @@
       "unlockableElements": ["Butterfly Garland", "Flower Pot", "Sun Icon", "Pastel Ribbon", "Bird House", "Watering Can", "Spring Banner"],
       "quizzes": [
         {
-          "question": "Spring is after which season?",
-          "options": ["Summer", "Winter", "Autumn"],
+          "question": "Spring comes after which season?",
+          "options": ["Summer", "Winter", "Autumn", "Spring"],
           "correct": "Winter"
+        },
+        {
+          "question": "A 'sale' in a shop means products are...",
+          "options": ["More expensive", "Sold at a lower price", "Not available", "Broken"],
+          "correct": "Sold at a lower price"
+        },
+        {
+          "question": "What does 'discount' mean?",
+          "options": ["A price reduction", "A type of dance", "A shop name", "A brand of chocolate"],
+          "correct": "A price reduction"
+        },
+        {
+          "question": "Which flower is a symbol of spring?",
+          "options": ["Cactus", "Daisy", "Mushroom", "Pine cone"],
+          "correct": "Daisy"
+        },
+        {
+          "question": "A 'promotion' in a shop usually means...",
+          "options": ["A special offer to attract customers", "The shop is closing", "Products are hidden", "The shop is moving"],
+          "correct": "A special offer to attract customers"
+        },
+        {
+          "question": "What does 'visual merchandising' mean?",
+          "options": ["Selling things online", "The art of displaying products attractively", "Buying many products", "Cleaning the shop"],
+          "correct": "The art of displaying products attractively"
+        },
+        {
+          "question": "In spring, many shops change their window displays to show...",
+          "options": ["Halloween decorations", "Fresh colours and flowers", "Christmas trees", "Nothing at all"],
+          "correct": "Fresh colours and flowers"
+        },
+        {
+          "question": "A 'mannequin' in a shop is...",
+          "options": ["A type of food", "A life-size model used to display clothes", "A cash register", "A shopping bag"],
+          "correct": "A life-size model used to display clothes"
+        },
+        {
+          "question": "What is a 'catalogue'?",
+          "options": ["A type of cat", "A booklet showing products for sale", "A garden tool", "A type of flower"],
+          "correct": "A booklet showing products for sale"
+        },
+        {
+          "question": "The person who manages a shop is called the...",
+          "options": ["Chef", "Pilot", "Shop manager", "Farmer"],
+          "correct": "Shop manager"
         }
       ]
     },
@@ -64,8 +194,53 @@
       "quizzes": [
         {
           "question": "A synonym for 'gift' is...",
-          "options": ["Present", "Price", "Purchase"],
+          "options": ["Present", "Price", "Purchase", "Problem"],
           "correct": "Present"
+        },
+        {
+          "question": "What is 'gift wrapping'?",
+          "options": ["A type of music", "Putting decorative paper around a present", "A sport", "A brand name"],
+          "correct": "Putting decorative paper around a present"
+        },
+        {
+          "question": "A 'greeting card' is used to...",
+          "options": ["Pay for products", "Send a message for a special occasion", "Wrap a gift", "Open a door"],
+          "correct": "Send a message for a special occasion"
+        },
+        {
+          "question": "What does 'out of stock' mean?",
+          "options": ["The product is very cheap", "The product is not available right now", "The product is new", "The product is on sale"],
+          "correct": "The product is not available right now"
+        },
+        {
+          "question": "Which item is a common Mother's Day gift?",
+          "options": ["A hammer", "Perfume", "A football", "A calculator"],
+          "correct": "Perfume"
+        },
+        {
+          "question": "A 'till' in a shop is where you...",
+          "options": ["Sleep", "Pay for products", "Try on clothes", "Eat lunch"],
+          "correct": "Pay for products"
+        },
+        {
+          "question": "What does 'retail' mean?",
+          "options": ["Selling products directly to customers", "Making products in a factory", "Growing vegetables", "Delivering parcels"],
+          "correct": "Selling products directly to customers"
+        },
+        {
+          "question": "If you 'browse' in a shop, you...",
+          "options": ["Run very fast", "Look at products without buying immediately", "Work at the shop", "Clean the shelves"],
+          "correct": "Look at products without buying immediately"
+        },
+        {
+          "question": "A 'voucher' is...",
+          "options": ["A type of flower", "A piece of paper that gives you a discount or free item", "A shelf", "A window"],
+          "correct": "A piece of paper that gives you a discount or free item"
+        },
+        {
+          "question": "What is a 'bestseller'?",
+          "options": ["A product that sells very well", "A broken product", "A shop assistant", "A type of shelf"],
+          "correct": "A product that sells very well"
         }
       ]
     },
@@ -80,8 +255,53 @@
       "quizzes": [
         {
           "question": "People go to the beach in...",
-          "options": ["Winter", "Summer", "Christmas"],
+          "options": ["Winter", "Summer", "Christmas time only", "Autumn"],
           "correct": "Summer"
+        },
+        {
+          "question": "A 'seasonal sale' happens...",
+          "options": ["Every day", "At certain times of the year", "Only at night", "Never"],
+          "correct": "At certain times of the year"
+        },
+        {
+          "question": "What does 'clearance sale' mean?",
+          "options": ["The shop is very clean", "Products are sold at very low prices to clear old stock", "New products arrive", "The shop is brand new"],
+          "correct": "Products are sold at very low prices to clear old stock"
+        },
+        {
+          "question": "In summer, shops often display items related to...",
+          "options": ["Snow and ice", "Beach, travel and holidays", "Halloween costumes", "School supplies"],
+          "correct": "Beach, travel and holidays"
+        },
+        {
+          "question": "A 'shopping centre' is...",
+          "options": ["A park", "A large building with many shops inside", "A swimming pool", "A school"],
+          "correct": "A large building with many shops inside"
+        },
+        {
+          "question": "What does a 'cashier' do?",
+          "options": ["Cooks food", "Takes payment from customers", "Drives deliveries", "Designs clothes"],
+          "correct": "Takes payment from customers"
+        },
+        {
+          "question": "What is 'change' when you pay in a shop?",
+          "options": ["New clothes", "The money you get back when you pay more than the price", "A type of discount", "A receipt"],
+          "correct": "The money you get back when you pay more than the price"
+        },
+        {
+          "question": "A 'label' on a product shows...",
+          "options": ["The weather", "Information like brand, size or price", "The time", "The shop's address only"],
+          "correct": "Information like brand, size or price"
+        },
+        {
+          "question": "What does 'refund' mean?",
+          "options": ["To buy more products", "Getting your money back for a returned item", "To wrap a gift", "To close the shop"],
+          "correct": "Getting your money back for a returned item"
+        },
+        {
+          "question": "Sunglasses are an example of a...",
+          "options": ["Seasonal product", "Food item", "Cleaning product", "Building material"],
+          "correct": "Seasonal product"
         }
       ]
     },
@@ -96,23 +316,53 @@
       "quizzes": [
         {
           "question": "Where do students carry their books?",
-          "options": ["In a backpack", "In a shoe", "In a hat"],
+          "options": ["In a backpack", "In a shoe", "In a hat", "In a pocket"],
           "correct": "In a backpack"
         },
         {
           "question": "What do you use to erase a mistake?",
-          "options": ["A ruler", "An eraser", "A pen"],
+          "options": ["A ruler", "An eraser", "A pen", "A stapler"],
           "correct": "An eraser"
         },
         {
           "question": "Which book helps you find the meaning of words?",
-          "options": ["Notebook", "Dictionary", "Novel"],
+          "options": ["Notebook", "Dictionary", "Novel", "Comic"],
           "correct": "Dictionary"
         },
         {
           "question": "You use this tool to measure lines:",
-          "options": ["Scissors", "Glue", "Ruler"],
+          "options": ["Scissors", "Glue", "Ruler", "Pencil"],
           "correct": "Ruler"
+        },
+        {
+          "question": "A 'supplier' is a company that...",
+          "options": ["Buys products from customers", "Provides products for shops to sell", "Paints shop windows", "Builds schools"],
+          "correct": "Provides products for shops to sell"
+        },
+        {
+          "question": "What is a 'shopping list'?",
+          "options": ["A list of things you want to buy", "A list of teachers", "A list of songs", "A list of films"],
+          "correct": "A list of things you want to buy"
+        },
+        {
+          "question": "What does 'back to school' season mean for shops?",
+          "options": ["They sell Christmas items", "They display school supplies and stationery", "They close for holidays", "They sell only food"],
+          "correct": "They display school supplies and stationery"
+        },
+        {
+          "question": "'Stationery' includes items like...",
+          "options": ["Pens, pencils and notebooks", "Shoes and socks", "Bread and butter", "Tables and chairs"],
+          "correct": "Pens, pencils and notebooks"
+        },
+        {
+          "question": "A 'product range' is...",
+          "options": ["A type of oven", "The variety of products a shop offers", "A shelf in the shop", "A delivery truck"],
+          "correct": "The variety of products a shop offers"
+        },
+        {
+          "question": "What does 'brand' mean?",
+          "options": ["A type of bread", "A name that identifies a company's products", "A shop window", "A price tag"],
+          "correct": "A name that identifies a company's products"
         }
       ]
     },
@@ -127,8 +377,53 @@
       "quizzes": [
         {
           "question": "What do children say on Halloween?",
-          "options": ["Merry Christmas", "Happy Birthday", "Trick or Treat"],
+          "options": ["Merry Christmas", "Happy Birthday", "Trick or Treat", "Good morning"],
           "correct": "Trick or Treat"
+        },
+        {
+          "question": "A 'pumpkin' is a...",
+          "options": ["Type of shoe", "Large orange vegetable", "Small animal", "Musical instrument"],
+          "correct": "Large orange vegetable"
+        },
+        {
+          "question": "A themed window display helps a shop to...",
+          "options": ["Save electricity", "Attract more customers", "Reduce the number of products", "Close earlier"],
+          "correct": "Attract more customers"
+        },
+        {
+          "question": "What are 'props' in a window display?",
+          "options": ["Real products for sale", "Decorative objects used to create a scene", "Security cameras", "Price tags"],
+          "correct": "Decorative objects used to create a scene"
+        },
+        {
+          "question": "Which colour is most associated with Halloween?",
+          "options": ["Pink and white", "Orange and black", "Blue and green", "Red and gold"],
+          "correct": "Orange and black"
+        },
+        {
+          "question": "What is the 'target audience' of a shop?",
+          "options": ["The people the shop wants as customers", "The people who work there", "The delivery drivers", "The building next door"],
+          "correct": "The people the shop wants as customers"
+        },
+        {
+          "question": "What does 'seasonal decoration' mean?",
+          "options": ["Decoration that stays all year", "Decoration that changes with the time of year or holidays", "A broken decoration", "A decoration in your house"],
+          "correct": "Decoration that changes with the time of year or holidays"
+        },
+        {
+          "question": "A 'costume' is...",
+          "options": ["A type of customer", "Special clothes you wear to look like someone or something else", "A type of shop", "A brand of chocolate"],
+          "correct": "Special clothes you wear to look like someone or something else"
+        },
+        {
+          "question": "What is a 'theme' in visual merchandising?",
+          "options": ["A song", "A central idea that connects all the elements of a display", "A type of fabric", "The shop's phone number"],
+          "correct": "A central idea that connects all the elements of a display"
+        },
+        {
+          "question": "What does 'eye-catching' mean for a window display?",
+          "options": ["Invisible", "Something that attracts attention immediately", "Something very small", "Something hidden"],
+          "correct": "Something that attracts attention immediately"
         }
       ]
     },
@@ -143,23 +438,53 @@
       "quizzes": [
         {
           "question": "Black Friday is famous for big...",
-          "options": ["Taxes", "Discounts", "Sleep"],
+          "options": ["Taxes", "Discounts", "Exams", "Holidays"],
           "correct": "Discounts"
         },
         {
           "question": "What does 'Sold Out' mean?",
-          "options": ["No more products left", "The store is closed", "It is very cheap"],
+          "options": ["No more products left", "The store is closed", "It is very cheap", "It is a new product"],
           "correct": "No more products left"
         },
         {
-          "question": "Where do you put your products before paying?",
-          "options": ["In the trash", "In the shopping cart", "On the floor"],
-          "correct": "In the shopping cart"
+          "question": "Where do you put products before paying?",
+          "options": ["In the bin", "In the shopping cart or basket", "On the floor", "In your pocket"],
+          "correct": "In the shopping cart or basket"
         },
         {
           "question": "A 'Customer' is a person who...",
-          "options": ["Sells products", "Buys products", "Cleans the store"],
+          "options": ["Sells products", "Buys products", "Cleans the store", "Designs the window"],
           "correct": "Buys products"
+        },
+        {
+          "question": "What is a 'flash sale'?",
+          "options": ["A sale during a storm", "A very short sale with big discounts", "A permanent price", "A sale of torches"],
+          "correct": "A very short sale with big discounts"
+        },
+        {
+          "question": "What does '50% off' mean?",
+          "options": ["The product costs double", "The product costs half its original price", "The product is free", "The shop closes at 5pm"],
+          "correct": "The product costs half its original price"
+        },
+        {
+          "question": "What is an 'offer'?",
+          "options": ["A type of shelf", "A special deal to encourage people to buy", "A shop uniform", "A type of receipt"],
+          "correct": "A special deal to encourage people to buy"
+        },
+        {
+          "question": "What is 'online shopping'?",
+          "options": ["Shopping inside a shop", "Buying products through the internet", "Shopping at night", "Window shopping only"],
+          "correct": "Buying products through the internet"
+        },
+        {
+          "question": "A 'loyalty card' gives customers...",
+          "options": ["Free parking", "Points or rewards for buying regularly", "A job at the shop", "Access to the stockroom"],
+          "correct": "Points or rewards for buying regularly"
+        },
+        {
+          "question": "What does 'bargain' mean?",
+          "options": ["Something very expensive", "Something bought at a very good price", "A broken product", "A type of bag"],
+          "correct": "Something bought at a very good price"
         }
       ]
     },
@@ -174,8 +499,53 @@
       "quizzes": [
         {
           "question": "Who brings presents in December?",
-          "options": ["Easter Bunny", "Santa Claus", "Tooth Fairy"],
+          "options": ["Easter Bunny", "Santa Claus", "Tooth Fairy", "The Grinch"],
           "correct": "Santa Claus"
+        },
+        {
+          "question": "A 'gift' is the same as a...",
+          "options": ["Price", "Present", "Receipt", "Discount"],
+          "correct": "Present"
+        },
+        {
+          "question": "Christmas is on the 25th of...",
+          "options": ["January", "October", "December", "March"],
+          "correct": "December"
+        },
+        {
+          "question": "What is a 'Christmas window display'?",
+          "options": ["A broken window", "A decorated shop window with a Christmas theme", "A type of gift", "A Christmas song"],
+          "correct": "A decorated shop window with a Christmas theme"
+        },
+        {
+          "question": "What does 'wrapping paper' do?",
+          "options": ["It covers gifts to make them look nice", "It cleans the floor", "It is used to write letters", "It is food packaging only"],
+          "correct": "It covers gifts to make them look nice"
+        },
+        {
+          "question": "The Christmas shopping season is important for shops because...",
+          "options": ["Shops close for the whole month", "It is when they make the most sales", "Nobody buys anything", "Products are more expensive"],
+          "correct": "It is when they make the most sales"
+        },
+        {
+          "question": "A 'shop window' is also called a...",
+          "options": ["Storefront display", "Stockroom", "Counter", "Fitting room"],
+          "correct": "Storefront display"
+        },
+        {
+          "question": "What does 'exchange' mean in a shop?",
+          "options": ["To eat a product", "To swap a product for a different one", "To hide a product", "To throw away a product"],
+          "correct": "To swap a product for a different one"
+        },
+        {
+          "question": "A 'decoration' in a window display is used to...",
+          "options": ["Feed customers", "Make the display more attractive", "Lock the door", "Count the money"],
+          "correct": "Make the display more attractive"
+        },
+        {
+          "question": "What is 'customer service'?",
+          "options": ["A type of product", "Helping and looking after customers in a shop", "A brand of clothes", "A delivery truck"],
+          "correct": "Helping and looking after customers in a shop"
         }
       ]
     }
