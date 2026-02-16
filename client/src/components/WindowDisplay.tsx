@@ -434,28 +434,28 @@ function StorefrontFrame({ dark, treeImagePath, shopName, onShopNameChange }: {
         </svg>
       </div>
 
-      <div className="absolute -top-[72px] left-[calc(50%-20px)] -translate-x-1/2 z-[3] px-3 py-1 rounded-sm pointer-events-auto flex items-baseline gap-0"
+      <div className="absolute -top-[72px] left-1/2 -translate-x-1/2 z-[3] px-4 py-1.5 rounded-sm pointer-events-auto flex items-baseline gap-0 whitespace-nowrap"
         style={{ background: signBg, border: `2px solid ${signBorder}`, boxShadow: "0 2px 8px rgba(0,0,0,0.15)" }}>
         <input
           type="text"
           value={shopName}
           onChange={(e) => onShopNameChange(e.target.value)}
           maxLength={15}
-          className="bg-transparent border-none outline-none text-sm font-black tracking-[0.1em] text-right"
+          size={Math.max(3, shopName.length || 5)}
+          className="bg-transparent border-none outline-none text-sm font-black tracking-[0.08em] text-right min-w-[30px]"
           style={{
             fontFamily: "'Architects Daughter', cursive",
             color: signText,
-            width: `${Math.max(20, shopName.length * 9 + 8)}px`,
             borderBottom: `1.5px dashed ${signBorder}80`,
           }}
-          placeholder="- - - - -"
+          placeholder="_ _ _ _"
           data-testid="input-shop-name"
         />
-        <span className="text-sm font-black tracking-[0.12em] uppercase whitespace-nowrap" style={{
+        <span className="text-sm font-black tracking-[0.08em] uppercase" style={{
           fontFamily: "'Architects Daughter', cursive",
           color: signText,
         }}>
-          's bookshop
+          &apos;s bookshop
         </span>
       </div>
 
@@ -486,13 +486,6 @@ function StorefrontFrame({ dark, treeImagePath, shopName, onShopNameChange }: {
       <div className="absolute z-[4]"
         style={{ right: "-16px", bottom: "-12px" }}>
         <div className="relative" style={{ width: "56px", height: "160px" }}>
-          <svg className="absolute left-1/2 bottom-0" style={{ transform: "translateX(-50%)" }} width="56" height="44" viewBox="0 0 56 44">
-            <rect x="10" y="36" width="36" height="8" rx="1" fill={planterDark} stroke={planterTerra} strokeWidth="0.5" />
-            <path d="M6,10 L50,10 L46,36 L10,36 Z" fill={planterTerra} stroke={planterDark} strokeWidth="1" />
-            <path d="M10,12 L46,12 L43,34 L13,34 Z" fill={planterTerra} opacity="0.7" />
-            <rect x="4" y="4" width="48" height="8" rx="2" fill={planterRim} stroke={planterDark} strokeWidth="0.8" />
-            <ellipse cx="28" cy="10" rx="18" ry="4" fill="#5a3a1a" opacity="0.3" />
-          </svg>
           <img
             src={treeImagePath}
             alt="Seasonal tree"
@@ -500,13 +493,21 @@ function StorefrontFrame({ dark, treeImagePath, shopName, onShopNameChange }: {
             style={{
               width: "90px",
               height: "120px",
-              bottom: "32px",
+              bottom: "14px",
               left: "50%",
               transform: "translateX(-50%)",
               filter: dark ? "brightness(0.85)" : "none",
+              clipPath: "inset(0 0 10px 0)",
             }}
             draggable={false}
           />
+          <svg className="absolute left-1/2 bottom-0" style={{ transform: "translateX(-50%)", zIndex: 2 }} width="56" height="44" viewBox="0 0 56 44">
+            <rect x="10" y="36" width="36" height="8" rx="1" fill={planterDark} stroke={planterTerra} strokeWidth="0.5" />
+            <path d="M6,10 L50,10 L46,36 L10,36 Z" fill={planterTerra} stroke={planterDark} strokeWidth="1" />
+            <path d="M10,12 L46,12 L43,34 L13,34 Z" fill={planterTerra} opacity="0.7" />
+            <rect x="4" y="4" width="48" height="8" rx="2" fill={planterRim} stroke={planterDark} strokeWidth="0.8" />
+            <ellipse cx="28" cy="10" rx="18" ry="4" fill="#5a3a1a" opacity="0.3" />
+          </svg>
         </div>
       </div>
     </div>
