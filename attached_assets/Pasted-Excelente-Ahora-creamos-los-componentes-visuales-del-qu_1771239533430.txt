@@ -1,0 +1,183 @@
+Excelente. Ahora creamos los componentes visuales del quiz. Empezamos con el modal principal.
+
+## COMPONENTE 1: /src/components/quiz/QuizModal.tsx
+
+Este es el contenedor principal del quiz. Debe:
+- Abrirse como modal centrado en pantalla
+- Mostrar progreso (pregunta X de Y)
+- Incluir barra de progreso visual
+- Mostrar QuestionCard para la pregunta actual
+- Al completar, mostrar pantalla de resultados con desbloqueos
+- Usar useQuiz y useProgress
+- Cerrarse al hacer clic fuera o en botón X
+
+REQUISITOS VISUALES:
+- Fondo semitransparente oscuro (backdrop)
+- Modal con fondo blanco, bordes redondeados (rounded-2xl), sombra grande
+- Estilo consistente con la app "doodle" (bordes suaves, tipografía clara)
+- NO usar colores neón ni estilos agresivos
+- Paleta suave: azules, verdes pasteles para aciertos; rojos suaves para errores
+
+Aquí el código TypeScript exacto:
+
+import React, { useEffect, useState } from 'react';
+import { useQuiz } from '../../hooks/useQuiz';
+import { useProgress } from '../../hooks/useProgress';
+import { QuestionCard } from './QuestionCard';
+import { ProgressBar } from './ProgressBar';
+import { ResultsScreen } from './ResultsScreen';
+
+interface QuizModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  festivityId: string;
+  level?: number;
+}
+
+export const QuizModal: React.FC<QuizModalProps> = ({ 
+  isOpen, 
+  onClose, 
+  festivityId, 
+  level = 1 
+}) => {
+  const {
+    currentQuestion,
+    currentIndex,
+    totalQuestions,
+    score,
+    isComplete,
+    submitAnswer,
+    resetQuiz,
+    passScore,
+    unlockedItems
+  } = useQuiz(festivityId, level);
+
+  const { saveQuizResult, unlockDecoration, unlockFeature, addPoints } = useProgress();
+  const [showResults, setShowResults] = useState(false);
+
+  // Guardar resultados cuando se completa
+  useEffect(() => {
+    if (isComplete && !showResults) {
+      // Aplicar desbloqueos
+      unlockedItems.forEach(item => {
+        if (item.type === 'decoration') {
+          unlockDecoration(festivityId, item.id);
+        } else if (item.type === 'feature') {
+          unlockFeature(item.id as 'lightColorChange' | 'furnitureMove' | 'premiumBackgrounds');
+        }
+      });
+
+      // Guardar resultado del quiz
+      saveQuizResult({
+        date: new Date().toISOString(),
+        festivity: festivityId,
+        level,
+        score,
+        total: totalQuestions,
+        unlockedItems: unlockedItems.map(i => i.id)
+      });
+
+      // Añadir puntos
+      addPoints(score);
+
+      setShowResults(true);
+    }
+  }, [isComplete, unlockedItems, festivityId, level, score, totalQuestions]);
+
+  // Resetear al cerrar/abrir
+  useEffect(() => {
+    if (isOpen) {
+      setShowResults(false);
+      resetQuiz();
+    }
+  }, [isOpen, resetQuiz]);
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+      <div className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden">
+        
+        {/* Header */}
+        <div className="flex items-center justify-between p-6 border-b border-gray-100">
+          <div>
+            <h2 className="text-2xl font-bold text-gray-800">
+              {showResults ? 'Quiz Complete!' : 'Test Your Knowledge'}
+            </h2>
+            {!showResults && (
+              <p className="text-sm text-gray-500 mt-1">
+                Level {level} • Score needed: {passScore}/{totalQuestions}
+              </p>
+            )}
+          </div>
+          <button
+            onClick={onClose}
+            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+            aria-label="Close"
+          >
+            <svg className="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Content */}
+        <div className="p-6">
+          {!showResults && currentQuestion && (
+            <>
+              <ProgressBar 
+                current={currentIndex + 1} 
+                total={totalQuestions}
+                score={score}
+              />
+              
+              <div className="mt-6">
+                <QuestionCard
+                  question={currentQuestion}
+                  onAnswer={submitAnswer}
+                  questionNumber={currentIndex + 1}
+                  totalQuestions={totalQuestions}
+                />
+              </div>
+
+              {/* Score indicator */}
+              <div className="mt-4 flex items-center justify-center gap-2 text-sm text-gray-600">
+                <span>Current score:</span>
+                <span className="font-bold text-green-600">{score}</span>
+                <span>/</span>
+                <span>{currentIndex + (currentQuestion ? 1 : 0)}</span>
+              </div>
+            </>
+          )}
+
+          {showResults && (
+            <ResultsScreen
+              score={score}
+              total={totalQuestions}
+              passScore={passScore}
+              unlockedItems={unlockedItems}
+              onClose={onClose}
+              onRetry={() => {
+                setShowResults(false);
+                resetQuiz();
+              }}
+            />
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default QuizModal;
+
+---
+
+INSTRUCCIONES:
+1. Crea la carpeta /src/components/quiz/ si no existe
+2. Crea SOLO este archivo QuizModal.tsx
+3. Aún NO funcionará porque faltan QuestionCard, ProgressBar y ResultsScreen (los hacemos después)
+4. Verifica que no hay errores de sintaxis TypeScript
+5. NO modifiques otros componentes todavía
+
+Confírmame cuando esté listo y creamos los 3 sub-componentes (QuestionCard, ProgressBar, ResultsScreen) en el siguiente mensaje.
