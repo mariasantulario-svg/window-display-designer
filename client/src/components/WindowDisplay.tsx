@@ -518,7 +518,7 @@ function StorefrontFrame({ dark, treeImagePath, shopName, onShopNameChange }: {
       </div>
 
       <div className="absolute z-[4]"
-        style={{ left: "-50px", bottom: "0px" }}>
+        style={{ left: "-50px", bottom: "-12px" }}>
         <img
           src={treeImagePath}
           alt="Seasonal tree"
@@ -542,6 +542,7 @@ export function WindowDisplay({
 }: WindowDisplayProps) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [selectedFixedId, setSelectedFixedId] = useState<string | null>(null);
+  const [selectedFurnitureId, setSelectedFurnitureId] = useState<string | null>(null);
   const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
   const [draggingFixedId, setDraggingFixedId] = useState<string | null>(null);
   const [draggingFurnitureId, setDraggingFurnitureId] = useState<string | null>(null);
@@ -563,6 +564,13 @@ export function WindowDisplay({
     onUpdateFixedItem(id, { scale: newScale });
   };
 
+  const handleFurnitureScale = (id: string, delta: number) => {
+    const furn = furniturePositions.find(f => f.id === id);
+    if (!furn) return;
+    const newScale = Math.max(0.3, Math.min(1.5, (furn.scale || 0.7) + delta));
+    onUpdateFurniture(id, { scale: newScale });
+  };
+
   const getPercentPosition = useCallback((clientX: number, clientY: number) => {
     if (!canvasRef.current) return { x: 50, y: 50 };
     const rect = canvasRef.current.getBoundingClientRect();
@@ -576,8 +584,10 @@ export function WindowDisplay({
     e.preventDefault();
     setSelectedIndex(index);
     setSelectedFixedId(null);
+    setSelectedFurnitureId(null);
     setDraggingIndex(index);
     setDraggingFixedId(null);
+    setDraggingFurnitureId(null);
     (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
   };
 
@@ -586,6 +596,7 @@ export function WindowDisplay({
     e.preventDefault();
     setSelectedFixedId(id);
     setSelectedIndex(null);
+    setSelectedFurnitureId(null);
     setDraggingFixedId(id);
     setDraggingIndex(null);
     setDraggingFurnitureId(null);
@@ -599,6 +610,7 @@ export function WindowDisplay({
       onLockedAction();
       return;
     }
+    setSelectedFurnitureId(id);
     setDraggingFurnitureId(id);
     setDraggingIndex(null);
     setDraggingFixedId(null);
@@ -632,6 +644,7 @@ export function WindowDisplay({
   const handleCanvasClick = () => {
     setSelectedIndex(null);
     setSelectedFixedId(null);
+    setSelectedFurnitureId(null);
   };
 
   return (
@@ -663,31 +676,63 @@ export function WindowDisplay({
           <FloorLine dark={dark} />
         </svg>
 
-        {furniturePositions.map((furn) => (
-          <div
-            key={`furniture-${furn.id}`}
-            className={`absolute touch-none select-none z-[3] ${
-              furnitureUnlocked
-                ? draggingFurnitureId === furn.id ? "cursor-grabbing" : "cursor-grab"
-                : "cursor-not-allowed"
-            }`}
-            style={{
-              left: `${furn.x}%`,
-              top: `${furn.y}%`,
-              transform: "translate(-50%, -50%)",
-            }}
-            onPointerDown={(e) => handleFurniturePointerDown(e, furn.id)}
-            onClick={(e) => e.stopPropagation()}
-            data-testid={`furniture-${furn.id}`}
-          >
-            {!furnitureUnlocked && (
-              <div className="absolute -top-1 -right-1 z-10 bg-background/80 rounded-full p-0.5">
-                <Lock size={8} className="text-muted-foreground" />
+        {furniturePositions.map((furn) => {
+          const isFurnSelected = selectedFurnitureId === furn.id && furnitureUnlocked;
+          return (
+            <div
+              key={`furniture-${furn.id}`}
+              className={`absolute touch-none select-none ${
+                furnitureUnlocked
+                  ? draggingFurnitureId === furn.id ? "cursor-grabbing z-[5]" : "cursor-grab z-[3]"
+                  : "cursor-not-allowed z-[3]"
+              } ${isFurnSelected ? "z-[5]" : ""}`}
+              style={{
+                left: `${furn.x}%`,
+                top: `${furn.y}%`,
+                transform: `translate(-50%, -50%) scale(${furn.scale || 0.7})`,
+              }}
+              onPointerDown={(e) => handleFurniturePointerDown(e, furn.id)}
+              onClick={(e) => e.stopPropagation()}
+              data-testid={`furniture-${furn.id}`}
+            >
+              <div className={`${isFurnSelected ? "ring-2 ring-green-400 ring-offset-2 rounded-lg" : ""} p-0.5`}>
+                {!furnitureUnlocked && (
+                  <div className="absolute -top-1 -right-1 z-10 bg-background/80 rounded-full p-0.5">
+                    <Lock size={8} className="text-muted-foreground" />
+                  </div>
+                )}
+                <FurniturePiece id={furn.id} dark={dark} />
               </div>
-            )}
-            <FurniturePiece id={furn.id} dark={dark} />
-          </div>
-        ))}
+
+              {isFurnSelected && (
+                <div
+                  className="absolute -top-10 left-1/2 -translate-x-1/2 flex items-center gap-1 z-[60]"
+                  onClick={(e) => e.stopPropagation()}
+                  onPointerDown={(e) => e.stopPropagation()}
+                >
+                  <div className="flex gap-1 bg-white shadow-xl border rounded-full p-1">
+                    <button
+                      onClick={() => handleFurnitureScale(furn.id, 0.1)}
+                      className="p-1 rounded-full text-green-600"
+                      aria-label="Enlarge furniture"
+                      data-testid={`button-enlarge-furniture-${furn.id}`}
+                    >
+                      <Plus size={14} />
+                    </button>
+                    <button
+                      onClick={() => handleFurnitureScale(furn.id, -0.1)}
+                      className="p-1 rounded-full text-green-600"
+                      aria-label="Shrink furniture"
+                      data-testid={`button-shrink-furniture-${furn.id}`}
+                    >
+                      <Minus size={14} />
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })}
 
         {fixedItems.map((item) => {
           const Component = FIXED_ITEM_COMPONENTS[item.id];
