@@ -1,3 +1,19 @@
+Perfecto. Ahora el archivo 2: questions.bank.json
+
+Este contiene el BANCO DE PREGUNTAS educativas (A1-A2) separadas por nivel CEFR y categoría de comercio/retail.
+
+Incluye:
+- Preguntas retail_basics (A1): roles, áreas de tienda, señales
+- Preguntas visual_merchandising (A2): conceptos, técnicas, inventario
+- Preguntas customer_service (A2): comunicación, atención al cliente
+- Preguntas sales_promotions (A2): promociones, descuentos, Black Friday
+- Preguntas retail_advanced (A2): terminología, materiales, merchandising
+- Preguntas específicas por festividad (Easter, Valentine's)
+
+IMPORTANTE: Las respuestas correctas están marcadas con índice (0, 1, 2, 3) pero DEBEN mezclarse aleatoriamente cuando se muestren al usuario. NO siempre en la misma posición.
+
+Aquí el contenido exacto:
+
 {
   "metadata": {
     "version": "1.0",
@@ -261,3 +277,15 @@
     }
   }
 }
+
+---
+
+INSTRUCCIONES:
+1. Crea SOLO este archivo /src/data/questions.bank.json
+2. NO modifiques componentes todavía
+3. Verifica que se importa correctamente:
+   import questions from './data/questions.bank.json';
+   console.log(questions.questions.A1.retail_basics.length); // Debe mostrar 5
+4. Confírmame cuando esté listo y pasamos al archivo 3 (user.schema.json)
+
+¿Procedemos?
