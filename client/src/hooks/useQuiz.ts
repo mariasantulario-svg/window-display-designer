@@ -1,20 +1,27 @@
-import { useState, useEffect, useCallback } from 'react';
-import questionsBank from '../data/questions.bank.json';
-import festivitiesConfig from '../data/festivities.config.json';
+import { useState, useEffect, useCallback } from "react";
+import questionsData from "../data/questions.json";
 
 interface QuestionRaw {
   id: string;
+  festivity: string;
+  level: number;
+  block: number;
   question: string;
   options: string[];
   correct: number;
-  category: string;
-  difficulty: number;
-  festivity: string;
+  translation?: string;
 }
 
-interface ShuffledQuestion extends QuestionRaw {
+interface ShuffledQuestion {
+  id: string;
+  festivity: string;
+  level: number;
+  block: number;
+  question: string;
+  options: string[];
   correctIndex: number;
   originalCorrect: number;
+  translation?: string;
 }
 
 interface UserAnswer {
@@ -24,86 +31,70 @@ interface UserAnswer {
   isCorrect: boolean;
 }
 
-interface UnlockedItem {
-  type: 'decoration' | 'feature';
-  id: string;
-  name?: string;
-  icon?: string;
-  requiredScore?: number;
-  maxCount?: number;
-  description?: string;
-}
+const createSeededRandom = (seed: number) => {
+  let s = seed || 1;
+  return () => {
+    s = (s * 1664525 + 1013904223) & 0x7fffffff;
+    return s / 0x7fffffff;
+  };
+};
 
-const shuffleArray = <T,>(array: T[]): T[] => {
+const shuffleArray = <T,>(array: T[], randomFn: () => number = Math.random): T[] => {
   const newArray = [...array];
   for (let i = newArray.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = Math.floor(randomFn() * (i + 1));
     [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
   }
   return newArray;
 };
 
-const shuffleQuestion = (question: QuestionRaw): ShuffledQuestion => {
+const shuffleQuestion = (question: QuestionRaw, randomFn: () => number): ShuffledQuestion => {
   const correctAnswer = question.options[question.correct];
-  const shuffledOptions = shuffleArray(question.options);
+  const shuffledOptions = shuffleArray(question.options, randomFn);
 
   return {
-    ...question,
+    id: question.id,
+    festivity: question.festivity,
+    level: question.level,
+    block: question.block,
+    question: question.question,
     options: shuffledOptions,
     correctIndex: shuffledOptions.indexOf(correctAnswer),
-    originalCorrect: question.correct
+    originalCorrect: question.correct,
+    translation: question.translation,
   };
 };
 
-export const useQuiz = (festivityId: string, level: number = 1) => {
+export const useQuiz = (festivityId: string, level: number = 1, block: number = 1) => {
   const [questions, setQuestions] = useState<ShuffledQuestion[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
   const [userAnswers, setUserAnswers] = useState<UserAnswer[]>([]);
-  const [unlockedItems, setUnlockedItems] = useState<UnlockedItem[]>([]);
+  const [sessionSeed, setSessionSeed] = useState(() =>
+    Math.floor(Math.random() * 1_000_000),
+  );
 
   useEffect(() => {
-    const config = festivitiesConfig.festivities.find(f => f.id === festivityId);
-    if (!config) return;
-
-    const levelConfig = config.quizConfig.levels.find(l => l.level === level);
-    if (!levelConfig) return;
-
-    let availableQuestions: QuestionRaw[] = [];
-
-    if (levelConfig.difficulty === 'A1') {
-      availableQuestions = [
-        ...questionsBank.questions.A1.retail_basics,
-        ...questionsBank.questions.A1.easter_specific.filter(q => q.festivity === festivityId || q.festivity === 'all'),
-        ...questionsBank.questions.A1.valentines_specific.filter(q => q.festivity === festivityId || q.festivity === 'all'),
-        ...questionsBank.questions.A1.pricing
-      ];
-    } else if (levelConfig.difficulty === 'A1-A2') {
-      availableQuestions = [
-        ...questionsBank.questions.A1.retail_basics.slice(2),
-        ...questionsBank.questions.A2.visual_merchandising.slice(0, 2),
-        ...questionsBank.questions.A2.customer_service.slice(0, 2)
-      ];
-    } else if (levelConfig.difficulty === 'A2') {
-      availableQuestions = [
-        ...questionsBank.questions.A2.visual_merchandising,
-        ...questionsBank.questions.A2.customer_service,
-        ...questionsBank.questions.A2.sales_promotions,
-        ...questionsBank.questions.A2.retail_advanced
-      ];
-    }
-
-    const selectedQuestions = shuffleArray(availableQuestions).slice(0, levelConfig.questions);
-    const preparedQuestions = selectedQuestions.map(shuffleQuestion);
+    const rng = createSeededRandom(
+      sessionSeed + level * 1000 + block * 100000 + festivityId.length,
+    );
+    const raw = questionsData as QuestionRaw[] | { default: QuestionRaw[] };
+    const allQuestions = Array.isArray(raw) ? raw : (raw?.default ?? []);
+    const normalizedId = festivityId.replace(/-/g, "_");
+    const filtered = allQuestions.filter(
+      (q) => q.festivity.replace(/-/g, "_") === normalizedId && q.level === level && q.block === block,
+    );
+    const preparedQuestions = filtered
+      .slice(0, 6)
+      .map((q) => shuffleQuestion(q, rng));
 
     setQuestions(preparedQuestions);
     setCurrentIndex(0);
     setScore(0);
     setIsComplete(false);
     setUserAnswers([]);
-    setUnlockedItems([]);
-  }, [festivityId, level]);
+  }, [festivityId, level, block]);
 
   const submitAnswer = useCallback((selectedIndex: number) => {
     if (isComplete) return;
@@ -124,40 +115,18 @@ export const useQuiz = (festivityId: string, level: number = 1) => {
 
     if (currentIndex + 1 >= questions.length) {
       setIsComplete(true);
-
-      const config = festivitiesConfig.festivities.find(f => f.id === festivityId);
-      const newUnlocks: UnlockedItem[] = [];
-
-      if (config) {
-        config.decorations.unlockable.forEach(item => {
-          if (newScore >= item.requiredScore && !newUnlocks.find(u => u.id === item.id)) {
-            newUnlocks.push({ type: 'decoration', ...item });
-          }
-        });
-
-        Object.entries(config.features).forEach(([key, feature]) => {
-          if (newScore >= feature.requiredScore) {
-            newUnlocks.push({ type: 'feature', id: key, ...feature });
-          }
-        });
-      }
-
-      setUnlockedItems(newUnlocks);
     } else {
       setCurrentIndex(currentIndex + 1);
     }
-  }, [currentIndex, questions, score, userAnswers, isComplete, festivityId]);
+  }, [currentIndex, questions, score, userAnswers, isComplete]);
 
   const resetQuiz = useCallback(() => {
     setCurrentIndex(0);
     setScore(0);
     setIsComplete(false);
     setUserAnswers([]);
-    setUnlockedItems([]);
-
-    const remixed = questions.map(shuffleQuestion);
-    setQuestions(remixed);
-  }, [questions]);
+    setSessionSeed(Math.floor(Math.random() * 1_000_000));
+  }, []);
 
   return {
     currentQuestion: questions[currentIndex] || null,
@@ -166,13 +135,12 @@ export const useQuiz = (festivityId: string, level: number = 1) => {
     score,
     isComplete,
     userAnswers,
-    unlockedItems,
 
     submitAnswer,
     resetQuiz,
 
     level,
-    passScore: festivitiesConfig.festivities.find(f => f.id === festivityId)?.quizConfig.levels.find(l => l.level === level)?.passScore || 2
+    block,
   };
 };
 

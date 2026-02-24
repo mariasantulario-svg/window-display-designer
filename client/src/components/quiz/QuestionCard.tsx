@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 interface ShuffledQuestion {
   id: string;
   question: string;
   options: string[];
   correctIndex: number;
-  category: string;
+  translation?: string;
 }
 
 interface QuestionCardProps {
@@ -19,11 +19,12 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
   question,
   onAnswer,
   questionNumber,
-  totalQuestions
+  totalQuestions,
 }) => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [showFeedback, setShowFeedback] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
+  const [showTranslation, setShowTranslation] = useState(false);
 
   const handleSelect = (index: number) => {
     if (showFeedback) return;
@@ -64,9 +65,23 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
         <p className="text-lg font-semibold text-gray-800 leading-relaxed" data-testid="text-question">
           {question.question}
         </p>
-        <span className="inline-block mt-2 text-xs font-medium text-blue-600 bg-blue-100 px-2 py-1 rounded" data-testid="text-question-category">
-          {question.category}
-        </span>
+        {question.translation && (
+          <div className="mt-3 text-sm">
+            <button
+              type="button"
+              onClick={() => setShowTranslation((prev) => !prev)}
+              className="text-xs font-semibold text-blue-700 underline underline-offset-2"
+              data-testid="button-toggle-translation"
+            >
+              {showTranslation ? "Hide translation / Ocultar traducción" : "See translation / Ver traducción"}
+            </button>
+            {showTranslation && (
+              <p className="mt-2 text-xs text-gray-700" data-testid="text-translation">
+                {question.translation}
+              </p>
+            )}
+          </div>
+        )}
       </div>
 
       <div className="space-y-3">

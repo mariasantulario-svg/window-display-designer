@@ -1,0 +1,44 @@
+[
+  {
+    "id": "onb_shop_1",
+    "question": "What is a 'price tag'?",
+    "options": ["A gift for customers", "A label that shows the price of a product", "A type of bag", "A shop name"],
+    "correct": 1,
+    "translation": "¿Qué es una 'price tag'?"
+  },
+  {
+    "id": "onb_shop_2",
+    "question": "A person who buys things in a shop is called a ___.",
+    "options": ["seller", "customer", "manager", "display"],
+    "correct": 1,
+    "translation": "Una persona que compra en una tienda se llama ___."
+  },
+  {
+    "id": "onb_shop_3",
+    "question": "A 'display' in a shop is where ___.",
+    "options": ["you pay", "products are shown to customers", "staff have lunch", "the manager works"],
+    "correct": 1,
+    "translation": "Un 'display' en una tienda es donde ___."
+  },
+  {
+    "id": "onb_shop_4",
+    "question": "What does '20% off' mean?",
+    "options": ["The price goes up", "The price is reduced by 20%", "You buy 20 items", "The shop is closed"],
+    "correct": 1,
+    "translation": "¿Qué significa '20% off'?"
+  },
+  {
+    "id": "onb_shop_5",
+    "question": "The shop ___ is the large window where products are shown to people walking by.",
+    "options": ["door", "window display", "ceiling", "floor"],
+    "correct": 1,
+    "translation": "El ___ de la tienda es el escaparate donde se muestran los productos."
+  },
+  {
+    "id": "onb_shop_6",
+    "question": "A 'gift shop' or 'bookshop' is a ___.",
+    "options": ["factory", "type of store", "warehouse", "supermarket"],
+    "correct": 1,
+    "translation": "Una 'gift shop' o 'bookshop' es una ___."
+  }
+]

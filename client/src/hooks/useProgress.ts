@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from 'react';
-import userSchema from '../data/user.schema.json';
-import festivitiesConfig from '../data/festivities.config.json';
+import { useState, useEffect, useCallback } from "react";
+import userSchema from "../data/user.schema.json";
+import festivitiesConfig from "../data/festivities.config.json";
 
 interface WindowState {
   backgroundColor: string;
@@ -17,19 +17,18 @@ interface WindowState {
 }
 
 interface QuizResult {
-  date: string;
   festivity: string;
   level: number;
+  block: number;
   score: number;
   total: number;
-  unlockedItems: string[];
 }
 
 interface UserData {
   userName: string;
   totalPoints: number;
   currentFestivity: string;
-  completedQuizzes: QuizResult[];
+  completedQuizzes: string[];
   unlockedDecorations: Record<string, string[]>;
   unlockedFeatures: {
     lightColorChange: boolean;
@@ -131,11 +130,62 @@ export const useProgress = () => {
   }, []);
 
   const saveQuizResult = useCallback((result: QuizResult) => {
-    setData(prev => prev ? {
-      ...prev,
-      completedQuizzes: [...prev.completedQuizzes, result],
-      totalPoints: prev.totalPoints + result.score
-    } : null);
+    setData((prev) => {
+      if (!prev) return null;
+
+      const blockId = `${result.festivity}_level${result.level}_block${result.block}`;
+      const existingCompleted = prev.completedQuizzes || [];
+      const completedQuizzes = existingCompleted.includes(blockId)
+        ? existingCompleted
+        : [...existingCompleted, blockId];
+
+      const totalPoints = prev.totalPoints + result.score;
+
+      // Start from previous unlocked state
+      const unlockedDecorations = { ...prev.unlockedDecorations };
+      const unlockedFeatures = { ...prev.unlockedFeatures };
+
+      const festConfig = festivitiesConfig.festivities.find(
+        (f) => f.id === result.festivity,
+      );
+
+      if (festConfig) {
+        const currentUnlocked = unlockedDecorations[result.festivity] || [];
+        const nextUnlocked = [...currentUnlocked];
+
+        festConfig.decorations.unlockable.forEach((dec) => {
+          if (totalPoints >= dec.requiredScore && !nextUnlocked.includes(dec.id)) {
+            nextUnlocked.push(dec.id);
+          }
+        });
+
+        unlockedDecorations[result.festivity] = nextUnlocked;
+      }
+
+      const hasBothBlocks = (level: number) => {
+        const id1 = `${result.festivity}_level${level}_block1`;
+        const id2 = `${result.festivity}_level${level}_block2`;
+        return completedQuizzes.includes(id1) && completedQuizzes.includes(id2);
+      };
+
+      if (hasBothBlocks(3)) {
+        unlockedFeatures.lightColorChange = true;
+      }
+      if (hasBothBlocks(5)) {
+        unlockedFeatures.furnitureMove = true;
+      }
+      if (hasBothBlocks(6)) {
+        unlockedFeatures.premiumBackgrounds = true;
+      }
+
+      return {
+        ...prev,
+        totalPoints,
+        completedQuizzes,
+        unlockedDecorations,
+        unlockedFeatures,
+      };
+    });
   }, []);
 
   const setCurrentFestivity = useCallback((festivity: string) => {

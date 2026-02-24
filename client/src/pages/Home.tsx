@@ -1,17 +1,21 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { festivities, type Festivity, type DecorativeElement, getUnlockStatus } from "@/lib/festivities";
-import { loadProgress, saveProgress, getFestivityProgress, updateFestivityProgress, type GameProgress, type PlacedElement, type FixedItemPosition, type FurniturePosition, MAX_ELEMENT_COPIES, countElementInDisplay, DEFAULT_LIGHTS, LIGHT_COLOR_OPTIONS, getFixedItemPositions, getFurniturePositions, autoDetectDismissedHints, dismissHint, saveScreenshot, loadScreenshots, deleteScreenshot, type Screenshot } from "@/lib/progress";
+import { festivities, type Festivity, type DecorativeElement, getUnlockStatus, GRAMMAR_QUIZ_TOTAL } from "@/lib/festivities";
+import { loadProgress, saveProgress, getFestivityProgress, updateFestivityProgress, recordQuizBlockScore, type GameProgress, type PlacedElement, type FixedItemPosition, type FurniturePosition, MAX_ELEMENT_COPIES, countElementInDisplay, DEFAULT_LIGHTS, LIGHT_COLOR_OPTIONS, getFixedItemPositions, getFurniturePositions, autoDetectDismissedHints, dismissHint, saveScreenshot, loadScreenshots, deleteScreenshot, getOnboardingQuizDone, setOnboardingQuizDone, getDismissedHints, getSelectSeasonBannerDismissed, type Screenshot } from "@/lib/progress";
 import { WindowDisplay } from "@/components/WindowDisplay";
 import { ElementPanel } from "@/components/ElementPanel";
-import { QuizModal } from "@/components/QuizModal";
+import { QuizModal as GrammarQuizModal } from "@/components/quiz/QuizModal";
 import { FestivalSelector } from "@/components/FestivalSelector";
 import { OnboardingCarousel } from "@/components/OnboardingCarousel";
+import { OnboardingQuizOverlay } from "@/components/OnboardingQuizOverlay";
+import { ShopNameBanner } from "@/components/ShopNameBanner";
+import { SelectSeasonBanner } from "@/components/SelectSeasonBanner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
-import { Paintbrush, RotateCcw, Lightbulb, Lock, ChevronUp, ChevronDown, X, Camera, Image, Trash2 } from "lucide-react";
+import { Paintbrush, RotateCcw, Lightbulb, Lock, ChevronUp, ChevronDown, X, Camera, Image, Trash2, Share2 } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
 import html2canvas from "html2canvas";
 
 const BG_PRESETS = [
@@ -24,10 +28,15 @@ export default function Home() {
   const [progress, setProgress] = useState<GameProgress>(() => loadProgress());
   const [selectedFestivity, setSelectedFestivity] = useState<Festivity>(festivities[0]);
   const [quizOpen, setQuizOpen] = useState(false);
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(true);
   const [screenshots, setScreenshots] = useState<Screenshot[]>(() => loadScreenshots());
   const [galleryOpen, setGalleryOpen] = useState(false);
   const [capturing, setCapturing] = useState(false);
+  const [showOnboardingQuiz, setShowOnboardingQuiz] = useState(() => !getOnboardingQuizDone());
+  const [showShopNameBanner, setShowShopNameBanner] = useState(
+    () => getOnboardingQuizDone() && !getDismissedHints().has("shop_name"),
+  );
+  const [showSelectSeasonBanner, setShowSelectSeasonBanner] = useState(false);
   const escaparateRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
@@ -66,6 +75,14 @@ export default function Home() {
     }
   }, [selectedFestivity.id, capturing, toast]);
 
+  const handleShareLink = useCallback(() => {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url).then(
+      () => toast({ title: "Link copiado", description: "El enlace se ha copiado al portapapeles. Compártelo para que otros abran la app." }),
+      () => toast({ title: "No se pudo copiar", description: "Copia la URL manualmente desde la barra del navegador.", variant: "destructive" })
+    );
+  }, [toast]);
+
   const handleDeleteScreenshot = useCallback((id: string) => {
     const updated = deleteScreenshot(id);
     setScreenshots(updated);
@@ -92,6 +109,19 @@ export default function Home() {
     saveProgress(newProgress);
     setProgress(newProgress);
     dismissHint("shop_name");
+    setShowShopNameBanner(false);
+    if (!getSelectSeasonBannerDismissed()) {
+      setShowSelectSeasonBanner(true);
+    }
+  };
+
+  const handleOnboardingComplete = () => {
+    setOnboardingQuizDone();
+    setShowOnboardingQuiz(false);
+    setShowShopNameBanner(true);
+    try {
+      localStorage.setItem("onboarding_completed", "true");
+    } catch {}
   };
 
   const handleUpdateFixedItem = (id: string, updates: Partial<FixedItemPosition>) => {
@@ -185,65 +215,123 @@ export default function Home() {
     setProgress(newProgress);
   };
 
-  const handleQuizComplete = (score: number) => {
-    const newBestScore = Math.max(festivityProgress.quizScore, score);
-    const newUnlock = getUnlockStatus(selectedFestivity, newBestScore);
-    const wasCompleted = festivityProgress.quizCompleted;
-    const newProgress = updateFestivityProgress(progress, selectedFestivity.id, {
-      quizCompleted: true,
-      quizScore: newBestScore,
-      unlockedElements: newUnlock.unlockedElements,
-    });
-    if (!wasCompleted) {
-      newProgress.totalQuizzesCompleted = (newProgress.totalQuizzesCompleted || 0) + 1;
-    }
-    saveProgress(newProgress);
-    setProgress(newProgress);
-  };
-
   const allLightsOn = lightsOn.slice(0, unlockStatus.unlockedLightsCount).every(l => l);
+
+  const totalAnswered = festivities.reduce((sum, fest) => {
+    const fp = getFestivityProgress(progress, fest.id);
+    return sum + (fp.quizScore || 0);
+  }, 0);
+
+  const totalQuestions = festivities.reduce((sum, fest) => sum + fest.quiz.length, 0);
+  const overallProgress = totalQuestions > 0 ? Math.round((totalAnswered / totalQuestions) * 100) : 0;
+
+  const handleSelectFestivity = (fest: Festivity) => {
+    setSelectedFestivity(fest);
+    setDrawerOpen(true);
+  };
 
   return (
     <div className="flex flex-col h-screen bg-background font-sans text-foreground">
-      <div className="flex items-center gap-2 px-3 py-2 border-b bg-card flex-wrap" data-testid="top-bar">
-        <FestivalSelector
-          selectedId={selectedFestivity.id}
-          onSelect={setSelectedFestivity}
-          progress={progress}
-        />
+      {showOnboardingQuiz ? (
+        <>
+          <div className="flex-1 flex items-center justify-center overflow-hidden relative">
+            <div className="absolute inset-0 flex items-center justify-center" style={{ padding: "12px 24px" }}>
+              <div className="w-full max-w-4xl">
+                <div ref={escaparateRef} className="pl-28 pr-28 pt-44 pb-4 pointer-events-none select-none overflow-visible">
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-black/40 backdrop-blur-md rounded-lg z-10" />
+                    <WindowDisplay
+                      festivity={selectedFestivity}
+                      placedElements={placedElements}
+                      allElements={allElements}
+                      onRemoveElement={() => {}}
+                      onUpdateElement={() => {}}
+                      bgColor={canvasBgColor}
+                      lightsOn={lightsOn}
+                      onToggleLight={() => {}}
+                      lightColor={lightColor}
+                      fixedItems={fixedItems}
+                      onUpdateFixedItem={() => {}}
+                      shopName={shopName}
+                      onShopNameChange={() => {}}
+                      unlockedLightsCount={0}
+                      furniturePositions={furniturePositions}
+                      onUpdateFurniture={() => {}}
+                      furnitureUnlocked={false}
+                      onLockedAction={() => {}}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <OnboardingQuizOverlay onComplete={handleOnboardingComplete} />
+        </>
+      ) : (
+        <>
+      <div className="px-3 py-2 border-b bg-card space-y-2" data-testid="top-bar">
+        <div className="flex items-center gap-2 flex-wrap">
+          <div id="season-selector" data-testid="season-selector-wrap">
+            <FestivalSelector
+            selectedId={selectedFestivity.id}
+            onSelect={handleSelectFestivity}
+            progress={progress}
+          />
+          </div>
 
-        <div className="flex items-center gap-2 ml-auto flex-wrap">
-          <Badge variant="secondary" data-testid="text-score">
-            Best: {bestScore}/{selectedFestivity.quiz.length}
-          </Badge>
-          <Badge variant="outline">
-            {placedElements.length} placed
-          </Badge>
-        </div>
+          <div className="flex items-center gap-2 ml-auto flex-wrap">
+            <Badge variant="secondary" data-testid="text-score">
+              Best: {bestScore}/{GRAMMAR_QUIZ_TOTAL}
+            </Badge>
+            <Badge variant="outline">
+              {placedElements.length} placed
+            </Badge>
+          </div>
 
-        {!festivityProgress.quizCompleted ? (
-          <Button
-            onClick={() => setQuizOpen(true)}
-            className="bg-amber-500 text-white border-amber-600"
-            data-testid="button-take-quiz"
-          >
-            Take Quiz!
-          </Button>
-        ) : (
+          {!festivityProgress.quizCompleted ? (
+            <Button
+              onClick={() => setQuizOpen(true)}
+              className="bg-amber-500 text-white border-amber-600"
+              data-testid="button-take-quiz"
+            >
+              Take Quiz!
+            </Button>
+          ) : (
+            <Button
+              variant="outline"
+              onClick={() => setQuizOpen(true)}
+              data-testid="button-retake-quiz"
+            >
+              Retake Quiz
+            </Button>
+          )}
           <Button
             variant="outline"
-            onClick={() => setQuizOpen(true)}
-            data-testid="button-retake-quiz"
+            size="sm"
+            onClick={handleShareLink}
+            title="Copiar enlace para compartir la app"
+            data-testid="button-share-link"
           >
-            Retake Quiz
+            <Share2 className="w-4 h-4 mr-1.5" />
+            Compartir
           </Button>
-        )}
+        </div>
+
+        <div className="flex flex-col gap-1" data-testid="overall-progress">
+          <div className="flex justify-between text-[11px] text-muted-foreground">
+            <span className="font-semibold uppercase tracking-wide">Overall Progress</span>
+            <span className="font-medium">
+              {totalAnswered}/{totalQuestions} questions · {overallProgress}%
+            </span>
+          </div>
+          <Progress value={overallProgress} className="h-2" />
+        </div>
       </div>
 
       <main className="flex-1 flex items-center justify-center overflow-auto relative">
-        <div className="w-full h-full flex items-center justify-center" style={{ padding: "12px 24px" }}>
-          <div className="w-full max-w-4xl">
-            <div ref={escaparateRef} className="px-8 pt-12 pb-4">
+        <div className="w-full h-full flex items-center justify-center overflow-visible" style={{ padding: "12px 24px" }}>
+          <div className="w-full max-w-4xl overflow-visible">
+            <div ref={escaparateRef} className="pl-28 pr-28 pt-44 pb-4 overflow-visible">
               <WindowDisplay
                 festivity={selectedFestivity}
                 placedElements={placedElements}
@@ -483,17 +571,27 @@ export default function Home() {
         </DialogContent>
       </Dialog>
 
-      <QuizModal
-        open={quizOpen}
+      <GrammarQuizModal
+        key={quizOpen ? `quiz-${selectedFestivity.id}` : "quiz-closed"}
+        isOpen={quizOpen}
         onClose={() => setQuizOpen(false)}
-        questions={selectedFestivity.quiz}
-        festivityName={selectedFestivity.name}
-        onComplete={handleQuizComplete}
-        bestScore={bestScore}
-        festivity={selectedFestivity}
+        festivityId={selectedFestivity.id}
+        onQuizBlockComplete={({ festivityId: fid, level: lvl, block: blk, score: sc }) => {
+          const newProgress = recordQuizBlockScore(progress, fid, lvl, blk, sc);
+          setProgress(newProgress);
+        }}
       />
 
       <OnboardingCarousel />
+        </>
+      )}
+
+      {showShopNameBanner && (
+        <ShopNameBanner onDismiss={() => setShowShopNameBanner(false)} />
+      )}
+      {showSelectSeasonBanner && (
+        <SelectSeasonBanner onDismiss={() => setShowSelectSeasonBanner(false)} />
+      )}
     </div>
   );
 }

@@ -204,11 +204,14 @@ export interface UnlockStatus {
   nextFurnitureAt: number | null;
 }
 
+/** Total questions in the grammar quiz (6 levels × 2 blocks × 6 questions). Used for unlock progression so completing a few blocks doesn't unlock everything. */
+export const GRAMMAR_QUIZ_TOTAL = 6 * 2 * 6;
+
 export function getUnlockStatus(
   festivity: Festivity,
   score: number,
 ): UnlockStatus {
-  const total = festivity.quiz.length;
+  const total = GRAMMAR_QUIZ_TOTAL;
   if (total === 0) return { unlockedElements: [], unlockedLightsCount: 0, unlockedBgColors: 0, furnitureUnlocked: false, nextElementAt: 1, nextLightAt: 1, nextBgAt: 1, nextFurnitureAt: 1 };
 
   const elemCount = Math.min(festivity.lockedElements.length, Math.floor(score * festivity.lockedElements.length / total));

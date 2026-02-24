@@ -20,7 +20,7 @@ function ElementItem({ element, isUnlocked, copyCount, onAdd }: ElementItemProps
     <button
       onClick={isAvailable ? onAdd : undefined}
       disabled={!isAvailable}
-      className={`flex flex-col items-center gap-1 p-2 rounded-lg transition-all ${
+      className={`flex flex-col items-center gap-1.5 p-2.5 rounded-xl transition-all bg-card/40 ${
         isAvailable
           ? atLimit
             ? "opacity-60 cursor-default"
@@ -30,21 +30,36 @@ function ElementItem({ element, isUnlocked, copyCount, onAdd }: ElementItemProps
       data-testid={`element-${element.id}`}
     >
       <div className="relative">
-        <StickerIcon imagePath={element.imagePath} name={element.name} size={48} />
+        <StickerIcon imagePath={element.imagePath} name={element.name} size={60} />
         {!isAvailable && (
           <div className="absolute inset-0 flex items-center justify-center bg-background/60 rounded-xl">
             <Lock className="w-4 h-4 text-muted-foreground" />
           </div>
         )}
       </div>
-      <span className="text-[10px] text-center leading-tight max-w-[70px] font-medium" data-testid={`element-name-${element.id}`}>
+      <span className="text-[10px] text-center leading-tight max-w-[80px] font-medium" data-testid={`element-name-${element.id}`}>
         {element.name}
       </span>
-      {isAvailable && copyCount > 0 && (
-        <Badge variant="secondary" className="text-[8px] px-1 py-0">
-          {copyCount}/{MAX_ELEMENT_COPIES}
-        </Badge>
-      )}
+      <div className="flex flex-col items-center gap-0.5">
+        <div className="flex gap-0.5">
+          {Array.from({ length: MAX_ELEMENT_COPIES }).map((_, index) => {
+            const used = index < copyCount;
+            return (
+              <div
+                key={index}
+                className={`w-2.5 h-2.5 rounded-full border ${
+                  used ? "bg-primary/40 border-primary/70" : "bg-background border-border/60"
+                }`}
+              />
+            );
+          })}
+        </div>
+        {isAvailable && (
+          <Badge variant="secondary" className="text-[8px] px-1 py-0 mt-0.5">
+            {copyCount}/{MAX_ELEMENT_COPIES}
+          </Badge>
+        )}
+      </div>
     </button>
   );
 }
@@ -72,7 +87,7 @@ export function ElementPanel({
     <div className="flex flex-col gap-3" data-testid="element-panel">
       <div>
         <h3 className="text-xs font-bold mb-2 text-foreground uppercase tracking-wide">Base Items</h3>
-        <div className="grid grid-cols-2 gap-1">
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
           {baseElements.map((el) => (
             <ElementItem
               key={el.id}
@@ -111,7 +126,7 @@ export function ElementPanel({
             Score higher to unlock more items!
           </p>
         )}
-        <div className="grid grid-cols-2 gap-1">
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
           {lockedElements.map((el) => (
             <ElementItem
               key={el.id}

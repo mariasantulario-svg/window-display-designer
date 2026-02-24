@@ -121,16 +121,34 @@ function SpotLightFixture({ position, isOn, onClick, color, index, locked, onHov
           )}
         </svg>
         {isOn && !locked && (
-          <div className="absolute w-3 h-3 rounded-full" style={{
-            bottom: position.side === "top" ? "2px" : position.side === "bottom" ? "auto" : "50%",
-            top: position.side === "bottom" ? "2px" : "auto",
-            left: position.side === "right" ? "2px" : position.side === "left" ? "auto" : "50%",
-            right: position.side === "left" ? "2px" : "auto",
-            transform: position.side === "top" || position.side === "bottom" ? "translateX(-50%)" : "translateY(-50%)",
-            boxShadow: `0 0 6px 3px ${color}80`,
-            background: color,
-            opacity: 0.7,
-          }} />
+          <div
+            className="absolute w-3 h-3 rounded-full"
+            style={{
+              ...(position.side === "top" && {
+                bottom: "2px",
+                left: "50%",
+                transform: "translateX(-50%)",
+              }),
+              ...(position.side === "bottom" && {
+                top: "2px",
+                left: "50%",
+                transform: "translateX(-50%)",
+              }),
+              ...(position.side === "left" && {
+                top: "50%",
+                right: "1px",
+                transform: "translateY(-50%)",
+              }),
+              ...(position.side === "right" && {
+                top: "50%",
+                left: "1px",
+                transform: "translateY(-50%)",
+              }),
+              boxShadow: `0 0 6px 3px ${color}80`,
+              background: color,
+              opacity: 0.7,
+            }}
+          />
         )}
       </button>
       {isOn && !locked && (
@@ -493,10 +511,14 @@ function StorefrontFrame({ dark, treeImagePath, shopName, onShopNameChange, onSi
         </svg>
       </div>
 
-      <div className="absolute -top-[72px] left-1/2 -translate-x-1/2 z-[3] px-4 py-1.5 rounded-sm pointer-events-auto flex items-baseline gap-0 whitespace-nowrap group"
+      <div
+        id="shop-name-sign"
+        className="absolute -top-[72px] left-1/2 -translate-x-1/2 z-[3] px-4 py-1.5 rounded-sm pointer-events-auto flex items-baseline gap-0 whitespace-nowrap group"
         style={{ background: signBg, border: `2px solid ${signBorder}`, boxShadow: "0 2px 8px rgba(0,0,0,0.15)" }}
         onMouseEnter={onSignHover}
-        onMouseLeave={onSignLeave}>
+        onMouseLeave={onSignLeave}
+        data-testid="shop-name-sign"
+      >
         <input
           type="text"
           value={shopName}
@@ -723,274 +745,268 @@ export function WindowDisplay({
   }, [showHint, draggingIndex, draggingFixedId, draggingFurnitureId]);
 
   return (
-    <div className="relative" style={{ padding: "20px 24px 16px 18px", marginLeft: "-4px" }}>
+    <div className="relative overflow-visible box-border" style={{ padding: "80px 24px 16px 20px", marginLeft: "-4px" }}>
       <StorefrontFrame
         dark={dark}
-        treeImagePath={treeImagePath}
-        shopName={shopName}
-        onShopNameChange={(name) => { onShopNameChange(name); markHintUsed("shop_name"); }}
-        onSignHover={() => showHint("shop_name", 50, 2)}
-        onSignLeave={hideHint}
-      />
-
-      <div
-        ref={canvasRef}
-        className="relative w-full overflow-hidden"
-        style={{
-          aspectRatio: "600/370",
-          border: `2px solid ${dark ? "#555" : "#777"}`,
-          boxShadow: dark ? "inset 0 0 30px rgba(0,0,0,0.3)" : "inset 0 0 20px rgba(0,0,0,0.04)",
-          borderRadius: 2,
-        }}
-        onClick={handleCanvasClick}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-        onMouseMove={handleCanvasMouseMove}
-        onMouseLeave={hideHint}
-        data-testid="window-display-canvas"
-      >
-        <svg viewBox="0 0 600 370" className="w-full h-full pointer-events-none absolute inset-0">
-          <defs>
-            <pattern id="doodle-bg" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
-              <circle cx="20" cy="20" r="0.5" fill={dark ? "#ffffff" : "#333"} opacity="0.04" />
-            </pattern>
-          </defs>
-          <rect x="0" y="0" width="600" height="370" fill={bgColor} />
-          <rect x="0" y="0" width="600" height="370" fill="url(#doodle-bg)" />
-          <FloorLine dark={dark} />
-        </svg>
-
-        {furniturePositions.map((furn) => {
-          const isFurnSelected = selectedFurnitureId === furn.id && furnitureUnlocked;
-          return (
+              treeImagePath={treeImagePath}
+              shopName={shopName}
+              onShopNameChange={(name) => { onShopNameChange(name); markHintUsed("shop_name"); }}
+              onSignHover={() => showHint("shop_name", 50, 2)}
+              onSignLeave={hideHint}
+            />
             <div
-              key={`furniture-${furn.id}`}
-              data-hint-zone="furniture"
-              className={`absolute touch-none select-none ${
-                furnitureUnlocked
-                  ? draggingFurnitureId === furn.id ? "cursor-grabbing z-[5]" : "cursor-grab z-[3]"
-                  : "cursor-not-allowed z-[3]"
-              } ${isFurnSelected ? "z-[5]" : ""}`}
+              ref={canvasRef}
+              className="relative w-full overflow-hidden"
               style={{
-                left: `${furn.x}%`,
-                top: `${furn.y}%`,
-                transform: `translate(-50%, -50%) scale(${furn.scale || 0.7})`,
+                aspectRatio: "600/370",
+                border: `2px solid ${dark ? "#555" : "#777"}`,
+                boxShadow: dark ? "inset 0 0 30px rgba(0,0,0,0.3)" : "inset 0 0 20px rgba(0,0,0,0.04)",
+                borderRadius: 2,
               }}
-              onPointerDown={(e) => handleFurniturePointerDown(e, furn.id)}
-              onMouseEnter={() => showHint("furniture", furn.x, Math.max(10, furn.y - 12))}
+              onClick={handleCanvasClick}
+              onPointerMove={handlePointerMove}
+              onPointerUp={handlePointerUp}
+              onMouseMove={handleCanvasMouseMove}
               onMouseLeave={hideHint}
-              onClick={(e) => { e.stopPropagation(); markHintUsed("furniture"); }}
-              data-testid={`furniture-${furn.id}`}
+              data-testid="window-display-canvas"
             >
-              <div className={`${isFurnSelected ? "ring-2 ring-green-400 ring-offset-2 rounded-lg" : ""} p-0.5`}>
-                {!furnitureUnlocked && (
-                  <div className="absolute -top-1 -right-1 z-10 bg-background/80 rounded-full p-0.5">
-                    <Lock size={8} className="text-muted-foreground" />
-                  </div>
-                )}
-                <FurniturePiece id={furn.id} dark={dark} />
-              </div>
+              <svg viewBox="0 0 600 370" className="w-full h-full pointer-events-none absolute inset-0">
+                <defs>
+                  <pattern id="doodle-bg" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+                    <circle cx="20" cy="20" r="0.5" fill={dark ? "#ffffff" : "#333"} opacity="0.04" />
+                  </pattern>
+                </defs>
+                <rect x="0" y="0" width="600" height="370" fill={bgColor} />
+                <rect x="0" y="0" width="600" height="370" fill="url(#doodle-bg)" />
+                <FloorLine dark={dark} />
+              </svg>
 
-              {isFurnSelected && (
-                <div
-                  className="absolute -top-10 left-1/2 -translate-x-1/2 flex items-center gap-1 z-[60]"
-                  onClick={(e) => e.stopPropagation()}
-                  onPointerDown={(e) => e.stopPropagation()}
-                >
-                  <div className="flex gap-1 bg-white shadow-xl border rounded-full p-1">
-                    <button
-                      onClick={() => handleFurnitureScale(furn.id, 0.1)}
-                      className="p-1 rounded-full text-green-600"
-                      aria-label="Enlarge furniture"
-                      data-testid={`button-enlarge-furniture-${furn.id}`}
-                    >
-                      <Plus size={14} />
-                    </button>
-                    <button
-                      onClick={() => handleFurnitureScale(furn.id, -0.1)}
-                      className="p-1 rounded-full text-green-600"
-                      aria-label="Shrink furniture"
-                      data-testid={`button-shrink-furniture-${furn.id}`}
-                    >
-                      <Minus size={14} />
-                    </button>
+              {furniturePositions.map((furn) => {
+                const isFurnSelected = selectedFurnitureId === furn.id && furnitureUnlocked;
+                return (
+                  <div
+                    key={`furniture-${furn.id}`}
+                    data-hint-zone="furniture"
+                    className={`absolute touch-none select-none ${
+                      furnitureUnlocked
+                        ? draggingFurnitureId === furn.id ? "cursor-grabbing z-[5]" : "cursor-grab z-[3]"
+                        : "cursor-not-allowed z-[3]"
+                    } ${isFurnSelected ? "z-[5]" : ""}`}
+                    style={{
+                      left: `${furn.x}%`,
+                      top: `${furn.y}%`,
+                      transform: `translate(-50%, -50%) scale(${furn.scale || 0.7})`,
+                    }}
+                    onPointerDown={(e) => handleFurniturePointerDown(e, furn.id)}
+                    onMouseEnter={() => showHint("furniture", furn.x, Math.max(10, furn.y - 12))}
+                    onMouseLeave={hideHint}
+                    onClick={(e) => { e.stopPropagation(); markHintUsed("furniture"); }}
+                    data-testid={`furniture-${furn.id}`}
+                  >
+                    <div className={`${isFurnSelected ? "ring-2 ring-green-400 ring-offset-2 rounded-lg" : ""} p-0.5`}>
+                      {!furnitureUnlocked && (
+                        <div className="absolute -top-1 -right-1 z-10 bg-background/80 rounded-full p-0.5">
+                          <Lock size={8} className="text-muted-foreground" />
+                        </div>
+                      )}
+                      <FurniturePiece id={furn.id} dark={dark} />
+                    </div>
+                    {isFurnSelected && (
+                      <div
+                        className="absolute -top-10 left-1/2 -translate-x-1/2 flex items-center gap-1 z-[60]"
+                        onClick={(e) => e.stopPropagation()}
+                        onPointerDown={(e) => e.stopPropagation()}
+                      >
+                        <div className="flex gap-1 bg-white shadow-xl border rounded-full p-1">
+                          <button
+                            onClick={() => handleFurnitureScale(furn.id, 0.1)}
+                            className="p-1 rounded-full text-green-600"
+                            aria-label="Enlarge furniture"
+                            data-testid={`button-enlarge-furniture-${furn.id}`}
+                          >
+                            <Plus size={14} />
+                          </button>
+                          <button
+                            onClick={() => handleFurnitureScale(furn.id, -0.1)}
+                            className="p-1 rounded-full text-green-600"
+                            aria-label="Shrink furniture"
+                            data-testid={`button-shrink-furniture-${furn.id}`}
+                          >
+                            <Minus size={14} />
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
+                );
+              })}
+
+              {fixedItems.map((item) => {
+                const Component = FIXED_ITEM_COMPONENTS[item.id];
+                if (!Component) return null;
+                const isSelected = selectedFixedId === item.id;
+                return (
+                  <div
+                    key={`fixed-${item.id}`}
+                    data-hint-zone="elements"
+                    className={`absolute touch-none select-none ${
+                      draggingFixedId === item.id ? "cursor-grabbing z-40" : "cursor-grab z-[8]"
+                    } ${isSelected ? "z-40" : ""}`}
+                    style={{
+                      left: `${item.x}%`,
+                      top: `${item.y}%`,
+                      transform: `translate(-50%, -50%) scale(${item.scale || 1})`,
+                    }}
+                    onPointerDown={(e) => handleFixedPointerDown(e, item.id)}
+                    onMouseEnter={() => showHint("elements_drag", item.x, Math.max(10, item.y - 10))}
+                    onMouseLeave={hideHint}
+                    onClick={(e) => { e.stopPropagation(); markHintUsed("elements_drag"); }}
+                    data-testid={`fixed-item-${item.id}`}
+                  >
+                    <div className={`${isSelected ? "ring-2 ring-amber-400 ring-offset-2 rounded-lg" : ""} p-0.5`}>
+                      <Component />
+                    </div>
+                    {isSelected && (
+                      <div
+                        className="absolute -top-10 left-1/2 -translate-x-1/2 flex items-center gap-1 z-[60]"
+                        onClick={(e) => e.stopPropagation()}
+                        onPointerDown={(e) => e.stopPropagation()}
+                      >
+                        <div className="flex gap-1 bg-white shadow-xl border rounded-full p-1">
+                          <button
+                            onClick={() => handleFixedScale(item.id, 0.3)}
+                            className="p-1 rounded-full text-amber-600"
+                            aria-label="Enlarge"
+                            data-testid={`button-enlarge-fixed-${item.id}`}
+                          >
+                            <Plus size={14} />
+                          </button>
+                          <button
+                            onClick={() => handleFixedScale(item.id, -0.3)}
+                            className="p-1 rounded-full text-amber-600"
+                            aria-label="Shrink"
+                            data-testid={`button-shrink-fixed-${item.id}`}
+                          >
+                            <Minus size={14} />
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+
+              {placedElements.map((placed, index) => {
+                const element = allElements.find(el => el.id === placed.elementId);
+                if (!element) return null;
+                const isSelected = selectedIndex === index;
+                return (
+                  <div
+                    key={`placed-${index}`}
+                    data-hint-zone="elements"
+                    className={`absolute touch-none select-none ${
+                      draggingIndex === index ? "cursor-grabbing z-50" : "cursor-grab z-10"
+                    } ${isSelected ? "z-50" : ""}`}
+                    style={{
+                      left: `${placed.x}%`,
+                      top: `${placed.y}%`,
+                      transform: `translate(-50%, -50%) scale(${placed.scale || 1})`,
+                    }}
+                    onPointerDown={(e) => handlePointerDown(e, index)}
+                    onMouseEnter={() => showHint("elements_drag", placed.x, Math.max(10, placed.y - 10))}
+                    onMouseLeave={hideHint}
+                    onClick={(e) => { e.stopPropagation(); markHintUsed("elements_drag"); }}
+                    data-testid={`placed-element-${index}`}
+                  >
+                    <div className={`${isSelected ? "ring-2 ring-blue-400 ring-offset-2 rounded-lg" : ""} p-0.5`}>
+                      <StickerIcon imagePath={element.imagePath} name={element.name} size={56} />
+                    </div>
+                    {isSelected && (
+                      <div
+                        className="absolute -top-10 left-1/2 -translate-x-1/2 flex items-center gap-1 z-[60]"
+                        onClick={(e) => e.stopPropagation()}
+                        onPointerDown={(e) => e.stopPropagation()}
+                      >
+                        <div className="flex gap-1 bg-white shadow-xl border rounded-full p-1">
+                          <button
+                            onClick={() => handleScale(index, 0.3)}
+                            className="p-1 rounded-full text-blue-600"
+                            aria-label="Enlarge"
+                            data-testid={`button-enlarge-${index}`}
+                          >
+                            <Plus size={14} />
+                          </button>
+                          <button
+                            onClick={() => handleScale(index, -0.3)}
+                            className="p-1 rounded-full text-blue-600"
+                            aria-label="Shrink"
+                            data-testid={`button-shrink-${index}`}
+                          >
+                            <Minus size={14} />
+                          </button>
+                          <button
+                            onClick={() => { onRemoveElement(index); setSelectedIndex(null); }}
+                            className="p-1 rounded-full text-red-600"
+                            aria-label="Remove"
+                            data-testid={`button-remove-${index}`}
+                          >
+                            <Trash2 size={14} />
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+
+              {LIGHT_POSITIONS.map((pos, i) => (
+                <SpotLightFixture
+                  key={`light-${i}`}
+                  position={pos}
+                  isOn={lightsOn[i] || false}
+                  onClick={() => { onToggleLight(i); markHintUsed("lights"); }}
+                  color={lightColor}
+                  index={i}
+                  locked={i >= unlockedLightsCount}
+                  onHover={() => showHint("lights", pos.x, pos.side === "top" ? 15 : pos.side === "bottom" ? 85 : pos.y)}
+                  onLeave={hideHint}
+                />
+              ))}
+
+              {placedElements.length === 0 && !activeHint && (
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <p className={`text-sm px-4 py-2 rounded-full ${dark ? "text-white/50 bg-white/10" : "text-slate-400 bg-white/80"}`}>
+                    Click decorations to place them here
+                  </p>
                 </div>
               )}
+
+              <SpeechBubble
+                visible={activeHint === "bg_colors"}
+                text="Change the background colour from the Decorations panel below!"
+                position={hintPos}
+              />
+              <SpeechBubble
+                visible={activeHint === "lights"}
+                text="Click to switch this spotlight on or off! Change light colour in the panel below."
+                position={hintPos}
+              />
+              <SpeechBubble
+                visible={activeHint === "elements_drag"}
+                text="Drag to move around. Click to select, then use +/- to change size!"
+                position={hintPos}
+              />
+              <SpeechBubble
+                visible={activeHint === "furniture"}
+                text={furnitureUnlocked ? "Drag to rearrange furniture. Click to select, then +/- to change size!" : "Take the quiz to unlock furniture!"}
+                position={hintPos}
+              />
+              <SpeechBubble
+                visible={activeHint === "shop_name"}
+                text="Click here to type your shop name!"
+                position={hintPos}
+              />
             </div>
-          );
-        })}
-
-        {fixedItems.map((item) => {
-          const Component = FIXED_ITEM_COMPONENTS[item.id];
-          if (!Component) return null;
-          const isSelected = selectedFixedId === item.id;
-
-          return (
-            <div
-              key={`fixed-${item.id}`}
-              data-hint-zone="elements"
-              className={`absolute touch-none select-none ${
-                draggingFixedId === item.id ? "cursor-grabbing z-40" : "cursor-grab z-[8]"
-              } ${isSelected ? "z-40" : ""}`}
-              style={{
-                left: `${item.x}%`,
-                top: `${item.y}%`,
-                transform: `translate(-50%, -50%) scale(${item.scale || 1})`,
-              }}
-              onPointerDown={(e) => handleFixedPointerDown(e, item.id)}
-              onMouseEnter={() => showHint("elements_drag", item.x, Math.max(10, item.y - 10))}
-              onMouseLeave={hideHint}
-              onClick={(e) => { e.stopPropagation(); markHintUsed("elements_drag"); }}
-              data-testid={`fixed-item-${item.id}`}
-            >
-              <div className={`${isSelected ? "ring-2 ring-amber-400 ring-offset-2 rounded-lg" : ""} p-0.5`}>
-                <Component />
-              </div>
-
-              {isSelected && (
-                <div
-                  className="absolute -top-10 left-1/2 -translate-x-1/2 flex items-center gap-1 z-[60]"
-                  onClick={(e) => e.stopPropagation()}
-                  onPointerDown={(e) => e.stopPropagation()}
-                >
-                  <div className="flex gap-1 bg-white shadow-xl border rounded-full p-1">
-                    <button
-                      onClick={() => handleFixedScale(item.id, 0.3)}
-                      className="p-1 rounded-full text-amber-600"
-                      aria-label="Enlarge"
-                      data-testid={`button-enlarge-fixed-${item.id}`}
-                    >
-                      <Plus size={14} />
-                    </button>
-                    <button
-                      onClick={() => handleFixedScale(item.id, -0.3)}
-                      className="p-1 rounded-full text-amber-600"
-                      aria-label="Shrink"
-                      data-testid={`button-shrink-fixed-${item.id}`}
-                    >
-                      <Minus size={14} />
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-          );
-        })}
-
-        {placedElements.map((placed, index) => {
-          const element = allElements.find(el => el.id === placed.elementId);
-          if (!element) return null;
-          const isSelected = selectedIndex === index;
-
-          return (
-            <div
-              key={`placed-${index}`}
-              data-hint-zone="elements"
-              className={`absolute touch-none select-none ${
-                draggingIndex === index ? "cursor-grabbing z-50" : "cursor-grab z-10"
-              } ${isSelected ? "z-50" : ""}`}
-              style={{
-                left: `${placed.x}%`,
-                top: `${placed.y}%`,
-                transform: `translate(-50%, -50%) scale(${placed.scale || 1})`,
-              }}
-              onPointerDown={(e) => handlePointerDown(e, index)}
-              onMouseEnter={() => showHint("elements_drag", placed.x, Math.max(10, placed.y - 10))}
-              onMouseLeave={hideHint}
-              onClick={(e) => { e.stopPropagation(); markHintUsed("elements_drag"); }}
-              data-testid={`placed-element-${index}`}
-            >
-              <div className={`${isSelected ? "ring-2 ring-blue-400 ring-offset-2 rounded-lg" : ""} p-0.5`}>
-                <StickerIcon imagePath={element.imagePath} name={element.name} size={56} />
-              </div>
-
-              {isSelected && (
-                <div
-                  className="absolute -top-10 left-1/2 -translate-x-1/2 flex items-center gap-1 z-[60]"
-                  onClick={(e) => e.stopPropagation()}
-                  onPointerDown={(e) => e.stopPropagation()}
-                >
-                  <div className="flex gap-1 bg-white shadow-xl border rounded-full p-1">
-                    <button
-                      onClick={() => handleScale(index, 0.3)}
-                      className="p-1 rounded-full text-blue-600"
-                      aria-label="Enlarge"
-                      data-testid={`button-enlarge-${index}`}
-                    >
-                      <Plus size={14} />
-                    </button>
-                    <button
-                      onClick={() => handleScale(index, -0.3)}
-                      className="p-1 rounded-full text-blue-600"
-                      aria-label="Shrink"
-                      data-testid={`button-shrink-${index}`}
-                    >
-                      <Minus size={14} />
-                    </button>
-                    <button
-                      onClick={() => { onRemoveElement(index); setSelectedIndex(null); }}
-                      className="p-1 rounded-full text-red-600"
-                      aria-label="Remove"
-                      data-testid={`button-remove-${index}`}
-                    >
-                      <Trash2 size={14} />
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-          );
-        })}
-
-        {LIGHT_POSITIONS.map((pos, i) => (
-          <SpotLightFixture
-            key={`light-${i}`}
-            position={pos}
-            isOn={lightsOn[i] || false}
-            onClick={() => { onToggleLight(i); markHintUsed("lights"); }}
-            color={lightColor}
-            index={i}
-            locked={i >= unlockedLightsCount}
-            onHover={() => showHint("lights", pos.x, pos.side === "top" ? 15 : pos.side === "bottom" ? 85 : pos.y)}
-            onLeave={hideHint}
-          />
-        ))}
-
-        {placedElements.length === 0 && !activeHint && (
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <p className={`text-sm px-4 py-2 rounded-full ${dark ? "text-white/50 bg-white/10" : "text-slate-400 bg-white/80"}`}>
-              Click decorations to place them here
-            </p>
-          </div>
-        )}
-
-        <SpeechBubble
-          visible={activeHint === "bg_colors"}
-          text="Change the background colour from the Decorations panel below!"
-          position={hintPos}
-        />
-        <SpeechBubble
-          visible={activeHint === "lights"}
-          text="Click to switch this spotlight on or off! Change light colour in the panel below."
-          position={hintPos}
-        />
-        <SpeechBubble
-          visible={activeHint === "elements_drag"}
-          text="Drag to move around. Click to select, then use +/- to change size!"
-          position={hintPos}
-        />
-        <SpeechBubble
-          visible={activeHint === "furniture"}
-          text={furnitureUnlocked ? "Drag to rearrange furniture. Click to select, then +/- to change size!" : "Take the quiz to unlock furniture!"}
-          position={hintPos}
-        />
-        <SpeechBubble
-          visible={activeHint === "shop_name"}
-          text="Click here to type your shop name!"
-          position={hintPos}
-        />
-      </div>
     </div>
   );
 }

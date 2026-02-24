@@ -1,5 +1,38 @@
 const STORAGE_KEY = "window-display-designer-progress";
 const HINTS_KEY = "window-display-hints-dismissed";
+const ONBOARDING_QUIZ_KEY = "onboarding_quiz_done";
+
+const SELECT_SEASON_BANNER_KEY = "select_season_banner_dismissed";
+
+export function getSelectSeasonBannerDismissed(): boolean {
+  try {
+    return localStorage.getItem(SELECT_SEASON_BANNER_KEY) === "true";
+  } catch {}
+  return false;
+}
+
+export function setSelectSeasonBannerDismissed(): void {
+  try {
+    localStorage.setItem(SELECT_SEASON_BANNER_KEY, "true");
+  } catch (e) {
+    console.warn("Failed to save select season banner state:", e);
+  }
+}
+
+export function getOnboardingQuizDone(): boolean {
+  try {
+    return localStorage.getItem(ONBOARDING_QUIZ_KEY) === "true";
+  } catch {}
+  return false;
+}
+
+export function setOnboardingQuizDone(): void {
+  try {
+    localStorage.setItem(ONBOARDING_QUIZ_KEY, "true");
+  } catch (e) {
+    console.warn("Failed to save onboarding quiz state:", e);
+  }
+}
 
 export type HintId = "bg_colors" | "lights" | "elements_drag" | "furniture" | "shop_name";
 
@@ -69,6 +102,8 @@ export interface FurniturePosition {
 export interface FestivityProgress {
   quizCompleted: boolean;
   quizScore: number;
+  /** Best score per quiz block (e.g. "valentines_level1_block1" -> 5). Used to compute quizScore. */
+  quizBlockScores?: Record<string, number>;
   unlockedElements: string[];
   placedElements: PlacedElement[];
   fixedItemPositions?: FixedItemPosition[];
@@ -176,6 +211,27 @@ export function updateFestivityProgress(
   };
   saveProgress(newProgress);
   return newProgress;
+}
+
+/** Record a quiz block result and update quizScore (sum of best score per block). */
+export function recordQuizBlockScore(
+  progress: GameProgress,
+  festivityId: string,
+  level: number,
+  block: number,
+  score: number
+): GameProgress {
+  const blockId = `${festivityId.replace(/-/g, "_")}_level${level}_block${block}`;
+  const current = getFestivityProgress(progress, festivityId);
+  const blockScores = { ...(current.quizBlockScores || {}) };
+  const prev = blockScores[blockId] ?? 0;
+  blockScores[blockId] = Math.max(prev, score);
+  const quizScore = Object.values(blockScores).reduce((a, b) => a + b, 0);
+  return updateFestivityProgress(progress, festivityId, {
+    quizBlockScores: blockScores,
+    quizScore,
+    quizCompleted: quizScore >= 1,
+  });
 }
 
 export function resetProgress(): GameProgress {
