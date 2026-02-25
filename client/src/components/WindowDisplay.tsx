@@ -745,7 +745,7 @@ export function WindowDisplay({
   }, [showHint, draggingIndex, draggingFixedId, draggingFurnitureId]);
 
   return (
-    <div className="relative overflow-visible box-border" style={{ padding: "80px 24px 16px 20px", marginLeft: "-4px" }}>
+    <div className="relative overflow-visible box-border w-full min-w-0 px-2 pt-12 pb-2 sm:px-3 sm:pt-14 sm:pb-3 md:px-4 md:pt-16 md:pb-4 lg:pl-5 lg:pr-6 lg:pt-[80px] lg:pb-4" style={{ marginLeft: "-4px" }}>
       <StorefrontFrame
         dark={dark}
               treeImagePath={treeImagePath}
@@ -754,16 +754,16 @@ export function WindowDisplay({
               onSignHover={() => showHint("shop_name", 50, 2)}
               onSignLeave={hideHint}
             />
-            <div
-              ref={canvasRef}
-              className="relative w-full overflow-hidden"
-              style={{
-                aspectRatio: "600/370",
-                border: `2px solid ${dark ? "#555" : "#777"}`,
-                boxShadow: dark ? "inset 0 0 30px rgba(0,0,0,0.3)" : "inset 0 0 20px rgba(0,0,0,0.04)",
-                borderRadius: 2,
-              }}
-              onClick={handleCanvasClick}
+            <div className="w-full relative" style={{ aspectRatio: "600/370", minHeight: 0, flexShrink: 0 }}>
+              <div
+                ref={canvasRef}
+                className="absolute inset-0 overflow-hidden"
+                style={{
+                  border: `2px solid ${dark ? "#555" : "#777"}`,
+                  boxShadow: dark ? "inset 0 0 30px rgba(0,0,0,0.3)" : "inset 0 0 20px rgba(0,0,0,0.04)",
+                  borderRadius: 2,
+                }}
+                onClick={handleCanvasClick}
               onPointerMove={handlePointerMove}
               onPointerUp={handlePointerUp}
               onMouseMove={handleCanvasMouseMove}
@@ -1006,6 +1006,7 @@ export function WindowDisplay({
                 text="Click here to type your shop name!"
                 position={hintPos}
               />
+            </div>
             </div>
     </div>
   );
