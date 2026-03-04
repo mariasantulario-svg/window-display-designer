@@ -196,19 +196,31 @@ export default function Home() {
   const SHOP_PRICE = 20;
   const handleBuyElement = useCallback((elementId: string) => {
     if (purchasedElementIds.includes(elementId)) return;
-    if (coins < SHOP_PRICE) {
-      toast({ title: "Not enough coins", description: `You need ${SHOP_PRICE - coins} more coins.`, variant: "destructive" });
-      return;
-    }
-    const newProgress: GameProgress = {
-      ...progress,
-      coins: coins - SHOP_PRICE,
-      purchasedElementIds: [...purchasedElementIds, elementId],
-    };
-    saveProgress(newProgress);
-    setProgress(newProgress);
-    toast({ title: "Purchased!", description: "The item is now available in Decorations." });
-  }, [coins, progress, purchasedElementIds, toast]);
+    setCoins((prev) => {
+      if (prev < SHOP_PRICE) {
+        toast({
+          title: "Not enough coins",
+          description: `You need ${SHOP_PRICE - prev} more coins.`,
+          variant: "destructive",
+        });
+        return prev;
+      }
+      const remaining = prev - SHOP_PRICE;
+      try {
+        localStorage.setItem("window-display-coins", String(remaining));
+      } catch {}
+
+      const newProgress: GameProgress = {
+        ...progress,
+        purchasedElementIds: [...purchasedElementIds, elementId],
+      };
+      saveProgress(newProgress);
+      setProgress(newProgress);
+      toast({ title: "Purchased!", description: "The item is now available in Decorations." });
+
+      return remaining;
+    });
+  }, [progress, purchasedElementIds, toast]);
 
   const handleBgColorChange = (color: string) => {
     const newProgress = updateFestivityProgress(progress, selectedFestivity.id, { bgColor: color });
