@@ -606,17 +606,34 @@ export function WindowDisplay({
   const dragOriginRef = useRef<{ index: number; x: number; y: number } | null>(null);
 
   const [customer, setCustomer] = useState<null | { requestedElementId: string; status: "idle" | "happy" | "wrong" }>(null);
+  const [successfulSales, setSuccessfulSales] = useState(0);
+  const lastPlacedCountRef = useRef<number>(placedElements.length);
 
   const spawnCustomer = useCallback(() => {
-    console.log("[CustomerMiniGame] spawnCustomer called. Current customer:", customer, "placedElements:", placedElements.length);
+    console.log("[CustomerMiniGame] spawnCustomer called. Current customer:", customer, "placedElements:", placedElements.length, "successfulSales:", successfulSales);
     if (customer) return;
+    // Limit to 3 satisfied customers per current layout of the escaparate.
+    if (successfulSales >= 3) {
+      console.log("[CustomerMiniGame] Maximum customers served for current layout, not spawning new customer.");
+      return;
+    }
     const uniqueIds = Array.from(new Set(placedElements.map(p => p.elementId)));
     console.log("[CustomerMiniGame] uniqueIds from placedElements:", uniqueIds);
     if (uniqueIds.length === 0) return;
     const requestedElementId = uniqueIds[Math.floor(Math.random() * uniqueIds.length)];
     console.log("[CustomerMiniGame] Spawning customer requesting:", requestedElementId);
     setCustomer({ requestedElementId, status: "idle" });
-  }, [customer, placedElements]);
+  }, [customer, placedElements, successfulSales]);
+
+  // Reset the sales counter when the escaparate really cambia: más decoraciones colocadas o retiradas.
+  useEffect(() => {
+    const prev = lastPlacedCountRef.current;
+    if (placedElements.length !== prev) {
+      console.log("[CustomerMiniGame] placedElements length changed from", prev, "to", placedElements.length, "– resetting successfulSales.");
+      lastPlacedCountRef.current = placedElements.length;
+      setSuccessfulSales(0);
+    }
+  }, [placedElements.length]);
 
   useEffect(() => {
     console.log("[CustomerMiniGame] Timer effect setup for festivity:", festivity.id, "placedElements:", placedElements.length);
@@ -776,11 +793,9 @@ export function WindowDisplay({
           const el = allElements.find(a => a.id === requested);
           const reward = el?.coinValue ?? 3;
           onEarnCoins?.(reward);
-          // Return item to its original position.
-          const origin = dragOriginRef.current;
-          if (origin && origin.index === draggingIndex) {
-            onUpdateElement(draggingIndex, { x: origin.x, y: origin.y });
-          }
+          // "Sell" the item: remove it del escaparate para que el alumno tenga que volver a desbloquear/colocar más.
+          onRemoveElement(draggingIndex);
+          setSuccessfulSales(prev => prev + 1);
           setCustomer({ requestedElementId: requested, status: "happy" });
           window.setTimeout(() => setCustomer(null), 900);
         } else {

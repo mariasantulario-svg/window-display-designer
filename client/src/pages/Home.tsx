@@ -106,6 +106,8 @@ export default function Home() {
   const coins = progress.coins ?? 0;
   const purchasedElementIds = progress.purchasedElementIds ?? [];
 
+  console.log("[Coins] render", { coinsFromState: coins, rawProgress: progress });
+
   const bestScore = festivityProgress.quizScore;
   const unlockStatus = getUnlockStatus(selectedFestivity, bestScore);
   const unlockedIdsForPanel = Array.from(new Set([...unlockStatus.unlockedElements, ...purchasedElementIds]));
@@ -162,7 +164,9 @@ export default function Home() {
 
   const handleEarnCoins = useCallback((earned: number) => {
     if (!earned || earned <= 0) return;
-    const newProgress: GameProgress = { ...progress, coins: (progress.coins ?? 0) + earned };
+    const newCoins = (progress.coins ?? 0) + earned;
+    console.log("[Coins] handleEarnCoins", { earned, before: progress.coins ?? 0, after: newCoins });
+    const newProgress: GameProgress = { ...progress, coins: newCoins };
     saveProgress(newProgress);
     setProgress(newProgress);
     toast({ title: `+${earned} coins`, description: "Customer satisfied!" });
