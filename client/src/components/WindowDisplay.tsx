@@ -607,12 +607,13 @@ export function WindowDisplay({
 
   const [customer, setCustomer] = useState<null | { requestedElementId: string; status: "idle" | "happy" | "wrong" }>(null);
   const [successfulSales, setSuccessfulSales] = useState(0);
+  const [lastRequestedId, setLastRequestedId] = useState<string | null>(null);
   const lastPlacedCountRef = useRef<number>(placedElements.length);
 
   const spawnCustomer = useCallback(() => {
     console.log("[CustomerMiniGame] spawnCustomer called. Current customer:", customer, "placedElements:", placedElements.length, "successfulSales:", successfulSales);
     if (customer) return;
-    // Limit to 3 satisfied customers per current layout of the escaparate.
+    // Limit to 3 satisfied customers por conjunto de elementos colocados.
     if (successfulSales >= 3) {
       console.log("[CustomerMiniGame] Maximum customers served for current layout, not spawning new customer.");
       return;
@@ -620,19 +621,26 @@ export function WindowDisplay({
     const uniqueIds = Array.from(new Set(placedElements.map(p => p.elementId)));
     console.log("[CustomerMiniGame] uniqueIds from placedElements:", uniqueIds);
     if (uniqueIds.length === 0) return;
-    const requestedElementId = uniqueIds[Math.floor(Math.random() * uniqueIds.length)];
-    console.log("[CustomerMiniGame] Spawning customer requesting:", requestedElementId);
-    setCustomer({ requestedElementId, status: "idle" });
-  }, [customer, placedElements, successfulSales]);
 
-  // Reset the sales counter when the escaparate really cambia: más decoraciones colocadas o retiradas.
+    let candidateIds = uniqueIds;
+    if (lastRequestedId && uniqueIds.length > 1) {
+      candidateIds = uniqueIds.filter(id => id !== lastRequestedId);
+    }
+    const requestedElementId = candidateIds[Math.floor(Math.random() * candidateIds.length)];
+    console.log("[CustomerMiniGame] Spawning customer requesting:", requestedElementId);
+    setLastRequestedId(requestedElementId);
+    setCustomer({ requestedElementId, status: "idle" });
+  }, [customer, placedElements, successfulSales, lastRequestedId]);
+
+  // Reset contador de ventas solo cuando se añaden nuevos elementos al escaparate.
   useEffect(() => {
     const prev = lastPlacedCountRef.current;
-    if (placedElements.length !== prev) {
-      console.log("[CustomerMiniGame] placedElements length changed from", prev, "to", placedElements.length, "– resetting successfulSales.");
-      lastPlacedCountRef.current = placedElements.length;
+    if (placedElements.length > prev) {
+      console.log("[CustomerMiniGame] placedElements length increased from", prev, "to", placedElements.length, "– resetting successfulSales and lastRequestedId.");
       setSuccessfulSales(0);
+      setLastRequestedId(null);
     }
+    lastPlacedCountRef.current = placedElements.length;
   }, [placedElements.length]);
 
   useEffect(() => {
