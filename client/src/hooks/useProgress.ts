@@ -158,6 +158,15 @@ export const useProgress = () => {
 
       const totalPoints = prev.totalPoints + result.score;
 
+      console.log("[useProgress] saveQuizResult", {
+        blockId,
+        level: result.level,
+        block: result.block,
+        score: result.score,
+        totalPoints,
+        completedQuizzes,
+      });
+
       // Start from previous unlocked state
       const unlockedDecorations = { ...prev.unlockedDecorations };
       const unlockedFeatures = { ...prev.unlockedFeatures };

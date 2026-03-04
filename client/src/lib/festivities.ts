@@ -275,7 +275,9 @@ export function getUnlockStatus(
   const bgGroupsUnlocked = bgThresholds.filter(t => score >= Math.ceil(t * total / 10)).length;
   const unlockedBgColors = Math.min(21, bgGroupsUnlocked * 3 + 3);
 
-  const furnitureThreshold = Math.ceil(3 * total / 10);
+  // Unlock furniture after completing both blocks of level 2.
+  // Each block has up to 6 points, so we approximate this as 12 total quiz points.
+  const furnitureThreshold = 12;
   const furnitureUnlocked = score >= furnitureThreshold;
 
   const nextElemScore = elemCount < festivity.lockedElements.length

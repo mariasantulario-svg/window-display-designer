@@ -608,27 +608,33 @@ export function WindowDisplay({
   const [customer, setCustomer] = useState<null | { requestedElementId: string; status: "idle" | "happy" | "wrong" }>(null);
 
   const spawnCustomer = useCallback(() => {
+    console.log("[CustomerMiniGame] spawnCustomer called. Current customer:", customer, "placedElements:", placedElements.length);
     if (customer) return;
     const uniqueIds = Array.from(new Set(placedElements.map(p => p.elementId)));
+    console.log("[CustomerMiniGame] uniqueIds from placedElements:", uniqueIds);
     if (uniqueIds.length === 0) return;
     const requestedElementId = uniqueIds[Math.floor(Math.random() * uniqueIds.length)];
+    console.log("[CustomerMiniGame] Spawning customer requesting:", requestedElementId);
     setCustomer({ requestedElementId, status: "idle" });
   }, [customer, placedElements]);
 
   useEffect(() => {
+    console.log("[CustomerMiniGame] Timer effect setup for festivity:", festivity.id, "placedElements:", placedElements.length);
     // Spawn at most one customer every 30s while in editor.
     const interval = setInterval(() => {
+      console.log("[CustomerMiniGame] 30s timer tick. current customer:", customer, "placedElements:", placedElements.length);
       if (!customer) spawnCustomer();
     }, 30_000);
     // Try a quick spawn shortly after entering a festivity (if items exist).
     const first = setTimeout(() => {
+      console.log("[CustomerMiniGame] initial 2s timer fired. customer:", customer, "placedElements:", placedElements.length);
       if (!customer) spawnCustomer();
     }, 2_000);
     return () => {
       clearInterval(interval);
       clearTimeout(first);
     };
-  }, [festivity.id, customer, spawnCustomer]);
+  }, [festivity.id, customer, spawnCustomer, placedElements.length]);
 
   useEffect(() => {
     setDismissedHints(getDismissedHints());
