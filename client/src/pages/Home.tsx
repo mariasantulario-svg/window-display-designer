@@ -418,15 +418,18 @@ export default function Home() {
       </div>
 
       <main className="flex-1 flex items-center justify-center overflow-auto relative min-w-0">
-        <div className="w-full max-w-[100vw] min-w-0 h-full flex items-center justify-center overflow-visible px-0 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4">
-          <div className="w-full max-w-4xl overflow-visible min-w-0 sm:max-w-none" style={{ width: "100%" }}>
+        <div className="w-full max-w-5xl min-w-0 h-full flex items-center justify-center overflow-visible px-2 py-3 sm:px-4 sm:py-4 md:px-6 md:py-6">
+          <div className="w-full max-w-3xl overflow-visible min-w-0 mx-auto" style={{ width: "100%" }}>
             <div
               ref={escaparateRef}
-              className="w-full overflow-visible pt-16 pb-2 sm:pl-12 sm:pr-12 sm:pt-28 md:pl-28 md:pr-28 md:pt-44 md:pb-4"
+              className="w-full overflow-visible pt-10 pb-2 sm:pl-10 sm:pr-10 sm:pt-16 md:pl-16 md:pr-16 md:pt-24 md:pb-4"
               style={{
                 maxWidth: "100%",
-                marginLeft: 0,
-                marginRight: 0,
+                maxHeight: "72vh",
+                margin: "0 auto",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
               }}
             >
               <WindowDisplay
