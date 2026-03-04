@@ -47,7 +47,7 @@ export function getDismissedHints(): Set<HintId> {
 export function dismissHint(hintId: HintId): void {
   const dismissed = getDismissedHints();
   dismissed.add(hintId);
-  localStorage.setItem(HINTS_KEY, JSON.stringify([...dismissed]));
+  localStorage.setItem(HINTS_KEY, JSON.stringify(Array.from(dismissed)));
 }
 
 export function autoDetectDismissedHints(progress: GameProgress): void {
@@ -73,7 +73,7 @@ export function autoDetectDismissedHints(progress: GameProgress): void {
   }
 
   if (changed) {
-    localStorage.setItem(HINTS_KEY, JSON.stringify([...dismissed]));
+    localStorage.setItem(HINTS_KEY, JSON.stringify(Array.from(dismissed)));
   }
 }
 
@@ -124,6 +124,10 @@ export interface GameProgress {
   festivities: Record<string, FestivityProgress>;
   totalQuizzesCompleted: number;
   shopName?: string;
+  /** Currency earned from customer mini-game and spent in shop. */
+  coins?: number;
+  /** Purchased element ids (typically locked/bonus elements). */
+  purchasedElementIds?: string[];
 }
 
 const SCREENSHOTS_KEY = "window-display-screenshots";
@@ -157,6 +161,8 @@ function getDefaultProgress(): GameProgress {
   return {
     festivities: {},
     totalQuizzesCompleted: 0,
+    coins: 0,
+    purchasedElementIds: [],
   };
 }
 
@@ -164,7 +170,13 @@ export function loadProgress(): GameProgress {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
-      return JSON.parse(stored);
+      const parsed = JSON.parse(stored) as Partial<GameProgress>;
+      return {
+        ...getDefaultProgress(),
+        ...parsed,
+        coins: typeof parsed.coins === "number" ? parsed.coins : 0,
+        purchasedElementIds: Array.isArray(parsed.purchasedElementIds) ? parsed.purchasedElementIds : [],
+      };
     }
   } catch (e) {
     console.warn("Failed to load progress:", e);

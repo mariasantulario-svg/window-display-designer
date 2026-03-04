@@ -8,6 +8,7 @@ export interface DecorativeElement {
   imagePath: string;
   color: string;
   unlockTier: number;
+  coinValue: number;
 }
 
 export interface QuizQuestion {
@@ -25,6 +26,8 @@ export interface Festivity {
   colorPalette: string[];
   baseElements: DecorativeElement[];
   lockedElements: DecorativeElement[];
+   /** Elements only available via the coin shop, never unlocked by quiz score. */
+  shopOnlyElements: DecorativeElement[];
   quiz: QuizQuestion[];
   unlockThreshold: number;
 }
@@ -128,6 +131,51 @@ const elementColorMap: Record<string, string> = {
   "Candy Cane": "#ee6055",
   "Wreath": "#228B22",
   "Reindeer": "#c1121f",
+  "Heart Balloons": "#ff4d6d",
+  "Rose Petals": "#e63946",
+  "Love Confetti": "#ffb3c1",
+  "Couple Silhouette": "#2c2c2c",
+  "Romantic Candle": "#ffd700",
+  "Candy Eggs Jar": "#f9c74f",
+  "Easter Ribbon": "#ffb3c1",
+  "Carrot Garland": "#f8961e",
+  "Bunny Footprints": "#8d5524",
+  "Pastel Gift Bag": "#bde0fe",
+  "Flower Confetti": "#ffc8dd",
+  "Spring Price Tag": "#e63946",
+  "Pastel Shopping Bag": "#74c69d",
+  "Garden Lantern": "#f4a261",
+  "Rain Boots": "#4dabf7",
+  "Heart Mug": "#ff6b6b",
+  "Flower Vase": "#e9c46a",
+  "Gift Basket": "#c49a6c",
+  "Mum Lettering": "#ffb3c1",
+  "Heart Balloons Mum": "#f72585",
+  "Seashell Garland": "#f9c74f",
+  "Ice Lolly": "#ffb3c1",
+  "Beach Umbrella": "#f4a261",
+  "Flip-flop Trail": "#ff6b6b",
+  "Sun Hat": "#e9c46a",
+  "Highlighter Pack": "#ffd166",
+  "Notebook Stack": "#8ecae6",
+  "Pencil Jar": "#f4a261",
+  "School Locker": "#1a3a5c",
+  "Alarm Clock": "#e63946",
+  "Jack-o-lantern Row": "#f58549",
+  "Spooky Window": "#4a0080",
+  "Candy Bucket": "#e76f51",
+  "Flying Bats": "#2c2c2c",
+  "Cobweb Corner": "#6c757d",
+  "Neon SALE Sign": "#ff0000",
+  "Shopping Cart": "#6c757d",
+  "Receipt Roll": "#adb5bd",
+  "Big Arrow Sign": "#ffd700",
+  "Spotlight Stand": "#495057",
+  "Snow Globe": "#90e0ef",
+  "Gift Stack": "#e63946",
+  "Christmas Star": "#ffd700",
+  "Toy Train": "#2d6a4f",
+  "Gingerbread Man": "#d2691e",
 };
 
 function makeId(name: string, festId: string): string {
@@ -147,6 +195,7 @@ function mapElements(names: string[], festId: string, locked: boolean): Decorati
     imagePath: makeImagePath(festId, name),
     color: elementColorMap[name] || "#888",
     unlockTier: locked ? index + 1 : 0,
+    coinValue: locked ? 5 : 3,
   }));
 }
 
@@ -180,6 +229,7 @@ function mapQuizzes(
 
 export const festivities: Festivity[] = rawData.festivities.map((f) => {
   const quizzes = mapQuizzes(f.quizzes, f.id);
+  const shopOnlyNames = (f as any).shopOnlyElements || [];
   return {
     id: f.id,
     name: f.name,
@@ -188,6 +238,7 @@ export const festivities: Festivity[] = rawData.festivities.map((f) => {
     colorPalette: f.colorPalette,
     baseElements: mapElements(f.baseElements, f.id, false),
     lockedElements: mapElements(f.unlockableElements, f.id, true),
+    shopOnlyElements: mapElements(shopOnlyNames, f.id, true),
     quiz: quizzes,
     unlockThreshold: Math.max(1, Math.ceil(quizzes.length * 0.6)),
   };

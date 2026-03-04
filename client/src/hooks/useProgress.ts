@@ -27,6 +27,7 @@ interface QuizResult {
 interface UserData {
   userName: string;
   totalPoints: number;
+  coins: number;
   currentFestivity: string;
   completedQuizzes: string[];
   unlockedDecorations: Record<string, string[]>;
@@ -102,6 +103,22 @@ export const useProgress = () => {
     } : null);
   }, []);
 
+  const addCoins = useCallback((coins: number) => {
+    setData(prev => prev ? {
+      ...prev,
+      coins: (prev.coins || 0) + coins,
+    } : null);
+  }, []);
+
+  const spendCoins = useCallback((coins: number) => {
+    setData(prev => {
+      if (!prev) return null;
+      const current = prev.coins || 0;
+      if (current < coins) return prev;
+      return { ...prev, coins: current - coins };
+    });
+  }, []);
+
   const unlockDecoration = useCallback((festivity: string, decorationId: string) => {
     setData(prev => {
       if (!prev) return null;
@@ -171,7 +188,8 @@ export const useProgress = () => {
       if (hasBothBlocks(3)) {
         unlockedFeatures.lightColorChange = true;
       }
-      if (hasBothBlocks(5)) {
+      // Unlock furniture rearranging after completing grammar level 2 (both blocks).
+      if (hasBothBlocks(2)) {
         unlockedFeatures.furnitureMove = true;
       }
       if (hasBothBlocks(6)) {
@@ -286,6 +304,8 @@ export const useProgress = () => {
     onboardingCompleted: data?.onboardingCompleted || false,
 
     addPoints,
+    addCoins,
+    spendCoins,
     unlockDecoration,
     unlockFeature,
     saveQuizResult,
@@ -300,7 +320,8 @@ export const useProgress = () => {
     getNextUnlock,
 
     windowStates: data?.windowStates || {},
-    completedQuizzes: data?.completedQuizzes || []
+    completedQuizzes: data?.completedQuizzes || [],
+    coins: data?.coins || 0,
   };
 };
 

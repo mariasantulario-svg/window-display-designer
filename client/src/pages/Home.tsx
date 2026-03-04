@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
-import { Paintbrush, RotateCcw, Lightbulb, Lock, ChevronUp, ChevronDown, X, Camera, Image, Trash2, Share2 } from "lucide-react";
+import { Paintbrush, RotateCcw, Lightbulb, Lock, ChevronUp, ChevronDown, X, Camera, Image, Trash2, Share2, ShoppingBag, Coins } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import html2canvas from "html2canvas";
 
@@ -29,6 +29,7 @@ export default function Home() {
   const [selectedFestivity, setSelectedFestivity] = useState<Festivity>(festivities[0]);
   const [quizOpen, setQuizOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(true);
+  const [shopOpen, setShopOpen] = useState(false);
   const [screenshots, setScreenshots] = useState<Screenshot[]>(() => loadScreenshots());
   const [galleryOpen, setGalleryOpen] = useState(false);
   const [capturing, setCapturing] = useState(false);
@@ -90,16 +91,27 @@ export default function Home() {
 
   const festivityProgress = getFestivityProgress(progress, selectedFestivity.id);
   const placedElements = festivityProgress.placedElements || [];
-  const allElements = [...selectedFestivity.baseElements, ...selectedFestivity.lockedElements];
+  const allElements = [
+    ...selectedFestivity.baseElements,
+    ...selectedFestivity.lockedElements,
+    ...selectedFestivity.shopOnlyElements,
+  ];
   const canvasBgColor = festivityProgress.bgColor || "#FFF9F0";
   const lightsOn = festivityProgress.lightsOn || [...DEFAULT_LIGHTS];
   const lightColor = festivityProgress.lightColor || "#FFD700";
   const fixedItems = getFixedItemPositions(festivityProgress);
   const furniturePositions = getFurniturePositions(festivityProgress);
   const shopName = progress.shopName ?? "";
+  const coins = progress.coins ?? 0;
+  const purchasedElementIds = progress.purchasedElementIds ?? [];
 
   const bestScore = festivityProgress.quizScore;
   const unlockStatus = getUnlockStatus(selectedFestivity, bestScore);
+  const unlockedIdsForPanel = Array.from(new Set([...unlockStatus.unlockedElements, ...purchasedElementIds]));
+  const bonusElementsForPanel = [
+    ...selectedFestivity.lockedElements,
+    ...selectedFestivity.shopOnlyElements,
+  ];
 
   const allBgColors = [...BG_PRESETS, ...selectedFestivity.colorPalette.filter(c => !BG_PRESETS.includes(c))];
   const availableBgColors = allBgColors.slice(0, unlockStatus.unlockedBgColors);
@@ -146,6 +158,31 @@ export default function Home() {
       description: "Answer quizzes to unlock more features!",
     });
   };
+
+  const handleEarnCoins = useCallback((earned: number) => {
+    if (!earned || earned <= 0) return;
+    const newProgress: GameProgress = { ...progress, coins: (progress.coins ?? 0) + earned };
+    saveProgress(newProgress);
+    setProgress(newProgress);
+    toast({ title: `+${earned} coins`, description: "Customer satisfied!" });
+  }, [progress, toast]);
+
+  const SHOP_PRICE = 20;
+  const handleBuyElement = useCallback((elementId: string) => {
+    if (purchasedElementIds.includes(elementId)) return;
+    if (coins < SHOP_PRICE) {
+      toast({ title: "Not enough coins", description: `You need ${SHOP_PRICE - coins} more coins.`, variant: "destructive" });
+      return;
+    }
+    const newProgress: GameProgress = {
+      ...progress,
+      coins: coins - SHOP_PRICE,
+      purchasedElementIds: [...purchasedElementIds, elementId],
+    };
+    saveProgress(newProgress);
+    setProgress(newProgress);
+    toast({ title: "Purchased!", description: "The item is now available in Decorations." });
+  }, [coins, progress, purchasedElementIds, toast]);
 
   const handleBgColorChange = (color: string) => {
     const newProgress = updateFestivityProgress(progress, selectedFestivity.id, { bgColor: color });
@@ -286,6 +323,10 @@ export default function Home() {
             <Badge variant="outline">
               {placedElements.length} placed
             </Badge>
+            <Badge variant="outline" data-testid="text-coins">
+              <Coins className="w-3.5 h-3.5 mr-1" />
+              {coins} coins
+            </Badge>
           </div>
 
           {!festivityProgress.quizCompleted ? (
@@ -314,6 +355,16 @@ export default function Home() {
           >
             <Share2 className="w-4 h-4 mr-1.5" />
             Compartir
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setShopOpen(true)}
+            title="Abrir la tienda para comprar decoraciones con monedas"
+            data-testid="button-open-shop"
+          >
+            <ShoppingBag className="w-4 h-4 mr-1.5" />
+            Shop
           </Button>
         </div>
 
@@ -359,6 +410,7 @@ export default function Home() {
                 onUpdateFurniture={handleUpdateFurniture}
                 furnitureUnlocked={unlockStatus.furnitureUnlocked}
                 onLockedAction={handleLockedAction}
+                onEarnCoins={handleEarnCoins}
               />
             </div>
           </div>
@@ -407,8 +459,8 @@ export default function Home() {
               <ScrollArea className="flex-1 p-2">
                 <ElementPanel
                   baseElements={selectedFestivity.baseElements}
-                  lockedElements={selectedFestivity.lockedElements}
-                  unlockedIds={unlockStatus.unlockedElements}
+                  lockedElements={bonusElementsForPanel}
+                  unlockedIds={unlockedIdsForPanel}
                   onQuizOpen={() => setQuizOpen(true)}
                   quizCompleted={festivityProgress.quizCompleted}
                   onAddElement={handleAddElement}
@@ -575,6 +627,56 @@ export default function Home() {
                 })}
               </div>
             )}
+          </ScrollArea>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={shopOpen} onOpenChange={setShopOpen}>
+        <DialogContent className="max-w-xl max-h-[80vh] overflow-hidden" aria-describedby={undefined}>
+          <DialogTitle className="text-lg font-bold flex items-center justify-between gap-3" style={{ fontFamily: "'Architects Daughter', cursive" }}>
+            <span className="flex items-center gap-2">
+              <ShoppingBag className="w-5 h-5" />
+              Coin Shop
+            </span>
+            <span className="inline-flex items-center gap-1 text-sm font-semibold">
+              <Coins className="w-4 h-4" />
+              {coins}
+            </span>
+          </DialogTitle>
+          <ScrollArea className="max-h-[60vh] pr-2">
+            <div className="grid grid-cols-1 gap-2">
+              {selectedFestivity.shopOnlyElements.map((el) => {
+                const unlockedByQuiz = unlockStatus.unlockedElements.includes(el.id);
+                const purchased = purchasedElementIds.includes(el.id);
+                const canBuy = !unlockedByQuiz && !purchased;
+                return (
+                  <div key={el.id} className="flex items-center justify-between gap-3 border border-border rounded-md p-2 bg-background">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <div className="w-12 h-12 flex items-center justify-center rounded-md bg-muted/40 border border-border">
+                        <img src={el.imagePath} alt={el.name} className="w-10 h-10 object-contain" draggable={false} />
+                      </div>
+                      <div className="min-w-0">
+                        <div className="font-bold text-sm truncate">{el.name}</div>
+                        <div className="text-xs text-muted-foreground">
+                          Price: {SHOP_PRICE} coins
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {unlockedByQuiz ? (
+                        <Badge variant="secondary">Unlocked</Badge>
+                      ) : purchased ? (
+                        <Badge>Bought</Badge>
+                      ) : (
+                        <Button size="sm" onClick={() => handleBuyElement(el.id)} disabled={!canBuy}>
+                          Buy
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </ScrollArea>
         </DialogContent>
       </Dialog>

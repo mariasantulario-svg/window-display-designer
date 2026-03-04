@@ -8,6 +8,7 @@
       "colorPalette": ["#ff4d6d", "#e63946", "#c0392b", "#ff758f", "#ffb3c1", "#d62828", "#7209b7"],
       "baseElements": ["Red Book", "Love Poem", "Heart Sticker"],
       "unlockableElements": ["Giant Heart", "Cupid Statue", "Rose Bouquet", "Love Card", "Teddy Bear", "Chocolate Box", "Love Banner"],
+      "shopOnlyElements": ["Heart Balloons", "Rose Petals", "Love Confetti", "Couple Silhouette", "Romantic Candle"],
       "quizzes": [
         {
           "question": "What is a common gift on Valentine's Day?",
@@ -69,6 +70,7 @@
       "colorPalette": ["#bde0fe", "#a8d8ea", "#8ecae6", "#f9c74f", "#c49a6c", "#52b788", "#ffc8dd"],
       "baseElements": ["English Dictionary", "Easter Card", "Small Basket"],
       "unlockableElements": ["Chocolate Bunny", "Decorated Egg", "Spring Flowers", "Grass Display", "Easter Wreath", "Chick Toy", "Egg Hunt Sign"],
+      "shopOnlyElements": ["Candy Eggs Jar", "Easter Ribbon", "Carrot Garland", "Bunny Footprints", "Pastel Gift Bag"],
       "quizzes": [
         {
           "question": "What animal brings eggs at Easter?",
@@ -130,6 +132,7 @@
       "colorPalette": ["#40916c", "#52b788", "#74c69d", "#c7f9cc", "#e9c46a", "#f4a261", "#c77dff"],
       "baseElements": ["Garden Guide", "Green Notebook", "Sale Sign"],
       "unlockableElements": ["Butterfly Garland", "Flower Pot", "Sun Icon", "Pastel Ribbon", "Bird House", "Watering Can", "Spring Banner"],
+      "shopOnlyElements": ["Flower Confetti", "Spring Price Tag", "Pastel Shopping Bag", "Garden Lantern", "Rain Boots"],
       "quizzes": [
         {
           "question": "Spring comes after which season?",
@@ -191,6 +194,7 @@
       "colorPalette": ["#f72585", "#ff69b4", "#ffc8dd", "#e0aaff", "#d8b4fe", "#ffb5a7", "#e9c46a"],
       "baseElements": ["Poetry Book", "Greeting Card", "Pink Ribbon"],
       "unlockableElements": ["Jewelry Box", "Perfume Bottle", "Golden Frame", "Tulips", "Photo Album", "Tea Set", "Flower Crown"],
+      "shopOnlyElements": ["Heart Mug", "Flower Vase", "Gift Basket", "Mum Lettering", "Heart Balloons Mum"],
       "quizzes": [
         {
           "question": "A synonym for 'gift' is...",
@@ -252,6 +256,7 @@
       "colorPalette": ["#f4a261", "#e9c46a", "#e76f51", "#0077b6", "#06d6a0", "#ff6b6b", "#264653"],
       "baseElements": ["Travel Guide", "Sunglasses", "Beach Postcard"],
       "unlockableElements": ["Ice Cream Prop", "Flip-flops", "Beach Ball", "Sunscreen Display", "Surfboard", "Palm Tree", "Beach Towel"],
+      "shopOnlyElements": ["Seashell Garland", "Ice Lolly", "Beach Umbrella", "Flip-flop Trail", "Sun Hat"],
       "quizzes": [
         {
           "question": "People go to the beach in...",
@@ -313,6 +318,7 @@
       "colorPalette": ["#0096c7", "#0077b6", "#1a3a5c", "#e9c46a", "#e76f51", "#f4a261", "#6c757d"],
       "baseElements": ["Oxford Dictionary", "Pencil Case", "Backpack"],
       "unlockableElements": ["Globe", "School Bus", "Scientific Calculator", "Blackboard", "Microscope", "Art Supplies", "Lunch Box"],
+      "shopOnlyElements": ["Highlighter Pack", "Notebook Stack", "Pencil Jar", "School Locker", "Alarm Clock"],
       "quizzes": [
         {
           "question": "Where do students carry their books?",
@@ -374,6 +380,7 @@
       "colorPalette": ["#f58549", "#4a0080", "#6c3483", "#2c2c2c", "#adb5bd", "#e76f51", "#6c757d"],
       "baseElements": ["Horror Novel", "Black Envelope", "Pumpkin Sticker"],
       "unlockableElements": ["Ghost Figure", "Witch Hat", "Spider Web", "Candy Jar", "Bat Decor", "Skull Prop", "Cauldron"],
+      "shopOnlyElements": ["Jack-o-lantern Row", "Spooky Window", "Candy Bucket", "Flying Bats", "Cobweb Corner"],
       "quizzes": [
         {
           "question": "What do children say on Halloween?",
@@ -435,6 +442,7 @@
       "colorPalette": ["#333533", "#495057", "#e63946", "#ff0000", "#ffd700", "#d62828", "#6c757d"],
       "baseElements": ["Gadget Catalog", "50% Off Sign", "Price Tag"],
       "unlockableElements": ["Limited Edition Box", "Shopping Bag", "Discount Banner", "Store Clock", "VIP Badge", "Gift Card", "Flash Sale Sign"],
+      "shopOnlyElements": ["Neon SALE Sign", "Shopping Cart", "Receipt Roll", "Big Arrow Sign", "Spotlight Stand"],
       "quizzes": [
         {
           "question": "Black Friday is famous for big...",
@@ -496,6 +504,7 @@
       "colorPalette": ["#ee6055", "#228B22", "#d62828", "#ffd700", "#c1121f", "#90e0ef", "#2d6a4f"],
       "baseElements": ["Christmas Tale", "Star Sticker", "Red Gift"],
       "unlockableElements": ["Xmas Tree", "Santa Hat", "Stocking", "Snowman", "Candy Cane", "Wreath", "Reindeer"],
+      "shopOnlyElements": ["Snow Globe", "Gift Stack", "Christmas Star", "Toy Train", "Gingerbread Man"],
       "quizzes": [
         {
           "question": "Who brings presents in December?",

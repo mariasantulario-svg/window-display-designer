@@ -12,14 +12,14 @@
       },
       "decorations": {
         "base": [
-          {"id": "easter_egg", "name": "Easter Egg", "icon": "egg", "maxCount": 5},
-          {"id": "bunny", "name": "Bunny", "icon": "rabbit", "maxCount": 3},
-          {"id": "basket", "name": "Basket", "icon": "basket", "maxCount": 2}
+          {"id": "easter_egg", "name": "Easter Egg", "icon": "egg", "coinValue": 3, "maxCount": 5},
+          {"id": "bunny", "name": "Bunny", "icon": "rabbit", "coinValue": 3, "maxCount": 3},
+          {"id": "basket", "name": "Basket", "icon": "basket", "coinValue": 3, "maxCount": 2}
         ],
         "unlockable": [
-          {"id": "chick", "name": "Chick", "icon": "bird", "requiredScore": 3, "maxCount": 5},
-          {"id": "flower_garland", "name": "Flower Garland", "icon": "flower_2", "requiredScore": 6, "maxCount": 3},
-          {"id": "easter_sign", "name": "Easter Sale Sign", "icon": "sign", "requiredScore": 9, "maxCount": 1}
+          {"id": "chick", "name": "Chick", "icon": "bird", "coinValue": 5, "requiredScore": 3, "maxCount": 5},
+          {"id": "flower_garland", "name": "Flower Garland", "icon": "flower_2", "coinValue": 5, "requiredScore": 6, "maxCount": 3},
+          {"id": "easter_sign", "name": "Easter Sale Sign", "icon": "sign", "coinValue": 5, "requiredScore": 9, "maxCount": 1}
         ]
       },
       "features": {
@@ -47,14 +47,14 @@
       },
       "decorations": {
         "base": [
-          {"id": "heart", "name": "Heart", "icon": "heart", "maxCount": 5},
-          {"id": "rose", "name": "Rose", "icon": "flower", "maxCount": 3},
-          {"id": "love_letter", "name": "Love Letter", "icon": "mail_heart", "maxCount": 2}
+          {"id": "heart", "name": "Heart", "icon": "heart", "coinValue": 3, "maxCount": 5},
+          {"id": "rose", "name": "Rose", "icon": "flower", "coinValue": 3, "maxCount": 3},
+          {"id": "love_letter", "name": "Love Letter", "icon": "mail_heart", "coinValue": 3, "maxCount": 2}
         ],
         "unlockable": [
-          {"id": "cupid", "name": "Cupid", "icon": "angel", "requiredScore": 3, "maxCount": 2},
-          {"id": "chocolate_box", "name": "Chocolate Box", "icon": "gift", "requiredScore": 6, "maxCount": 3},
-          {"id": "valentine_banner", "name": "Be Mine Banner", "icon": "banner", "requiredScore": 9, "maxCount": 1}
+          {"id": "cupid", "name": "Cupid", "icon": "angel", "coinValue": 5, "requiredScore": 3, "maxCount": 2},
+          {"id": "chocolate_box", "name": "Chocolate Box", "icon": "gift", "coinValue": 5, "requiredScore": 6, "maxCount": 3},
+          {"id": "valentine_banner", "name": "Be Mine Banner", "icon": "banner", "coinValue": 5, "requiredScore": 9, "maxCount": 1}
         ]
       },
       "features": {
@@ -82,14 +82,14 @@
       },
       "decorations": {
         "base": [
-          {"id": "sale_sign", "name": "Sale Sign", "icon": "tag", "maxCount": 2},
-          {"id": "sunflower", "name": "Sunflower", "icon": "sunflower", "maxCount": 5},
-          {"id": "butterfly", "name": "Butterfly", "icon": "butterfly", "maxCount": 5}
+          {"id": "sale_sign", "name": "Sale Sign", "icon": "tag", "coinValue": 3, "maxCount": 2},
+          {"id": "sunflower", "name": "Sunflower", "icon": "sunflower", "coinValue": 3, "maxCount": 5},
+          {"id": "butterfly", "name": "Butterfly", "icon": "butterfly", "coinValue": 3, "maxCount": 5}
         ],
         "unlockable": [
-          {"id": "rainbow", "name": "Rainbow", "icon": "rainbow", "requiredScore": 3, "maxCount": 1},
-          {"id": "bee", "name": "Bee", "icon": "bee", "requiredScore": 6, "maxCount": 4},
-          {"id": "spring_bunting", "name": "Spring Bunting", "icon": "flags", "requiredScore": 9, "maxCount": 3}
+          {"id": "rainbow", "name": "Rainbow", "icon": "rainbow", "coinValue": 5, "requiredScore": 3, "maxCount": 1},
+          {"id": "bee", "name": "Bee", "icon": "bee", "coinValue": 5, "requiredScore": 6, "maxCount": 4},
+          {"id": "spring_bunting", "name": "Spring Bunting", "icon": "flags", "coinValue": 5, "requiredScore": 9, "maxCount": 3}
         ]
       },
       "features": {
@@ -117,14 +117,14 @@
       },
       "decorations": {
         "base": [
-          {"id": "carnation", "name": "Carnation", "icon": "flower_3", "maxCount": 5},
-          {"id": "gift_box", "name": "Gift Box", "icon": "present", "maxCount": 3},
-          {"id": "thank_you_card", "name": "Thank You Card", "icon": "card", "maxCount": 2}
+          {"id": "carnation", "name": "Carnation", "icon": "flower_3", "coinValue": 3, "maxCount": 5},
+          {"id": "gift_box", "name": "Gift Box", "icon": "present", "coinValue": 3, "maxCount": 3},
+          {"id": "thank_you_card", "name": "Thank You Card", "icon": "card", "coinValue": 3, "maxCount": 2}
         ],
         "unlockable": [
-          {"id": "perfume_bottle", "name": "Perfume", "icon": "bottle", "requiredScore": 3, "maxCount": 2},
-          {"id": "jewelry_box", "name": "Jewelry", "icon": "diamond", "requiredScore": 6, "maxCount": 2},
-          {"id": "best_mom_banner", "name": "Best Mom Banner", "icon": "crown_banner", "requiredScore": 9, "maxCount": 1}
+          {"id": "perfume_bottle", "name": "Perfume", "icon": "bottle", "coinValue": 5, "requiredScore": 3, "maxCount": 2},
+          {"id": "jewelry_box", "name": "Jewelry", "icon": "diamond", "coinValue": 5, "requiredScore": 6, "maxCount": 2},
+          {"id": "best_mom_banner", "name": "Best Mom Banner", "icon": "crown_banner", "coinValue": 5, "requiredScore": 9, "maxCount": 1}
         ]
       },
       "features": {
@@ -152,14 +152,14 @@
       },
       "decorations": {
         "base": [
-          {"id": "sun", "name": "Sun", "icon": "sun", "maxCount": 3},
-          {"id": "sunglasses", "name": "Sunglasses", "icon": "glasses", "maxCount": 3},
-          {"id": "beach_ball", "name": "Beach Ball", "icon": "ball", "maxCount": 3}
+          {"id": "sun", "name": "Sun", "icon": "sun", "coinValue": 3, "maxCount": 3},
+          {"id": "sunglasses", "name": "Sunglasses", "icon": "glasses", "coinValue": 3, "maxCount": 3},
+          {"id": "beach_ball", "name": "Beach Ball", "icon": "ball", "coinValue": 3, "maxCount": 3}
         ],
         "unlockable": [
-          {"id": "palm_tree", "name": "Palm Tree", "icon": "palm", "requiredScore": 3, "maxCount": 2},
-          {"id": "ice_cream", "name": "Ice Cream", "icon": "icecream", "requiredScore": 6, "maxCount": 5},
-          {"id": "summer_discount", "name": "50% Off Sign", "icon": "discount", "requiredScore": 9, "maxCount": 2}
+          {"id": "palm_tree", "name": "Palm Tree", "icon": "palm", "coinValue": 5, "requiredScore": 3, "maxCount": 2},
+          {"id": "ice_cream", "name": "Ice Cream", "icon": "icecream", "coinValue": 5, "requiredScore": 6, "maxCount": 5},
+          {"id": "summer_discount", "name": "50% Off Sign", "icon": "discount", "coinValue": 5, "requiredScore": 9, "maxCount": 2}
         ]
       },
       "features": {
@@ -187,14 +187,14 @@
       },
       "decorations": {
         "base": [
-          {"id": "apple", "name": "Apple", "icon": "apple", "maxCount": 5},
-          {"id": "pencil", "name": "Pencil", "icon": "pencil", "maxCount": 5},
-          {"id": "notebook", "name": "Notebook", "icon": "book_open", "maxCount": 3}
+          {"id": "apple", "name": "Apple", "icon": "apple", "coinValue": 3, "maxCount": 5},
+          {"id": "pencil", "name": "Pencil", "icon": "pencil", "coinValue": 3, "maxCount": 5},
+          {"id": "notebook", "name": "Notebook", "icon": "book_open", "coinValue": 3, "maxCount": 3}
         ],
         "unlockable": [
-          {"id": "backpack", "name": "Backpack", "icon": "backpack", "requiredScore": 3, "maxCount": 2},
-          {"id": "calculator", "name": "Calculator", "icon": "calculator", "requiredScore": 6, "maxCount": 2},
-          {"id": "school_banner", "name": "Welcome Back Banner", "icon": "education", "requiredScore": 9, "maxCount": 1}
+          {"id": "backpack", "name": "Backpack", "icon": "backpack", "coinValue": 5, "requiredScore": 3, "maxCount": 2},
+          {"id": "calculator", "name": "Calculator", "icon": "calculator", "coinValue": 5, "requiredScore": 6, "maxCount": 2},
+          {"id": "school_banner", "name": "Welcome Back Banner", "icon": "education", "coinValue": 5, "requiredScore": 9, "maxCount": 1}
         ]
       },
       "features": {
@@ -222,14 +222,14 @@
       },
       "decorations": {
         "base": [
-          {"id": "pumpkin", "name": "Pumpkin", "icon": "pumpkin", "maxCount": 5},
-          {"id": "ghost", "name": "Ghost", "icon": "ghost", "maxCount": 5},
-          {"id": "spider_web", "name": "Spider Web", "icon": "web", "maxCount": 3}
+          {"id": "pumpkin", "name": "Pumpkin", "icon": "pumpkin", "coinValue": 3, "maxCount": 5},
+          {"id": "ghost", "name": "Ghost", "icon": "ghost", "coinValue": 3, "maxCount": 5},
+          {"id": "spider_web", "name": "Spider Web", "icon": "web", "coinValue": 3, "maxCount": 3}
         ],
         "unlockable": [
-          {"id": "witch_hat", "name": "Witch Hat", "icon": "hat", "requiredScore": 3, "maxCount": 3},
-          {"id": "bat", "name": "Bat", "icon": "bat", "requiredScore": 6, "maxCount": 5},
-          {"id": "haunted_sign", "name": "Spooky Sale Sign", "icon": "skull", "requiredScore": 9, "maxCount": 1}
+          {"id": "witch_hat", "name": "Witch Hat", "icon": "hat", "coinValue": 5, "requiredScore": 3, "maxCount": 3},
+          {"id": "bat", "name": "Bat", "icon": "bat", "coinValue": 5, "requiredScore": 6, "maxCount": 5},
+          {"id": "haunted_sign", "name": "Spooky Sale Sign", "icon": "skull", "coinValue": 5, "requiredScore": 9, "maxCount": 1}
         ]
       },
       "features": {
@@ -257,14 +257,14 @@
       },
       "decorations": {
         "base": [
-          {"id": "price_tag", "name": "Price Tag", "icon": "tag_2", "maxCount": 5},
-          {"id": "shopping_bag", "name": "Shopping Bag", "icon": "bag", "maxCount": 4},
-          {"id": "percentage", "name": "% Sign", "icon": "percent", "maxCount": 5}
+          {"id": "price_tag", "name": "Price Tag", "icon": "tag_2", "coinValue": 3, "maxCount": 5},
+          {"id": "shopping_bag", "name": "Shopping Bag", "icon": "bag", "coinValue": 3, "maxCount": 4},
+          {"id": "percentage", "name": "% Sign", "icon": "percent", "coinValue": 3, "maxCount": 5}
         ],
         "unlockable": [
-          {"id": "black_balloon", "name": "Black Balloon", "icon": "balloon", "requiredScore": 3, "maxCount": 5},
-          {"id": "megaphone", "name": "Megaphone", "icon": "megaphone", "requiredScore": 6, "maxCount": 2},
-          {"id": "doorbuster", "name": "Doorbuster Sign", "icon": "door_open", "requiredScore": 9, "maxCount": 1}
+          {"id": "black_balloon", "name": "Black Balloon", "icon": "balloon", "coinValue": 5, "requiredScore": 3, "maxCount": 5},
+          {"id": "megaphone", "name": "Megaphone", "icon": "megaphone", "coinValue": 5, "requiredScore": 6, "maxCount": 2},
+          {"id": "doorbuster", "name": "Doorbuster Sign", "icon": "door_open", "coinValue": 5, "requiredScore": 9, "maxCount": 1}
         ]
       },
       "features": {
@@ -292,14 +292,14 @@
       },
       "decorations": {
         "base": [
-          {"id": "christmas_tree", "name": "Xmas Tree", "icon": "tree_pine", "maxCount": 2},
-          {"id": "snowflake", "name": "Snowflake", "icon": "snowflake", "maxCount": 5},
-          {"id": "gift_red", "name": "Red Gift", "icon": "gift_red", "maxCount": 5}
+          {"id": "christmas_tree", "name": "Xmas Tree", "icon": "tree_pine", "coinValue": 3, "maxCount": 2},
+          {"id": "snowflake", "name": "Snowflake", "icon": "snowflake", "coinValue": 3, "maxCount": 5},
+          {"id": "gift_red", "name": "Red Gift", "icon": "gift_red", "coinValue": 3, "maxCount": 5}
         ],
         "unlockable": [
-          {"id": "santa", "name": "Santa", "icon": "santa", "requiredScore": 3, "maxCount": 2},
-          {"id": "reindeer", "name": "Reindeer", "icon": "deer", "requiredScore": 6, "maxCount": 3},
-          {"id": "christmas_lights", "name": "Fairy Lights", "icon": "lights", "requiredScore": 9, "maxCount": 3}
+          {"id": "santa", "name": "Santa", "icon": "santa", "coinValue": 5, "requiredScore": 3, "maxCount": 2},
+          {"id": "reindeer", "name": "Reindeer", "icon": "deer", "coinValue": 5, "requiredScore": 6, "maxCount": 3},
+          {"id": "christmas_lights", "name": "Fairy Lights", "icon": "lights", "coinValue": 5, "requiredScore": 9, "maxCount": 3}
         ]
       },
       "features": {

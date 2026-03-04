@@ -41,6 +41,7 @@ interface WindowDisplayProps {
   onUpdateFurniture: (id: string, updates: Partial<FurniturePosition>) => void;
   furnitureUnlocked: boolean;
   onLockedAction: () => void;
+  onEarnCoins?: (coins: number) => void;
 }
 
 function isDark(hex: string): boolean {
@@ -587,6 +588,7 @@ export function WindowDisplay({
   bgColor, lightsOn, onToggleLight, lightColor, fixedItems, onUpdateFixedItem,
   shopName, onShopNameChange, unlockedLightsCount,
   furniturePositions, onUpdateFurniture, furnitureUnlocked, onLockedAction,
+  onEarnCoins,
 }: WindowDisplayProps) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [selectedFixedId, setSelectedFixedId] = useState<string | null>(null);
@@ -598,8 +600,35 @@ export function WindowDisplay({
   const [hintPos, setHintPos] = useState({ x: 50, y: 50 });
   const [dismissedHints, setDismissedHints] = useState<Set<HintId>>(() => getDismissedHints());
   const canvasRef = useRef<HTMLDivElement>(null);
+  const customerRef = useRef<HTMLDivElement>(null);
   const hintTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pendingHintRef = useRef<HintId | null>(null);
+  const dragOriginRef = useRef<{ index: number; x: number; y: number } | null>(null);
+
+  const [customer, setCustomer] = useState<null | { requestedElementId: string; status: "idle" | "happy" | "wrong" }>(null);
+
+  const spawnCustomer = useCallback(() => {
+    if (customer) return;
+    const uniqueIds = Array.from(new Set(placedElements.map(p => p.elementId)));
+    if (uniqueIds.length === 0) return;
+    const requestedElementId = uniqueIds[Math.floor(Math.random() * uniqueIds.length)];
+    setCustomer({ requestedElementId, status: "idle" });
+  }, [customer, placedElements]);
+
+  useEffect(() => {
+    // Spawn at most one customer every 30s while in editor.
+    const interval = setInterval(() => {
+      if (!customer) spawnCustomer();
+    }, 30_000);
+    // Try a quick spawn shortly after entering a festivity (if items exist).
+    const first = setTimeout(() => {
+      if (!customer) spawnCustomer();
+    }, 2_000);
+    return () => {
+      clearInterval(interval);
+      clearTimeout(first);
+    };
+  }, [festivity.id, customer, spawnCustomer]);
 
   useEffect(() => {
     setDismissedHints(getDismissedHints());
@@ -627,7 +656,12 @@ export function WindowDisplay({
   const markHintUsed = useCallback((hintId: HintId) => {
     if (!dismissedHints.has(hintId)) {
       dismissHint(hintId);
-      setDismissedHints(prev => new Set([...prev, hintId]));
+      setDismissedHints(prev => {
+        const next = new Set<HintId>();
+        prev.forEach(v => next.add(v));
+        next.add(hintId);
+        return next;
+      });
       if (activeHint === hintId) setActiveHint(null);
     }
   }, [dismissedHints, activeHint]);
@@ -672,6 +706,8 @@ export function WindowDisplay({
     setDraggingIndex(index);
     setDraggingFixedId(null);
     setDraggingFurnitureId(null);
+    const current = placedElements[index];
+    if (current) dragOriginRef.current = { index, x: current.x, y: current.y };
     (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
   };
 
@@ -719,10 +755,40 @@ export function WindowDisplay({
     }
   };
 
-  const handlePointerUp = () => {
+  const isPointOverCustomer = useCallback((clientX: number, clientY: number) => {
+    if (!customerRef.current) return false;
+    const rect = customerRef.current.getBoundingClientRect();
+    return clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom;
+  }, []);
+
+  const handlePointerUp = (e: React.PointerEvent) => {
+    if (draggingIndex !== null && customer) {
+      const dragged = placedElements[draggingIndex];
+      const requested = customer.requestedElementId;
+      if (dragged && isPointOverCustomer(e.clientX, e.clientY)) {
+        if (dragged.elementId === requested) {
+          const el = allElements.find(a => a.id === requested);
+          const reward = el?.coinValue ?? 3;
+          onEarnCoins?.(reward);
+          // Return item to its original position.
+          const origin = dragOriginRef.current;
+          if (origin && origin.index === draggingIndex) {
+            onUpdateElement(draggingIndex, { x: origin.x, y: origin.y });
+          }
+          setCustomer({ requestedElementId: requested, status: "happy" });
+          window.setTimeout(() => setCustomer(null), 900);
+        } else {
+          setCustomer(prev => prev ? { ...prev, status: "wrong" } : prev);
+          window.setTimeout(() => {
+            setCustomer(prev => prev ? { ...prev, status: "idle" } : prev);
+          }, 500);
+        }
+      }
+    }
     setDraggingIndex(null);
     setDraggingFixedId(null);
     setDraggingFurnitureId(null);
+    dragOriginRef.current = null;
   };
 
   const handleCanvasClick = () => {
@@ -958,6 +1024,50 @@ export function WindowDisplay({
                   </div>
                 );
               })}
+
+              {customer && (() => {
+                const requested = allElements.find(a => a.id === customer.requestedElementId);
+                const bubbleText = requested ? `Can I have the "${requested.name}"?` : "Can I have that item?";
+                const statusClass =
+                  customer.status === "happy"
+                    ? "opacity-0 -translate-y-2 scale-95"
+                    : customer.status === "wrong"
+                      ? "window-display-shake"
+                      : "opacity-100 translate-y-0 scale-100";
+                return (
+                  <div className="absolute right-[6%] bottom-[6%] z-[60] pointer-events-none select-none">
+                    <div
+                      className={`relative transition-all duration-300 ${statusClass}`}
+                    >
+                      <div
+                        className="absolute -top-12 right-0 bg-white text-slate-700 text-[11px] leading-tight px-3 py-2 rounded-lg shadow-lg border border-slate-200 max-w-[220px] text-center"
+                        style={{ fontFamily: "'Architects Daughter', cursive" }}
+                      >
+                        {bubbleText}
+                        <div
+                          className="absolute right-6 top-full w-0 h-0"
+                          style={{ borderLeft: "6px solid transparent", borderRight: "6px solid transparent", borderTop: "6px solid white" }}
+                        />
+                      </div>
+                      <div
+                        ref={customerRef}
+                        className="w-[86px] h-[86px] rounded-full bg-amber-100 border border-amber-200 shadow-md flex items-center justify-center"
+                        style={{ pointerEvents: "auto" }}
+                        data-testid="customer-target"
+                        aria-label="Customer"
+                      >
+                        <svg width="58" height="58" viewBox="0 0 58 58">
+                          <circle cx="29" cy="29" r="22" fill="#FFE0B2" stroke="#F1B36B" strokeWidth="1.5" />
+                          <circle cx="21" cy="25" r="2.4" fill="#4E342E" />
+                          <circle cx="37" cy="25" r="2.4" fill="#4E342E" />
+                          <path d="M22 34 Q29 40 36 34" fill="none" stroke="#4E342E" strokeWidth="2.2" strokeLinecap="round" />
+                          <path d="M13 20 Q29 6 45 20" fill="#A1887F" opacity="0.8" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })()}
 
               {LIGHT_POSITIONS.map((pos, i) => (
                 <SpotLightFixture
