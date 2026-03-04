@@ -17,6 +17,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Paintbrush, RotateCcw, Lightbulb, Lock, ChevronUp, ChevronDown, X, Camera, Image, Trash2, Share2, ShoppingBag, Coins } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import html2canvas from "html2canvas";
+import { StickerIcon } from "@/components/StickerIcon";
 
 const BG_PRESETS = [
   "#FFF9F0", "#FFFFFF", "#F0F4FF", "#FFF0F5", "#F0FFF4",
@@ -653,7 +654,7 @@ export default function Home() {
                   <div key={el.id} className="flex items-center justify-between gap-3 border border-border rounded-md p-2 bg-background">
                     <div className="flex items-center gap-2 min-w-0">
                       <div className="w-12 h-12 flex items-center justify-center rounded-md bg-muted/40 border border-border">
-                        <img src={el.imagePath} alt={el.name} className="w-10 h-10 object-contain" draggable={false} />
+                        <StickerIcon imagePath={el.imagePath} name={el.name} size={40} />
                       </div>
                       <div className="min-w-0">
                         <div className="font-bold text-sm truncate">{el.name}</div>
