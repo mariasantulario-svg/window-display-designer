@@ -42,6 +42,28 @@ export default function Home() {
   const escaparateRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
+  const [coins, setCoins] = useState(0);
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("window-display-coins");
+      if (stored !== null) {
+        const parsed = Number(stored);
+        if (!Number.isNaN(parsed)) {
+          setCoins(parsed);
+          return;
+        }
+      }
+    } catch {
+      // ignore, fallback below
+    }
+    // Fallback inicial: si en el progreso hubiera ya monedas guardadas.
+    const initial = (progress as any).coins ?? 0;
+    if (typeof initial === "number" && !Number.isNaN(initial)) {
+      setCoins(initial);
+    }
+  }, []);
+
   useEffect(() => {
     autoDetectDismissedHints(progress);
   }, []);
@@ -103,10 +125,7 @@ export default function Home() {
   const fixedItems = getFixedItemPositions(festivityProgress);
   const furniturePositions = getFurniturePositions(festivityProgress);
   const shopName = progress.shopName ?? "";
-  const coins = progress.coins ?? 0;
   const purchasedElementIds = progress.purchasedElementIds ?? [];
-
-  console.log("[Coins] render", { coinsFromState: coins, rawProgress: progress });
 
   const bestScore = festivityProgress.quizScore;
   const unlockStatus = getUnlockStatus(selectedFestivity, bestScore);
@@ -164,13 +183,15 @@ export default function Home() {
 
   const handleEarnCoins = useCallback((earned: number) => {
     if (!earned || earned <= 0) return;
-    const newCoins = (progress.coins ?? 0) + earned;
-    console.log("[Coins] handleEarnCoins", { earned, before: progress.coins ?? 0, after: newCoins });
-    const newProgress: GameProgress = { ...progress, coins: newCoins };
-    saveProgress(newProgress);
-    setProgress(newProgress);
+    setCoins((prev) => {
+      const next = prev + earned;
+      try {
+        localStorage.setItem("window-display-coins", String(next));
+      } catch {}
+      return next;
+    });
     toast({ title: `+${earned} coins`, description: "Customer satisfied!" });
-  }, [progress, toast]);
+  }, [toast]);
 
   const SHOP_PRICE = 20;
   const handleBuyElement = useCallback((elementId: string) => {
