@@ -1077,7 +1077,13 @@ export function WindowDisplay({
 
               {customer && (() => {
                 const requested = allElements.find(a => a.id === customer.requestedElementId);
-                const bubbleText = requested ? `Can I have the "${requested.name}"?` : "Can I have that item?";
+                const rawId = customer.requestedElementId || "";
+                const slugPart = rawId.includes("-") ? rawId.split("-").slice(1).join("-") : rawId;
+                const spaced = slugPart.replace(/-/g, " ").trim() || "item";
+                const prettyName = spaced.charAt(0).toUpperCase() + spaced.slice(1);
+                const bubbleText = requested
+                  ? `Can I have the "${requested.name}"?`
+                  : `Can I have the "${prettyName}"?`;
                 const statusClass =
                   customer.status === "happy"
                     ? "opacity-0 -translate-y-2 scale-95"
