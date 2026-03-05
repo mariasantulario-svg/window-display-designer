@@ -324,6 +324,68 @@ const FIXED_ITEM_COMPONENTS: Record<string, () => JSX.Element> = {
   "book-stack": KawaiiBookStack,
 };
 
+function CustomerAvatar({ variant, season }: { variant: 0 | 1 | 2; season: string }) {
+  const seasonLower = season.toLowerCase();
+  let mainColor = "#ffb4c8";
+  let accentColor = "#ff6b6b";
+
+  if (seasonLower.includes("winter") || seasonLower.includes("christmas")) {
+    mainColor = "#90caf9";
+    accentColor = "#1976d2";
+  } else if (seasonLower.includes("summer")) {
+    mainColor = "#ffe082";
+    accentColor = "#fb8c00";
+  } else if (seasonLower.includes("autumn") || seasonLower.includes("halloween")) {
+    mainColor = "#ffcc80";
+    accentColor = "#ef6c00";
+  } else if (seasonLower.includes("spring") || seasonLower.includes("easter")) {
+    mainColor = "#c5e1a5";
+    accentColor = "#66bb6a";
+  }
+
+  if (variant === 0) {
+    return (
+      <svg width="58" height="58" viewBox="0 0 58 58">
+        <circle cx="29" cy="29" r="22" fill="#FFE0B2" stroke="#F1B36B" strokeWidth="1.5" />
+        <path d="M16 24 Q29 8 42 24" fill="#5c4b51" />
+        <circle cx="22" cy="27" r="2.4" fill="#4E342E" />
+        <circle cx="36" cy="27" r="2.4" fill="#4E342E" />
+        <path d="M24 35 Q29 39 34 35" fill="none" stroke="#4E342E" strokeWidth="2.2" strokeLinecap="round" />
+        <path d="M19 40 Q29 47 39 40" fill={mainColor} stroke={accentColor} strokeWidth="1" />
+      </svg>
+    );
+  }
+
+  if (variant === 1) {
+    return (
+      <svg width="58" height="58" viewBox="0 0 58 58">
+        <circle cx="29" cy="29" r="22" fill="#FFE0B2" stroke="#F1B36B" strokeWidth="1.5" />
+        <path d="M18 20 Q29 10 40 20 Q38 12 29 10 Q20 12 18 20z" fill="#4b3f72" />
+        <circle cx="22" cy="27" r="2.4" fill="#4E342E" />
+        <circle cx="36" cy="27" r="2.4" fill="#4E342E" />
+        <path d="M23 34 Q29 37 35 34" fill="none" stroke="#4E342E" strokeWidth="2.2" strokeLinecap="round" />
+        <path d="M20 36 Q29 40 38 36 L36 42 Q29 45 22 42z" fill={accentColor} />
+        <path d="M27 36 L24 44" stroke={accentColor} strokeWidth="2" strokeLinecap="round" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg width="58" height="58" viewBox="0 0 58 58">
+      <circle cx="29" cy="29" r="22" fill="#FFE0B2" stroke="#F1B36B" strokeWidth="1.5" />
+      <path
+        d="M16 23 Q20 15 24 14 Q26 12 29 13 Q32 12 34 14 Q38 15 42 23"
+        fill="#8d5524"
+      />
+      <circle cx="22" cy="27" r="2.4" fill="#4E342E" />
+      <circle cx="36" cy="27" r="2.4" fill="#4E342E" />
+      <path d="M23 35 Q29 38 35 35" fill="none" stroke="#4E342E" strokeWidth="2.2" strokeLinecap="round" />
+      <path d="M20 40 Q29 46 38 40" fill={mainColor} />
+      <path d="M20 41 Q29 44 38 41" stroke={accentColor} strokeWidth="2" />
+    </svg>
+  );
+}
+
 function FurniturePiece({ id, dark }: { id: string; dark: boolean }) {
   const woodFill = dark ? "#5a4a3a" : "#c4a37a";
   const woodStroke = dark ? "#7a6a5a" : "#8B7355";
@@ -626,6 +688,7 @@ export function WindowDisplay({
   const [cleaningMode, setCleaningMode] = useState(false);
   const [cleaningProgress, setCleaningProgress] = useState(0);
   const [showFontPicker, setShowFontPicker] = useState(false);
+  const [customerVariant, setCustomerVariant] = useState<0 | 1 | 2>(0);
 
   const spawnCustomer = useCallback(() => {
     console.log("[CustomerMiniGame] spawnCustomer called. Current customer:", customer, "placedElements:", placedElements.length, "successfulSales:", successfulSales);
@@ -646,6 +709,7 @@ export function WindowDisplay({
     const requestedElementId = candidateIds[Math.floor(Math.random() * candidateIds.length)];
     console.log("[CustomerMiniGame] Spawning customer requesting:", requestedElementId);
     setLastRequestedId(requestedElementId);
+    setCustomerVariant(prev => ((prev + 1) % 3) as 0 | 1 | 2);
     setCustomer({ requestedElementId, status: "idle" });
   }, [customer, placedElements, successfulSales, lastRequestedId]);
 
@@ -1120,13 +1184,10 @@ export function WindowDisplay({
                         data-testid="customer-target"
                         aria-label="Customer"
                       >
-                        <svg width="58" height="58" viewBox="0 0 58 58">
-                          <circle cx="29" cy="29" r="22" fill="#FFE0B2" stroke="#F1B36B" strokeWidth="1.5" />
-                          <circle cx="21" cy="25" r="2.4" fill="#4E342E" />
-                          <circle cx="37" cy="25" r="2.4" fill="#4E342E" />
-                          <path d="M22 34 Q29 40 36 34" fill="none" stroke="#4E342E" strokeWidth="2.2" strokeLinecap="round" />
-                          <path d="M13 20 Q29 6 45 20" fill="#A1887F" opacity="0.8" />
-                        </svg>
+                        <CustomerAvatar
+                          variant={customerVariant}
+                          season={FESTIVITY_SEASON_MAP[festivity.id] || "spring"}
+                        />
                       </div>
                     </div>
                   </div>
