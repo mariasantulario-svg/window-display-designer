@@ -132,7 +132,7 @@
       "colorPalette": ["#40916c", "#52b788", "#74c69d", "#c7f9cc", "#e9c46a", "#f4a261", "#c77dff"],
       "baseElements": ["Garden Guide", "Green Notebook", "Sale Sign"],
       "unlockableElements": ["Butterfly Garland", "Flower Pot", "Sun Icon", "Pastel Ribbon", "Bird House", "Watering Can", "Spring Banner"],
-      "shopOnlyElements": ["Flower Confetti", "Spring Price Tag", "Pastel Shopping Bag", "Garden Lantern", "Rain Boots"],
+      "shopOnlyElements": ["Flower Confetti", "Butterfly Stickers", "Pastel Shopping Bag", "Garden Lantern", "Rain Boots"],
       "quizzes": [
         {
           "question": "Spring comes after which season?",

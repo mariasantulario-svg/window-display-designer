@@ -176,6 +176,7 @@ const elementColorMap: Record<string, string> = {
   "Christmas Star": "#ffd700",
   "Toy Train": "#2d6a4f",
   "Gingerbread Man": "#d2691e",
+  "Butterfly Stickers": "#c77dff",
 };
 
 function makeId(name: string, festId: string): string {

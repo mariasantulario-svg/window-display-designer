@@ -715,7 +715,7 @@ export default function Home() {
                   <div key={el.id} className="flex items-center justify-between gap-3 border border-border rounded-md p-2 bg-background">
                     <div className="flex items-center gap-2 min-w-0">
                       <div className="w-12 h-12 flex items-center justify-center rounded-md bg-muted/40 border border-border">
-                        <StickerIcon imagePath={el.imagePath} name={el.name} size={40} />
+                        <StickerIcon imagePath={""} name={el.name} size={40} />
                       </div>
                       <div className="min-w-0">
                         <div className="font-bold text-sm truncate">{el.name}</div>
