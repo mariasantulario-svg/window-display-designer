@@ -15,6 +15,8 @@ export function GlassOverlay({
 }: GlassOverlayProps) {
   const [localProgress, setLocalProgress] = React.useState(0);
   const scrubbingRef = React.useRef(false);
+  const squeegeeCursor =
+    "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18'><rect x='1' y='11' width='16' height='4' fill='%23007acc' rx='1' ry='1'/><rect x='7' y='1' width='4' height='10' fill='%23ffffff' stroke='%23007acc' stroke-width='1.2'/></svg>\") 8 16, crosshair";
 
   React.useEffect(() => {
     if (!cleaningMode) {
@@ -45,12 +47,13 @@ export function GlassOverlay({
     });
   };
 
-  if (!cleaningMode) return null;
-
   return (
     <div
       className="absolute inset-0 z-[20]"
-      style={{ pointerEvents: cleaningMode ? "auto" : "none", cursor: "crosshair" }}
+      style={{
+        pointerEvents: cleaningMode ? "auto" : "none",
+        cursor: cleaningMode ? squeegeeCursor : "default",
+      }}
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerUp}
       onPointerLeave={handlePointerUp}
@@ -61,7 +64,7 @@ export function GlassOverlay({
         className="w-full h-full pointer-events-none"
         viewBox="0 0 100 100"
         preserveAspectRatio="none"
-        style={{ opacity: 1 - localProgress / 100 }}
+        style={{ opacity: cleaningMode ? 1 - localProgress / 100 : 1 }}
       >
         <defs>
           <pattern id="glass-dirt" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
