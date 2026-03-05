@@ -1081,9 +1081,17 @@ export function WindowDisplay({
                 const slugPart = rawId.includes("-") ? rawId.split("-").slice(1).join("-") : rawId;
                 const spaced = slugPart.replace(/-/g, " ").trim() || "item";
                 const prettyName = spaced.charAt(0).toUpperCase() + spaced.slice(1);
-                const bubbleText = requested
-                  ? `Can I have the "${requested.name}"?`
-                  : `Can I have the "${prettyName}"?`;
+                const displayName = requested?.name || prettyName;
+                const templates = [
+                  'Can I have the "{item}"?',
+                  'Could I buy the "{item}"?',
+                  'I would like the "{item}", please.',
+                  'Do you have the "{item}"?',
+                  'I am looking for the "{item}".',
+                ];
+                const seed = (customer.requestedElementId || "x").length;
+                const template = templates[seed % templates.length];
+                const bubbleText = template.replace("{item}", displayName);
                 const statusClass =
                   customer.status === "happy"
                     ? "opacity-0 -translate-y-2 scale-95"

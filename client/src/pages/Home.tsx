@@ -158,6 +158,14 @@ export default function Home() {
     setShopFontState(font);
   };
 
+  useEffect(() => {
+    try {
+      document.documentElement.style.setProperty("--font-sans", shopFont);
+    } catch {
+      // ignore if not available (e.g. during SSR)
+    }
+  }, [shopFont]);
+
   const handleOnboardingComplete = () => {
     setOnboardingQuizDone();
     setShowOnboardingQuiz(false);
