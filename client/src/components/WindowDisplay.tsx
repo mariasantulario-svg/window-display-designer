@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import type { PlacedElement, FixedItemPosition, FurniturePosition } from "@/lib/progress";
 import type { DecorativeElement, Festivity } from "@/lib/festivities";
-import { getSeasonTreePath, FURNITURE_PIECES, getDismissedHints, dismissHint, SHOP_FONT_OPTIONS, DEFAULT_SHOP_FONT, type HintId } from "@/lib/progress";
+import { getSeasonTreePath, FURNITURE_PIECES, getDismissedHints, dismissHint, SHOP_FONT_OPTIONS, DEFAULT_SHOP_FONT, FESTIVITY_SEASON_MAP, type HintId } from "@/lib/progress";
 import { StickerIcon } from "./StickerIcon";
 import { GlassOverlay } from "./GlassOverlay";
 import { Trash2, Plus, Minus, Lock, SprayCan, Type } from "lucide-react";
