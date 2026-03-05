@@ -63,7 +63,7 @@ export function GlassOverlay({
         className="w-full h-full pointer-events-none"
         viewBox="0 0 100 100"
         preserveAspectRatio="none"
-        style={{ opacity: cleaningMode ? 1 - localProgress / 100 : 1 }}
+        style={{ opacity: 1 - localProgress / 100 }}
       >
         <defs>
           <pattern id="glass-dirt" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
