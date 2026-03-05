@@ -45,6 +45,59 @@ export default function Home() {
   const [coins, setCoins] = useState(0);
   const [shopFontState, setShopFontState] = useState(DEFAULT_SHOP_FONT);
 
+  const SHOP_BASE_PRICE = 20;
+
+  const getShopPrice = (el: DecorativeElement): number => {
+    const n = el.name.toLowerCase();
+
+    // Objetos grandes o muy llamativos.
+    if (
+      n.includes("truck") ||
+      n.includes("house") ||
+      n.includes("tree") ||
+      n.includes("ninja") ||
+      n.includes("santa") ||
+      n.includes("school building") ||
+      n.includes("big sale")
+    ) {
+      return 40;
+    }
+
+    // Objetos medianos / complejos.
+    if (
+      n.includes("bunny") ||
+      n.includes("reindeer") ||
+      n.includes("snowman") ||
+      n.includes("backpack") ||
+      n.includes("camera") ||
+      n.includes("pumpkin") ||
+      n.includes("snowglobe") ||
+      n.includes("cupcake") ||
+      n.includes("pencil") ||
+      n.includes("notebook") ||
+      n.includes("gift") ||
+      n.includes("umbrella")
+    ) {
+      return 30;
+    }
+
+    // Objetos pequeños bonitos (corazones, huevos, estrellas…).
+    if (
+      n.includes("heart") ||
+      n.includes("egg") ||
+      n.includes("star") ||
+      n.includes("flower") ||
+      n.includes("tag") ||
+      n.includes("balloon") ||
+      n.includes("candy")
+    ) {
+      return 18;
+    }
+
+    // Resto: precio base.
+    return SHOP_BASE_PRICE;
+  };
+
   useEffect(() => {
     try {
       const stored = localStorage.getItem("window-display-coins");
@@ -210,19 +263,18 @@ export default function Home() {
     toast({ title: `+${earned} coins`, description: "Customer satisfied!" });
   }, [toast]);
 
-  const SHOP_PRICE = 20;
-  const handleBuyElement = useCallback((elementId: string) => {
+  const handleBuyElement = useCallback((elementId: string, price: number) => {
     if (purchasedElementIds.includes(elementId)) return;
     setCoins((prev) => {
-      if (prev < SHOP_PRICE) {
+      if (prev < price) {
         toast({
           title: "Not enough coins",
-          description: `You need ${SHOP_PRICE - prev} more coins.`,
+          description: `You need ${price - prev} more coins.`,
           variant: "destructive",
         });
         return prev;
       }
-      const remaining = prev - SHOP_PRICE;
+      const remaining = prev - price;
       try {
         localStorage.setItem("window-display-coins", String(remaining));
       } catch {}
@@ -715,12 +767,12 @@ export default function Home() {
                   <div key={el.id} className="flex items-center justify-between gap-3 border border-border rounded-md p-2 bg-background">
                     <div className="flex items-center gap-2 min-w-0">
                       <div className="w-12 h-12 flex items-center justify-center rounded-md bg-muted/40 border border-border">
-                        <StickerIcon imagePath={""} name={el.name} size={40} />
+                        <StickerIcon imagePath={el.imagePath} name={el.name} size={40} />
                       </div>
                       <div className="min-w-0">
                         <div className="font-bold text-sm truncate">{el.name}</div>
                         <div className="text-xs text-muted-foreground">
-                          Price: {SHOP_PRICE} coins
+                          Price: {getShopPrice(el)} coins
                         </div>
                       </div>
                     </div>
@@ -730,7 +782,7 @@ export default function Home() {
                       ) : purchased ? (
                         <Badge>Bought</Badge>
                       ) : (
-                        <Button size="sm" onClick={() => handleBuyElement(el.id)} disabled={!canBuy}>
+                        <Button size="sm" onClick={() => handleBuyElement(el.id, getShopPrice(el))} disabled={!canBuy}>
                           Buy
                         </Button>
                       )}
