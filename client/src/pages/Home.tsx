@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { festivities, type Festivity, type DecorativeElement, getUnlockStatus, GRAMMAR_QUIZ_TOTAL } from "@/lib/festivities";
-import { loadProgress, saveProgress, getFestivityProgress, updateFestivityProgress, recordQuizBlockScore, type GameProgress, type PlacedElement, type FixedItemPosition, type FurniturePosition, MAX_ELEMENT_COPIES, countElementInDisplay, DEFAULT_LIGHTS, LIGHT_COLOR_OPTIONS, getFixedItemPositions, getFurniturePositions, autoDetectDismissedHints, dismissHint, saveScreenshot, loadScreenshots, deleteScreenshot, getOnboardingQuizDone, setOnboardingQuizDone, getDismissedHints, getSelectSeasonBannerDismissed, type Screenshot } from "@/lib/progress";
+import { loadProgress, saveProgress, getFestivityProgress, updateFestivityProgress, recordQuizBlockScore, type GameProgress, type PlacedElement, type FixedItemPosition, type FurniturePosition, MAX_ELEMENT_COPIES, countElementInDisplay, DEFAULT_LIGHTS, LIGHT_COLOR_OPTIONS, getFixedItemPositions, getFurniturePositions, autoDetectDismissedHints, dismissHint, saveScreenshot, loadScreenshots, deleteScreenshot, getOnboardingQuizDone, setOnboardingQuizDone, getDismissedHints, getSelectSeasonBannerDismissed, DEFAULT_SHOP_FONT, type Screenshot } from "@/lib/progress";
 import { WindowDisplay } from "@/components/WindowDisplay";
 import { ElementPanel } from "@/components/ElementPanel";
 import { QuizModal as GrammarQuizModal } from "@/components/quiz/QuizModal";
@@ -43,6 +43,7 @@ export default function Home() {
   const { toast } = useToast();
 
   const [coins, setCoins] = useState(0);
+  const [shopFontState, setShopFontState] = useState(DEFAULT_SHOP_FONT);
 
   useEffect(() => {
     try {
@@ -125,6 +126,7 @@ export default function Home() {
   const fixedItems = getFixedItemPositions(festivityProgress);
   const furniturePositions = getFurniturePositions(festivityProgress);
   const shopName = progress.shopName ?? "";
+  const shopFont = progress.shopFont ?? shopFontState;
   const purchasedElementIds = progress.purchasedElementIds ?? [];
 
   const bestScore = festivityProgress.quizScore;
@@ -147,6 +149,13 @@ export default function Home() {
     if (!getSelectSeasonBannerDismissed()) {
       setShowSelectSeasonBanner(true);
     }
+  };
+
+  const handleShopFontChange = (font: string) => {
+    const newProgress = { ...progress, shopFont: font };
+    saveProgress(newProgress);
+    setProgress(newProgress);
+    setShopFontState(font);
   };
 
   const handleOnboardingComplete = () => {
@@ -329,6 +338,8 @@ export default function Home() {
                       onUpdateFixedItem={() => {}}
                       shopName={shopName}
                       onShopNameChange={() => {}}
+                      shopFont={shopFont}
+                      onShopFontChange={() => {}}
                       unlockedLightsCount={0}
                       furniturePositions={furniturePositions}
                       onUpdateFurniture={() => {}}
@@ -446,6 +457,8 @@ export default function Home() {
                 onUpdateFixedItem={handleUpdateFixedItem}
                 shopName={shopName}
                 onShopNameChange={handleShopNameChange}
+                shopFont={shopFont}
+                onShopFontChange={handleShopFontChange}
                 unlockedLightsCount={unlockStatus.unlockedLightsCount}
                 furniturePositions={furniturePositions}
                 onUpdateFurniture={handleUpdateFurniture}

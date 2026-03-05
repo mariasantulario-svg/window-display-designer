@@ -1,9 +1,10 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import type { PlacedElement, FixedItemPosition, FurniturePosition } from "@/lib/progress";
 import type { DecorativeElement, Festivity } from "@/lib/festivities";
-import { getSeasonTreePath, FURNITURE_PIECES, getDismissedHints, dismissHint, type HintId } from "@/lib/progress";
+import { getSeasonTreePath, FURNITURE_PIECES, getDismissedHints, dismissHint, SHOP_FONT_OPTIONS, DEFAULT_SHOP_FONT, type HintId } from "@/lib/progress";
 import { StickerIcon } from "./StickerIcon";
-import { Trash2, Plus, Minus, Lock } from "lucide-react";
+import { GlassOverlay } from "./GlassOverlay";
+import { Trash2, Plus, Minus, Lock, SprayCan, Type } from "lucide-react";
 
 function SpeechBubble({ text, visible, position }: { text: string; visible: boolean; position: { x: number; y: number } }) {
   if (!visible) return null;
@@ -36,6 +37,8 @@ interface WindowDisplayProps {
   onUpdateFixedItem: (id: string, updates: Partial<FixedItemPosition>) => void;
   shopName: string;
   onShopNameChange: (name: string) => void;
+  shopFont: string;
+  onShopFontChange: (font: string) => void;
   unlockedLightsCount: number;
   furniturePositions: FurniturePosition[];
   onUpdateFurniture: (id: string, updates: Partial<FurniturePosition>) => void;
@@ -421,13 +424,15 @@ function FloorLine({ dark }: { dark: boolean }) {
   );
 }
 
-function StorefrontFrame({ dark, treeImagePath, shopName, onShopNameChange, onSignHover, onSignLeave }: {
+function StorefrontFrame({ dark, treeImagePath, shopName, shopFont, onShopNameChange, onSignHover, onSignLeave, onOpenFontPicker }: {
   dark: boolean;
   treeImagePath: string;
   shopName: string;
+  shopFont: string;
   onShopNameChange: (name: string) => void;
   onSignHover?: () => void;
   onSignLeave?: () => void;
+  onOpenFontPicker?: () => void;
 }) {
   const wallBase = dark ? "#3a4558" : "#b8c8d8";
   const wallLight = dark ? "#445568" : "#c8d4e0";
@@ -520,6 +525,15 @@ function StorefrontFrame({ dark, treeImagePath, shopName, onShopNameChange, onSi
         onMouseLeave={onSignLeave}
         data-testid="shop-name-sign"
       >
+        <button
+          type="button"
+          onClick={(e) => { e.stopPropagation(); onOpenFontPicker && onOpenFontPicker(); }}
+          className="mr-1 px-1.5 py-0.5 rounded-full border border-transparent bg-transparent text-[10px] text-slate-500 group-hover:border-slate-400 group-hover:bg-white/70 group-hover:text-slate-700 transition-colors flex items-center gap-0.5"
+          aria-label="Change shop sign font"
+        >
+          <Type className="w-3 h-3" />
+          <span>Aa</span>
+        </button>
         <input
           type="text"
           value={shopName}
@@ -528,14 +542,14 @@ function StorefrontFrame({ dark, treeImagePath, shopName, onShopNameChange, onSi
           size={Math.max(3, shopName.length || 5)}
           className="bg-transparent border-none outline-none text-sm font-black tracking-[0.08em] text-right min-w-[30px]"
           style={{
-            fontFamily: "'Architects Daughter', cursive",
+            fontFamily: shopFont || DEFAULT_SHOP_FONT,
             color: signText,
           }}
           placeholder="_ _ _ _"
           data-testid="input-shop-name"
         />
         <span className="text-sm font-black tracking-[0.08em] uppercase" style={{
-          fontFamily: "'Architects Daughter', cursive",
+          fontFamily: shopFont || DEFAULT_SHOP_FONT,
           color: signText,
         }}>
           &apos;s bookshop
@@ -586,7 +600,7 @@ function StorefrontFrame({ dark, treeImagePath, shopName, onShopNameChange, onSi
 export function WindowDisplay({
   festivity, placedElements, allElements, onRemoveElement, onUpdateElement,
   bgColor, lightsOn, onToggleLight, lightColor, fixedItems, onUpdateFixedItem,
-  shopName, onShopNameChange, unlockedLightsCount,
+  shopName, onShopNameChange, shopFont, onShopFontChange, unlockedLightsCount,
   furniturePositions, onUpdateFurniture, furnitureUnlocked, onLockedAction,
   onEarnCoins,
 }: WindowDisplayProps) {
@@ -609,6 +623,9 @@ export function WindowDisplay({
   const [successfulSales, setSuccessfulSales] = useState(0);
   const [lastRequestedId, setLastRequestedId] = useState<string | null>(null);
   const lastPlacedCountRef = useRef<number>(placedElements.length);
+  const [cleaningMode, setCleaningMode] = useState(false);
+  const [cleaningProgress, setCleaningProgress] = useState(0);
+  const [showFontPicker, setShowFontPicker] = useState(false);
 
   const spawnCustomer = useCallback(() => {
     console.log("[CustomerMiniGame] spawnCustomer called. Current customer:", customer, "placedElements:", placedElements.length, "successfulSales:", successfulSales);
@@ -663,6 +680,8 @@ export function WindowDisplay({
 
   useEffect(() => {
     setDismissedHints(getDismissedHints());
+    setCleaningMode(false);
+    setCleaningProgress(0);
   }, [festivity.id]);
 
   const showHint = useCallback((hintId: HintId, x: number, y: number) => {
@@ -843,12 +862,14 @@ export function WindowDisplay({
     <div className="relative overflow-visible box-border w-full min-w-0 px-2 pt-12 pb-2 sm:px-3 sm:pt-14 sm:pb-3 md:px-4 md:pt-16 md:pb-4 lg:pl-5 lg:pr-6 lg:pt-[80px] lg:pb-4" style={{ marginLeft: "-4px" }}>
       <StorefrontFrame
         dark={dark}
-              treeImagePath={treeImagePath}
-              shopName={shopName}
-              onShopNameChange={(name) => { onShopNameChange(name); markHintUsed("shop_name"); }}
-              onSignHover={() => showHint("shop_name", 50, 2)}
-              onSignLeave={hideHint}
-            />
+        treeImagePath={treeImagePath}
+        shopName={shopName}
+        shopFont={shopFont}
+        onShopNameChange={(name) => { onShopNameChange(name); markHintUsed("shop_name"); }}
+        onSignHover={() => showHint("shop_name", 50, 2)}
+        onSignLeave={hideHint}
+        onOpenFontPicker={() => setShowFontPicker((prev) => !prev)}
+      />
             <div className="w-full relative" style={{ aspectRatio: "600/370", minHeight: 0, flexShrink: 0 }}>
               <div
                 ref={canvasRef}
@@ -1112,7 +1133,74 @@ export function WindowDisplay({
                 />
               ))}
 
-              {placedElements.length === 0 && !activeHint && (
+              {/* Glass dirt overlay */}
+              <GlassOverlay
+                festivityId={festivity.id}
+                season={FESTIVITY_SEASON_MAP[festivity.id] || "spring"}
+                cleaningMode={cleaningMode}
+                onCleaningProgress={setCleaningProgress}
+              />
+
+              {/* Cleaning mode button */}
+              <div className="absolute top-2 right-2 z-[50] pointer-events-auto flex items-center gap-1.5">
+                <button
+                  onClick={(e) => { e.stopPropagation(); setCleaningMode(!cleaningMode); }}
+                  className={`flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide shadow-md border transition-all ${
+                    cleaningMode
+                      ? "bg-blue-500 text-white border-blue-600 ring-2 ring-blue-300/50"
+                      : dark
+                        ? "bg-white/15 text-white/70 border-white/20 hover:bg-white/25"
+                        : "bg-white/80 text-slate-500 border-slate-200 hover:bg-white"
+                  }`}
+                  title={cleaningMode ? "Stop cleaning" : "Clean the window!"}
+                  data-testid="button-toggle-cleaning"
+                >
+                  <SprayCan size={12} />
+                  {cleaningMode ? "Cleaning..." : "Clean"}
+                </button>
+                {cleaningMode && cleaningProgress > 0 && (
+                  <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
+                    cleaningProgress >= 95
+                      ? "bg-green-500 text-white"
+                      : "bg-blue-100 text-blue-700"
+                  }`}>
+                    {cleaningProgress >= 95 ? "✨ Spotless!" : `${cleaningProgress}%`}
+                  </span>
+                )}
+              </div>
+
+              {showFontPicker && (
+                <div className="absolute left-1/2 -translate-x-1/2 top-[6%] z-[80] bg-white/95 border border-slate-200 rounded-lg shadow-xl px-3 py-2 max-w-[260px]">
+                  <div className="text-[10px] font-semibold text-slate-500 mb-1 flex items-center gap-1">
+                    <Type className="w-3 h-3" />
+                    Choose shop sign font
+                  </div>
+                  <div className="max-h-48 overflow-y-auto flex flex-col gap-1">
+                    {SHOP_FONT_OPTIONS.map((opt) => (
+                      <button
+                        key={opt.family}
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onShopFontChange(opt.family);
+                          setShowFontPicker(false);
+                        }}
+                        className={`w-full text-left px-2 py-1 rounded-md border text-[11px] ${
+                          shopFont === opt.family
+                            ? "bg-amber-50 border-amber-300 text-amber-900"
+                            : "bg-white border-transparent hover:bg-slate-50 hover:border-slate-200"
+                        }`}
+                        style={{ fontFamily: opt.family }}
+                      >
+                        <div className="font-semibold truncate">{opt.name}</div>
+                        <div className="text-[10px] opacity-70 capitalize">{opt.style}</div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {placedElements.length === 0 && !activeHint && !cleaningMode && (
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                   <p className={`text-sm px-4 py-2 rounded-full ${dark ? "text-white/50 bg-white/10" : "text-slate-400 bg-white/80"}`}>
                     Click decorations to place them here

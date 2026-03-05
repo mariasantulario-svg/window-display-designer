@@ -124,6 +124,7 @@ export interface GameProgress {
   festivities: Record<string, FestivityProgress>;
   totalQuizzesCompleted: number;
   shopName?: string;
+  shopFont?: string;
   /** Currency earned from customer mini-game and spent in shop. */
   coins?: number;
   /** Purchased element ids (typically locked/bonus elements). */
@@ -271,6 +272,23 @@ export const LIGHT_COLOR_OPTIONS = [
   { color: "#34D399", name: "Green" },
   { color: "#FBBF24", name: "Amber" },
   { color: "#FB923C", name: "Orange" },
+];
+
+export const DEFAULT_SHOP_FONT = "'Architects Daughter', cursive";
+
+export const SHOP_FONT_OPTIONS = [
+  { family: "'Architects Daughter', cursive", name: "Handwritten", style: "playful" },
+  { family: "'Playfair Display', serif", name: "Playfair", style: "elegant" },
+  { family: "'Libre Baskerville', serif", name: "Baskerville", style: "classic" },
+  { family: "'Lora', serif", name: "Lora", style: "literary" },
+  { family: "'Merriweather', serif", name: "Merriweather", style: "warm" },
+  { family: "'Poppins', sans-serif", name: "Poppins", style: "modern" },
+  { family: "'Montserrat', sans-serif", name: "Montserrat", style: "geometric" },
+  { family: "'Plus Jakarta Sans', sans-serif", name: "Jakarta", style: "smooth" },
+  { family: "'DM Sans', sans-serif", name: "DM Sans", style: "clean" },
+  { family: "'Outfit', sans-serif", name: "Outfit", style: "friendly" },
+  { family: "'Space Grotesk', sans-serif", name: "Space", style: "tech" },
+  { family: "'Oxanium', sans-serif", name: "Oxanium", style: "futuristic" },
 ];
 
 export type Season = "spring" | "summer" | "autumn" | "winter";
