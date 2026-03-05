@@ -18,12 +18,11 @@ export function GlassOverlay({
   const squeegeeCursor =
     "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18'><rect x='1' y='11' width='16' height='4' fill='%23007acc' rx='1' ry='1'/><rect x='7' y='1' width='4' height='10' fill='%23ffffff' stroke='%23007acc' stroke-width='1.2'/></svg>\") 8 16, crosshair";
 
+  // Reset dirt only cuando cambiamos de fiesta/temporada.
   React.useEffect(() => {
-    if (!cleaningMode) {
-      setLocalProgress(0);
-      onCleaningProgress(0);
-    }
-  }, [cleaningMode, festivityId, season, onCleaningProgress]);
+    setLocalProgress(0);
+    onCleaningProgress(0);
+  }, [festivityId, season, onCleaningProgress]);
 
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     if (!cleaningMode) return;
