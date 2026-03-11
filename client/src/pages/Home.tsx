@@ -192,6 +192,13 @@ export default function Home() {
     ...selectedFestivity.shopOnlyElements,
   ];
 
+  // Lista de decoraciones disponibles para comprar en la tienda (antes solo shopOnly).
+  const shopDecorations: DecorativeElement[] = Array.from(
+    new Map(
+      [...selectedFestivity.lockedElements, ...selectedFestivity.shopOnlyElements].map((el) => [el.id, el]),
+    ).values(),
+  ).sort((a, b) => a.name.localeCompare(b.name));
+
   const allBgColors = [...BG_PRESETS, ...selectedFestivity.colorPalette.filter(c => !BG_PRESETS.includes(c))];
   const availableBgColors = allBgColors.slice(0, unlockStatus.unlockedBgColors);
 
@@ -784,7 +791,7 @@ export default function Home() {
           </DialogTitle>
           <ScrollArea className="max-h-[60vh] pr-2">
             <div className="grid grid-cols-1 gap-2">
-              {selectedFestivity.shopOnlyElements.map((el) => {
+              {shopDecorations.map((el) => {
                 const purchased = purchasedElementIds.includes(el.id);
                 const canBuy = !purchased;
                 return (
