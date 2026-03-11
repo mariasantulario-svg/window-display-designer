@@ -192,12 +192,33 @@ export default function Home() {
     ...selectedFestivity.shopOnlyElements,
   ];
 
-  // Lista de decoraciones disponibles para comprar en la tienda (antes solo shopOnly).
-  const shopDecorations: DecorativeElement[] = Array.from(
-    new Map(
-      [...selectedFestivity.lockedElements, ...selectedFestivity.shopOnlyElements].map((el) => [el.id, el]),
-    ).values(),
-  ).sort((a, b) => a.name.localeCompare(b.name));
+  // Secciones de tienda: todas las decoraciones (locked + shopOnly) agrupadas por festividad.
+  const shopSections: Array<{ festivity: Festivity; items: DecorativeElement[] }> = festivities
+    .map((fest) => {
+      const allForFest = [
+        ...fest.lockedElements,
+        ...fest.shopOnlyElements,
+      ];
+      const unique = Array.from(
+        new Map(allForFest.map((el) => [el.id, el])).values(),
+      ).sort((a, b) => a.name.localeCompare(b.name));
+      return { festivity: fest, items: unique };
+    })
+    .filter((section) => section.items.length > 0);
+
+  // Banco: decoraciones compradas, agrupadas por festividad.
+  const purchasedDecorationsForPanel: DecorativeElement[] = [];
+  const festivityNameByPrefix: Record<string, string> = {};
+
+  festivities.forEach((fest) => {
+    festivityNameByPrefix[fest.id] = fest.name;
+    const allForFest = [...fest.lockedElements, ...fest.shopOnlyElements];
+    allForFest.forEach((el) => {
+      if (purchasedElementIds.includes(el.id)) {
+        purchasedDecorationsForPanel.push(el);
+      }
+    });
+  });
 
   const allBgColors = [...BG_PRESETS, ...selectedFestivity.colorPalette.filter(c => !BG_PRESETS.includes(c))];
   const availableBgColors = allBgColors.slice(0, unlockStatus.unlockedBgColors);
@@ -490,11 +511,11 @@ export default function Home() {
             variant="outline"
             size="sm"
             onClick={() => setShopOpen(true)}
-            title="Abrir la tienda para comprar decoraciones con monedas"
+            title="Abrir la tienda de decoraciones (usa tus monedas)"
             data-testid="button-open-shop"
           >
             <ShoppingBag className="w-4 h-4 mr-1.5" />
-            Shop
+            Decoration Store
           </Button>
           <Link href={`/personajes?festivity=${selectedFestivity.id}`}>
             <Button
@@ -604,13 +625,14 @@ export default function Home() {
               </div>
               <ScrollArea className="flex-1 p-2">
                 <ElementPanel
-                  baseElements={selectedFestivity.baseElements}
-                  lockedElements={bonusElementsForPanel}
+                  baseElements={[]}
+                  lockedElements={purchasedDecorationsForPanel}
                   unlockedIds={unlockedIdsForPanel}
-                  onQuizOpen={() => setQuizOpen(true)}
-                  quizCompleted={festivityProgress.quizCompleted}
+                  onQuizOpen={() => {}}
+                  quizCompleted={true}
                   onAddElement={handleAddElement}
                   placedElements={placedElements}
+                  festivityNamesByPrefix={festivityNameByPrefix}
                 />
               </ScrollArea>
             </div>
@@ -776,53 +798,85 @@ export default function Home() {
           </ScrollArea>
         </DialogContent>
       </Dialog>
-
-      <Dialog open={shopOpen} onOpenChange={setShopOpen}>
-        <DialogContent className="max-w-xl max-h-[80vh] overflow-hidden" aria-describedby={undefined}>
-          <DialogTitle className="text-lg font-bold flex items-center justify-between gap-3" style={{ fontFamily: "'Architects Daughter', cursive" }}>
-            <span className="flex items-center gap-2">
+      {shopOpen && (
+        <div className="fixed inset-0 z-50 flex flex-col bg-background">
+          <div className="flex items-center justify-between px-4 py-3 border-b bg-card">
+            <div className="flex items-center gap-2">
               <ShoppingBag className="w-5 h-5" />
-              Coin Shop
-            </span>
-            <span className="inline-flex items-center gap-1 text-sm font-semibold">
-              <Coins className="w-4 h-4" />
-              {coins}
-            </span>
-          </DialogTitle>
-          <ScrollArea className="max-h-[60vh] pr-2">
-            <div className="grid grid-cols-1 gap-2">
-              {shopDecorations.map((el) => {
-                const purchased = purchasedElementIds.includes(el.id);
-                const canBuy = !purchased;
-                return (
-                  <div key={el.id} className="flex items-center justify-between gap-3 border border-border rounded-md p-2 bg-background">
-                    <div className="flex items-center gap-2 min-w-0">
-                      <div className="w-12 h-12 flex items-center justify-center rounded-md bg-muted/40 border border-border">
-                        <StickerIcon imagePath={el.imagePath} name={el.name} size={40} />
-                      </div>
-                      <div className="min-w-0">
-                        <div className="font-bold text-sm truncate">{el.name}</div>
-                        <div className="text-xs text-muted-foreground">
-                          Price: {getShopPrice(el)} coins
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      {purchased ? (
-                        <Badge>Bought</Badge>
-                      ) : (
-                        <Button size="sm" onClick={() => handleBuyElement(el.id, getShopPrice(el))} disabled={!canBuy}>
-                          Buy
-                        </Button>
-                      )}
-                    </div>
+              <div className="flex flex-col leading-tight">
+                <span className="text-sm font-bold" style={{ fontFamily: "'Architects Daughter', cursive" }}>
+                  Decoration Store
+                </span>
+                <span className="text-[11px] text-muted-foreground">
+                  Spend your coins on kawaii decorations and features.
+                </span>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <Badge variant="outline" className="flex items-center gap-1 text-xs">
+                <Coins className="w-3 h-3" />
+                {coins} coins
+              </Badge>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setShopOpen(false)}
+                aria-label="Close decoration store"
+              >
+                <X className="w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+
+          <ScrollArea className="flex-1 px-4 py-3">
+            <div className="space-y-4">
+              {shopSections.map((section) => (
+                <div key={section.festivity.id} className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-xs font-bold uppercase tracking-wide text-foreground">
+                      {section.festivity.name}
+                    </h3>
                   </div>
-                );
-              })}
+                  <div className="grid grid-cols-1 gap-2">
+                    {section.items.map((el) => {
+                      const purchased = purchasedElementIds.includes(el.id);
+                      const canBuy = !purchased;
+                      return (
+                        <div key={el.id} className="flex items-center justify-between gap-3 border border-border rounded-md p-2 bg-card/70">
+                          <div className="flex items-center gap-2 min-w-0">
+                            <div className="w-12 h-12 flex items-center justify-center rounded-md bg-muted/40 border border-border">
+                              <StickerIcon imagePath={el.imagePath} name={el.name} size={40} />
+                            </div>
+                            <div className="min-w-0">
+                              <div className="font-bold text-sm truncate">{el.name}</div>
+                              <div className="text-xs text-muted-foreground">
+                                Price: {getShopPrice(el)} coins
+                              </div>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            {purchased ? (
+                              <Badge>Bought</Badge>
+                            ) : (
+                              <Button
+                                size="sm"
+                                onClick={() => handleBuyElement(el.id, getShopPrice(el))}
+                                disabled={!canBuy}
+                              >
+                                Buy
+                              </Button>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
             </div>
           </ScrollArea>
-        </DialogContent>
-      </Dialog>
+        </div>
+      )}
 
       <GrammarQuizModal
         key={quizOpen ? `quiz-${selectedFestivity.id}` : "quiz-closed"}
