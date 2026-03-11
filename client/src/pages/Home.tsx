@@ -169,24 +169,6 @@ export default function Home() {
 
   const festivityProgress = getFestivityProgress(progress, selectedFestivity.id);
   const placedElements = festivityProgress.placedElements || [];
-  const allElements = (() => {
-    // Elementos propios de la festividad seleccionada
-    const base = [
-      ...selectedFestivity.baseElements,
-      ...selectedFestivity.lockedElements,
-      ...selectedFestivity.shopOnlyElements,
-    ];
-    // Añadimos todas las decoraciones compradas (de cualquier festividad)
-    // para que puedan verse y usarse en cualquier escaparate.
-    const combined = [...base, ...purchasedDecorationsForPanel];
-    const byId = new Map<string, DecorativeElement>();
-    combined.forEach((el) => {
-      if (!byId.has(el.id)) {
-        byId.set(el.id, el);
-      }
-    });
-    return Array.from(byId.values());
-  })();
   const canvasBgColor = festivityProgress.bgColor || "#FFF9F0";
   const lightsOn = festivityProgress.lightsOn || [...DEFAULT_LIGHTS];
   const lightColor = festivityProgress.lightColor || "#FFD700";
@@ -208,6 +190,20 @@ export default function Home() {
     ...selectedFestivity.shopOnlyElements,
   ];
 
+  // Banco: decoraciones compradas, agrupadas por festividad.
+  const purchasedDecorationsForPanel: DecorativeElement[] = [];
+  const festivityNameByPrefix: Record<string, string> = {};
+
+  festivities.forEach((fest) => {
+    festivityNameByPrefix[fest.id] = fest.name;
+    const allForFest = [...fest.lockedElements, ...fest.shopOnlyElements];
+    allForFest.forEach((el) => {
+      if (purchasedElementIds.includes(el.id)) {
+        purchasedDecorationsForPanel.push(el);
+      }
+    });
+  });
+
   // Secciones de tienda: todas las decoraciones (locked + shopOnly) agrupadas por festividad.
   const shopSections: Array<{ festivity: Festivity; items: DecorativeElement[] }> = festivities
     .map((fest) => {
@@ -222,19 +218,24 @@ export default function Home() {
     })
     .filter((section) => section.items.length > 0);
 
-  // Banco: decoraciones compradas, agrupadas por festividad.
-  const purchasedDecorationsForPanel: DecorativeElement[] = [];
-  const festivityNameByPrefix: Record<string, string> = {};
-
-  festivities.forEach((fest) => {
-    festivityNameByPrefix[fest.id] = fest.name;
-    const allForFest = [...fest.lockedElements, ...fest.shopOnlyElements];
-    allForFest.forEach((el) => {
-      if (purchasedElementIds.includes(el.id)) {
-        purchasedDecorationsForPanel.push(el);
+  const allElements = (() => {
+    // Elementos propios de la festividad seleccionada
+    const base = [
+      ...selectedFestivity.baseElements,
+      ...selectedFestivity.lockedElements,
+      ...selectedFestivity.shopOnlyElements,
+    ];
+    // Añadimos todas las decoraciones compradas (de cualquier festividad)
+    // para que puedan verse y usarse en cualquier escaparate.
+    const combined = [...base, ...purchasedDecorationsForPanel];
+    const byId = new Map<string, DecorativeElement>();
+    combined.forEach((el) => {
+      if (!byId.has(el.id)) {
+        byId.set(el.id, el);
       }
     });
-  });
+    return Array.from(byId.values());
+  })();
 
   const allBgColors = [...BG_PRESETS, ...selectedFestivity.colorPalette.filter(c => !BG_PRESETS.includes(c))];
   const availableBgColors = allBgColors.slice(0, unlockStatus.unlockedBgColors);
