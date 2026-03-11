@@ -169,11 +169,24 @@ export default function Home() {
 
   const festivityProgress = getFestivityProgress(progress, selectedFestivity.id);
   const placedElements = festivityProgress.placedElements || [];
-  const allElements = [
-    ...selectedFestivity.baseElements,
-    ...selectedFestivity.lockedElements,
-    ...selectedFestivity.shopOnlyElements,
-  ];
+  const allElements = (() => {
+    // Elementos propios de la festividad seleccionada
+    const base = [
+      ...selectedFestivity.baseElements,
+      ...selectedFestivity.lockedElements,
+      ...selectedFestivity.shopOnlyElements,
+    ];
+    // Añadimos todas las decoraciones compradas (de cualquier festividad)
+    // para que puedan verse y usarse en cualquier escaparate.
+    const combined = [...base, ...purchasedDecorationsForPanel];
+    const byId = new Map<string, DecorativeElement>();
+    combined.forEach((el) => {
+      if (!byId.has(el.id)) {
+        byId.set(el.id, el);
+      }
+    });
+    return Array.from(byId.values());
+  })();
   const canvasBgColor = festivityProgress.bgColor || "#FFF9F0";
   const lightsOn = festivityProgress.lightsOn || [...DEFAULT_LIGHTS];
   const lightColor = festivityProgress.lightColor || "#FFD700";
@@ -868,6 +881,48 @@ export default function Home() {
 
           <ScrollArea className="flex-1 px-4 py-3">
             <div className="space-y-4">
+              {/* Primero: funcionalidades de la ventana */}
+              <div className="border-b pb-3 mb-2">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-xs font-bold uppercase tracking-wide text-foreground flex items-center gap-1">
+                    <Lightbulb className="w-3 h-3" />
+                    Window features
+                  </h3>
+                </div>
+                <div className="grid grid-cols-1 gap-2">
+                  {FEATURE_DEFS.map((feat) => {
+                    const unlocked = hasFeature(feat.id);
+                    return (
+                      <div key={feat.id} className="flex items-center justify-between gap-3 border border-border rounded-md p-2 bg-card/70">
+                        <div className="min-w-0">
+                          <div className="font-bold text-sm truncate">{feat.name}</div>
+                          <div className="text-[11px] text-muted-foreground line-clamp-2">
+                            {feat.description}
+                          </div>
+                          <div className="text-[11px] text-muted-foreground mt-0.5">
+                            Price: {feat.price} coins
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          {unlocked ? (
+                            <Badge variant="secondary">Unlocked</Badge>
+                          ) : (
+                            <Button
+                              size="sm"
+                              onClick={() => handleBuyFeature(feat.id, feat.price)}
+                              disabled={coins < feat.price}
+                            >
+                              Unlock
+                            </Button>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Después: decoraciones por festividad */}
               {shopSections.map((section) => (
                 <div key={section.festivity.id} className="space-y-2">
                   <div className="flex items-center justify-between">
@@ -911,46 +966,6 @@ export default function Home() {
                   </div>
                 </div>
               ))}
-
-              <div className="border-t pt-3 mt-2">
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-xs font-bold uppercase tracking-wide text-foreground flex items-center gap-1">
-                    <Lightbulb className="w-3 h-3" />
-                    Window features
-                  </h3>
-                </div>
-                <div className="grid grid-cols-1 gap-2">
-                  {FEATURE_DEFS.map((feat) => {
-                    const unlocked = hasFeature(feat.id);
-                    return (
-                      <div key={feat.id} className="flex items-center justify-between gap-3 border border-border rounded-md p-2 bg-card/70">
-                        <div className="min-w-0">
-                          <div className="font-bold text-sm truncate">{feat.name}</div>
-                          <div className="text-[11px] text-muted-foreground line-clamp-2">
-                            {feat.description}
-                          </div>
-                          <div className="text-[11px] text-muted-foreground mt-0.5">
-                            Price: {feat.price} coins
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          {unlocked ? (
-                            <Badge variant="secondary">Unlocked</Badge>
-                          ) : (
-                            <Button
-                              size="sm"
-                              onClick={() => handleBuyFeature(feat.id, feat.price)}
-                              disabled={coins < feat.price}
-                            >
-                              Unlock
-                            </Button>
-                          )}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
             </div>
           </ScrollArea>
         </div>
@@ -964,8 +979,20 @@ export default function Home() {
         onQuizBlockComplete={({ festivityId: fid, level: lvl, block: blk, score: sc }) => {
           const newProgress = recordQuizBlockScore(progress, fid, lvl, blk, sc);
           setProgress(newProgress);
+
+          // Monedas por bloque:
+          // - 1 moneda por cada respuesta correcta en cualquier caso.
+          // - Si el bloque está completo y todas son correctas,
+          //   se añade un bonus del mismo valor que esas respuestas (doble recompensa).
+          // - Los niveles más altos (mayor dificultad) dan más monedas por respuesta y por bonus.
+          const totalQuestions = GRAMMAR_QUIZ_TOTAL > 0 ? 6 : 6; // cada bloque usa 6 preguntas
           if (sc > 0) {
-            const earned = sc * 2; // 2 monedas por respuesta correcta
+            const perCorrect = Math.max(1, lvl); // más nivel = más monedas por acierto
+            const baseCoins = sc * perCorrect;
+            const fullBlock = sc === totalQuestions;
+            const bonus = fullBlock ? totalQuestions * perCorrect : 0; // bloque perfecto duplica la recompensa
+            const earned = baseCoins + bonus;
+
             setCoins((prev) => {
               const next = prev + earned;
               try {
@@ -975,7 +1002,9 @@ export default function Home() {
             });
             toast({
               title: `+${earned} coins`,
-              description: "You earned coins for this quiz block.",
+              description: fullBlock
+                ? "Perfect block! Extra coins for difficulty."
+                : "You earned coins for this quiz block.",
             });
           }
         }}

@@ -56,6 +56,7 @@ interface FPBSessionQuestion {
   question: string;
   options: string[];
   correct_answer: string;
+  translation?: string;
 }
 
 interface FPBSession {
@@ -73,6 +74,7 @@ interface FPBFinalExamQuestion {
   question: string;
   options: string[];
   correct: string;
+  translation?: string;
 }
 
 interface FPBDataShape {
@@ -104,6 +106,7 @@ const buildFPBQuestionPool = (): QuestionRaw[] => {
               question: q.question,
               options: q.options,
               correct: correctIndex,
+              translation: q.translation,
             };
           }),
         ),
@@ -125,6 +128,7 @@ const buildFPBQuestionPool = (): QuestionRaw[] => {
           question: q.question,
           options: q.options,
           correct: correctIndex,
+          translation: q.translation,
         };
       }).filter((q): q is QuestionRaw => q !== null);
 

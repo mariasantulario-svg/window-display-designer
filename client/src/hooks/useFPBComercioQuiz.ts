@@ -7,6 +7,7 @@ interface FPBQuestionSource {
   options: string[];
   correct_answer?: string;
   correct?: string;
+  translation?: string;
 }
 
 interface FPBUnitSessionQuestion {
@@ -16,6 +17,7 @@ interface FPBUnitSessionQuestion {
   options: string[];
   correct_answer: string;
   explanation?: string;
+  translation?: string;
 }
 
 interface FPBSession {
@@ -38,6 +40,7 @@ interface FPBFinalExamQuestion {
   question: string;
   options: string[];
   correct: string;
+  translation?: string;
 }
 
 interface FPBData {
@@ -57,6 +60,7 @@ interface ShuffledQuestion {
   question: string;
   options: string[];
   correctIndex: number;
+  translation?: string;
 }
 
 interface UserAnswer {
@@ -92,6 +96,7 @@ const flattenFPBQuestions = (data: FPBData): FPBQuestionSource[] => {
           question: q.question,
           options: q.options,
           correct_answer: q.correct_answer,
+          translation: q.translation,
         })),
       ),
     );
@@ -102,6 +107,7 @@ const flattenFPBQuestions = (data: FPBData): FPBQuestionSource[] => {
       question: q.question,
       options: q.options,
       correct: q.correct,
+      translation: q.translation,
     }));
 
   return [...sessionQuestions, ...examQuestions];
@@ -126,6 +132,7 @@ const toShuffledQuestion = (source: FPBQuestionSource, randomFn: () => number): 
     question: source.question,
     options: shuffledOptions,
     correctIndex: shuffledCorrectIndex,
+    translation: source.translation,
   };
 };
 
