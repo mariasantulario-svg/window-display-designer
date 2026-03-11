@@ -1,0 +1,1098 @@
+{
+  "course": "1 FPB Comercio - English Communication",
+  "academic_year": "2025-2026",
+  "level": "A2-B1",
+  "total_questions": 145,
+  "components": {
+    "sessions": {
+      "count": 8,
+      "questions_per_session": 15,
+      "total": 120
+    },
+    "final_exam": {
+      "count": 1,
+      "questions": 25
+    }
+  },
+  
+  "units": [
+    {
+      "unit_id": 5,
+      "unit_title": "Payment and Technology",
+      "sessions": [
+        {
+          "session_id": "S1",
+          "title": "Paying at the Till",
+          "grammar_focus": "Present Simple",
+          "vocabulary": ["till", "receipt", "change", "scan", "barcode", "queue", "cashier", "card reader", "price tag", "payment"],
+          "questions": [
+            {
+              "id": "S1_Q1",
+              "type": "vocabulary",
+              "question": "What does a cashier use to read product information?",
+              "options": ["A barcode scanner", "A coffee machine", "A television", "A calculator"],
+              "correct_answer": "A barcode scanner",
+              "explanation": "Cashiers use barcode scanners to read product codes at the till."
+            },
+            {
+              "id": "S1_Q2",
+              "type": "vocabulary",
+              "question": "Where do customers wait before paying?",
+              "options": ["In a queue", "In a kitchen", "In a bedroom", "In a garden"],
+              "correct_answer": "In a queue",
+              "explanation": "Customers wait in a queue (line) before paying at the checkout."
+            },
+            {
+              "id": "S1_Q3",
+              "type": "vocabulary",
+              "question": "What shows the cost of an item in a shop?",
+              "options": ["A price tag", "A weather report", "A movie ticket", "A bus schedule"],
+              "correct_answer": "A price tag",
+              "explanation": "Price tags show how much products cost."
+            },
+            {
+              "id": "S1_Q4",
+              "type": "vocabulary",
+              "question": "What machine processes card payments?",
+              "options": ["A card reader", "A microwave", "A washing machine", "A printer"],
+              "correct_answer": "A card reader",
+              "explanation": "Card readers process debit and credit card payments."
+            },
+            {
+              "id": "S1_Q5",
+              "type": "vocabulary",
+              "question": "What does a cashier give you after you pay?",
+              "options": ["A receipt", "A birthday card", "A newspaper", "A book"],
+              "correct_answer": "A receipt",
+              "explanation": "Receipts prove that you paid for your items."
+            },
+            {
+              "id": "S1_Q6",
+              "type": "vocabulary",
+              "question": "What is the money returned to a customer called?",
+              "options": ["Change", "Interest", "Salary", "Tax"],
+              "correct_answer": "Change",
+              "explanation": "Change is the money returned when you pay with more than the exact amount."
+            },
+            {
+              "id": "S1_Q7",
+              "type": "vocabulary",
+              "question": "What is another word for the cash register area?",
+              "options": ["The till", "The kitchen", "The office", "The bathroom"],
+              "correct_answer": "The till",
+              "explanation": "The till is where cashiers work and keep money."
+            },
+            {
+              "id": "S1_Q8",
+              "type": "vocabulary",
+              "question": "What action does a cashier do with products?",
+              "options": ["Scan items", "Cook meals", "Drive cars", "Write novels"],
+              "correct_answer": "Scan items",
+              "explanation": "Cashiers scan items to register them in the system."
+            },
+            {
+              "id": "S1_Q9",
+              "type": "grammar",
+              "question": "Choose the correct sentence:",
+              "options": ["The cashier scans the barcode every day", "The cashier scan the barcode every day", "The cashier scanning the barcode every day", "The cashier to scan the barcode every day"],
+              "correct_answer": "The cashier scans the barcode every day",
+              "explanation": "Present Simple: He/She/It + verb + s (scans)."
+            },
+            {
+              "id": "S1_Q10",
+              "type": "grammar",
+              "question": "Complete: She _____ a receipt to the customer.",
+              "options": ["gives", "give", "giving", "to give"],
+              "correct_answer": "gives",
+              "explanation": "She + gives (Present Simple third person)."
+            },
+            {
+              "id": "S1_Q11",
+              "type": "grammar",
+              "question": "Complete: They _____ in the queue for five minutes.",
+              "options": ["wait", "waits", "waiting", "to wait"],
+              "correct_answer": "wait",
+              "explanation": "They + wait (no 's' for plural subjects)."
+            },
+            {
+              "id": "S1_Q12",
+              "type": "grammar",
+              "question": "Complete: The card reader _____ the payment.",
+              "options": ["processes", "process", "processing", "to process"],
+              "correct_answer": "processes",
+              "explanation": "It + processes (third person singular)."
+            },
+            {
+              "id": "S1_Q13",
+              "type": "grammar",
+              "question": "Choose the negative form:",
+              "options": ["The cashier doesn't scan expired items", "The cashier don't scan expired items", "The cashier not scan expired items", "The cashier scans not expired items"],
+              "correct_answer": "The cashier doesn't scan expired items",
+              "explanation": "Negative: doesn't + verb (without 's')."
+            },
+            {
+              "id": "S1_Q14",
+              "type": "grammar",
+              "question": "Choose the question form:",
+              "options": ["Does the cashier give change?", "Do the cashier gives change?", "Does the cashier gives change?", "The cashier gives change?"],
+              "correct_answer": "Does the cashier give change?",
+              "explanation": "Question: Does + subject + verb (without 's')."
+            },
+            {
+              "id": "S1_Q15",
+              "type": "context",
+              "question": "What should you do if the barcode doesn't work?",
+              "options": ["Ask the cashier to type the code manually", "Leave the shop immediately", "Hide the product", "Break the barcode"],
+              "correct_answer": "Ask the cashier to type the code manually",
+              "explanation": "Cashiers can enter product codes manually when barcodes fail."
+            }
+          ]
+        },
+        
+        {
+          "session_id": "S2",
+          "title": "How Much Does It Cost?",
+          "grammar_focus": "How much / How many + numbers",
+          "vocabulary": ["discount", "sale", "total", "coins", "notes", "percentage", "refund", "invoice", "offer", "price"],
+          "questions": [
+            {
+              "id": "S2_Q1",
+              "type": "vocabulary",
+              "question": "What do you call money returned when you return a product?",
+              "options": ["A refund", "A deposit", "A loan", "A tax"],
+              "correct_answer": "A refund",
+              "explanation": "A refund is money given back when returning items."
+            },
+            {
+              "id": "S2_Q2",
+              "type": "vocabulary",
+              "question": "What document shows details of a business transaction?",
+              "options": ["An invoice", "A postcard", "A birthday card", "A novel"],
+              "correct_answer": "An invoice",
+              "explanation": "Invoices list products, prices, and payment terms for businesses."
+            },
+            {
+              "id": "S2_Q3",
+              "type": "vocabulary",
+              "question": "What is a temporary price reduction called?",
+              "options": ["A discount", "An increase", "A standard price", "A tax"],
+              "correct_answer": "A discount",
+              "explanation": "Discounts reduce the normal price of products."
+            },
+            {
+              "id": "S2_Q4",
+              "type": "vocabulary",
+              "question": "What are paper money called in British English?",
+              "options": ["Notes", "Coins", "Checks", "Tokens"],
+              "correct_answer": "Notes",
+              "explanation": "British English uses 'notes' for paper money (American: bills)."
+            },
+            {
+              "id": "S2_Q5",
+              "type": "vocabulary",
+              "question": "What word describes a special promotional price?",
+              "options": ["An offer", "A standard", "A regular", "A fixed"],
+              "correct_answer": "An offer",
+              "explanation": "Offers are special deals with reduced prices."
+            },
+            {
+              "id": "S2_Q6",
+              "type": "vocabulary",
+              "question": "What is the final amount you must pay called?",
+              "options": ["The total", "The partial", "The estimate", "The deposit"],
+              "correct_answer": "The total",
+              "explanation": "The total is the complete sum including all items."
+            },
+            {
+              "id": "S2_Q7",
+              "type": "vocabulary",
+              "question": "What are metal money pieces called?",
+              "options": ["Coins", "Notes", "Bills", "Cards"],
+              "correct_answer": "Coins",
+              "explanation": "Coins are metal currency (1 euro, 50 cents, etc.)."
+            },
+            {
+              "id": "S2_Q8",
+              "type": "vocabulary",
+              "question": "What expresses a part of 100 in mathematics?",
+              "options": ["Percentage", "Fraction", "Decimal", "Ratio"],
+              "correct_answer": "Percentage",
+              "explanation": "Percentages (%) show parts per hundred (20% = 20/100)."
+            },
+            {
+              "id": "S2_Q9",
+              "type": "grammar",
+              "question": "Choose the correct question for uncountable nouns:",
+              "options": ["How much is the discount?", "How many is the discount?", "How much are the discount?", "How many are the discount?"],
+              "correct_answer": "How much is the discount?",
+              "explanation": "How much + singular verb (uncountable: money, time, discount)."
+            },
+            {
+              "id": "S2_Q10",
+              "type": "grammar",
+              "question": "Choose the correct question for countable nouns:",
+              "options": ["How many coins do you have?", "How much coins do you have?", "How many coin do you have?", "How much coin do you have?"],
+              "correct_answer": "How many coins do you have?",
+              "explanation": "How many + plural noun (countable: coins, items, products)."
+            },
+            {
+              "id": "S2_Q11",
+              "type": "grammar",
+              "question": "Complete: How _____ does the invoice cost?",
+              "options": ["much", "many", "long", "old"],
+              "correct_answer": "much",
+              "explanation": "How much for price (uncountable concept)."
+            },
+            {
+              "id": "S2_Q12",
+              "type": "grammar",
+              "question": "Complete: How _____ notes are in the till?",
+              "options": ["many", "much", "long", "old"],
+              "correct_answer": "many",
+              "explanation": "How many + countable plural (notes)."
+            },
+            {
+              "id": "S2_Q13",
+              "type": "grammar",
+              "question": "How do you say €45.50 in English?",
+              "options": ["Forty-five euros fifty", "Forty-five and fifty", "Forty-five fifty euros", "Fifty forty-five euros"],
+              "correct_answer": "Forty-five euros fifty",
+              "explanation": "Say the euros, then 'fifty' for the cents."
+            },
+            {
+              "id": "S2_Q14",
+              "type": "grammar",
+              "question": "What is 25% in words?",
+              "options": ["Twenty-five percent", "Twenty-five percentage", "Twenty-five per hundred", "Twenty-five cent"],
+              "correct_answer": "Twenty-five percent",
+              "explanation": "Use 'percent' (not percentage) after numbers."
+            },
+            {
+              "id": "S2_Q15",
+              "type": "context",
+              "question": "If an item costs €100 and has 20% off, what do you pay?",
+              "options": ["€80", "€120", "€20", "€100"],
+              "correct_answer": "€80",
+              "explanation": "20% of €100 = €20 discount. €100 - €20 = €80."
+            }
+          ]
+        },
+        
+        {
+          "session_id": "S3",
+          "title": "Payment Methods",
+          "grammar_focus": "It's made of... + adjective + noun",
+          "vocabulary": ["credit card", "debit card", "contactless", "QR code", "cash", "wallet", "chip", "PIN", "mobile payment", "bank"],
+          "questions": [
+            {
+              "id": "S3_Q1",
+              "type": "vocabulary",
+              "question": "What card allows you to pay with money from your bank account immediately?",
+              "options": ["A debit card", "A credit card", "A gift card", "A library card"],
+              "correct_answer": "A debit card",
+              "explanation": "Debit cards take money directly from your bank account."
+            },
+            {
+              "id": "S3_Q2",
+              "type": "vocabulary",
+              "question": "What card lets you borrow money to pay later?",
+              "options": ["A credit card", "A debit card", "A membership card", "A student card"],
+              "correct_answer": "A credit card",
+              "explanation": "Credit cards allow borrowing money with interest."
+            },
+            {
+              "id": "S3_Q3",
+              "type": "vocabulary",
+              "question": "What technology lets you pay by touching your card near the reader?",
+              "options": ["Contactless", "Manual entry", "Signature", "Chip and PIN"],
+              "correct_answer": "Contactless",
+              "explanation": "Contactless payments use NFC technology (no physical contact)."
+            },
+            {
+              "id": "S3_Q4",
+              "type": "vocabulary",
+              "question": "What is the square pattern you scan with your phone camera?",
+              "options": ["A QR code", "A barcode", "A zip code", "A PIN code"],
+              "correct_answer": "A QR code",
+              "explanation": "QR codes (Quick Response) are scanned for payments/information."
+            },
+            {
+              "id": "S3_Q5",
+              "type": "vocabulary",
+              "question": "What is physical money (notes and coins) called?",
+              "options": ["Cash", "Credit", "Digital money", "Cryptocurrency"],
+              "correct_answer": "Cash",
+              "explanation": "Cash is physical currency you can touch."
+            },
+            {
+              "id": "S3_Q6",
+              "type": "vocabulary",
+              "question": "What small object holds your cards and cash?",
+              "options": ["A wallet", "A backpack", "A suitcase", "A box"],
+              "correct_answer": "A wallet",
+              "explanation": "Wallets (purses for women) hold money and cards."
+            },
+            {
+              "id": "S3_Q7",
+              "type": "vocabulary",
+              "question": "What small electronic device is inside modern cards for security?",
+              "options": ["A chip", "A battery", "A screen", "A speaker"],
+              "correct_answer": "A chip",
+              "explanation": "EMV chips store encrypted card information securely."
+            },
+            {
+              "id": "S3_Q8",
+              "type": "vocabulary",
+              "question": "What secret number do you enter at ATMs?",
+              "options": ["PIN", "ZIP", "ISBN", "VAT"],
+              "correct_answer": "PIN",
+              "explanation": "PIN = Personal Identification Number (4 digits usually)."
+            },
+            {
+              "id": "S3_Q9",
+              "type": "vocabulary",
+              "question": "What payment method uses your smartphone?",
+              "options": ["Mobile payment", "Cash payment", "Check payment", "Wire payment"],
+              "correct_answer": "Mobile payment",
+              "explanation": "Mobile payments use apps like Apple Pay or Google Pay."
+            },
+            {
+              "id": "S3_Q10",
+              "type": "vocabulary",
+              "question": "Where do you keep your money and access ATMs?",
+              "options": ["A bank", "A supermarket", "A restaurant", "A cinema"],
+              "correct_answer": "A bank",
+              "explanation": "Banks provide financial services and cash access."
+            },
+            {
+              "id": "S3_Q11",
+              "type": "grammar",
+              "question": "Complete: A credit card _____ _____ _____ plastic.",
+              "options": ["is made of", "made of is", "is make of", "makes of"],
+              "correct_answer": "is made of",
+              "explanation": "Structure: Subject + is made of + material."
+            },
+            {
+              "id": "S3_Q12",
+              "type": "grammar",
+              "question": "Complete: The payment _____ contactless.",
+              "options": ["is", "are", "be", "am"],
+              "correct_answer": "is",
+              "explanation": "It + is + adjective (contactless)."
+            },
+            {
+              "id": "S3_Q13",
+              "type": "grammar",
+              "question": "Complete: It's _____ secure method.",
+              "options": ["a", "an", "the", "-"],
+              "correct_answer": "a",
+              "explanation": "A + adjective + noun (secure starts with consonant sound)."
+            },
+            {
+              "id": "S3_Q14",
+              "type": "grammar",
+              "question": "Choose the correct description:",
+              "options": ["The wallet is made of leather", "The wallet made of is leather", "The wallet is make of leather", "The wallet makes of leather"],
+              "correct_answer": "The wallet is made of leather",
+              "explanation": "Correct structure: subject + is made of + material."
+            },
+            {
+              "id": "S3_Q15",
+              "type": "context",
+              "question": "Which payment method is safest for large purchases?",
+              "options": ["Credit card with buyer protection", "Cash with no receipt", "Personal check from stranger", "Cryptocurrency"],
+              "correct_answer": "Credit card with buyer protection",
+              "explanation": "Credit cards often offer fraud protection and dispute resolution."
+            }
+          ]
+        },
+        
+        {
+          "session_id": "S4",
+          "title": "Around the Shop",
+          "grammar_focus": "Prepositions (in, into, to, on, next to, inside)",
+          "vocabulary": ["checkout", "counter", "shelf", "aisle", "fitting room", "entrance", "storage room", "display", "sign", "till area"],
+          "questions": [
+            {
+              "id": "S4_Q1",
+              "type": "vocabulary",
+              "question": "Where do you pay for your shopping?",
+              "options": ["At the checkout", "In the kitchen", "On the roof", "Under the floor"],
+              "correct_answer": "At the checkout",
+              "explanation": "The checkout (or till) is where you pay."
+            },
+            {
+              "id": "S4_Q2",
+              "type": "vocabulary",
+              "question": "What is the long flat surface where cashiers work?",
+              "options": ["A counter", "A carpet", "A ceiling", "A wall"],
+              "correct_answer": "A counter",
+              "explanation": "Counters are surfaces for serving customers."
+            },
+            {
+              "id": "S4_Q3",
+              "type": "vocabulary",
+              "question": "What do you call the flat boards where products sit?",
+              "options": ["Shelves", "Chairs", "Tables", "Doors"],
+              "correct_answer": "Shelves",
+              "explanation": "Shelves hold products in shops (singular: shelf)."
+            },
+            {
+              "id": "S4_Q4",
+              "type": "vocabulary",
+              "question": "What is the passage between rows of products?",
+              "options": ["An aisle", "A window", "A door", "A mirror"],
+              "correct_answer": "An aisle",
+              "explanation": "Aisles are corridors between product displays."
+            },
+            {
+              "id": "S4_Q5",
+              "type": "vocabulary",
+              "question": "Where do you try on clothes before buying?",
+              "options": ["In a fitting room", "In the kitchen", "On the street", "In the office"],
+              "correct_answer": "In a fitting room",
+              "explanation": "Fitting rooms (changing rooms) are for trying clothes."
+            },
+            {
+              "id": "S4_Q6",
+              "type": "vocabulary",
+              "question": "What is the way into a shop called?",
+              "options": ["The entrance", "The exit", "The window", "The roof"],
+              "correct_answer": "The entrance",
+              "explanation": "Entrances are for entering; exits for leaving."
+            },
+            {
+              "id": "S4_Q7",
+              "type": "vocabulary",
+              "question": "Where do shops keep extra stock?",
+              "options": ["In the storage room", "In the display", "On the counter", "In the entrance"],
+              "correct_answer": "In the storage room",
+              "explanation": "Storage rooms (stockrooms) hold extra inventory."
+            },
+            {
+              "id": "S4_Q8",
+              "type": "vocabulary",
+              "question": "What shows products attractively to customers?",
+              "options": ["A display", "A hiding place", "A closet", "A drawer"],
+              "correct_answer": "A display",
+              "explanation": "Displays showcase products attractively."
+            },
+            {
+              "id": "S4_Q9",
+              "type": "vocabulary",
+              "question": "What shows prices or information in a shop?",
+              "options": ["A sign", "A book", "A song", "A meal"],
+              "correct_answer": "A sign",
+              "explanation": "Signs display information, prices, or directions."
+            },
+            {
+              "id": "S4_Q10",
+              "type": "vocabulary",
+              "question": "What is the area around the cash register called?",
+              "options": ["The till area", "The kitchen area", "The bathroom area", "The parking area"],
+              "correct_answer": "The till area",
+              "explanation": "The till area includes the register and surrounding space."
+            },
+            {
+              "id": "S4_Q11",
+              "type": "grammar",
+              "question": "Complete: The products are _____ the shelf.",
+              "options": ["on", "in", "to", "into"],
+              "correct_answer": "on",
+              "explanation": "On = surface contact (on the shelf/table)."
+            },
+            {
+              "id": "S4_Q12",
+              "type": "grammar",
+              "question": "Complete: Go _____ the storage room, please.",
+              "options": ["into", "on", "to", "next to"],
+              "correct_answer": "into",
+              "explanation": "Into = movement towards inside (go into)."
+            },
+            {
+              "id": "S4_Q13",
+              "type": "grammar",
+              "question": "Complete: The till is _____ the entrance.",
+              "options": ["next to", "into", "on", "to"],
+              "correct_answer": "next to",
+              "explanation": "Next to = beside/alongside something."
+            },
+            {
+              "id": "S4_Q14",
+              "type": "grammar",
+              "question": "Complete: Walk _____ the end of the aisle.",
+              "options": ["to", "into", "on", "in"],
+              "correct_answer": "to",
+              "explanation": "To = direction/movement towards."
+            },
+            {
+              "id": "S4_Q15",
+              "type": "grammar",
+              "question": "Complete: The fitting room is _____ the shop.",
+              "options": ["inside", "onto", "to", "next"],
+              "correct_answer": "inside",
+              "explanation": "Inside = within (synonym of in, more emphasis)."
+            }
+          ]
+        }
+      ]
+    },
+    
+    {
+      "unit_id": 6,
+      "unit_title": "Review and Real Situations",
+      "sessions": [
+        {
+          "session_id": "S5",
+          "title": "Serving the Customer",
+          "grammar_focus": "Imperative + sequencing (First, Then, Next, After that, Finally)",
+          "vocabulary": ["greet", "assist", "wrap", "bag", "process", "check", "return", "exchange", "sign", "pack"],
+          "questions": [
+            {
+              "id": "S5_Q1",
+              "type": "vocabulary",
+              "question": "What do you do when you say 'hello' to a customer?",
+              "options": ["Greet them", "Ignore them", "Hide from them", "Argue with them"],
+              "correct_answer": "Greet them",
+              "explanation": "Greeting means welcoming someone politely."
+            },
+            {
+              "id": "S5_Q2",
+              "type": "vocabulary",
+              "question": "What do you do when you help a customer find something?",
+              "options": ["Assist them", "Refuse them", "Avoid them", "Confuse them"],
+              "correct_answer": "Assist them",
+              "explanation": "Assist means to help or support."
+            },
+            {
+              "id": "S5_Q3",
+              "type": "vocabulary",
+              "question": "What do you do with paper around a product as a gift?",
+              "options": ["Wrap it", "Break it", "Lose it", "Sell it"],
+              "correct_answer": "Wrap it",
+              "explanation": "Wrapping covers items with paper (gift wrapping)."
+            },
+            {
+              "id": "S5_Q4",
+              "type": "vocabulary",
+              "question": "What do you put items into at the supermarket?",
+              "options": ["A bag", "A safe", "A vault", "A closet"],
+              "correct_answer": "A bag",
+              "explanation": "Bagging means putting purchases into bags."
+            },
+            {
+              "id": "S5_Q5",
+              "type": "vocabulary",
+              "question": "What do you do when you handle a payment transaction?",
+              "options": ["Process it", "Ignore it", "Forget it", "Delay it"],
+              "correct_answer": "Process it",
+              "explanation": "Processing means completing the payment steps."
+            },
+            {
+              "id": "S5_Q6",
+              "type": "vocabulary",
+              "question": "What do you do when you verify something is correct?",
+              "options": ["Check it", "Destroy it", "Hide it", "Lose it"],
+              "correct_answer": "Check it",
+              "explanation": "Checking means verifying or examining."
+            },
+            {
+              "id": "S5_Q7",
+              "type": "vocabulary",
+              "question": "What do customers do when they bring items back to the shop?",
+              "options": ["Return them", "Keep them", "Steal them", "Break them"],
+              "correct_answer": "Return them",
+              "explanation": "Returning means bringing back unwanted items."
+            },
+            {
+              "id": "S5_Q8",
+              "type": "vocabulary",
+              "question": "What do you do when you swap an item for a different one?",
+              "options": ["Exchange it", "Destroy it", "Keep it", "Sell it"],
+              "correct_answer": "Exchange it",
+              "explanation": "Exchanging means swapping one thing for another."
+            },
+            {
+              "id": "S5_Q9",
+              "type": "vocabulary",
+              "question": "What do you do when you write your name on a document?",
+              "options": ["Sign it", "Read it", "Erase it", "Copy it"],
+              "correct_answer": "Sign it",
+              "explanation": "Signing means writing your signature."
+            },
+            {
+              "id": "S5_Q10",
+              "type": "vocabulary",
+              "question": "What do you do when you put items into a box for shipping?",
+              "options": ["Pack them", "Unpack them", "Lose them", "Break them"],
+              "correct_answer": "Pack them",
+              "explanation": "Packing means putting items into containers."
+            },
+            {
+              "id": "S5_Q11",
+              "type": "grammar",
+              "question": "Choose the correct imperative for good customer service:",
+              "options": ["Greet the customer politely", "Greeting the customer politely", "To greet the customer politely", "Greeted the customer politely"],
+              "correct_answer": "Greet the customer politely",
+              "explanation": "Imperative = base verb (no 'to', no -ing, no past)."
+            },
+            {
+              "id": "S5_Q12",
+              "type": "grammar",
+              "question": "Choose the correct sequence:",
+              "options": ["First, greet the customer. Then, assist them", "First, greeting the customer. Then, assist them", "First, greeted the customer. Then, assist them", "First, to greet the customer. Then, assist them"],
+              "correct_answer": "First, greet the customer. Then, assist them",
+              "explanation": "Imperative + sequencing words (First, Then, Next, After that, Finally)."
+            },
+            {
+              "id": "S5_Q13",
+              "type": "grammar",
+              "question": "Complete the sequence: First, check the price. _____, process the payment.",
+              "options": ["Then", "First", "Before", "Last"],
+              "correct_answer": "Then",
+              "explanation": "Then follows First in a sequence."
+            },
+            {
+              "id": "S5_Q14",
+              "type": "grammar",
+              "question": "Complete: ____ that, wrap the items. Finally, give the receipt.",
+              "options": ["After", "Before", "First", "Then"],
+              "correct_answer": "After",
+              "explanation": "After that = siguiente paso (después de Then)."
+            },
+            {
+              "id": "S5_Q15",
+              "type": "context",
+              "question": "What is the correct order for serving a customer?",
+              "options": ["First greet, then assist, next process payment, finally give receipt", "First give receipt, then greet, next assist, finally process payment", "First process payment, then greet, next assist, finally give receipt", "First assist, then greet, next give receipt, finally process payment"],
+              "correct_answer": "First greet, then assist, next process payment, finally give receipt",
+              "explanation": "Logical sequence: greet → assist → payment → receipt."
+            }
+          ]
+        },
+        
+        {
+          "session_id": "S6",
+          "title": "Problems in the Shop",
+          "grammar_focus": "It's + adjective + need to",
+          "vocabulary": ["broken", "empty", "missing", "expired", "damaged", "wrong", "late", "busy", "urgent", "complaint"],
+          "questions": [
+            {
+              "id": "S6_Q1",
+              "type": "vocabulary",
+              "question": "What describes an item that doesn't work?",
+              "options": ["It's broken", "It's empty", "It's busy", "It's late"],
+              "correct_answer": "It's broken",
+              "explanation": "Broken = not functioning (roto)."
+            },
+            {
+              "id": "S6_Q2",
+              "type": "vocabulary",
+              "question": "What describes a shelf with no products?",
+              "options": ["It's empty", "It's full", "It's heavy", "It's expensive"],
+              "correct_answer": "It's empty",
+              "explanation": "Empty = without contents (vacío)."
+            },
+            {
+              "id": "S6_Q3",
+              "type": "vocabulary",
+              "question": "What describes an item that cannot be found?",
+              "options": ["It's missing", "It's present", "It's visible", "It's here"],
+              "correct_answer": "It's missing",
+              "explanation": "Missing = lost or not found (perdido/faltante)."
+            },
+            {
+              "id": "S6_Q4",
+              "type": "vocabulary",
+              "question": "What describes food that is past its use-by date?",
+              "options": ["It's expired", "It's fresh", "It's tasty", "It's new"],
+              "correct_answer": "It's expired",
+              "explanation": "Expired = past the safe date (caducado)."
+            },
+            {
+              "id": "S6_Q5",
+              "type": "vocabulary",
+              "question": "What describes an item with physical harm?",
+              "options": ["It's damaged", "It's perfect", "It's sealed", "It's wrapped"],
+              "correct_answer": "It's damaged",
+              "explanation": "Damaged = harmed or broken (dañado)."
+            },
+            {
+              "id": "S6_Q6",
+              "type": "vocabulary",
+              "question": "What describes a price that is not correct?",
+              "options": ["It's wrong", "It's correct", "It's accurate", "It's right"],
+              "correct_answer": "It's wrong",
+              "explanation": "Wrong = incorrect (erróneo)."
+            },
+            {
+              "id": "S6_Q7",
+              "type": "vocabulary",
+              "question": "What describes a delivery that doesn't arrive on time?",
+              "options": ["It's late", "It's early", "It's punctual", "It's on time"],
+              "correct_answer": "It's late",
+              "explanation": "Late = after the expected time (tarde/retrasado)."
+            },
+            {
+              "id": "S6_Q8",
+              "type": "vocabulary",
+              "question": "What describes a shop with many customers?",
+              "options": ["It's busy", "It's empty", "It's quiet", "It's closed"],
+              "correct_answer": "It's busy",
+              "explanation": "Busy = with much activity (ocupado/concurrido)."
+            },
+            {
+              "id": "S6_Q9",
+              "type": "vocabulary",
+              "question": "What describes a problem that needs immediate attention?",
+              "options": ["It's urgent", "It's minor", "It's unimportant", "It's delayed"],
+              "correct_answer": "It's urgent",
+              "explanation": "Urgent = requiring immediate action (urgente)."
+            },
+            {
+              "id": "S6_Q10",
+              "type": "vocabulary",
+              "question": "What do customers make when they are unhappy with service?",
+              "options": ["A complaint", "A compliment", "A gift", "A payment"],
+              "correct_answer": "A complaint",
+              "explanation": "Complaint = expression of dissatisfaction (queja/reclamación)."
+            },
+            {
+              "id": "S6_Q11",
+              "type": "grammar",
+              "question": "Complete: It's broken. We _____ to replace it.",
+              "options": ["need", "needs", "needing", "to need"],
+              "correct_answer": "need",
+              "explanation": "Structure: It's + adjective + need to + verb."
+            },
+            {
+              "id": "S6_Q12",
+              "type": "grammar",
+              "question": "Complete: It's empty. We _____ to refill the shelf.",
+              "options": ["need", "needs", "needing", "to need"],
+              "correct_answer": "need",
+              "explanation": "We + need (plural subject)."
+            },
+            {
+              "id": "S6_Q13",
+              "type": "grammar",
+              "question": "Choose the correct sentence:",
+              "options": ["It's damaged. We need to check the item", "It's damaged. We needs to check the item", "It's damaged. We needing to check the item", "It's damaged. We to need check the item"],
+              "correct_answer": "It's damaged. We need to check the item",
+              "explanation": "Correct structure: It's + adjective + need to + base verb."
+            },
+            {
+              "id": "S6_Q14",
+              "type": "grammar",
+              "question": "Complete: It's urgent. We _____ to call the manager immediately.",
+              "options": ["need", "needs", "needing", "to need"],
+              "correct_answer": "need",
+              "explanation": "We need to (immediate action required)."
+            },
+            {
+              "id": "S6_Q15",
+              "type": "context",
+              "question": "A customer receives the wrong product. What do you say?",
+              "options": ["It's wrong. We need to exchange it immediately", "It's wrong. We happy to exchange it", "It's wrong. We no need to exchange it", "It's wrong. We exchanges it now"],
+              "correct_answer": "It's wrong. We need to exchange it immediately",
+              "explanation": "Correct structure for problem + solution."
+            }
+          ]
+        },
+        
+        {
+          "session_id": "S7",
+          "title": "Can I Help You?",
+          "grammar_focus": "Can / Could for requests",
+          "vocabulary": ["help", "wait", "repeat", "confirm", "spell", "check", "deliver", "explain", "show", "hold"],
+          "questions": [
+            {
+              "id": "S7_Q1",
+              "type": "vocabulary",
+              "question": "What do you offer when a customer looks confused?",
+              "options": ["Help", "Confusion", "Delay", "Refusal"],
+              "correct_answer": "Help",
+              "explanation": "Offering help is basic customer service."
+            },
+            {
+              "id": "S7_Q2",
+              "type": "vocabulary",
+              "question": "What do customers do when they are not ready to buy?",
+              "options": ["Wait", "Purchase immediately", "Leave forever", "Steal items"],
+              "correct_answer": "Wait",
+              "explanation": "Waiting = staying until ready (esperar)."
+            },
+            {
+              "id": "S7_Q3",
+              "type": "vocabulary",
+              "question": "What do you ask a customer to do if they speak too fast?",
+              "options": ["Repeat", "Whisper", "Shout", "Leave"],
+              "correct_answer": "Repeat",
+              "explanation": "Repeat = say again (repetir)."
+            },
+            {
+              "id": "S7_Q4",
+              "type": "vocabulary",
+              "question": "What do you do to make sure information is correct?",
+              "options": ["Confirm", "Guess", "Assume", "Ignore"],
+              "correct_answer": "Confirm",
+              "explanation": "Confirm = verify correctness (confirmar)."
+            },
+            {
+              "id": "S7_Q5",
+              "type": "vocabulary",
+              "question": "What do you do when you say letters one by one?",
+              "options": ["Spell", "Write", "Read", "Speak"],
+              "correct_answer": "Spell",
+              "explanation": "Spelling = saying letters (deletrear)."
+            },
+            {
+              "id": "S7_Q6",
+              "type": "vocabulary",
+              "question": "What do you do when you examine something carefully?",
+              "options": ["Check", "Destroy", "Hide", "Forget"],
+              "correct_answer": "Check",
+              "explanation": "Checking = examining (verificar/comprobar)."
+            },
+            {
+              "id": "S7_Q7",
+              "type": "vocabulary",
+              "question": "What do you do when you bring products to a customer's home?",
+              "options": ["Deliver", "Collect", "Buy", "Sell"],
+              "correct_answer": "Deliver",
+              "explanation": "Deliver = bring to destination (entregar)."
+            },
+            {
+              "id": "S7_Q8",
+              "type": "vocabulary",
+              "question": "What do you do when you make something clear to understand?",
+              "options": ["Explain", "Confuse", "Complicate", "Hide"],
+              "correct_answer": "Explain",
+              "explanation": "Explain = make clear (explicar)."
+            },
+            {
+              "id": "S7_Q9",
+              "type": "vocabulary",
+              "question": "What do you do when you point something out to a customer?",
+              "options": ["Show", "Hide", "Lose", "Break"],
+              "correct_answer": "Show",
+              "explanation": "Show = demonstrate or indicate (mostrar)."
+            },
+            {
+              "id": "S7_Q10",
+              "type": "vocabulary",
+              "question": "What do you do when you keep an item for a customer temporarily?",
+              "options": ["Hold", "Sell", "Return", "Discard"],
+              "correct_answer": "Hold",
+              "explanation": "Hold = keep temporarily (reservar/retener)."
+            },
+            {
+              "id": "S7_Q11",
+              "type": "grammar",
+              "question": "Choose the polite request:",
+              "options": ["Could you help me, please?", "You help me now!", "Help me immediately!", "Helping me, please?"],
+              "correct_answer": "Could you help me, please?",
+              "explanation": "Could + you + verb = polite request."
+            },
+            {
+              "id": "S7_Q12",
+              "type": "grammar",
+              "question": "Choose another polite request:",
+              "options": ["Can you repeat that, please?", "You repeat that!", "Repeat that now!", "Repeating that, please?"],
+              "correct_answer": "Can you repeat that, please?",
+              "explanation": "Can/Could + you + verb + please = polite."
+            },
+            {
+              "id": "S7_Q13",
+              "type": "grammar",
+              "question": "Complete: _____ you spell your name, please?",
+              "options": ["Can", "Do", "Are", "Is"],
+              "correct_answer": "Can",
+              "explanation": "Can/Could for ability/request."
+            },
+            {
+              "id": "S7_Q14",
+              "type": "grammar",
+              "question": "Complete: _____ you wait a moment, please?",
+              "options": ["Could", "Do", "Are", "Is"],
+              "correct_answer": "Could",
+              "explanation": "Could is more polite than Can."
+            },
+            {
+              "id": "S7_Q15",
+              "type": "context",
+              "question": "A customer doesn't understand the price. What do you say?",
+              "options": ["Could I explain it again?", "You don't understand!", "I no explain again!", "Explain yourself!"],
+              "correct_answer": "Could I explain it again?",
+              "explanation": "Polite offer to help with Could I..."
+            }
+          ]
+        },
+        
+        {
+          "session_id": "S8",
+          "title": "Review - Final Session",
+          "grammar_focus": "Review of all previous grammar points",
+          "vocabulary": ["All vocabulary from S1-S7"],
+          "questions": [
+            {
+              "id": "S8_Q1",
+              "type": "mixed_vocabulary",
+              "question": "Where do you pay in a shop?",
+              "options": ["At the till", "In the kitchen", "On the roof", "Under the floor"],
+              "correct_answer": "At the till",
+              "explanation": "Review S1 vocabulary."
+            },
+            {
+              "id": "S8_Q2",
+              "type": "mixed_vocabulary",
+              "question": "What do you call 10% off the price?",
+              "options": ["A discount", "An increase", "A tax", "A salary"],
+              "correct_answer": "A discount",
+              "explanation": "Review S2 vocabulary."
+            },
+            {
+              "id": "S8_Q3",
+              "type": "mixed_vocabulary",
+              "question": "What payment uses your phone?",
+              "options": ["Mobile payment", "Cash payment", "Card payment", "Check payment"],
+              "correct_answer": "Mobile payment",
+              "explanation": "Review S3 vocabulary."
+            },
+            {
+              "id": "S8_Q4",
+              "type": "mixed_vocabulary",
+              "question": "Where do you try on clothes?",
+              "options": ["In a fitting room", "In the kitchen", "On the street", "In the office"],
+              "correct_answer": "In a fitting room",
+              "explanation": "Review S4 vocabulary."
+            },
+            {
+              "id": "S8_Q5",
+              "type": "mixed_grammar",
+              "question": "Choose the correct Present Simple sentence:",
+              "options": ["The cashier scans the barcode", "The cashier scanning the barcode", "The cashier to scan the barcode", "The cashier scan the barcode"],
+              "correct_answer": "The cashier scans the barcode",
+              "explanation": "Review S1 grammar: He/She + verb-s."
+            },
+            {
+              "id": "S8_Q6",
+              "type": "mixed_grammar",
+              "question": "Choose the correct question:",
+              "options": ["How much is the discount?", "How many is the discount?", "How much are the discount?", "How many discount is it?"],
+              "correct_answer": "How much is the discount?",
+              "explanation": "Review S2 grammar: How much + uncountable."
+            },
+            {
+              "id": "S8_Q7",
+              "type": "mixed_grammar",
+              "question": "Complete: A credit card _____ _____ _____ plastic.",
+              "options": ["is made of", "made of is", "is make of", "makes of"],
+              "correct_answer": "is made of",
+              "explanation": "Review S3 grammar: It's made of."
+            },
+            {
+              "id": "S8_Q8",
+              "type": "mixed_grammar",
+              "question": "Complete: The products are _____ the shelf.",
+              "options": ["on", "into", "to", "next"],
+              "correct_answer": "on",
+              "explanation": "Review S4 grammar: Prepositions."
+            },
+            {
+              "id": "S8_Q9",
+              "type": "mixed_grammar",
+              "question": "Choose the correct sequence:",
+              "options": ["First, greet. Then, assist", "First, greeting. Then, assist", "First, greeted. Then, assist", "First, to greet. Then, assist"],
+              "correct_answer": "First, greet. Then, assist",
+              "explanation": "Review S5 grammar: Imperative + sequencing."
+            },
+            {
+              "id": "S8_Q10",
+              "type": "mixed_grammar",
+              "question": "Complete: It's broken. We _____ to replace it.",
+              "options": ["need", "needs", "needing", "to need"],
+              "correct_answer": "need",
+              "explanation": "Review S6 grammar: It's + adj + need to."
+            },
+            {
+              "id": "S8_Q11",
+              "type": "mixed_grammar",
+              "question": "Choose the polite request:",
+              "options": ["Could you help me, please?", "You help me!", "Help me now!", "Helping me?"],
+              "correct_answer": "Could you help me, please?",
+              "explanation": "Review S7 grammar: Can/Could for requests."
+            },
+            {
+              "id": "S8_Q12",
+              "type": "mixed_context",
+              "question": "A customer wants to return a broken item. What do you do?",
+              "options": ["Process a refund", "Refuse immediately", "Ignore them", "Argue with them"],
+              "correct_answer": "Process a refund",
+              "explanation": "Review S1-S7 practical application."
+            },
+            {
+              "id": "S8_Q13",
+              "type": "mixed_context",
+              "question": "How do you ask about the price politely?",
+              "options": ["How much does it cost?", "What you want for this?", "Give me price!", "How many cost?"],
+              "correct_answer": "How much does it cost?",
+              "explanation": "Review S2 polite questions."
+            },
+            {
+              "id": "S8_Q14",
+              "type": "mixed_context",
+              "question": "Where is the storage room usually located?",
+              "options": ["Next to the shop floor", "In the main entrance", "On the roof", "Under the counter"],
+              "correct_answer": "Next to the shop floor",
+              "explanation": "Review S4 prepositions and vocabulary."
+            },
+            {
+              "id": "S8_Q15",
+              "type": "mixed_context",
+              "question": "What is the correct order: check price, scan item, give receipt?",
+              "options": ["First check price, then scan item, finally give receipt", "First give receipt, then check price, finally scan item", "First scan item, then give receipt, finally check price", "First check price, then give receipt, finally scan item"],
+              "correct_answer": "First check price, then scan item, finally give receipt",
+              "explanation": "Review S5 sequencing logic."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  
+  "final_exam": {
+    "exam_id": "FINAL_3rd_TERM",
+    "title": "Final Exam - 3rd Term",
+    "duration": "30 minutes",
+    "total_questions": 25,
+    "scoring": "25 x 0.4 = 10 points",
+    "questions": [
+      {"id": "E1", "topic": "S1", "question": "What does a cashier use to read products?", "options": ["A barcode scanner", "A coffee machine", "A television", "A phone"], "correct": "A barcode scanner"},
+      {"id": "E2", "topic": "S1", "question": "Where do customers wait before paying?", "options": ["In a queue", "In a kitchen", "In a bedroom", "In a garden"], "correct": "In a queue"},
+      {"id": "E3", "topic": "S1", "question": "Complete: She _____ a receipt to the customer.", "options": ["gives", "give", "giving", "to give"], "correct": "gives"},
+      {"id": "E4", "topic": "S2", "question": "What is 20% off called?", "options": ["A discount", "An increase", "A tax", "A salary"], "correct": "A discount"},
+      {"id": "E5", "topic": "S2", "question": "Complete: How _____ is the total?", "options": ["much", "many", "long", "old"], "correct": "much"},
+      {"id": "E6", "topic": "S2", "question": "What document shows business transaction details?", "options": ["An invoice", "A postcard", "A novel", "A menu"], "correct": "An invoice"},
+      {"id": "E7", "topic": "S3", "question": "What card takes money immediately from your account?", "options": ["A debit card", "A credit card", "A gift card", "A library card"], "correct": "A debit card"},
+      {"id": "E8", "topic": "S3", "question": "Complete: A credit card _____ _____ _____ plastic.", "options": ["is made of", "made of is", "is make of", "makes of"], "correct": "is made of"},
+      {"id": "E9", "topic": "S3", "question": "What is contactless payment?", "options": ["Paying without touching the reader", "Paying with cash", "Paying by check", "Paying by post"], "correct": "Paying without touching the reader"},
+      {"id": "E10", "topic": "S4", "question": "Where do you try on clothes?", "options": ["In a fitting room", "In the kitchen", "On the street", "In the office"], "correct": "In a fitting room"},
+      {"id": "E11", "topic": "S4", "question": "Complete: Go _____ the storage room.", "options": ["into", "on", "to", "next"], "correct": "into"},
+      {"id": "E12", "topic": "S4", "question": "What is the passage between products called?", "options": ["An aisle", "A window", "A door", "A mirror"], "correct": "An aisle"},
+      {"id": "E13", "topic": "S5", "question": "What is the first step in serving a customer?", "options": ["Greet them", "Process payment", "Give receipt", "Pack items"], "correct": "Greet them"},
+      {"id": "E14", "topic": "S5", "question": "Complete: First, greet. _____, assist.", "options": ["Then", "Finally", "After that", "Next"], "correct": "Then"},
+      {"id": "E15", "topic": "S5", "question": "What do you do with items in a box?", "options": ["Pack them", "Unpack them", "Lose them", "Break them"], "correct": "Pack them"},
+      {"id": "E16", "topic": "S6", "question": "What describes food past its use-by date?", "options": ["It's expired", "It's fresh", "It's new", "It's tasty"], "correct": "It's expired"},
+      {"id": "E17", "topic": "S6", "question": "Complete: It's broken. We _____ to replace it.", "options": ["need", "needs", "needing", "to need"], "correct": "need"},
+      {"id": "E18", "topic": "S6", "question": "What do customers make when unhappy?", "options": ["A complaint", "A compliment", "A gift", "A payment"], "correct": "A complaint"},
+      {"id": "E19", "topic": "S7", "question": "Choose the polite request:", "options": ["Could you help me, please?", "You help me!", "Help me now!", "Helping me?"], "correct": "Could you help me, please?"},
+      {"id": "E20", "topic": "S7", "question": "Complete: _____ you spell that, please?", "options": ["Can", "Do", "Are", "Is"], "correct": "Can"},
+      {"id": "E21", "topic": "S7", "question": "What do you do when you bring products to a home?", "options": ["Deliver", "Collect", "Buy", "Sell"], "correct": "Deliver"},
+      {"id": "E22", "topic": "S8", "question": "What is the correct order: greet, assist, payment, receipt?", "options": ["First greet, then assist, next payment, finally receipt", "First receipt, then greet, next assist, finally payment", "First payment, then greet, next assist, finally receipt", "First assist, then greet, next receipt, finally payment"], "correct": "First greet, then assist, next payment, finally receipt"},
+      {"id": "E23", "topic": "S8", "question": "How do you ask about price politely?", "options": ["How much does it cost?", "What you want?", "Give me price!", "How many cost?"], "correct": "How much does it cost?"},
+      {"id": "E24", "topic": "S8", "question": "What describes a shop with many customers?", "options": ["It's busy", "It's empty", "It's quiet", "It's closed"], "correct": "It's busy"},
+      {"id": "E25", "topic": "S8", "question": "Complete: The products are _____ the shelf.", "options": ["on", "into", "to", "next"], "correct": "on"}
+    ]
+  }
+}

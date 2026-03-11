@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import questionsData from "../data/questions.json";
+import fpbData from "../data/FPB_Comercio_English_S1-S8_Final.json";
 
 interface QuestionRaw {
   id: string;
@@ -48,6 +49,93 @@ const shuffleArray = <T,>(array: T[], randomFn: () => number = Math.random): T[]
   return newArray;
 };
 
+// ---- FPB Comercio integration: flatten and adapt to QuestionRaw ----
+
+interface FPBSessionQuestion {
+  id: string;
+  question: string;
+  options: string[];
+  correct_answer: string;
+}
+
+interface FPBSession {
+  session_id: string;
+  questions: FPBSessionQuestion[];
+}
+
+interface FPBUnit {
+  unit_id: number;
+  sessions: FPBSession[];
+}
+
+interface FPBFinalExamQuestion {
+  id: string;
+  question: string;
+  options: string[];
+  correct: string;
+}
+
+interface FPBDataShape {
+  units: FPBUnit[];
+  final_exam: {
+    questions: FPBFinalExamQuestion[];
+  };
+}
+
+const buildFPBQuestionPool = (): QuestionRaw[] => {
+  try {
+    const data = fpbData as FPBDataShape;
+
+    const sessionQuestions: QuestionRaw[] =
+      (data.units ?? []).flatMap((unit) =>
+        (unit.sessions ?? []).flatMap((session) =>
+          (session.questions ?? []).map<QuestionRaw | null>((q) => {
+            if (!q || !Array.isArray(q.options) || !q.options.length) return null;
+            const correctText = q.correct_answer;
+            if (!correctText) return null;
+            const correctIndex = q.options.indexOf(correctText);
+            if (correctIndex === -1) return null;
+
+            return {
+              id: q.id,
+              festivity: "fpb_comercio",
+              level: 1,
+              block: 1,
+              question: q.question,
+              options: q.options,
+              correct: correctIndex,
+            };
+          }),
+        ),
+      ).filter((q): q is QuestionRaw => q !== null);
+
+    const examQuestions: QuestionRaw[] =
+      (data.final_exam?.questions ?? []).map<QuestionRaw | null>((q) => {
+        if (!q || !Array.isArray(q.options) || !q.options.length) return null;
+        const correctText = q.correct;
+        if (!correctText) return null;
+        const correctIndex = q.options.indexOf(correctText);
+        if (correctIndex === -1) return null;
+
+        return {
+          id: q.id,
+          festivity: "fpb_comercio",
+          level: 1,
+          block: 1,
+          question: q.question,
+          options: q.options,
+          correct: correctIndex,
+        };
+      }).filter((q): q is QuestionRaw => q !== null);
+
+    return [...sessionQuestions, ...examQuestions];
+  } catch {
+    return [];
+  }
+};
+
+const FPB_QUESTION_POOL: QuestionRaw[] = buildFPBQuestionPool();
+
 const shuffleQuestion = (question: QuestionRaw, randomFn: () => number): ShuffledQuestion => {
   const correctAnswer = question.options[question.correct];
   const shuffledOptions = shuffleArray(question.options, randomFn);
@@ -82,19 +170,39 @@ export const useQuiz = (festivityId: string, level: number = 1, block: number = 
     const raw = questionsData as QuestionRaw[] | { default: QuestionRaw[] };
     const allQuestions = Array.isArray(raw) ? raw : (raw?.default ?? []);
     const normalizedId = festivityId.replace(/-/g, "_");
+
     const filtered = allQuestions.filter(
-      (q) => q.festivity.replace(/-/g, "_") === normalizedId && q.level === level && q.block === block,
+      (q) =>
+        q.festivity.replace(/-/g, "_") === normalizedId &&
+        q.level === level &&
+        q.block === block,
     );
-    const preparedQuestions = filtered
-      .slice(0, 6)
-      .map((q) => shuffleQuestion(q, rng));
+
+    // Mezclamos algunas preguntas extra de FPB Comercio para introducir variedad.
+    const maxTotal = 6;
+    const fpbExtrasCount = Math.min(2, FPB_QUESTION_POOL.length);
+    const fpbExtras = fpbExtrasCount > 0
+      ? shuffleArray(FPB_QUESTION_POOL, rng).slice(0, fpbExtrasCount)
+      : [];
+
+    const baseCount = Math.max(0, maxTotal - fpbExtras.length);
+    const baseSample = shuffleArray(filtered, rng).slice(0, baseCount);
+
+    const combinedSources = shuffleArray(
+      [...baseSample, ...fpbExtras],
+      rng,
+    );
+
+    const preparedQuestions = combinedSources.map((q) =>
+      shuffleQuestion(q, rng),
+    );
 
     setQuestions(preparedQuestions);
     setCurrentIndex(0);
     setScore(0);
     setIsComplete(false);
     setUserAnswers([]);
-  }, [festivityId, level, block]);
+  }, [festivityId, level, block, sessionSeed]);
 
   const submitAnswer = useCallback((selectedIndex: number) => {
     if (isComplete) return;
