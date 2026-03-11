@@ -129,6 +129,8 @@ export interface GameProgress {
   coins?: number;
   /** Purchased element ids (typically locked/bonus elements). */
   purchasedElementIds?: string[];
+  /** Window features unlocked by spending coins (work across all festivities). */
+  unlockedFeatures?: FeatureId[];
 }
 
 const SCREENSHOTS_KEY = "window-display-screenshots";
@@ -164,6 +166,7 @@ function getDefaultProgress(): GameProgress {
     totalQuizzesCompleted: 0,
     coins: 0,
     purchasedElementIds: [],
+    unlockedFeatures: [],
   };
 }
 
@@ -177,6 +180,7 @@ export function loadProgress(): GameProgress {
         ...parsed,
         coins: typeof parsed.coins === "number" ? parsed.coins : 0,
         purchasedElementIds: Array.isArray(parsed.purchasedElementIds) ? parsed.purchasedElementIds : [],
+        unlockedFeatures: Array.isArray((parsed as any).unlockedFeatures) ? (parsed as any).unlockedFeatures as FeatureId[] : [],
       };
     }
   } catch (e) {
@@ -292,6 +296,36 @@ export const SHOP_FONT_OPTIONS = [
 ];
 
 export type Season = "spring" | "summer" | "autumn" | "winter";
+
+export type FeatureId = "move_furniture" | "clean_window" | "customer_minigame";
+
+export interface FeatureDef {
+  id: FeatureId;
+  name: string;
+  description: string;
+  price: number;
+}
+
+export const FEATURE_DEFS: FeatureDef[] = [
+  {
+    id: "move_furniture",
+    name: "Move furniture",
+    description: "Rearrange bookcases, shelves and tables inside the window.",
+    price: 60,
+  },
+  {
+    id: "clean_window",
+    name: "Window cleaning mini-game",
+    description: "Unlock the glass cleaning tool to wipe away dirt and fingerprints.",
+    price: 40,
+  },
+  {
+    id: "customer_minigame",
+    name: "Customer mini-game",
+    description: "Customers will appear and ask for items. Serve them to earn extra coins.",
+    price: 50,
+  },
+];
 
 export const FESTIVITY_SEASON_MAP: Record<string, Season> = {
   valentines: "winter",

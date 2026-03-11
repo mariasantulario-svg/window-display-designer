@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Link } from "wouter";
 import { festivities, type Festivity, type DecorativeElement, getUnlockStatus, GRAMMAR_QUIZ_TOTAL } from "@/lib/festivities";
-import { loadProgress, saveProgress, getFestivityProgress, updateFestivityProgress, recordQuizBlockScore, type GameProgress, type PlacedElement, type FixedItemPosition, type FurniturePosition, MAX_ELEMENT_COPIES, countElementInDisplay, DEFAULT_LIGHTS, LIGHT_COLOR_OPTIONS, getFixedItemPositions, getFurniturePositions, autoDetectDismissedHints, dismissHint, saveScreenshot, loadScreenshots, deleteScreenshot, getOnboardingQuizDone, setOnboardingQuizDone, getDismissedHints, getSelectSeasonBannerDismissed, DEFAULT_SHOP_FONT, type Screenshot } from "@/lib/progress";
+import { loadProgress, saveProgress, getFestivityProgress, updateFestivityProgress, recordQuizBlockScore, type GameProgress, type PlacedElement, type FixedItemPosition, type FurniturePosition, MAX_ELEMENT_COPIES, countElementInDisplay, DEFAULT_LIGHTS, LIGHT_COLOR_OPTIONS, getFixedItemPositions, getFurniturePositions, autoDetectDismissedHints, dismissHint, saveScreenshot, loadScreenshots, deleteScreenshot, getOnboardingQuizDone, setOnboardingQuizDone, getDismissedHints, getSelectSeasonBannerDismissed, DEFAULT_SHOP_FONT, type Screenshot, FEATURE_DEFS, type FeatureId } from "@/lib/progress";
 import { WindowDisplay } from "@/components/WindowDisplay";
 import { ElementPanel } from "@/components/ElementPanel";
 import { QuizModal as GrammarQuizModal } from "@/components/quiz/QuizModal";
@@ -182,6 +182,9 @@ export default function Home() {
   const shopName = progress.shopName ?? "";
   const shopFont = progress.shopFont ?? shopFontState;
   const purchasedElementIds = progress.purchasedElementIds ?? [];
+  const unlockedFeatures = progress.unlockedFeatures ?? [];
+
+  const hasFeature = (id: FeatureId) => unlockedFeatures.includes(id);
 
   const bestScore = festivityProgress.quizScore;
   const unlockStatus = getUnlockStatus(selectedFestivity, bestScore);
@@ -222,6 +225,10 @@ export default function Home() {
 
   const allBgColors = [...BG_PRESETS, ...selectedFestivity.colorPalette.filter(c => !BG_PRESETS.includes(c))];
   const availableBgColors = allBgColors.slice(0, unlockStatus.unlockedBgColors);
+
+  const canMoveFurniture = hasFeature("move_furniture");
+  const canCleanWindow = hasFeature("clean_window");
+  const canUseCustomerMiniGame = hasFeature("customer_minigame");
 
   const handleShopNameChange = (name: string) => {
     const newProgress = { ...progress, shopName: name };
@@ -277,7 +284,7 @@ export default function Home() {
   const handleLockedAction = () => {
     toast({
       title: "Feature locked",
-      description: "Answer quizzes to unlock more features!",
+      description: "Earn coins in quizzes and unlock this feature in the Decoration Store.",
     });
   };
 
@@ -320,6 +327,35 @@ export default function Home() {
       return remaining;
     });
   }, [progress, purchasedElementIds, toast]);
+
+  const handleBuyFeature = useCallback((featureId: FeatureId, price: number) => {
+    if (unlockedFeatures.includes(featureId)) return;
+    setCoins((prev) => {
+      if (prev < price) {
+        toast({
+          title: "Not enough coins",
+          description: `You need ${price - prev} more coins to unlock this feature.`,
+          variant: "destructive",
+        });
+        return prev;
+      }
+      const remaining = prev - price;
+      try {
+        localStorage.setItem("window-display-coins", String(remaining));
+      } catch {}
+
+      const newUnlocked = [...unlockedFeatures, featureId];
+      const newProgress: GameProgress = {
+        ...progress,
+        unlockedFeatures: newUnlocked,
+      };
+      saveProgress(newProgress);
+      setProgress(newProgress);
+      toast({ title: "Feature unlocked!", description: "This feature is now available in every season." });
+
+      return remaining;
+    });
+  }, [progress, unlockedFeatures, toast]);
 
   const handleBgColorChange = (color: string) => {
     const newProgress = updateFestivityProgress(progress, selectedFestivity.id, { bgColor: color });
@@ -575,9 +611,11 @@ export default function Home() {
                 unlockedLightsCount={unlockStatus.unlockedLightsCount}
                 furniturePositions={furniturePositions}
                 onUpdateFurniture={handleUpdateFurniture}
-                furnitureUnlocked={unlockStatus.furnitureUnlocked}
+                  furnitureUnlocked={canMoveFurniture}
                 onLockedAction={handleLockedAction}
                 onEarnCoins={handleEarnCoins}
+                  cleaningEnabled={canCleanWindow}
+                  customerMiniGameEnabled={canUseCustomerMiniGame}
               />
             </div>
           </div>
@@ -873,6 +911,46 @@ export default function Home() {
                   </div>
                 </div>
               ))}
+
+              <div className="border-t pt-3 mt-2">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-xs font-bold uppercase tracking-wide text-foreground flex items-center gap-1">
+                    <Lightbulb className="w-3 h-3" />
+                    Window features
+                  </h3>
+                </div>
+                <div className="grid grid-cols-1 gap-2">
+                  {FEATURE_DEFS.map((feat) => {
+                    const unlocked = hasFeature(feat.id);
+                    return (
+                      <div key={feat.id} className="flex items-center justify-between gap-3 border border-border rounded-md p-2 bg-card/70">
+                        <div className="min-w-0">
+                          <div className="font-bold text-sm truncate">{feat.name}</div>
+                          <div className="text-[11px] text-muted-foreground line-clamp-2">
+                            {feat.description}
+                          </div>
+                          <div className="text-[11px] text-muted-foreground mt-0.5">
+                            Price: {feat.price} coins
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          {unlocked ? (
+                            <Badge variant="secondary">Unlocked</Badge>
+                          ) : (
+                            <Button
+                              size="sm"
+                              onClick={() => handleBuyFeature(feat.id, feat.price)}
+                              disabled={coins < feat.price}
+                            >
+                              Unlock
+                            </Button>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
           </ScrollArea>
         </div>

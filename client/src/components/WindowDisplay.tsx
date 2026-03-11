@@ -45,6 +45,8 @@ interface WindowDisplayProps {
   furnitureUnlocked: boolean;
   onLockedAction: () => void;
   onEarnCoins?: (coins: number) => void;
+  cleaningEnabled: boolean;
+  customerMiniGameEnabled: boolean;
 }
 
 function isDark(hex: string): boolean {
@@ -664,7 +666,7 @@ export function WindowDisplay({
   bgColor, lightsOn, onToggleLight, lightColor, fixedItems, onUpdateFixedItem,
   shopName, onShopNameChange, shopFont, onShopFontChange, unlockedLightsCount,
   furniturePositions, onUpdateFurniture, furnitureUnlocked, onLockedAction,
-  onEarnCoins,
+  onEarnCoins, cleaningEnabled, customerMiniGameEnabled,
 }: WindowDisplayProps) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [selectedFixedId, setSelectedFixedId] = useState<string | null>(null);
@@ -691,6 +693,7 @@ export function WindowDisplay({
   const [customerVariant, setCustomerVariant] = useState<0 | 1 | 2>(0);
 
   const spawnCustomer = useCallback(() => {
+    if (!customerMiniGameEnabled) return;
     console.log("[CustomerMiniGame] spawnCustomer called. Current customer:", customer, "placedElements:", placedElements.length, "successfulSales:", successfulSales);
     if (customer) return;
     // Limit to 3 satisfied customers por conjunto de elementos colocados.
@@ -711,7 +714,7 @@ export function WindowDisplay({
     setLastRequestedId(requestedElementId);
     setCustomerVariant(prev => ((prev + 1) % 3) as 0 | 1 | 2);
     setCustomer({ requestedElementId, status: "idle" });
-  }, [customer, placedElements, successfulSales, lastRequestedId]);
+  }, [customer, placedElements, successfulSales, lastRequestedId, customerMiniGameEnabled]);
 
   // Reset contador de ventas solo cuando se añaden nuevos elementos al escaparate.
   useEffect(() => {
@@ -725,6 +728,7 @@ export function WindowDisplay({
   }, [placedElements.length]);
 
   useEffect(() => {
+    if (!customerMiniGameEnabled) return;
     console.log("[CustomerMiniGame] Timer effect setup for festivity:", festivity.id, "placedElements:", placedElements.length);
     // Spawn at most one customer every 30s while in editor.
     const interval = setInterval(() => {
@@ -740,7 +744,7 @@ export function WindowDisplay({
       clearInterval(interval);
       clearTimeout(first);
     };
-  }, [festivity.id, customer, spawnCustomer, placedElements.length]);
+  }, [festivity.id, customer, spawnCustomer, placedElements.length, customerMiniGameEnabled]);
 
   useEffect(() => {
     setDismissedHints(getDismissedHints());
@@ -876,7 +880,7 @@ export function WindowDisplay({
   }, []);
 
   const handlePointerUp = (e: React.PointerEvent) => {
-    if (draggingIndex !== null && customer) {
+    if (draggingIndex !== null && customer && customerMiniGameEnabled) {
       const dragged = placedElements[draggingIndex];
       const requested = customer.requestedElementId;
       if (dragged && isPointOverCustomer(e.clientX, e.clientY)) {
@@ -1139,7 +1143,7 @@ export function WindowDisplay({
                 );
               })}
 
-              {customer && (() => {
+              {customerMiniGameEnabled && customer && (() => {
                 const requested = allElements.find(a => a.id === customer.requestedElementId);
                 const rawId = customer.requestedElementId || "";
                 const slugPart = rawId.includes("-") ? rawId.split("-").slice(1).join("-") : rawId;
@@ -1208,41 +1212,43 @@ export function WindowDisplay({
                 />
               ))}
 
-              {/* Glass dirt overlay */}
-              <GlassOverlay
-                festivityId={festivity.id}
-                season={FESTIVITY_SEASON_MAP[festivity.id] || "spring"}
-                cleaningMode={cleaningMode}
-                onCleaningProgress={setCleaningProgress}
-              />
+              {cleaningEnabled && (
+                <>
+                  <GlassOverlay
+                    festivityId={festivity.id}
+                    season={FESTIVITY_SEASON_MAP[festivity.id] || "spring"}
+                    cleaningMode={cleaningMode}
+                    onCleaningProgress={setCleaningProgress}
+                  />
 
-              {/* Cleaning mode button */}
-              <div className="absolute top-2 right-2 z-[50] pointer-events-auto flex items-center gap-1.5">
-                <button
-                  onClick={(e) => { e.stopPropagation(); setCleaningMode(!cleaningMode); }}
-                  className={`flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide shadow-md border transition-all ${
-                    cleaningMode
-                      ? "bg-blue-500 text-white border-blue-600 ring-2 ring-blue-300/50"
-                      : dark
-                        ? "bg-white/15 text-white/70 border-white/20 hover:bg-white/25"
-                        : "bg-white/80 text-slate-500 border-slate-200 hover:bg-white"
-                  }`}
-                  title={cleaningMode ? "Stop cleaning" : "Clean the window!"}
-                  data-testid="button-toggle-cleaning"
-                >
-                  <SprayCan size={12} />
-                  {cleaningMode ? "Cleaning..." : "Clean"}
-                </button>
-                {cleaningMode && cleaningProgress > 0 && (
-                  <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
-                    cleaningProgress >= 95
-                      ? "bg-green-500 text-white"
-                      : "bg-blue-100 text-blue-700"
-                  }`}>
-                    {cleaningProgress >= 95 ? "✨ Spotless!" : `${cleaningProgress}%`}
-                  </span>
-                )}
-              </div>
+                  <div className="absolute top-2 right-2 z-[50] pointer-events-auto flex items-center gap-1.5">
+                    <button
+                      onClick={(e) => { e.stopPropagation(); setCleaningMode(!cleaningMode); }}
+                      className={`flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide shadow-md border transition-all ${
+                        cleaningMode
+                          ? "bg-blue-500 text-white border-blue-600 ring-2 ring-blue-300/50"
+                          : dark
+                            ? "bg-white/15 text-white/70 border-white/20 hover:bg-white/25"
+                            : "bg-white/80 text-slate-500 border-slate-200 hover:bg-white"
+                      }`}
+                      title={cleaningMode ? "Stop cleaning" : "Clean the window!"}
+                      data-testid="button-toggle-cleaning"
+                    >
+                      <SprayCan size={12} />
+                      {cleaningMode ? "Cleaning..." : "Clean"}
+                    </button>
+                    {cleaningMode && cleaningProgress > 0 && (
+                      <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
+                        cleaningProgress >= 95
+                          ? "bg-green-500 text-white"
+                          : "bg-blue-100 text-blue-700"
+                      }`}>
+                        {cleaningProgress >= 95 ? "✨ Spotless!" : `${cleaningProgress}%`}
+                      </span>
+                    )}
+                  </div>
+                </>
+              )}
 
               {showFontPicker && (
                 <div className="absolute left-1/2 -translate-x-1/2 top-[6%] z-[80] bg-white/95 border border-slate-200 rounded-lg shadow-xl px-3 py-2 max-w-[260px]">
@@ -1300,7 +1306,7 @@ export function WindowDisplay({
               />
               <SpeechBubble
                 visible={activeHint === "furniture"}
-                text={furnitureUnlocked ? "Drag to rearrange furniture. Click to select, then +/- to change size!" : "Take the quiz to unlock furniture!"}
+                text={furnitureUnlocked ? "Drag to rearrange furniture. Click to select, then +/- to change size!" : "Unlock the furniture feature in the store to move these pieces."}
                 position={hintPos}
               />
               <SpeechBubble
