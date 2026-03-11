@@ -376,6 +376,18 @@ export default function Home() {
     setDrawerOpen(true);
   };
 
+  // Limpia elementos colocados que ya no existen (por ejemplo antiguos baseElements eliminados).
+  useEffect(() => {
+    if (!festivityProgress.placedElements || festivityProgress.placedElements.length === 0) return;
+    const validIds = new Set(allElements.map(e => e.id));
+    const cleaned = festivityProgress.placedElements.filter(p => validIds.has(p.elementId));
+    if (cleaned.length !== festivityProgress.placedElements.length) {
+      const newProgress = updateFestivityProgress(progress, selectedFestivity.id, { placedElements: cleaned });
+      setProgress(newProgress);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedFestivity.id]);
+
   return (
     <div className="flex flex-col h-screen bg-background font-sans text-foreground">
       {showOnboardingQuiz ? (
@@ -813,6 +825,20 @@ export default function Home() {
         onQuizBlockComplete={({ festivityId: fid, level: lvl, block: blk, score: sc }) => {
           const newProgress = recordQuizBlockScore(progress, fid, lvl, blk, sc);
           setProgress(newProgress);
+          if (sc > 0) {
+            const earned = sc * 2; // 2 monedas por respuesta correcta
+            setCoins((prev) => {
+              const next = prev + earned;
+              try {
+                localStorage.setItem("window-display-coins", String(next));
+              } catch {}
+              return next;
+            });
+            toast({
+              title: `+${earned} coins`,
+              description: "You earned coins for this quiz block.",
+            });
+          }
         }}
       />
 
