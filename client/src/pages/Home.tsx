@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import { Link } from "wouter";
 import { festivities, type Festivity, type DecorativeElement, getUnlockStatus, GRAMMAR_QUIZ_TOTAL } from "@/lib/festivities";
 import { loadProgress, saveProgress, getFestivityProgress, updateFestivityProgress, recordQuizBlockScore, type GameProgress, type PlacedElement, type FixedItemPosition, type FurniturePosition, MAX_ELEMENT_COPIES, countElementInDisplay, DEFAULT_LIGHTS, LIGHT_COLOR_OPTIONS, getFixedItemPositions, getFurniturePositions, autoDetectDismissedHints, dismissHint, saveScreenshot, loadScreenshots, deleteScreenshot, getOnboardingQuizDone, setOnboardingQuizDone, getDismissedHints, getSelectSeasonBannerDismissed, DEFAULT_SHOP_FONT, type Screenshot } from "@/lib/progress";
 import { WindowDisplay } from "@/components/WindowDisplay";
@@ -14,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
-import { Paintbrush, RotateCcw, Lightbulb, Lock, ChevronUp, ChevronDown, X, Camera, Image, Trash2, Share2, ShoppingBag, Coins } from "lucide-react";
+import { Paintbrush, RotateCcw, Lightbulb, Lock, ChevronUp, ChevronDown, X, Camera, Image, Trash2, Share2, ShoppingBag, Coins, Smile } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import html2canvas from "html2canvas";
 import { StickerIcon } from "@/components/StickerIcon";
@@ -184,7 +185,8 @@ export default function Home() {
 
   const bestScore = festivityProgress.quizScore;
   const unlockStatus = getUnlockStatus(selectedFestivity, bestScore);
-  const unlockedIdsForPanel = Array.from(new Set([...unlockStatus.unlockedElements, ...purchasedElementIds]));
+  // Decorations now se desbloquean solo con monedas: el panel usa únicamente los comprados.
+  const unlockedIdsForPanel = Array.from(new Set([...purchasedElementIds]));
   const bonusElementsForPanel = [
     ...selectedFestivity.lockedElements,
     ...selectedFestivity.shopOnlyElements,
@@ -475,6 +477,17 @@ export default function Home() {
             <ShoppingBag className="w-4 h-4 mr-1.5" />
             Shop
           </Button>
+          <Link href={`/personajes?festivity=${selectedFestivity.id}`}>
+            <Button
+              variant="outline"
+              size="sm"
+              title="Crear personajes kawaii para Notion"
+              data-testid="button-personajes"
+            >
+              <Smile className="w-4 h-4 mr-1.5" />
+              Personajes
+            </Button>
+          </Link>
         </div>
 
         <div className="flex flex-col gap-1" data-testid="overall-progress">
@@ -760,9 +773,8 @@ export default function Home() {
           <ScrollArea className="max-h-[60vh] pr-2">
             <div className="grid grid-cols-1 gap-2">
               {selectedFestivity.shopOnlyElements.map((el) => {
-                const unlockedByQuiz = unlockStatus.unlockedElements.includes(el.id);
                 const purchased = purchasedElementIds.includes(el.id);
-                const canBuy = !unlockedByQuiz && !purchased;
+                const canBuy = !purchased;
                 return (
                   <div key={el.id} className="flex items-center justify-between gap-3 border border-border rounded-md p-2 bg-background">
                     <div className="flex items-center gap-2 min-w-0">
@@ -777,9 +789,7 @@ export default function Home() {
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
-                      {unlockedByQuiz ? (
-                        <Badge variant="secondary">Unlocked</Badge>
-                      ) : purchased ? (
+                      {purchased ? (
                         <Badge>Bought</Badge>
                       ) : (
                         <Button size="sm" onClick={() => handleBuyElement(el.id, getShopPrice(el))} disabled={!canBuy}>

@@ -85,24 +85,26 @@ export function ElementPanel({
 }: ElementPanelProps) {
   return (
     <div className="flex flex-col gap-3" data-testid="element-panel">
-      <div>
-        <h3 className="text-xs font-bold mb-2 text-foreground uppercase tracking-wide">Base Items</h3>
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
-          {baseElements.map((el) => (
-            <ElementItem
-              key={el.id}
-              element={el}
-              isUnlocked={true}
-              copyCount={countElementInDisplay(placedElements, el.id)}
-              onAdd={() => onAddElement(el)}
-            />
-          ))}
+      {baseElements.length > 0 && (
+        <div>
+          <h3 className="text-xs font-bold mb-2 text-foreground uppercase tracking-wide">Base Items</h3>
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
+            {baseElements.map((el) => (
+              <ElementItem
+                key={el.id}
+                element={el}
+                isUnlocked={true}
+                copyCount={countElementInDisplay(placedElements, el.id)}
+                onAdd={() => onAddElement(el)}
+              />
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="border-t pt-3">
         <div className="flex items-center justify-between mb-2 flex-wrap gap-1">
-          <h3 className="text-xs font-bold text-foreground uppercase tracking-wide">Bonus Items</h3>
+          <h3 className="text-xs font-bold text-foreground uppercase tracking-wide">Decorations</h3>
           {!quizCompleted ? (
             <button
               onClick={onQuizOpen}
@@ -121,11 +123,7 @@ export function ElementPanel({
             </button>
           )}
         </div>
-        {quizCompleted && unlockedIds.length < lockedElements.length && (
-          <p className="text-[10px] text-muted-foreground mb-2">
-            Score higher to unlock more items!
-          </p>
-        )}
+        {/* Las decoraciones ya no se desbloquean por puntuación, solo con monedas. */}
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
           {lockedElements.map((el) => (
             <ElementItem
