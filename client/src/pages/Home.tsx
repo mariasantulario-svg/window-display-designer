@@ -567,17 +567,6 @@ export default function Home() {
             <ShoppingBag className="w-4 h-4 mr-1.5" />
             Decoration Store
           </Button>
-          <Link href={`/personajes?festivity=${selectedFestivity.id}`}>
-            <Button
-              variant="outline"
-              size="sm"
-              title="Crear personajes kawaii para Notion"
-              data-testid="button-personajes"
-            >
-              <Smile className="w-4 h-4 mr-1.5" />
-              Personajes
-            </Button>
-          </Link>
         </div>
 
         <div className="flex flex-col gap-1" data-testid="overall-progress">

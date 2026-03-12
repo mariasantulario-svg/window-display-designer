@@ -49,6 +49,55 @@ interface WindowDisplayProps {
   customerMiniGameEnabled: boolean;
 }
 
+const SHOP_BASE_PRICE = 20;
+
+const getDecorationPrice = (el: DecorativeElement): number => {
+  const n = el.name.toLowerCase();
+
+  if (
+    n.includes("truck") ||
+    n.includes("house") ||
+    n.includes("tree") ||
+    n.includes("ninja") ||
+    n.includes("santa") ||
+    n.includes("school building") ||
+    n.includes("big sale")
+  ) {
+    return 40;
+  }
+
+  if (
+    n.includes("bunny") ||
+    n.includes("reindeer") ||
+    n.includes("snowman") ||
+    n.includes("backpack") ||
+    n.includes("camera") ||
+    n.includes("pumpkin") ||
+    n.includes("snowglobe") ||
+    n.includes("cupcake") ||
+    n.includes("pencil") ||
+    n.includes("notebook") ||
+    n.includes("gift") ||
+    n.includes("umbrella")
+  ) {
+    return 30;
+  }
+
+  if (
+    n.includes("heart") ||
+    n.includes("egg") ||
+    n.includes("star") ||
+    n.includes("flower") ||
+    n.includes("tag") ||
+    n.includes("balloon") ||
+    n.includes("candy")
+  ) {
+    return 18;
+  }
+
+  return SHOP_BASE_PRICE;
+};
+
 function isDark(hex: string): boolean {
   const r = parseInt(hex.slice(1, 3), 16);
   const g = parseInt(hex.slice(3, 5), 16);
@@ -327,64 +376,24 @@ const FIXED_ITEM_COMPONENTS: Record<string, () => JSX.Element> = {
 };
 
 function CustomerAvatar({ variant, season }: { variant: 0 | 1 | 2; season: string }) {
-  const seasonLower = season.toLowerCase();
-  let mainColor = "#ffb4c8";
-  let accentColor = "#ff6b6b";
+  const sources = [
+    "/characters/customer-boy-1.png",
+    "/characters/customer-girl-spring-2.png",
+    "/characters/customer-girl-summer-1.png",
+    "/characters/customer-man-summer-1.png",
+    "/characters/customer-woman-1.png",
+    "/characters/customer-woman-2.png",
+  ];
 
-  if (seasonLower.includes("winter") || seasonLower.includes("christmas")) {
-    mainColor = "#90caf9";
-    accentColor = "#1976d2";
-  } else if (seasonLower.includes("summer")) {
-    mainColor = "#ffe082";
-    accentColor = "#fb8c00";
-  } else if (seasonLower.includes("autumn") || seasonLower.includes("halloween")) {
-    mainColor = "#ffcc80";
-    accentColor = "#ef6c00";
-  } else if (seasonLower.includes("spring") || seasonLower.includes("easter")) {
-    mainColor = "#c5e1a5";
-    accentColor = "#66bb6a";
-  }
-
-  if (variant === 0) {
-    return (
-      <svg width="58" height="58" viewBox="0 0 58 58">
-        <circle cx="29" cy="29" r="22" fill="#FFE0B2" stroke="#F1B36B" strokeWidth="1.5" />
-        <path d="M16 24 Q29 8 42 24" fill="#5c4b51" />
-        <circle cx="22" cy="27" r="2.4" fill="#4E342E" />
-        <circle cx="36" cy="27" r="2.4" fill="#4E342E" />
-        <path d="M24 35 Q29 39 34 35" fill="none" stroke="#4E342E" strokeWidth="2.2" strokeLinecap="round" />
-        <path d="M19 40 Q29 47 39 40" fill={mainColor} stroke={accentColor} strokeWidth="1" />
-      </svg>
-    );
-  }
-
-  if (variant === 1) {
-    return (
-      <svg width="58" height="58" viewBox="0 0 58 58">
-        <circle cx="29" cy="29" r="22" fill="#FFE0B2" stroke="#F1B36B" strokeWidth="1.5" />
-        <path d="M18 20 Q29 10 40 20 Q38 12 29 10 Q20 12 18 20z" fill="#4b3f72" />
-        <circle cx="22" cy="27" r="2.4" fill="#4E342E" />
-        <circle cx="36" cy="27" r="2.4" fill="#4E342E" />
-        <path d="M23 34 Q29 37 35 34" fill="none" stroke="#4E342E" strokeWidth="2.2" strokeLinecap="round" />
-        <path d="M20 36 Q29 40 38 36 L36 42 Q29 45 22 42z" fill={accentColor} />
-        <path d="M27 36 L24 44" stroke={accentColor} strokeWidth="2" strokeLinecap="round" />
-      </svg>
-    );
-  }
+  const index = ((variant as number) % sources.length + sources.length) % sources.length;
+  const src = sources[index];
 
   return (
-    <svg width="58" height="58" viewBox="0 0 58 58">
-      <circle cx="29" cy="29" r="22" fill="#FFE0B2" stroke="#F1B36B" strokeWidth="1.5" />
-      <path
-        d="M16 23 Q20 15 24 14 Q26 12 29 13 Q32 12 34 14 Q38 15 42 23"
-        fill="#8d5524"
-      />
-      <circle cx="22" cy="27" r="2.4" fill="#4E342E" />
-      <circle cx="36" cy="27" r="2.4" fill="#4E342E" />
-      <path d="M23 35 Q29 38 35 35" fill="none" stroke="#4E342E" strokeWidth="2.2" strokeLinecap="round" />
-      <path d="M20 40 Q29 46 38 40" fill={mainColor} />
-      <path d="M20 41 Q29 44 38 41" stroke={accentColor} strokeWidth="2" />
-    </svg>
+    <img
+      src={src}
+      alt="Customer"
+      className="w-[160px] h-[240px] object-contain drop-shadow-md"
+    />
   );
 }
 
@@ -691,12 +700,12 @@ export function WindowDisplay({
   const [cleaningProgress, setCleaningProgress] = useState(0);
   const [showFontPicker, setShowFontPicker] = useState(false);
   const [customerVariant, setCustomerVariant] = useState<0 | 1 | 2>(0);
+  const [isShopOpen, setIsShopOpen] = useState(true);
 
   const spawnCustomer = useCallback(() => {
-    if (!customerMiniGameEnabled) return;
+    if (!customerMiniGameEnabled || !isShopOpen) return;
     console.log("[CustomerMiniGame] spawnCustomer called. Current customer:", customer, "placedElements:", placedElements.length, "successfulSales:", successfulSales);
     if (customer) return;
-    // Limit to 3 satisfied customers por conjunto de elementos colocados.
     if (successfulSales >= 3) {
       console.log("[CustomerMiniGame] Maximum customers served for current layout, not spawning new customer.");
       return;
@@ -714,9 +723,8 @@ export function WindowDisplay({
     setLastRequestedId(requestedElementId);
     setCustomerVariant(prev => ((prev + 1) % 3) as 0 | 1 | 2);
     setCustomer({ requestedElementId, status: "idle" });
-  }, [customer, placedElements, successfulSales, lastRequestedId, customerMiniGameEnabled]);
+  }, [customer, placedElements, successfulSales, lastRequestedId, customerMiniGameEnabled, isShopOpen]);
 
-  // Reset contador de ventas solo cuando se añaden nuevos elementos al escaparate.
   useEffect(() => {
     const prev = lastPlacedCountRef.current;
     if (placedElements.length > prev) {
@@ -728,14 +736,12 @@ export function WindowDisplay({
   }, [placedElements.length]);
 
   useEffect(() => {
-    if (!customerMiniGameEnabled) return;
+    if (!customerMiniGameEnabled || !isShopOpen) return;
     console.log("[CustomerMiniGame] Timer effect setup for festivity:", festivity.id, "placedElements:", placedElements.length);
-    // Spawn at most one customer every 30s while in editor.
     const interval = setInterval(() => {
       console.log("[CustomerMiniGame] 30s timer tick. current customer:", customer, "placedElements:", placedElements.length);
       if (!customer) spawnCustomer();
     }, 30_000);
-    // Try a quick spawn shortly after entering a festivity (if items exist).
     const first = setTimeout(() => {
       console.log("[CustomerMiniGame] initial 2s timer fired. customer:", customer, "placedElements:", placedElements.length);
       if (!customer) spawnCustomer();
@@ -744,7 +750,7 @@ export function WindowDisplay({
       clearInterval(interval);
       clearTimeout(first);
     };
-  }, [festivity.id, customer, spawnCustomer, placedElements.length, customerMiniGameEnabled]);
+  }, [festivity.id, customer, spawnCustomer, placedElements.length, customerMiniGameEnabled, isShopOpen]);
 
   useEffect(() => {
     setDismissedHints(getDismissedHints());
@@ -880,15 +886,14 @@ export function WindowDisplay({
   }, []);
 
   const handlePointerUp = (e: React.PointerEvent) => {
-    if (draggingIndex !== null && customer && customerMiniGameEnabled) {
+    if (draggingIndex !== null && customer && customerMiniGameEnabled && isShopOpen) {
       const dragged = placedElements[draggingIndex];
       const requested = customer.requestedElementId;
       if (dragged && isPointOverCustomer(e.clientX, e.clientY)) {
         if (dragged.elementId === requested) {
           const el = allElements.find(a => a.id === requested);
-          const reward = el?.coinValue ?? 3;
+          const reward = el ? getDecorationPrice(el) : 3;
           onEarnCoins?.(reward);
-          // "Sell" the item: remove it del escaparate para que el alumno tenga que volver a desbloquear/colocar más.
           onRemoveElement(draggingIndex);
           setSuccessfulSales(prev => prev + 1);
           setCustomer({ requestedElementId: requested, status: "happy" });
@@ -928,6 +933,36 @@ export function WindowDisplay({
 
   return (
     <div className="relative overflow-visible box-border w-full min-w-0 px-2 pt-12 pb-2 sm:px-3 sm:pt-14 sm:pb-3 md:px-4 md:pt-16 md:pb-4 lg:pl-5 lg:pr-6 lg:pt-[80px] lg:pb-4" style={{ marginLeft: "-4px" }}>
+      {/* Open/Closed sign for customer mini-game */}
+      {customerMiniGameEnabled && (
+        <button
+          type="button"
+          onClick={() => {
+            setIsShopOpen((prev) => {
+              const next = !prev;
+              if (!next) {
+                setCustomer(null);
+              }
+              return next;
+            });
+          }}
+          className="absolute left-4 top-4 z-[25] px-3 py-1.5 rounded-md border-2 border-gray-700 bg-white shadow-md flex flex-col items-center justify-center gap-0.5"
+          style={{ transform: isShopOpen ? "rotate(-8deg)" : "rotate(8deg)" }}
+          aria-label={isShopOpen ? "Set shop to closed" : "Set shop to open"}
+        >
+          <span className="text-[9px] uppercase tracking-[0.25em] text-gray-500">
+            Shop
+          </span>
+          <span
+            className={`text-xs font-extrabold tracking-wide ${
+              isShopOpen ? "text-green-700" : "text-red-700"
+            }`}
+          >
+            {isShopOpen ? "OPEN" : "CLOSED"}
+          </span>
+        </button>
+      )}
+      
       <StorefrontFrame
         dark={dark}
         treeImagePath={treeImagePath}
@@ -938,384 +973,349 @@ export function WindowDisplay({
         onSignLeave={hideHint}
         onOpenFontPicker={() => setShowFontPicker((prev) => !prev)}
       />
-            <div className="w-full relative" style={{ aspectRatio: "600/370", minHeight: 0, flexShrink: 0 }}>
+      
+      {/* CONTENEDOR DEL CANVAS - SIN EL CLIENTE */}
+      <div className="w-full relative" style={{ aspectRatio: "600/370", minHeight: 0, flexShrink: 0 }}>
+        <div
+          ref={canvasRef}
+          className="absolute inset-0 overflow-hidden"
+          style={{
+            border: `2px solid ${dark ? "#555" : "#777"}`,
+            boxShadow: dark ? "inset 0 0 30px rgba(0,0,0,0.3)" : "inset 0 0 20px rgba(0,0,0,0.04)",
+            borderRadius: 2,
+          }}
+          onClick={handleCanvasClick}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onMouseMove={handleCanvasMouseMove}
+          onMouseLeave={hideHint}
+          data-testid="window-display-canvas"
+        >
+          <svg viewBox="0 0 600 370" className="w-full h-full pointer-events-none absolute inset-0">
+            <defs>
+              <pattern id="doodle-bg" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+                <circle cx="20" cy="20" r="0.5" fill={dark ? "#ffffff" : "#333"} opacity="0.04" />
+              </pattern>
+            </defs>
+            <rect x="0" y="0" width="600" height="370" fill={bgColor} />
+            <rect x="0" y="0" width="600" height="370" fill="url(#doodle-bg)" />
+            <FloorLine dark={dark} />
+          </svg>
+
+          {furniturePositions.map((furn) => {
+            const isFurnSelected = selectedFurnitureId === furn.id && furnitureUnlocked;
+            return (
               <div
-                ref={canvasRef}
-                className="absolute inset-0 overflow-hidden"
+                key={`furniture-${furn.id}`}
+                data-hint-zone="furniture"
+                className={`absolute touch-none select-none ${
+                  furnitureUnlocked
+                    ? draggingFurnitureId === furn.id ? "cursor-grabbing z-[5]" : "cursor-grab z-[3]"
+                    : "cursor-not-allowed z-[3]"
+                } ${isFurnSelected ? "z-[5]" : ""}`}
                 style={{
-                  border: `2px solid ${dark ? "#555" : "#777"}`,
-                  boxShadow: dark ? "inset 0 0 30px rgba(0,0,0,0.3)" : "inset 0 0 20px rgba(0,0,0,0.04)",
-                  borderRadius: 2,
+                  left: `${furn.x}%`,
+                  top: `${furn.y}%`,
+                  transform: `translate(-50%, -50%) scale(${furn.scale || 0.7})`,
                 }}
-                onClick={handleCanvasClick}
-              onPointerMove={handlePointerMove}
-              onPointerUp={handlePointerUp}
-              onMouseMove={handleCanvasMouseMove}
-              onMouseLeave={hideHint}
-              data-testid="window-display-canvas"
-            >
-              <svg viewBox="0 0 600 370" className="w-full h-full pointer-events-none absolute inset-0">
-                <defs>
-                  <pattern id="doodle-bg" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
-                    <circle cx="20" cy="20" r="0.5" fill={dark ? "#ffffff" : "#333"} opacity="0.04" />
-                  </pattern>
-                </defs>
-                <rect x="0" y="0" width="600" height="370" fill={bgColor} />
-                <rect x="0" y="0" width="600" height="370" fill="url(#doodle-bg)" />
-                <FloorLine dark={dark} />
-              </svg>
-
-              {furniturePositions.map((furn) => {
-                const isFurnSelected = selectedFurnitureId === furn.id && furnitureUnlocked;
-                return (
+                onPointerDown={(e) => handleFurniturePointerDown(e, furn.id)}
+                onMouseEnter={() => showHint("furniture", furn.x, Math.max(10, furn.y - 12))}
+                onMouseLeave={hideHint}
+                onClick={(e) => { e.stopPropagation(); markHintUsed("furniture"); }}
+                data-testid={`furniture-${furn.id}`}
+              >
+                <div className={`${isFurnSelected ? "ring-2 ring-green-400 ring-offset-2 rounded-lg" : ""} p-0.5`}>
+                  {!furnitureUnlocked && (
+                    <div className="absolute -top-1 -right-1 z-10 bg-background/80 rounded-full p-0.5">
+                      <Lock size={8} className="text-muted-foreground" />
+                    </div>
+                  )}
+                  <FurniturePiece id={furn.id} dark={dark} />
+                </div>
+                {isFurnSelected && (
                   <div
-                    key={`furniture-${furn.id}`}
-                    data-hint-zone="furniture"
-                    className={`absolute touch-none select-none ${
-                      furnitureUnlocked
-                        ? draggingFurnitureId === furn.id ? "cursor-grabbing z-[5]" : "cursor-grab z-[3]"
-                        : "cursor-not-allowed z-[3]"
-                    } ${isFurnSelected ? "z-[5]" : ""}`}
-                    style={{
-                      left: `${furn.x}%`,
-                      top: `${furn.y}%`,
-                      transform: `translate(-50%, -50%) scale(${furn.scale || 0.7})`,
-                    }}
-                    onPointerDown={(e) => handleFurniturePointerDown(e, furn.id)}
-                    onMouseEnter={() => showHint("furniture", furn.x, Math.max(10, furn.y - 12))}
-                    onMouseLeave={hideHint}
-                    onClick={(e) => { e.stopPropagation(); markHintUsed("furniture"); }}
-                    data-testid={`furniture-${furn.id}`}
+                    className="absolute -top-10 left-1/2 -translate-x-1/2 flex items-center gap-1 z-[60]"
+                    onClick={(e) => e.stopPropagation()}
+                    onPointerDown={(e) => e.stopPropagation()}
                   >
-                    <div className={`${isFurnSelected ? "ring-2 ring-green-400 ring-offset-2 rounded-lg" : ""} p-0.5`}>
-                      {!furnitureUnlocked && (
-                        <div className="absolute -top-1 -right-1 z-10 bg-background/80 rounded-full p-0.5">
-                          <Lock size={8} className="text-muted-foreground" />
-                        </div>
-                      )}
-                      <FurniturePiece id={furn.id} dark={dark} />
-                    </div>
-                    {isFurnSelected && (
-                      <div
-                        className="absolute -top-10 left-1/2 -translate-x-1/2 flex items-center gap-1 z-[60]"
-                        onClick={(e) => e.stopPropagation()}
-                        onPointerDown={(e) => e.stopPropagation()}
-                      >
-                        <div className="flex gap-1 bg-white shadow-xl border rounded-full p-1">
-                          <button
-                            onClick={() => handleFurnitureScale(furn.id, 0.1)}
-                            className="p-1 rounded-full text-green-600"
-                            aria-label="Enlarge furniture"
-                            data-testid={`button-enlarge-furniture-${furn.id}`}
-                          >
-                            <Plus size={14} />
-                          </button>
-                          <button
-                            onClick={() => handleFurnitureScale(furn.id, -0.1)}
-                            className="p-1 rounded-full text-green-600"
-                            aria-label="Shrink furniture"
-                            data-testid={`button-shrink-furniture-${furn.id}`}
-                          >
-                            <Minus size={14} />
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-
-              {fixedItems.map((item) => {
-                const Component = FIXED_ITEM_COMPONENTS[item.id];
-                if (!Component) return null;
-                const isSelected = selectedFixedId === item.id;
-                return (
-                  <div
-                    key={`fixed-${item.id}`}
-                    data-hint-zone="elements"
-                    className={`absolute touch-none select-none ${
-                      draggingFixedId === item.id ? "cursor-grabbing z-40" : "cursor-grab z-[8]"
-                    } ${isSelected ? "z-40" : ""}`}
-                    style={{
-                      left: `${item.x}%`,
-                      top: `${item.y}%`,
-                      transform: `translate(-50%, -50%) scale(${item.scale || 1})`,
-                    }}
-                    onPointerDown={(e) => handleFixedPointerDown(e, item.id)}
-                    onMouseEnter={() => showHint("elements_drag", item.x, Math.max(10, item.y - 10))}
-                    onMouseLeave={hideHint}
-                    onClick={(e) => { e.stopPropagation(); markHintUsed("elements_drag"); }}
-                    data-testid={`fixed-item-${item.id}`}
-                  >
-                    <div className={`${isSelected ? "ring-2 ring-amber-400 ring-offset-2 rounded-lg" : ""} p-0.5`}>
-                      <Component />
-                    </div>
-                    {isSelected && (
-                      <div
-                        className="absolute -top-10 left-1/2 -translate-x-1/2 flex items-center gap-1 z-[60]"
-                        onClick={(e) => e.stopPropagation()}
-                        onPointerDown={(e) => e.stopPropagation()}
-                      >
-                        <div className="flex gap-1 bg-white shadow-xl border rounded-full p-1">
-                          <button
-                            onClick={() => handleFixedScale(item.id, 0.3)}
-                            className="p-1 rounded-full text-amber-600"
-                            aria-label="Enlarge"
-                            data-testid={`button-enlarge-fixed-${item.id}`}
-                          >
-                            <Plus size={14} />
-                          </button>
-                          <button
-                            onClick={() => handleFixedScale(item.id, -0.3)}
-                            className="p-1 rounded-full text-amber-600"
-                            aria-label="Shrink"
-                            data-testid={`button-shrink-fixed-${item.id}`}
-                          >
-                            <Minus size={14} />
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-
-              {placedElements.map((placed, index) => {
-                const element = allElements.find(el => el.id === placed.elementId);
-                if (!element) return null;
-                const isSelected = selectedIndex === index;
-                return (
-                  <div
-                    key={`placed-${index}`}
-                    data-hint-zone="elements"
-                    className={`absolute touch-none select-none ${
-                      draggingIndex === index ? "cursor-grabbing z-50" : "cursor-grab z-10"
-                    } ${isSelected ? "z-50" : ""}`}
-                    style={{
-                      left: `${placed.x}%`,
-                      top: `${placed.y}%`,
-                      transform: `translate(-50%, -50%) scale(${placed.scale || 1})`,
-                    }}
-                    onPointerDown={(e) => handlePointerDown(e, index)}
-                    onMouseEnter={() => showHint("elements_drag", placed.x, Math.max(10, placed.y - 10))}
-                    onMouseLeave={hideHint}
-                    onClick={(e) => { e.stopPropagation(); markHintUsed("elements_drag"); }}
-                    data-testid={`placed-element-${index}`}
-                  >
-                    <div className={`${isSelected ? "ring-2 ring-blue-400 ring-offset-2 rounded-lg" : ""} p-0.5`}>
-                      <StickerIcon imagePath={element.imagePath} name={element.name} size={56} />
-                    </div>
-                    {isSelected && (
-                      <div
-                        className="absolute -top-10 left-1/2 -translate-x-1/2 flex items-center gap-1 z-[60]"
-                        onClick={(e) => e.stopPropagation()}
-                        onPointerDown={(e) => e.stopPropagation()}
-                      >
-                        <div className="flex gap-1 bg-white shadow-xl border rounded-full p-1">
-                          <button
-                            onClick={() => handleScale(index, 0.3)}
-                            className="p-1 rounded-full text-blue-600"
-                            aria-label="Enlarge"
-                            data-testid={`button-enlarge-${index}`}
-                          >
-                            <Plus size={14} />
-                          </button>
-                          <button
-                            onClick={() => handleScale(index, -0.3)}
-                            className="p-1 rounded-full text-blue-600"
-                            aria-label="Shrink"
-                            data-testid={`button-shrink-${index}`}
-                          >
-                            <Minus size={14} />
-                          </button>
-                          <button
-                            onClick={() => { onRemoveElement(index); setSelectedIndex(null); }}
-                            className="p-1 rounded-full text-red-600"
-                            aria-label="Remove"
-                            data-testid={`button-remove-${index}`}
-                          >
-                            <Trash2 size={14} />
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-
-              {customerMiniGameEnabled && customer && (() => {
-                const requested = allElements.find(a => a.id === customer.requestedElementId);
-                const rawId = customer.requestedElementId || "";
-                const slugPart = rawId.includes("-") ? rawId.split("-").slice(1).join("-") : rawId;
-                const spaced = slugPart.replace(/-/g, " ").trim() || "item";
-                const prettyName = spaced.charAt(0).toUpperCase() + spaced.slice(1);
-                const displayName = requested?.name || prettyName;
-                const templates = [
-                  'Can I have the "{item}"?',
-                  'Could I buy the "{item}"?',
-                  'I would like the "{item}", please.',
-                  'Do you have the "{item}"?',
-                  'I am looking for the "{item}".',
-                ];
-                const seed = (customer.requestedElementId || "x").length;
-                const template = templates[seed % templates.length];
-                const bubbleText = template.replace("{item}", displayName);
-                const statusClass =
-                  customer.status === "happy"
-                    ? "opacity-0 -translate-y-2 scale-95"
-                    : customer.status === "wrong"
-                      ? "window-display-shake"
-                      : "opacity-100 translate-y-0 scale-100";
-                return (
-                  <div className="absolute right-[6%] bottom-[6%] z-[60] pointer-events-none select-none">
-                    <div
-                      className={`relative transition-all duration-300 ${statusClass}`}
-                    >
-                      <div
-                        className="absolute -top-12 right-0 bg-white text-slate-700 text-[11px] leading-tight px-3 py-2 rounded-lg shadow-lg border border-slate-200 max-w-[220px] text-center"
-                        style={{ fontFamily: "'Architects Daughter', cursive" }}
-                      >
-                        {bubbleText}
-                        <div
-                          className="absolute right-6 top-full w-0 h-0"
-                          style={{ borderLeft: "6px solid transparent", borderRight: "6px solid transparent", borderTop: "6px solid white" }}
-                        />
-                      </div>
-                      <div
-                        ref={customerRef}
-                        className="w-[86px] h-[86px] rounded-full bg-amber-100 border border-amber-200 shadow-md flex items-center justify-center"
-                        style={{ pointerEvents: "auto" }}
-                        data-testid="customer-target"
-                        aria-label="Customer"
-                      >
-                        <CustomerAvatar
-                          variant={customerVariant}
-                          season={FESTIVITY_SEASON_MAP[festivity.id] || "spring"}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                );
-              })()}
-
-              {LIGHT_POSITIONS.map((pos, i) => (
-                <SpotLightFixture
-                  key={`light-${i}`}
-                  position={pos}
-                  isOn={lightsOn[i] || false}
-                  onClick={() => { onToggleLight(i); markHintUsed("lights"); }}
-                  color={lightColor}
-                  index={i}
-                  locked={i >= unlockedLightsCount}
-                  onHover={() => showHint("lights", pos.x, pos.side === "top" ? 15 : pos.side === "bottom" ? 85 : pos.y)}
-                  onLeave={hideHint}
-                />
-              ))}
-
-              {cleaningEnabled && (
-                <>
-                  <GlassOverlay
-                    festivityId={festivity.id}
-                    season={FESTIVITY_SEASON_MAP[festivity.id] || "spring"}
-                    cleaningMode={cleaningMode}
-                    onCleaningProgress={setCleaningProgress}
-                  />
-
-                  <div className="absolute top-2 right-2 z-[50] pointer-events-auto flex items-center gap-1.5">
-                    <button
-                      onClick={(e) => { e.stopPropagation(); setCleaningMode(!cleaningMode); }}
-                      className={`flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide shadow-md border transition-all ${
-                        cleaningMode
-                          ? "bg-blue-500 text-white border-blue-600 ring-2 ring-blue-300/50"
-                          : dark
-                            ? "bg-white/15 text-white/70 border-white/20 hover:bg-white/25"
-                            : "bg-white/80 text-slate-500 border-slate-200 hover:bg-white"
-                      }`}
-                      title={cleaningMode ? "Stop cleaning" : "Clean the window!"}
-                      data-testid="button-toggle-cleaning"
-                    >
-                      <SprayCan size={12} />
-                      {cleaningMode ? "Cleaning..." : "Clean"}
-                    </button>
-                    {cleaningMode && cleaningProgress > 0 && (
-                      <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
-                        cleaningProgress >= 95
-                          ? "bg-green-500 text-white"
-                          : "bg-blue-100 text-blue-700"
-                      }`}>
-                        {cleaningProgress >= 95 ? "✨ Spotless!" : `${cleaningProgress}%`}
-                      </span>
-                    )}
-                  </div>
-                </>
-              )}
-
-              {showFontPicker && (
-                <div className="absolute left-1/2 -translate-x-1/2 top-[6%] z-[80] bg-white/95 border border-slate-200 rounded-lg shadow-xl px-3 py-2 max-w-[260px]">
-                  <div className="text-[10px] font-semibold text-slate-500 mb-1 flex items-center gap-1">
-                    <Type className="w-3 h-3" />
-                    Choose shop sign font
-                  </div>
-                  <div className="max-h-48 overflow-y-auto flex flex-col gap-1">
-                    {SHOP_FONT_OPTIONS.map((opt) => (
+                    <div className="flex gap-1 bg-white shadow-xl border rounded-full p-1">
                       <button
-                        key={opt.family}
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onShopFontChange(opt.family);
-                          setShowFontPicker(false);
-                        }}
-                        className={`w-full text-left px-2 py-1 rounded-md border text-[11px] ${
-                          shopFont === opt.family
-                            ? "bg-amber-50 border-amber-300 text-amber-900"
-                            : "bg-white border-transparent hover:bg-slate-50 hover:border-slate-200"
-                        }`}
-                        style={{ fontFamily: opt.family }}
+                        onClick={() => handleFurnitureScale(furn.id, 0.1)}
+                        className="p-1 rounded-full text-green-600"
+                        aria-label="Enlarge furniture"
+                        data-testid={`button-enlarge-furniture-${furn.id}`}
                       >
-                        <div className="font-semibold truncate">{opt.name}</div>
-                        <div className="text-[10px] opacity-70 capitalize">{opt.style}</div>
+                        <Plus size={14} />
                       </button>
-                    ))}
+                      <button
+                        onClick={() => handleFurnitureScale(furn.id, -0.1)}
+                        className="p-1 rounded-full text-green-600"
+                        aria-label="Shrink furniture"
+                        data-testid={`button-shrink-furniture-${furn.id}`}
+                      >
+                        <Minus size={14} />
+                      </button>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
+            );
+          })}
 
-              {placedElements.length === 0 && !activeHint && !cleaningMode && (
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <p className={`text-sm px-4 py-2 rounded-full ${dark ? "text-white/50 bg-white/10" : "text-slate-400 bg-white/80"}`}>
-                    Click decorations to place them here
-                  </p>
+          {placedElements.map((placed, index) => {
+            const element = allElements.find(el => el.id === placed.elementId);
+            if (!element) return null;
+            const isSelected = selectedIndex === index;
+            return (
+              <div
+                key={`placed-${index}`}
+                data-hint-zone="elements"
+                className={`absolute touch-none select-none ${
+                  draggingIndex === index ? "cursor-grabbing z-50" : "cursor-grab z-10"
+                } ${isSelected ? "z-50" : ""}`}
+                style={{
+                  left: `${placed.x}%`,
+                  top: `${placed.y}%`,
+                  transform: `translate(-50%, -50%) scale(${placed.scale || 1})`,
+                }}
+                onPointerDown={(e) => handlePointerDown(e, index)}
+                onMouseEnter={() => showHint("elements_drag", placed.x, Math.max(10, placed.y - 10))}
+                onMouseLeave={hideHint}
+                onClick={(e) => { e.stopPropagation(); markHintUsed("elements_drag"); }}
+                data-testid={`placed-element-${index}`}
+              >
+                <div className={`${isSelected ? "ring-2 ring-blue-400 ring-offset-2 rounded-lg" : ""} p-0.5`}>
+                  <StickerIcon imagePath={element.imagePath} name={element.name} size={56} />
                 </div>
-              )}
+                {isSelected && (
+                  <div
+                    className="absolute -top-10 left-1/2 -translate-x-1/2 flex items-center gap-1 z-[60]"
+                    onClick={(e) => e.stopPropagation()}
+                    onPointerDown={(e) => e.stopPropagation()}
+                  >
+                    <div className="flex gap-1 bg-white shadow-xl border rounded-full p-1">
+                      <button
+                        onClick={() => handleScale(index, 0.3)}
+                        className="p-1 rounded-full text-blue-600"
+                        aria-label="Enlarge"
+                        data-testid={`button-enlarge-${index}`}
+                      >
+                        <Plus size={14} />
+                      </button>
+                      <button
+                        onClick={() => handleScale(index, -0.3)}
+                        className="p-1 rounded-full text-blue-600"
+                        aria-label="Shrink"
+                        data-testid={`button-shrink-${index}`}
+                      >
+                        <Minus size={14} />
+                      </button>
+                      <button
+                        onClick={() => { onRemoveElement(index); setSelectedIndex(null); }}
+                        className="p-1 rounded-full text-red-600"
+                        aria-label="Remove"
+                        data-testid={`button-remove-${index}`}
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
 
-              <SpeechBubble
-                visible={activeHint === "bg_colors"}
-                text="Change the background colour from the Decorations panel below!"
-                position={hintPos}
+          {LIGHT_POSITIONS.map((pos, i) => (
+            <SpotLightFixture
+              key={`light-${i}`}
+              position={pos}
+              isOn={lightsOn[i] || false}
+              onClick={() => { onToggleLight(i); markHintUsed("lights"); }}
+              color={lightColor}
+              index={i}
+              locked={i >= unlockedLightsCount}
+              onHover={() => showHint("lights", pos.x, pos.side === "top" ? 15 : pos.side === "bottom" ? 85 : pos.y)}
+              onLeave={hideHint}
+            />
+          ))}
+
+          {cleaningEnabled && (
+            <>
+              <GlassOverlay
+                festivityId={festivity.id}
+                season={FESTIVITY_SEASON_MAP[festivity.id] || "spring"}
+                cleaningMode={cleaningMode}
+                onCleaningProgress={setCleaningProgress}
               />
-              <SpeechBubble
-                visible={activeHint === "lights"}
-                text="Click to switch this spotlight on or off! Change light colour in the panel below."
-                position={hintPos}
-              />
-              <SpeechBubble
-                visible={activeHint === "elements_drag"}
-                text="Drag to move around. Click to select, then use +/- to change size!"
-                position={hintPos}
-              />
-              <SpeechBubble
-                visible={activeHint === "furniture"}
-                text={furnitureUnlocked ? "Drag to rearrange furniture. Click to select, then +/- to change size!" : "Unlock the furniture feature in the store to move these pieces."}
-                position={hintPos}
-              />
-              <SpeechBubble
-                visible={activeHint === "shop_name"}
-                text="Click here to type your shop name!"
-                position={hintPos}
-              />
+
+              <div className="absolute top-2 right-2 z-[50] pointer-events-auto flex items-center gap-1.5">
+                <button
+                  onClick={(e) => { e.stopPropagation(); setCleaningMode(!cleaningMode); }}
+                  className={`flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide shadow-md border transition-all ${
+                    cleaningMode
+                      ? "bg-blue-500 text-white border-blue-600 ring-2 ring-blue-300/50"
+                      : dark
+                        ? "bg-white/15 text-white/70 border-white/20 hover:bg-white/25"
+                        : "bg-white/80 text-slate-500 border-slate-200 hover:bg-white"
+                  }`}
+                  title={cleaningMode ? "Stop cleaning" : "Clean the window!"}
+                  data-testid="button-toggle-cleaning"
+                >
+                  <SprayCan size={12} />
+                  {cleaningMode ? "Cleaning..." : "Clean"}
+                </button>
+                {cleaningMode && cleaningProgress > 0 && (
+                  <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
+                    cleaningProgress >= 95
+                      ? "bg-green-500 text-white"
+                      : "bg-blue-100 text-blue-700"
+                  }`}>
+                    {cleaningProgress >= 95 ? "✨ Spotless!" : `${cleaningProgress}%`}
+                  </span>
+                )}
+              </div>
+            </>
+          )}
+
+          {showFontPicker && (
+            <div className="absolute left-1/2 -translate-x-1/2 top-[6%] z-[80] bg-white/95 border border-slate-200 rounded-lg shadow-xl px-3 py-2 max-w-[260px]">
+              <div className="text-[10px] font-semibold text-slate-500 mb-1 flex items-center gap-1">
+                <Type className="w-3 h-3" />
+                Choose shop sign font
+              </div>
+              <div className="max-h-48 overflow-y-auto flex flex-col gap-1">
+                {SHOP_FONT_OPTIONS.map((opt) => (
+                  <button
+                    key={opt.family}
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onShopFontChange(opt.family);
+                      setShowFontPicker(false);
+                    }}
+                    className={`w-full text-left px-2 py-1 rounded-md border text-[11px] ${
+                      shopFont === opt.family
+                        ? "bg-amber-50 border-amber-300 text-amber-900"
+                        : "bg-white border-transparent hover:bg-slate-50 hover:border-slate-200"
+                    }`}
+                    style={{ fontFamily: opt.family }}
+                  >
+                    <div className="font-semibold truncate">{opt.name}</div>
+                    <div className="text-[10px] opacity-70 capitalize">{opt.style}</div>
+                  </button>
+                ))}
+              </div>
             </div>
+          )}
+
+          {placedElements.length === 0 && !activeHint && !cleaningMode && (
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <p className={`text-sm px-4 py-2 rounded-full ${dark ? "text-white/50 bg-white/10" : "text-slate-400 bg-white/80"}`}>
+                Click decorations to place them here
+              </p>
             </div>
+          )}
+
+          <SpeechBubble
+            visible={activeHint === "bg_colors"}
+            text="Change the background colour from the Decorations panel below!"
+            position={hintPos}
+          />
+          <SpeechBubble
+            visible={activeHint === "lights"}
+            text="Click to switch this spotlight on or off! Change light colour in the panel below."
+            position={hintPos}
+          />
+          <SpeechBubble
+            visible={activeHint === "elements_drag"}
+            text="Drag to move around. Click to select, then use +/- to change size!"
+            position={hintPos}
+          />
+          <SpeechBubble
+            visible={activeHint === "furniture"}
+            text={furnitureUnlocked ? "Drag to rearrange furniture. Click to select, then +/- to change size!" : "Unlock the furniture feature in the store to move these pieces."}
+            position={hintPos}
+          />
+          <SpeechBubble
+            visible={activeHint === "shop_name"}
+            text="Click here to type your shop name!"
+            position={hintPos}
+          />
+        </div>
+      </div>
+
+      {/* CLIENTE: FUERA DEL CANVAS, POSICIONADO RESPECTO AL CONTENEDOR PRINCIPAL */}
+      {customerMiniGameEnabled && customer && (() => {
+        const requested = allElements.find(a => a.id === customer.requestedElementId);
+        const rawId = customer.requestedElementId || "";
+        const slugPart = rawId.includes("-") ? rawId.split("-").slice(1).join("-") : rawId;
+        const spaced = slugPart.replace(/-/g, " ").trim() || "item";
+        const prettyName = spaced.charAt(0).toUpperCase() + spaced.slice(1);
+        const displayName = requested?.name || prettyName;
+        const templates = [
+          'Can I have the "{item}"?',
+          'Could I buy the "{item}"?',
+          'I would like the "{item}", please.',
+          'Do you have the "{item}"?',
+          'I am looking for the "{item}".',
+        ];
+        const seed = (customer.requestedElementId || "x").length;
+        const template = templates[seed % templates.length];
+        const bubbleText = template.replace("{item}", displayName);
+        const statusClass =
+          customer.status === "happy"
+            ? "opacity-0 -translate-y-2 scale-95"
+            : customer.status === "wrong"
+              ? "window-display-shake"
+              : "opacity-100 translate-y-0 scale-100";
+
+        return (
+          <div 
+            className="absolute z-[60] pointer-events-none select-none"
+            style={{ 
+              right: '2%',      // Posición en la pared derecha
+              bottom: '8%',     // Cerca del suelo
+            }}
+          >
+            <div className={`relative transition-all duration-300 ${statusClass}`}>
+              {/* Speech Bubble */}
+              <div
+                className="absolute bottom-full mb-1 right-0 bg-white text-slate-700 text-[11px] leading-tight px-3 py-2 rounded-lg shadow-lg border border-slate-200 max-w-[260px] text-center whitespace-nowrap"
+                style={{ fontFamily: "'Architects Daughter', cursive" }}
+              >
+                {bubbleText}
+                <div
+                  className="absolute right-6 top-full w-0 h-0"
+                  style={{ 
+                    borderLeft: "6px solid transparent", 
+                    borderRight: "6px solid transparent", 
+                    borderTop: "6px solid white" 
+                  }}
+                />
+              </div>
+              
+              {/* Personaje */}
+              <div
+                ref={customerRef}
+                className="flex items-end justify-center"
+                style={{ 
+                  pointerEvents: "auto",
+                  width: '160px',
+                  height: '240px',
+                }}
+                data-testid="customer-target"
+                aria-label="Customer"
+              >
+                <CustomerAvatar
+                  variant={customerVariant}
+                  season={FESTIVITY_SEASON_MAP[festivity.id] || "spring"}
+                />
+              </div>
+            </div>
+          </div>
+        );
+      })()}
+
     </div>
   );
 }
