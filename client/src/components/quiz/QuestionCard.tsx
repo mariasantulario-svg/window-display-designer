@@ -65,33 +65,25 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
         <p className="text-lg font-semibold text-gray-800 leading-relaxed" data-testid="text-question">
           {question.question}
         </p>
-        <div className="mt-3 text-sm">
-          <button
-            type="button"
-            onClick={() => {
-              if (!question.translation) return;
-              setShowTranslation((prev) => !prev);
-            }}
-            className={`text-xs font-semibold underline underline-offset-2 ${
-              question.translation
-                ? "text-blue-700 cursor-pointer"
-                : "text-gray-400 cursor-not-allowed"
-            }`}
-            data-testid="button-toggle-translation"
-            disabled={!question.translation}
-          >
-            {question.translation
-              ? showTranslation
+        {question.translation && (
+          <div className="mt-3 text-sm">
+            <button
+              type="button"
+              onClick={() => setShowTranslation((prev) => !prev)}
+              className="text-xs font-semibold underline underline-offset-2 text-blue-700 cursor-pointer"
+              data-testid="button-toggle-translation"
+            >
+              {showTranslation
                 ? "Hide translation / Ocultar traducción"
-                : "See translation / Ver traducción"
-              : "Translation not available / Sin traducción aún"}
-          </button>
-          {showTranslation && question.translation && (
-            <p className="mt-2 text-xs text-gray-700" data-testid="text-translation">
-              {question.translation}
-            </p>
-          )}
-        </div>
+                : "See translation / Ver traducción"}
+            </button>
+            {showTranslation && (
+              <p className="mt-2 text-xs text-gray-700" data-testid="text-translation">
+                {question.translation}
+              </p>
+            )}
+          </div>
+        )}
       </div>
 
       <div className="space-y-3">

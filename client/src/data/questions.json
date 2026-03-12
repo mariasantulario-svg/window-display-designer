@@ -5121,26 +5121,7 @@
       "source": "questions.json",
       "original_id": "hal_l1_b1_q4"
     },
-    {
-      "id": "Q0239",
-      "question": "'Spooky' means scary or frightening.",
-      "options": [
-        "True",
-        "False"
-      ],
-      "answer": "True",
-      "category": "general",
-      "topic": "general",
-      "difficulty": "easy",
-      "translation": true,
-      "translation_text": "'Spooky' significa aterrador o que da miedo.",
-      "game_tags": [
-        "halloween"
-      ],
-      "ra_reference": "General",
-      "source": "questions.json",
-      "original_id": "hal_l1_b1_q5"
-    },
+    
     {
       "id": "Q0240",
       "question": "What is a 'costume'?",
@@ -9093,26 +9074,7 @@
       "source": "questions.json",
       "original_id": "bts_l4_b2_q4"
     },
-    {
-      "id": "Q0425",
-      "question": "'I can't find the right size backpack.' means the person is unable to find it.",
-      "options": [
-        "True",
-        "False"
-      ],
-      "answer": "True",
-      "category": "products_and_stock",
-      "topic": "clothing",
-      "difficulty": "medium",
-      "translation": true,
-      "translation_text": "'No puedo encontrar la mochila de la talla correcta.' significa que la persona no puede encontrarla.",
-      "game_tags": [
-        "back_to_school"
-      ],
-      "ra_reference": "Técnicas de Merchandising - Colocación de productos",
-      "source": "questions.json",
-      "original_id": "bts_l4_b2_q5"
-    },
+    
     {
       "id": "Q0426",
       "question": "'Could you reserve these textbooks for me?' means...",
@@ -12170,26 +12132,6 @@
       "original_id": "eas_l4_b2_q4"
     },
     {
-      "id": "Q0569",
-      "question": "'I can't find any Easter eggs in my size.' means the person is unable to find them.",
-      "options": [
-        "True",
-        "False"
-      ],
-      "answer": "True",
-      "category": "products_and_stock",
-      "topic": "clothing",
-      "difficulty": "medium",
-      "translation": true,
-      "translation_text": "'No puedo encontrar huevos de Pascua de mi talla.' significa que la persona no puede encontrarlos.",
-      "game_tags": [
-        "easter"
-      ],
-      "ra_reference": "Técnicas de Merchandising - Colocación de productos",
-      "source": "questions.json",
-      "original_id": "eas_l4_b2_q5"
-    },
-    {
       "id": "Q0570",
       "question": "'Could you reserve this Easter hamper for me?' The customer wants to...",
       "options": [
@@ -13641,28 +13583,7 @@
       "source": "questions.json",
       "original_id": "spr_l4_b2_q1"
     },
-    {
-      "id": "Q0638",
-      "question": "___ you tell me the price of this spring dress?",
-      "options": [
-        "Need",
-        "Must",
-        "Should",
-        "Could"
-      ],
-      "answer": "Could",
-      "category": "shop_operations",
-      "topic": "prices",
-      "difficulty": "medium",
-      "translation": true,
-      "translation_text": "___ decirme el precio de este vestido de primavera?",
-      "game_tags": [
-        "spring"
-      ],
-      "ra_reference": "Atención al Cliente - Operaciones de venta",
-      "source": "questions.json",
-      "original_id": "spr_l4_b2_q2"
-    },
+    
     {
       "id": "Q0639",
       "question": "'Can we return this if it doesn't fit?' The customer is asking about...",
@@ -13941,28 +13862,7 @@
       "source": "questions.json",
       "original_id": "spr_l5_b2_q3"
     },
-    {
-      "id": "Q0652",
-      "question": "This floral dress is ___ elegant ___ the plain one.",
-      "options": [
-        "most / of",
-        "most / than",
-        "more / that",
-        "more / than"
-      ],
-      "answer": "more / than",
-      "category": "products_and_stock",
-      "topic": "clothing",
-      "difficulty": "hard",
-      "translation": false,
-      "translation_text": "Este vestido floral es ___ elegante ___ el liso.",
-      "game_tags": [
-        "spring"
-      ],
-      "ra_reference": "Técnicas de Merchandising - Colocación de productos",
-      "source": "questions.json",
-      "original_id": "spr_l5_b2_q4"
-    },
+    
     {
       "id": "Q0653",
       "question": "'This is a longer sale than last year.' We are comparing...",
@@ -14303,7 +14203,8 @@
       ],
       "ra_reference": "Técnicas de Merchandising - Montaje de escaparates",
       "source": "questions.json",
-      "original_id": "sum_l1_b1_q2"
+      "original_id": "sum_l1_b1_q2",
+      "festivity": "summer-sale"
     },
     {
       "id": "Q0669",
@@ -14325,7 +14226,8 @@
       ],
       "ra_reference": "Técnicas de Merchandising - Montaje de escaparates",
       "source": "questions.json",
-      "original_id": "sum_l1_b1_q3"
+      "original_id": "sum_l1_b1_q3",
+      "festivity": "summer-sale"
     },
     {
       "id": "Q0670",
@@ -14431,7 +14333,8 @@
       ],
       "ra_reference": "Técnicas de Merchandising - Montaje de escaparates",
       "source": "questions.json",
-      "original_id": "sum_l1_b2_q2"
+      "original_id": "sum_l1_b2_q2",
+      "festivity": "summer-sale"
     },
     {
       "id": "Q0675",
@@ -14455,26 +14358,7 @@
       "source": "questions.json",
       "original_id": "sum_l1_b2_q3"
     },
-    {
-      "id": "Q0676",
-      "question": "Ice cream is a typical product for a summer shop display.",
-      "options": [
-        "True",
-        "False"
-      ],
-      "answer": "True",
-      "category": "visual_merchandising",
-      "topic": "seasons",
-      "difficulty": "easy",
-      "translation": true,
-      "translation_text": "El helado es un producto típico para un escaparate de tienda de verano.",
-      "game_tags": [
-        "summer"
-      ],
-      "ra_reference": "Técnicas de Merchandising - Montaje de escaparates",
-      "source": "questions.json",
-      "original_id": "sum_l1_b2_q4"
-    },
+    
     {
       "id": "Q0677",
       "question": "A ___ is when a product's price is reduced.",
@@ -14539,7 +14423,8 @@
       ],
       "ra_reference": "Técnicas de Merchandising - Montaje de escaparates",
       "source": "questions.json",
-      "original_id": "sum_l2_b1_q1"
+      "original_id": "sum_l2_b1_q1",
+      "festivity": "summer-sale"
     },
     {
       "id": "Q0680",
@@ -14603,7 +14488,8 @@
       ],
       "ra_reference": "Atención al Cliente - Comunicación comercial",
       "source": "questions.json",
-      "original_id": "sum_l2_b1_q4"
+      "original_id": "sum_l2_b1_q4",
+      "festivity": "summer-sale"
     },
     {
       "id": "Q0683",
@@ -14687,7 +14573,8 @@
       ],
       "ra_reference": "Comunicación y Sociedad - Competencias lingüísticas",
       "source": "questions.json",
-      "original_id": "sum_l2_b2_q2"
+      "original_id": "sum_l2_b2_q2",
+      "festivity": "summer-sale"
     },
     {
       "id": "Q0687",
@@ -14945,7 +14832,8 @@
       ],
       "ra_reference": "Técnicas de Merchandising - Colocación de productos",
       "source": "questions.json",
-      "original_id": "sum_l3_b2_q2"
+      "original_id": "sum_l3_b2_q2",
+      "festivity": "summer-sale"
     },
     {
       "id": "Q0699",
@@ -15031,28 +14919,7 @@
       "source": "questions.json",
       "original_id": "sum_l3_b2_q6"
     },
-    {
-      "id": "Q0703",
-      "question": "'Can I try these shorts on?' The customer wants to...",
-      "options": [
-        "Exchange the shorts",
-        "Return the shorts",
-        "Get a discount",
-        "Try on the shorts before buying"
-      ],
-      "answer": "Try on the shorts before buying",
-      "category": "customer_interaction",
-      "topic": "greetings",
-      "difficulty": "medium",
-      "translation": true,
-      "translation_text": "'¿Puedo probarme estos pantalones cortos?' El cliente quiere...",
-      "game_tags": [
-        "summer"
-      ],
-      "ra_reference": "Atención al Cliente - Comunicación comercial",
-      "source": "questions.json",
-      "original_id": "sum_l4_b1_q1"
-    },
+    
     {
       "id": "Q0704",
       "question": "___ I help you find something from our summer collection?",
@@ -15499,7 +15366,8 @@
       ],
       "ra_reference": "Comunicación y Sociedad - Competencias lingüísticas",
       "source": "questions.json",
-      "original_id": "sum_l5_b2_q4"
+      "original_id": "sum_l5_b2_q4",
+      "festivity": "summer-sale"
     },
     {
       "id": "Q0725",
@@ -15799,7 +15667,1031 @@
       ],
       "ra_reference": "Técnicas de Merchandising - Montaje de escaparates",
       "source": "questions.json",
-      "original_id": "sum_l6_b2_q6"
+      "original_id": "sum_l6_b2_q6",
+      "festivity": "summer-sale"
+    },
+    {
+      "id": "CI_001",
+      "question": "A customer enters the shop. What is the most appropriate greeting?",
+      "options": [
+        "Good morning, can I help you?",
+        "Give me the money",
+        "I am busy now",
+        "The shop is closed"
+      ],
+      "answer": "Good morning, can I help you?",
+      "learning_outcome": "Customer Interaction",
+      "difficulty": "easy",
+      "festivity": "general"
+    },
+    {
+      "id": "CI_002",
+      "question": "A customer says: 'I am looking for a red tie'. Where should you take them?",
+      "options": [
+        "To the accessories section",
+        "To the shoe department",
+        "To the frozen food",
+        "To the exit"
+      ],
+      "answer": "To the accessories section",
+      "learning_outcome": "Customer Interaction",
+      "difficulty": "medium",
+      "festivity": "general"
+    },
+    {
+      "id": "WD_001",
+      "question": "In a Valentine's window display, which color represents 'passion' and 'love'?",
+      "options": [
+        "Red",
+        "Green",
+        "Blue",
+        "Black"
+      ],
+      "answer": "Red",
+      "learning_outcome": "Window Dressing & Composition",
+      "difficulty": "easy",
+      "festivity": "valentines"
+    },
+    {
+      "id": "SP_001",
+      "question": "The customer wants to pay. You say: 'That will be 25 euros. Cash or ____?'",
+      "options": [
+        "Card",
+        "Paper",
+        "Gift",
+        "Smile"
+      ],
+      "answer": "Card",
+      "learning_outcome": "Sales Operations & Payments",
+      "difficulty": "easy",
+      "festivity": "general"
+    },
+    {
+      "id": "SP_001_VALENTINES",
+      "question": "The customer wants to pay. You say: 'That will be 25 euros. Cash or ____?'",
+      "options": [
+        "Card",
+        "Paper",
+        "Gift",
+        "Smile"
+      ],
+      "answer": "Card",
+      "learning_outcome": "Sales Operations & Payments",
+      "difficulty": "easy",
+      "festivity": "valentines"
+    },
+    {
+      "id": "SP_001_EASTER",
+      "question": "The customer wants to pay. You say: 'That will be 25 euros. Cash or ____?'",
+      "options": [
+        "Card",
+        "Paper",
+        "Gift",
+        "Smile"
+      ],
+      "answer": "Card",
+      "learning_outcome": "Sales Operations & Payments",
+      "difficulty": "easy",
+      "festivity": "easter"
+    },
+    {
+      "id": "SP_001_SPRING_SALE",
+      "question": "The customer wants to pay. You say: 'That will be 25 euros. Cash or ____?'",
+      "options": [
+        "Card",
+        "Paper",
+        "Gift",
+        "Smile"
+      ],
+      "answer": "Card",
+      "learning_outcome": "Sales Operations & Payments",
+      "difficulty": "easy",
+      "festivity": "spring-sale"
+    },
+    {
+      "id": "SP_001_MOTHERS_DAY",
+      "question": "The customer wants to pay. You say: 'That will be 25 euros. Cash or ____?'",
+      "options": [
+        "Card",
+        "Paper",
+        "Gift",
+        "Smile"
+      ],
+      "answer": "Card",
+      "learning_outcome": "Sales Operations & Payments",
+      "difficulty": "easy",
+      "festivity": "mothers-day"
+    },
+    {
+      "id": "SP_001_SUMMER_SALE",
+      "question": "The customer wants to pay. You say: 'That will be 25 euros. Cash or ____?'",
+      "options": [
+        "Card",
+        "Paper",
+        "Gift",
+        "Smile"
+      ],
+      "answer": "Card",
+      "learning_outcome": "Sales Operations & Payments",
+      "difficulty": "easy",
+      "festivity": "summer-sale"
+    },
+    {
+      "id": "SP_001_BACK_TO_SCHOOL",
+      "question": "The customer wants to pay. You say: 'That will be 25 euros. Cash or ____?'",
+      "options": [
+        "Card",
+        "Paper",
+        "Gift",
+        "Smile"
+      ],
+      "answer": "Card",
+      "learning_outcome": "Sales Operations & Payments",
+      "difficulty": "easy",
+      "festivity": "back-to-school"
+    },
+    {
+      "id": "SP_001_HALLOWEEN",
+      "question": "The customer wants to pay. You say: 'That will be 25 euros. Cash or ____?'",
+      "options": [
+        "Card",
+        "Paper",
+        "Gift",
+        "Smile"
+      ],
+      "answer": "Card",
+      "learning_outcome": "Sales Operations & Payments",
+      "difficulty": "easy",
+      "festivity": "halloween"
+    },
+    {
+      "id": "SP_001_BLACK_FRIDAY",
+      "question": "The customer wants to pay. You say: 'That will be 25 euros. Cash or ____?'",
+      "options": [
+        "Card",
+        "Paper",
+        "Gift",
+        "Smile"
+      ],
+      "answer": "Card",
+      "learning_outcome": "Sales Operations & Payments",
+      "difficulty": "easy",
+      "festivity": "black-friday"
+    },
+    {
+      "id": "SP_001_CHRISTMAS",
+      "question": "The customer wants to pay. You say: 'That will be 25 euros. Cash or ____?'",
+      "options": [
+        "Card",
+        "Paper",
+        "Gift",
+        "Smile"
+      ],
+      "answer": "Card",
+      "learning_outcome": "Sales Operations & Payments",
+      "difficulty": "easy",
+      "festivity": "christmas"
+    },
+    {
+      "id": "PS_001",
+      "question": "Where do we put the most expensive products to attract attention?",
+      "options": [
+        "At eye level",
+        "On the floor",
+        "Hidden in the back",
+        "On the ceiling"
+      ],
+      "answer": "At eye level",
+      "learning_outcome": "Product Placement & Stock",
+      "difficulty": "medium",
+      "festivity": "general"
+    },
+    {
+      "id": "WD_002",
+      "question": "Which element is used to display clothes in a shop window?",
+      "options": [
+        "Mannequin",
+        "Fridge",
+        "Oven",
+        "Forklift"
+      ],
+      "answer": "Mannequin",
+      "learning_outcome": "Window Dressing & Composition",
+      "difficulty": "easy",
+      "festivity": "general"
+    },
+    
+    {
+      "id": "SP_002",
+      "question": "What document do you give to the customer after the payment?",
+      "options": [
+        "The receipt",
+        "A newspaper",
+        "A map",
+        "A menu"
+      ],
+      "answer": "The receipt",
+      "learning_outcome": "Sales Operations & Payments",
+      "difficulty": "medium",
+      "festivity": "general"
+    },
+    {
+      "id": "PS_01",
+      "question": "Where should we place 'impulse purchase' products (like gum or lighters)?",
+      "options": [
+        "In the warehouse",
+        "Near the checkout desk",
+        "In the parking lot",
+        "Under the shelves"
+      ],
+      "answer": "Near the checkout desk",
+      "learning_outcome": "Product Placement & Stock",
+      "difficulty": "easy",
+      "festivity": "general"
+    },
+    {
+      "id": "PS_XMAS_01",
+      "question": "For the Christmas campaign, where is the best place for the big Christmas Tree?",
+      "options": [
+        "In the staff toilet",
+        "Behind a wall",
+        "In the shop window or entrance",
+        "In the basement"
+      ],
+      "answer": "In the shop window or entrance",
+      "learning_outcome": "Product Placement & Stock",
+      "difficulty": "easy",
+      "festivity": "christmas"
+    },
+    {
+      "id": "PS_02",
+      "question": "What does 'FIFO' (First In, First Out) mean for restocking?",
+      "options": [
+        "Sell the oldest stock first",
+        "Throw everything away",
+        "Sell the newest items first",
+        "Don't touch the shelves"
+      ],
+      "answer": "Sell the oldest stock first",
+      "learning_outcome": "Product Placement & Stock",
+      "difficulty": "medium",
+      "festivity": "general"
+    },
+    {
+      "id": "PS_VAL_01",
+      "question": "We have 50 Valentine's bears and we sell 40. How many are left in 'stock'?",
+      "options": [
+        "50",
+        "90",
+        "10",
+        "Zero"
+      ],
+      "answer": "10",
+      "learning_outcome": "Product Placement & Stock",
+      "difficulty": "easy",
+      "festivity": "valentines"
+    },
+    {
+      "id": "PS_03",
+      "question": "A product is 'out of stock'. What should you tell the customer?",
+      "options": [
+        "'I'm sorry, we are currently out of this item'",
+        "'It is your fault'",
+        "'We never have that'",
+        "'Go to the shop next door'"
+      ],
+      "answer": "'I'm sorry, we are currently out of this item'",
+      "learning_outcome": "Product Placement & Stock",
+      "difficulty": "medium",
+      "festivity": "general"
+    },
+    {
+      "id": "PS_EST_01",
+      "question": "Where do you put the Easter promotional signage (PLV)?",
+      "options": [
+        "On the roof",
+        "Visible to the customers",
+        "In the trash",
+        "On the floor"
+      ],
+      "answer": "Visible to the customers",
+      "learning_outcome": "Product Placement & Stock",
+      "difficulty": "medium",
+      "festivity": "easter"
+    },
+    {
+      "id": "PS_04",
+      "question": "What is a 'linear' in a retail store?",
+      "options": [
+        "A person waiting",
+        "The shelf where products are displayed",
+        "A type of discount",
+        "The shop's front door"
+      ],
+      "answer": "The shelf where products are displayed",
+      "learning_outcome": "Product Placement & Stock",
+      "difficulty": "hard",
+      "festivity": "general"
+    },
+    {
+      "id": "PS_05",
+      "question": "Why do we use 'eye-level' positioning for certain products?",
+      "options": [
+        "Because it's the most comfortable for children",
+        "To hide the price",
+        "Because it's the most profitable zone",
+        "To keep them clean"
+      ],
+      "answer": "Because it's the most profitable zone",
+      "learning_outcome": "Product Placement & Stock",
+      "difficulty": "hard",
+      "festivity": "general"
+    },
+    {
+      "id": "WD_VAL_01",
+      "question": "Which lighting is best for a romantic Valentine's window display?",
+      "options": [
+        "Flashy green lights",
+        "Soft and warm lighting",
+        "Total darkness",
+        "Very bright cold lights"
+      ],
+      "answer": "Soft and warm lighting",
+      "learning_outcome": "Window Dressing & Composition",
+      "difficulty": "medium",
+      "festivity": "valentines"
+    },
+    {
+      "id": "WD_GEN_03",
+      "question": "What is the main purpose of a shop window (escaparate)?",
+      "options": [
+        "To store old boxes",
+        "To hide the interior",
+        "To attract customers into the shop",
+        "To block the sunlight"
+      ],
+      "answer": "To attract customers into the shop",
+      "learning_outcome": "Window Dressing & Composition",
+      "difficulty": "easy",
+      "festivity": "general"
+    },
+    {
+      "id": "WD_XMAS_01",
+      "question": "In a Christmas display, where should you place the smallest items?",
+      "options": [
+        "In the foreground (front)",
+        "Behind the mannequins",
+        "On the ceiling",
+        "Hidden under the snow"
+      ],
+      "answer": "In the foreground (front)",
+      "learning_outcome": "Window Dressing & Composition",
+      "difficulty": "medium",
+      "festivity": "christmas"
+    },
+    {
+      "id": "WD_GEN_04",
+      "question": "What is 'symmetry' in a window display?",
+      "options": [
+        "A type of mannequin",
+        "A balanced arrangement of elements",
+        "The price of the products",
+        "A broken glass"
+      ],
+      "answer": "A balanced arrangement of elements",
+      "learning_outcome": "Window Dressing & Composition",
+      "difficulty": "hard",
+      "festivity": "general"
+    },
+    {
+      "id": "WD_EST_01",
+      "question": "Which color palette is traditional for an Easter window display?",
+      "options": [
+        "Pastel colors (yellow, pink, green)",
+        "Dark grey and black",
+        "Neon orange and purple",
+        "Only metallic silver"
+      ],
+      "answer": "Pastel colors (yellow, pink, green)",
+      "learning_outcome": "Window Dressing & Composition",
+      "difficulty": "easy",
+      "festivity": "easter"
+    },
+    {
+      "id": "WD_GEN_05",
+      "question": "What does a 'focal point' mean in visual merchandising?",
+      "options": [
+        "The exit door",
+        "The point where the customer's eye is first directed",
+        "The cash register",
+        "The cleaning area"
+      ],
+      "answer": "The point where the customer's eye is first directed",
+      "learning_outcome": "Window Dressing & Composition",
+      "difficulty": "hard",
+      "festivity": "general"
+    },
+    {
+      "id": "WD_VAL_02",
+      "question": "How should mannequins be dressed for a Valentine's campaign?",
+      "options": [
+        "In pajamas",
+        "In red or elegant clothing",
+        "In heavy winter coats",
+        "In sports uniforms"
+      ],
+      "answer": "In red or elegant clothing",
+      "learning_outcome": "Window Dressing & Composition",
+      "difficulty": "easy",
+      "festivity": "valentines"
+    },
+    {
+      "id": "WD_GEN_06",
+      "question": "Why is it important to change the window display frequently?",
+      "options": [
+        "To keep the glass clean",
+        "To show new products and maintain interest",
+        "To exercise the staff",
+        "Because the mannequins get tired"
+      ],
+      "answer": "To show new products and maintain interest",
+      "learning_outcome": "Window Dressing & Composition",
+      "difficulty": "medium",
+      "festivity": "general"
+    },
+    {
+      "id": "GRA_PS_01",
+      "question": "If a colleague says: 'We are running out of gift bags', it means...",
+      "options": [
+        "There are no gift bags left",
+        "We have too many gift bags",
+        "We have very few gift bags left",
+        "The gift bags are broken"
+      ],
+      "answer": "We have very few gift bags left",
+      "learning_outcome": "Product Placement & Stock",
+      "difficulty": "hard",
+      "festivity": "general"
+    },
+    {
+      "id": "GRA_CI_01",
+      "question": "Which sentence is a correct offer of help?",
+      "options": [
+        "How can I help you?",
+        "What do you want?",
+        "Help me, please",
+        "I help you now"
+      ],
+      "answer": "How can I help you?",
+      "learning_outcome": "Customer Interaction",
+      "difficulty": "easy",
+      "festivity": "general"
+    },
+    {
+      "id": "GRA_WD_XMAS_01",
+      "question": "Look at the window display. 'There ___ a big star on the Christmas tree'.",
+      "options": [
+        "are",
+        "is",
+        "am",
+        "have"
+      ],
+      "answer": "is",
+      "learning_outcome": "Window Dressing & Composition",
+      "difficulty": "easy",
+      "festivity": "christmas"
+    },
+    {
+      "id": "GRA_SP_02",
+      "question": "The customer asks: '___ I pay by credit card?'",
+      "options": [
+        "Do",
+        "Can",
+        "Am",
+        "Is"
+      ],
+      "answer": "Can",
+      "learning_outcome": "Sales Operations & Payments",
+      "difficulty": "easy",
+      "festivity": "general"
+    },
+    {
+      "id": "GRA_PS_02",
+      "question": "To organize the shelf, you ___ put the new milk bottles behind the old ones.",
+      "options": [
+        "must",
+        "don't",
+        "are",
+        "can't"
+      ],
+      "answer": "must",
+      "learning_outcome": "Product Placement & Stock",
+      "difficulty": "medium",
+      "festivity": "general"
+    },
+    {
+      "id": "GRA_CI_VAL_01",
+      "question": "'I am looking for a Valentine's gift' means the customer...",
+      "options": [
+        "is watching a gift",
+        "is trying to find a gift",
+        "is selling a gift",
+        "is breaking a gift"
+      ],
+      "answer": "is trying to find a gift",
+      "learning_outcome": "Customer Interaction",
+      "difficulty": "medium",
+      "festivity": "valentines"
+    },
+    {
+      "id": "GRA_SP_03",
+      "question": "The past tense of the verb 'to buy' is...",
+      "options": [
+        "buyed",
+        "bought",
+        "brought",
+        "buying"
+      ],
+      "answer": "bought",
+      "learning_outcome": "Sales Operations & Payments",
+      "difficulty": "hard",
+      "festivity": "general"
+    },
+    {
+      "id": "GRA_WD_02",
+      "question": "The red dress is ___ expensive than the blue dress.",
+      "options": [
+        "much",
+        "more",
+        "very",
+        "too"
+      ],
+      "answer": "more",
+      "learning_outcome": "Window Dressing & Composition",
+      "difficulty": "medium",
+      "festivity": "general"
+    },
+    {
+      "id": "GRA_PS_EST_01",
+      "question": "In the sentence: 'The Easter eggs are ON the shelf', the word 'ON' indicates...",
+      "options": [
+        "Time",
+        "Price",
+        "Location",
+        "Quantity"
+      ],
+      "answer": "Location",
+      "learning_outcome": "Product Placement & Stock",
+      "difficulty": "easy",
+      "festivity": "easter"
+    },
+    {
+      "id": "GRA_CI_02",
+      "question": "If a customer is 'complaining', they are...",
+      "options": [
+        "Very happy with the service",
+        "Unhappy and expressing a problem",
+        "Buying many products",
+        "Asking for the time"
+      ],
+      "answer": "Unhappy and expressing a problem",
+      "learning_outcome": "Customer Interaction",
+      "difficulty": "hard",
+      "festivity": "general"
+    },
+    {
+      "id": "AMP_CI_01",
+      "question": "A customer is shouting because a product is broken. You should...",
+      "options": [
+        "Shout louder than the customer",
+        "Stay calm and listen to the problem",
+        "Run to the warehouse",
+        "Tell them to leave immediately"
+      ],
+      "answer": "Stay calm and listen to the problem",
+      "learning_outcome": "Customer Interaction",
+      "difficulty": "hard",
+      "festivity": "general"
+    },
+    {
+      "id": "AMP_SP_01",
+      "question": "The total is 18.50€. The customer gives you a 20€ note. How much is the change?",
+      "options": [
+        "2.50€",
+        "1.50€",
+        "5.00€",
+        "0.50€"
+      ],
+      "answer": "1.50€",
+      "learning_outcome": "Sales Operations & Payments",
+      "difficulty": "medium",
+      "festivity": "general"
+    },
+    {
+      "id": "AMP_PS_01",
+      "question": "Where should you place heavy items on a shelf for safety?",
+      "options": [
+        "On the highest shelf",
+        "On the bottom shelf",
+        "Hanging from the ceiling",
+        "In the shop window"
+      ],
+      "answer": "On the bottom shelf",
+      "learning_outcome": "Product Placement & Stock",
+      "difficulty": "medium",
+      "festivity": "general"
+    },
+    {
+      "id": "AMP_WD_01",
+      "question": "Which of these is a 'warm color' for a summer window display?",
+      "options": [
+        "Blue",
+        "Orange",
+        "Dark Grey",
+        "Purple"
+      ],
+      "answer": "Orange",
+      "learning_outcome": "Window Dressing & Composition",
+      "difficulty": "easy",
+      "festivity": "general"
+    },
+    {
+      "id": "AMP_SP_VAL_01",
+      "question": "Valentine's Promotion: 'Buy 2 and get 1 ____'.",
+      "options": [
+        "Free",
+        "Expensive",
+        "Old",
+        "Broken"
+      ],
+      "answer": "Free",
+      "learning_outcome": "Sales Operations & Payments",
+      "difficulty": "easy",
+      "festivity": "valentines"
+    },
+    {
+      "id": "AMP_CI_02",
+      "question": "What is the meaning of 'Loyalty Card'?",
+      "options": [
+        "A card for the staff",
+        "A card to get discounts for regular customers",
+        "A credit card from the bank",
+        "An identity card"
+      ],
+      "answer": "A card to get discounts for regular customers",
+      "learning_outcome": "Customer Interaction",
+      "difficulty": "hard",
+      "festivity": "general"
+    },
+    {
+      "id": "AMP_PS_XMAS_01",
+      "question": "The Christmas lights are flickering. You must ____ them for safety.",
+      "options": [
+        "Ignore",
+        "Unplug",
+        "Water",
+        "Hide"
+      ],
+      "answer": "Unplug",
+      "learning_outcome": "Product Placement & Stock",
+      "difficulty": "medium",
+      "festivity": "christmas"
+    },
+    {
+      "id": "AMP_SP_02",
+      "question": "If a 50€ note looks 'suspicious', it might be...",
+      "options": [
+        "A gift",
+        "Fake/Counterfeit",
+        "New",
+        "Valid"
+      ],
+      "answer": "Fake/Counterfeit",
+      "learning_outcome": "Sales Operations & Payments",
+      "difficulty": "hard",
+      "festivity": "general"
+    },
+    {
+      "id": "AMP_WD_02",
+      "question": "A 'minimalist' window display has...",
+      "options": [
+        "Thousands of products",
+        "Very few items and lots of space",
+        "No lights",
+        "Only trash"
+      ],
+      "answer": "Very few items and lots of space",
+      "learning_outcome": "Window Dressing & Composition",
+      "difficulty": "hard",
+      "festivity": "general"
+    },
+    {
+      "id": "AMP_PS_02",
+      "question": "What do we use to scan a product's price?",
+      "options": [
+        "A barcode scanner",
+        "A camera",
+        "A calculator",
+        "A ruler"
+      ],
+      "answer": "A barcode scanner",
+      "learning_outcome": "Product Placement & Stock",
+      "difficulty": "easy",
+      "festivity": "general"
+    },
+    {
+      "id": "AMP_CI_EST_01",
+      "question": "Easter Sunday: Is the shop open or ____?",
+      "options": [
+        "Opened",
+        "Closed",
+        "Working",
+        "Full"
+      ],
+      "answer": "Closed",
+      "learning_outcome": "Customer Interaction",
+      "difficulty": "easy",
+      "festivity": "easter"
+    },
+    {
+      "id": "SP_GRA_01",
+      "question": "A customer wants to return an item. He says: 'I __________ this pencil case here yesterday.'",
+      "options": [
+        "buy",
+        "buys",
+        "bought",
+        "buyed"
+      ],
+      "answer": "bought",
+      "learning_outcome": "Sales Operations & Payments",
+      "difficulty": "medium",
+      "festivity": "general"
+    },
+    {
+      "id": "SP_GRA_02",
+      "question": "You are checking the till (caja). You say: 'Yesterday, we __________ a lot of money.'",
+      "options": [
+        "make",
+        "maked",
+        "made",
+        "makes"
+      ],
+      "answer": "made",
+      "learning_outcome": "Sales Operations & Payments",
+      "difficulty": "medium",
+      "festivity": "general"
+    },
+    {
+      "id": "SP_XMAS_GRA_01",
+      "question": "The customer is angry. She says: 'I __________ for the Christmas gift 2 days ago, but it is not here!'",
+      "options": [
+        "payed",
+        "paid",
+        "pays",
+        "pay"
+      ],
+      "answer": "paid",
+      "learning_outcome": "Sales Operations & Payments",
+      "difficulty": "medium",
+      "festivity": "christmas"
+    },
+    {
+      "id": "SP_GRA_03",
+      "question": "A colleague asks: 'Did you give the receipt to the lady?'. You answer: 'Yes, I __________ it to her.'",
+      "options": [
+        "gived",
+        "give",
+        "gives",
+        "gave"
+      ],
+      "answer": "gave",
+      "learning_outcome": "Sales Operations & Payments",
+      "difficulty": "medium",
+      "festivity": "general"
+    },
+    {
+      "id": "SP_GRA_04",
+      "question": "The manager asks about the stock. You say: 'Last week, we __________ all the Valentines cards.'",
+      "options": [
+        "sell",
+        "sold",
+        "selled",
+        "sells"
+      ],
+      "answer": "sold",
+      "learning_outcome": "Sales Operations & Payments",
+      "difficulty": "medium",
+      "festivity": "valentines"
+    },
+    {
+      "id": "SP_GRA_05",
+      "question": "To complete the return, the customer __________ the form and signed it.",
+      "options": [
+        "took",
+        "taked",
+        "take",
+        "takes"
+      ],
+      "answer": "took",
+      "learning_outcome": "Sales Operations & Payments",
+      "difficulty": "hard",
+      "festivity": "general"
+    },
+    {
+      "id": "SP_EST_GRA_01",
+      "question": "The customer __________ the Easter eggs last Monday but he wants a refund now.",
+      "options": [
+        "bringed",
+        "brought",
+        "brings",
+        "bring"
+      ],
+      "answer": "brought",
+      "learning_outcome": "Sales Operations & Payments",
+      "difficulty": "hard",
+      "festivity": "easter"
+    },
+    {
+      "id": "SP_GRA_06",
+      "question": "We __________ a mistake in the change, so we fixed it immediately.",
+      "options": [
+        "found",
+        "finded",
+        "find",
+        "finds"
+      ],
+      "answer": "found",
+      "learning_outcome": "Sales Operations & Payments",
+      "difficulty": "hard",
+      "festivity": "general"
+    },
+    {
+      "id": "SP_GRA_07",
+      "question": "After the payment, the customer __________ her credit card and left.",
+      "options": [
+        "forgot",
+        "forgeted",
+        "forgets",
+        "forget"
+      ],
+      "answer": "forgot",
+      "learning_outcome": "Sales Operations & Payments",
+      "difficulty": "easy",
+      "festivity": "general"
+    },
+    {
+      "id": "SP_GRA_08",
+      "question": "The shop __________ at 9:00 PM yesterday evening.",
+      "options": [
+        "close",
+        "closed",
+        "closing",
+        "closes"
+      ],
+      "answer": "closed",
+      "learning_outcome": "Sales Operations & Payments",
+      "difficulty": "easy",
+      "festivity": "general"
+    },
+    {
+      "id": "BK_CI_SPR_02",
+      "question": "A customer is looking for a specific novel. You say: 'Happy Spring! Are you looking for a ____?'",
+      "options": [
+        "Problem",
+        "Gift",
+        "Pizza",
+        "Parking"
+      ],
+      "answer": "Gift",
+      "learning_outcome": "Customer Interaction",
+      "difficulty": "easy",
+      "festivity": "spring"
+    },
+    {
+      "id": "BK_SP_GRA_04",
+      "question": "The manager asked about the sales. You said: 'Yesterday, we __________ many travel guides.'",
+      "options": [
+        "selled",
+        "sell",
+        "sold",
+        "sells"
+      ],
+      "answer": "sold",
+      "learning_outcome": "Sales Operations & Payments",
+      "difficulty": "medium",
+      "festivity": "general"
+    },
+    {
+      "id": "BK_WD_03",
+      "question": "Where should you place the new 'Hardback' releases in the shop window?",
+      "options": [
+        "On the floor",
+        "At eye level",
+        "Hidden behind a curtain",
+        "In the back office"
+      ],
+      "answer": "At eye level",
+      "learning_outcome": "Window Dressing & Composition",
+      "difficulty": "medium",
+      "festivity": "general"
+    },
+    {
+      "id": "BK_SP_GRA_05",
+      "question": "A customer wants to return a book. He says: 'I __________ this dictionary here last Tuesday.'",
+      "options": [
+        "buy",
+        "buyed",
+        "bought",
+        "brought"
+      ],
+      "answer": "bought",
+      "learning_outcome": "Sales Operations & Payments",
+      "difficulty": "medium",
+      "festivity": "general"
+    },
+    {
+      "id": "BK_SP_03",
+      "question": "The customer wants to pay for the notebooks. You say: 'That will be 12.50€. Cash or ____?'",
+      "options": [
+        "Card",
+        "Paper",
+        "Story",
+        "Marker"
+      ],
+      "answer": "Card",
+      "learning_outcome": "Sales Operations & Payments",
+      "difficulty": "easy",
+      "festivity": "general"
+    },
+    {
+      "id": "BK_GRA_PS_03",
+      "question": "'We are running out of bookmarks' means...",
+      "options": [
+        "We have many bookmarks",
+        "The bookmarks are cheap",
+        "We have very few bookmarks left",
+        "The bookmarks are lost"
+      ],
+      "answer": "We have very few bookmarks left",
+      "learning_outcome": "Product Placement & Stock",
+      "difficulty": "hard",
+      "festivity": "general"
+    },
+    {
+      "id": "BK_SP_GRA_06",
+      "question": "The customer paid with a 50€ note and you __________ the change correctly.",
+      "options": [
+        "gave",
+        "gived",
+        "give",
+        "given"
+      ],
+      "answer": "gave",
+      "learning_outcome": "Sales Operations & Payments",
+      "difficulty": "medium",
+      "festivity": "general"
+    },
+    {
+      "id": "BK_WD_VAL_03",
+      "question": "In a Valentine's window display, what should you put near the romance novels?",
+      "options": [
+        "Cookery books",
+        "Red hearts and flowers",
+        "Calculators",
+        "Cleaning products"
+      ],
+      "answer": "Red hearts and flowers",
+      "learning_outcome": "Window Dressing & Composition",
+      "difficulty": "easy",
+      "festivity": "valentines"
+    },
+    {
+      "id": "BK_CI_05",
+      "question": "A customer is 'browsing' the shelves. What is he doing?",
+      "options": [
+        "Paying for a book",
+        "Looking at books without a specific goal",
+        "Stealing a book",
+        "Cleaning the shop"
+      ],
+      "answer": "Looking at books without a specific goal",
+      "learning_outcome": "Customer Interaction",
+      "difficulty": "hard",
+      "festivity": "general"
+    },
+    {
+      "id": "BK_WD_GRA_01",
+      "question": "The manager __________ the new spring posters visible to the public.",
+      "options": [
+        "put",
+        "putted",
+        "puts",
+        "putting"
+      ],
+      "answer": "put",
+      "learning_outcome": "Window Dressing & Composition",
+      "difficulty": "medium",
+      "festivity": "general"
     }
   ]
 }

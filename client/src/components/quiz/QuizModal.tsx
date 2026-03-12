@@ -23,6 +23,7 @@ export const QuizModal: React.FC<QuizModalProps> = ({
 }) => {
   const [currentLevel, setCurrentLevel] = useState(level);
   const [block, setBlock] = useState(1);
+  const [learningArea, setLearningArea] = useState<string>("All Areas");
 
   const {
     currentQuestion,
@@ -32,7 +33,7 @@ export const QuizModal: React.FC<QuizModalProps> = ({
     isComplete,
     submitAnswer,
     resetQuiz,
-  } = useQuiz(festivityId, currentLevel, block);
+  } = useQuiz(festivityId, currentLevel, block, learningArea);
 
   const { saveQuizResult, completedQuizzes } = useProgress();
   const [showResults, setShowResults] = useState(false);
@@ -61,6 +62,7 @@ export const QuizModal: React.FC<QuizModalProps> = ({
       setShowResults(false);
       setCurrentLevel(level);
       setBlock(1);
+       setLearningArea("All Areas");
       resetQuiz();
     }
   }, [isOpen, resetQuiz, level]);
@@ -114,7 +116,30 @@ export const QuizModal: React.FC<QuizModalProps> = ({
           </button>
         </div>
 
-        <div className="px-6 pt-2 flex flex-wrap gap-2">
+        <div className="px-6 pt-2 flex flex-wrap gap-3 items-center">
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-semibold text-gray-600">
+              Learning Area:
+            </span>
+            <select
+              value={learningArea}
+              onChange={(e) => {
+                setLearningArea(e.target.value);
+                setShowResults(false);
+                setBlock(1);
+                resetQuiz();
+              }}
+              className="text-xs border rounded-full px-3 py-1 bg-white text-gray-700"
+            >
+              <option value="All Areas">All Areas</option>
+              <option value="Customer Interaction">Customer Interaction</option>
+              <option value="Sales Operations & Payments">Sales Operations & Payments</option>
+              <option value="Product Placement & Stock">Product Placement & Stock</option>
+              <option value="Window Dressing & Composition">Window Dressing & Composition</option>
+            </select>
+          </div>
+
+          <div className="flex flex-wrap gap-2">
           {[1, 2, 3, 4, 5, 6].map((lvl) => {
             const completedBothBlocks =
               completedQuizzes.includes(`${festivityId}_level${lvl}_block1`) &&
@@ -140,6 +165,7 @@ export const QuizModal: React.FC<QuizModalProps> = ({
               </button>
             );
           })}
+          </div>
         </div>
 
         <div className="p-6">

@@ -376,14 +376,45 @@ const FIXED_ITEM_COMPONENTS: Record<string, () => JSX.Element> = {
 };
 
 function CustomerAvatar({ variant, season }: { variant: 0 | 1 | 2; season: string }) {
-  const sources = [
-    "/characters/customer-boy-1.png",
-    "/characters/customer-girl-spring-2.png",
-    "/characters/customer-girl-summer-1.png",
-    "/characters/customer-man-summer-1.png",
-    "/characters/customer-woman-1.png",
-    "/characters/customer-woman-2.png",
+  // Usamos tus personajes según la temporada.
+  const seasonKey = season.toLowerCase();
+
+  const SEASON_CUSTOMERS: Record<string, string[]> = {
+    spring: [
+      "/characters/customer-spring-1.png",
+      "/characters/customer-spring-2.png",
+      "/characters/customer-spring-3.png",
+      "/characters/customer-spring-4.png",
+      "/characters/customer-spring-5.png",
+    ],
+    summer: [
+      "/characters/customer-summer-1.png",
+      "/characters/customer-summer-2.png",
+      "/characters/customer-summer-3.png",
+      "/characters/customer-summer-4.png",
+    ],
+    fall: [
+      "/characters/customer-fall-1.png",
+      "/characters/customer-fall-2.png",
+      "/characters/customer-fall-3.png",
+      "/characters/customer-fall-4.png",
+    ],
+    winter: [
+      "/characters/customer-winter-1.png",
+      "/characters/customer-winter-2.png",
+      "/characters/customer-winter-3.png",
+    ],
+  };
+
+  const allFallback = [
+    ...SEASON_CUSTOMERS.spring,
+    ...SEASON_CUSTOMERS.summer,
+    ...SEASON_CUSTOMERS.fall,
+    ...SEASON_CUSTOMERS.winter,
   ];
+
+  const seasonSources = SEASON_CUSTOMERS[seasonKey] || allFallback;
+  const sources = seasonSources.length ? seasonSources : allFallback;
 
   const index = ((variant as number) % sources.length + sources.length) % sources.length;
   const src = sources[index];
@@ -393,6 +424,7 @@ function CustomerAvatar({ variant, season }: { variant: 0 | 1 | 2; season: strin
       src={src}
       alt="Customer"
       className="w-[160px] h-[240px] object-contain drop-shadow-md"
+      draggable={false}
     />
   );
 }
@@ -1271,7 +1303,7 @@ export function WindowDisplay({
 
         return (
           <div 
-            className="absolute z-[60] pointer-events-none select-none"
+            className="absolute z-[40] pointer-events-none select-none"
             style={{ 
               right: '2%',      // Posición en la pared derecha
               bottom: '8%',     // Cerca del suelo
